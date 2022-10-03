@@ -1,14 +1,14 @@
 {
   "name": "ymodules",
   "bugs": {
-    "url": "https://github.com/MrYNikita/YModules"
+    "url": "https://github.com/MrYNikita/YModules/issues"
   },
   "homepage": "https://github.com/MrYNikita/YModules#readme",
   "repository": {
     "url": "git+https://github.com/MrYNikita/YModules.git",
     "type": "git"
   },
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A module of functions and classes designed to reuse popular functions in their optimized form.",
   "main": "index.js",
   "author": "Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>",
