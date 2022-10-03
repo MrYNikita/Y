@@ -1,7 +1,10 @@
 {
   "name": "ymodules",
-  "homepage": "https://github.com/MrYNikita/YModules",
-  "version": "0.0.1",
+  "repository": {
+    "url": "https://github.com/MrYNikita/YModules",
+    "type": "git"
+  },
+  "version": "0.0.2",
   "description": "A module of functions and classes designed to reuse popular functions in their optimized form.",
   "main": "index.js",
   "author": "Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>",
