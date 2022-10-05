@@ -7,14 +7,17 @@
     },
     "files": [
 
-        "index.js",
+        "log/",
+        "ject/",
+        "error/",
+        "function/",
         "README.md",
         "LICENSE.md"
 
     ],
     "author": "Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>",
     "license": "Apache-2.0",
-    "version": "0.0.6",
+    "version": "0.1.2",
     "keywords": [
 
         "y",
