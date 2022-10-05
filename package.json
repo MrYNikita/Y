@@ -1,16 +1,52 @@
 {
-  "name": "ymodules",
-  "bugs": {
-    "url": "https://github.com/MrYNikita/YModules/issues"
-  },
-  "homepage": "https://github.com/MrYNikita/YModules#readme",
-  "repository": {
-    "url": "git+https://github.com/MrYNikita/YModules.git",
-    "type": "git"
-  },
-  "version": "0.0.4",
-  "description": "A module of functions and classes designed to reuse popular functions in their optimized form.",
-  "main": "index.js",
-  "author": "Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>",
-  "license": "Apache-2.0"
+    "name": "ymodules",
+    "bugs": {
+
+        "url": "https://github.com/MrYNikita/YModules/issues"
+
+    },
+    "files": [
+
+        "index.js",
+        "README.md",
+        "LICENSE.md"
+
+    ],
+    "author": "Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>",
+    "license": "Apache-2.0",
+    "version": "0.0.6",
+    "exports": {
+
+        ".": "./index.mjs",
+        "./ject": "./ject/ject.mjs"
+
+    },
+    "keywords": [
+
+        "y",
+        "Y",
+        "module",
+        "Module",
+        "package",
+        "Package",
+        "modules",
+        "Modules",
+        "ymodule",
+        "YModule",
+        "packages",
+        "Packages",
+        "ymodules",
+        "YModules",
+        "YPackage",
+        "YPackages"
+
+    ],
+    "homepage": "https://github.com/MrYNikita/YModules#readme",
+    "repository": {
+
+        "url": "https://github.com/MrYNikita/YModules.git",
+        "type": "git"
+
+    },
+    "description": "A module of functions and classes designed to reuse popular functions in their optimized form."
 }
