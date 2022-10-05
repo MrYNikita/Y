@@ -15,12 +15,6 @@
     "author": "Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>",
     "license": "Apache-2.0",
     "version": "0.0.6",
-    "exports": {
-
-        ".": "./index.mjs",
-        "./ject": "./ject/ject.mjs"
-
-    },
     "keywords": [
 
         "y",
