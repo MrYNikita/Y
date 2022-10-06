@@ -17,25 +17,14 @@
     ],
     "author": "Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>",
     "license": "Apache-2.0",
-    "version": "0.2.3",
+    "version": "0.2.4",
     "keywords": [
 
         "y",
-        "Y",
         "module",
-        "Module",
-        "package",
-        "Package",
-        "modules",
-        "Modules",
         "ymodule",
-        "YModule",
-        "packages",
-        "Packages",
-        "ymodules",
-        "YModules",
-        "YPackage",
-        "YPackages"
+        "package",
+        "ypackage"
 
     ],
     "homepage": "https://github.com/MrYNikita/YModules#readme",
