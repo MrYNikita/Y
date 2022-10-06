@@ -3,13 +3,10 @@
 [![npm version](https://img.shields.io/npm/v/ymodules.svg)](https://npmjs.org/package/ymodules)    
 [![GitHub license](https://img.shields.io/badge/license-Apache_2.0-darkblue.svg)](https://github.com/MrYNikita/YModules)    
 [![npm downloads](https://img.shields.io/npm/dm/ymodules.svg)](https://npmjs.org/package/ymodules)  
-***
 
-- **`Version`**: **0.2.0**  
-- **`Initiation`**: **03.10.2022**  
-- **`Update`**: **06.10.2022**  
 ***
-**YModules** - это совокупность `функций` и `классов`, предоставляющих частоиспользуемые и оптимизированные процедуры и структуры данных.       
+**YModules** - это совокупность `функций` и `классов`, предоставляющих частоиспользуемые и оптимизированные процедуры и структуры данных.  
+
 ***
 ## Основные преимущества:
 - Отсутсвие сторонних зависимостей.
@@ -50,6 +47,7 @@
     1. Измены
     1. Удаления
     1. Обновления
+    
 ***
 ## Теория
 ### Версионная расшифровка
