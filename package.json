@@ -7,17 +7,21 @@
     },
     "files": [
 
+        "os/",
         "log/",
+        "func/",
         "ject/",
         "error/",
-        "function/",
+        "array/",
+        "number/",
+        "string/",
         "README.md",
         "LICENSE.md"
 
     ],
     "author": "Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>",
     "license": "Apache-2.0",
-    "version": "0.2.4",
+    "version": "0.3.0",
     "keywords": [
 
         "y",

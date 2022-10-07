@@ -1,0 +1,261 @@
+/**
+ * @typedef TBFile
+ * @prop {string} name
+ * @prop {string} expand
+ * @prop {string} location
+ * @typedef {YFile&TBFile} TFile
+*/
+
+import { jectFill } from "../../../ject/ject.mjs";
+import { fileAppend, fileDelete, fileMove, fileRead, fileReadText, fileRename, fileWrite } from "../file.mjs";
+import { existsSync } from "fs";
+import { pathGet, pathGetAll } from "../../path/path.mjs";
+
+class SFile {
+
+
+
+};
+class DFile extends SFile {
+
+    /**
+     * Наименование файла.
+     * @type {string}
+    */
+    name = '';
+    /**
+     * Тип файла.
+     * @type {string}
+    */
+    expand = '';
+    /**
+     * Состояние удаления.
+     * @type {boolean}
+    */
+    deleted = false;
+    /**
+     * Расположение файла.
+     * @type {string}
+    */
+    location = '';
+
+};
+class FFile extends DFile {
+
+    /**
+     * 
+     * - Версия `0.0.0`
+     * - Цепочка `BDVHC`
+     *  @param {TFile} t
+    */
+    constructor(t = {}) {
+
+        t = FFile.#before(...arguments);
+
+        super(t);
+
+        FFile.#deceit.apply(this, [t]);
+
+    };
+
+    /** @param {TFile} t @this {[]} */
+    static #before(t) {
+
+
+
+        if (!t) return {};
+        else if (t) return t;
+
+    };
+    /** @param {TFile} t @this {YFile} */
+    static #deceit(t) {
+
+        try {
+
+            FFile.#verify.apply(this, arguments);
+
+        } catch (e) {
+
+            throw e;
+
+        };
+
+    };
+    /** @param {TFile} t @this {YFile} */
+    static #verify(t) {
+
+        const {
+
+            name,
+            expand,
+            location,
+
+        } = t;
+
+        if (existsSync(`/${location}/${name}.${expand}`)) throw new Error(`/${location}/${name}.${expand}`);
+
+        FFile.#handle.apply(this, arguments);
+
+    };
+    /** @param {TFile} t @this {YFile} */
+    static #handle(t) {
+
+        let {
+
+
+
+        } = t;
+
+
+
+        t = {
+
+            ...t,
+
+        };
+
+        FFile.#create.apply(this, [t]);
+
+    };
+    /** @param {TFile} t @this {YFile} */
+    static #create(t) {
+
+        const {
+
+
+
+        } = t;
+
+        jectFill.apply(this, [t]);
+
+    };
+
+};
+
+/**
+ *
+ * - Тип `SDFY`
+ * - Версия `0.0.0`
+ * - Цепочка `BDVHC`
+*/
+export class YBFile extends FFile {
+
+    /**
+     * Метод для изменения местоположения файла.
+     * @param {string|RegExp} location
+    */
+    move(location) {
+
+        if (!this.deleted) {
+
+            const l = pathGet(location);
+
+            fileMove(this.getPath(), l);
+
+            this.location = l;
+
+        };
+
+        return this;
+
+    };
+    /**
+     * Метод для переименования файла.
+     * @param {string} name
+    */
+    rename(name) {
+
+        if (this.deleted) {
+
+            fileRename(this.getPath(), name);
+
+            this.name = name;
+
+        };
+
+        return this;
+
+    };
+    /**
+     * Метод для удаления файла.
+    */
+    delete() {
+
+        if (!this.deleted) {
+
+            fileDelete(this.getPath());
+            
+            this.deleted = true;
+
+        };
+
+        return this;
+
+    };
+    /**
+     * Метод для получения полного пути до файла.
+    */
+    getPath() {
+
+        const {
+
+            name,
+            expand,
+            location,
+
+        } = this;
+
+        return `${location}/${name}.${expand}`;
+
+    };
+    /**
+     * Метод для получения полного имени файла с расширением.
+    */
+    getNameFull() {
+
+        const {
+
+            name,
+            expand,
+
+        } = this;
+
+        return `${name}.${expand}`;
+
+    };
+
+};
+export class YFile extends YBFile {
+
+    /**
+     * Метод считывания данных из файла.
+    */
+    read() {
+
+        if (!this.deleted) return fileRead(new RegExp(this.getPath()), this.expand);
+
+    };
+    /**
+     * Метод записи данных в файл.
+     * @param {...string} data
+    */
+    write(...data) {
+
+        if (!this.deleted) fileWrite(this.getPath(), this.expand, ...data);
+
+        return this;
+
+    };
+    /**
+     * Метод дополнения файла новыми данными.
+     * @param {string} data
+    */
+    append(...data) {
+
+        if (this.deleted) fileAppend(this.getPath(), this.expand, ...data);
+
+        return this;
+
+    };
+
+};
