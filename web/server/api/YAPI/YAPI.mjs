@@ -1,0 +1,230 @@
+/**
+ * @typedef TBAPI
+ * 
+ * @typedef {YAPI&TBAPI} TAPI
+*/
+
+import { YRout } from "../rout/YRout/YRout.mjs";
+import { YServer } from "../../YServer/YServer.mjs";
+import { YString } from "../../../../string/YString/YString.mjs";
+import { pathGet } from "../../../../os/path/path.mjs";
+import { jectFill } from "../../../../ject/ject.mjs";
+import { fileReadText, fileREExpand } from "../../../../os/file/file.mjs";
+import { serverDefineContentType } from "../../server.mjs";
+
+class SAPI {
+
+
+
+};
+class DAPI extends SAPI {
+
+    /**
+     * Сервер.
+     * @type {YServer}
+    */
+    serv;
+    /**
+     * Пути.
+     * @type {[YRout]}
+    */
+    routs = [];
+
+};
+class FAPI extends DAPI {
+
+    /**
+     * 
+     * - Версия `0.0.0`
+     * - Цепочка `BDVHC`
+     *  @param {TAPI} t
+    */
+    constructor(t = {}) {
+
+        t = FAPI.#before(...arguments);
+
+        super(t);
+
+        FAPI.#deceit.apply(this, [t]);
+
+    };
+
+    /** @param {TAPI} t @this {[]} */
+    static #before(t) {
+
+
+
+        if (!t) return {};
+        else if (t) return t;
+
+    };
+    /** @param {TAPI} t @this {YAPI} */
+    static #deceit(t) {
+
+        try {
+
+            FAPI.#verify.apply(this, arguments);
+
+        } catch (e) {
+
+            throw e;
+
+        };
+
+    };
+    /** @param {TAPI} t @this {YAPI} */
+    static #verify(t) {
+
+        const {
+
+
+
+        } = t;
+
+        FAPI.#handle.apply(this, arguments);
+
+    };
+    /** @param {TAPI} t @this {YAPI} */
+    static #handle(t) {
+
+        let {
+
+
+
+        } = t;
+
+
+
+        t = {
+
+            ...t,
+
+        };
+
+        FAPI.#create.apply(this, [t]);
+
+    };
+    /** @param {TAPI} t @this {YAPI} */
+    static #create(t) {
+
+        const {
+
+
+
+        } = t;
+
+        jectFill.apply(this, [t]);
+
+
+
+    };
+
+};
+
+/**
+ * Класс `API`.
+ * 
+ * Предназначен для использования в `YServer`. Содержит в себе функциональные возможности сервера, которые могут быть получены по запросу.
+ * Запрос сопастоявляется с перечнем `YRout`.
+ * - Тип `SDFY`
+ * - Версия `0.0.0`
+ * - Цепочка `BDVHC`
+*/
+export class YAPI extends FAPI {
+
+    /**
+     * Добавление обработки `get` запроса.
+     * @param {string} url
+     * @param {function} procedure
+    */
+    get(url, type, procedure) {
+
+        return this.append(url, type, procedure, 'get')
+
+    };
+    /**
+     * Добавление обработки `get` запроса.
+     * @param {string} url
+     * @param {function} procedure
+    */
+    post(url, type, procedure) {
+
+        return this.append(url, type, procedure, 'post');
+
+    };
+    /**
+     * Исполнение api.
+     * @param {string} url
+     * @param {http.ClientRequest} res
+     * @param {http.IncomingMessage} req
+    */
+    exec(req, res) {
+
+        const r = this.routs.find(r => r.url === req.url);
+
+        if (r) {
+
+            r.exec(req, res);
+            return this;
+
+        } else if (req.url === '/') {
+
+            res.end(``);
+            return this;
+
+        };
+
+        const f = pathGet(req.url.slice(1));
+
+        console.log(f, req.url);
+
+        if (f) {
+
+            res.setHeader('Content-Type', serverDefineContentType(f.match(fileREExpand)[1]));
+            res.end(fileReadText(f));
+            return this;
+
+        };
+
+        res.end(``);
+
+        return this;
+
+    };
+    /**
+     * 
+    */
+    append(url, type, procedure, method) {
+
+        if (this.routs.every(r => r.url !== url)) this.routs.push(new YRout({ url, type, procedure, api: this }));
+
+        return this;
+
+    };
+    remove(url) {
+
+        this.routs.splice(this.routs.find(r => r.url === url), 1);
+
+        return this;
+
+    };
+
+    logInfo() {
+
+        let {
+
+            name = this.serv.name,
+            count = this.routs.length,
+
+        } = this;
+
+        console.log(
+
+            new YString(`YAPI ${this.serv.name}`)
+                .get()
+
+        );
+
+    };
+
+};
