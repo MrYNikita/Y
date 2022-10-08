@@ -1,6 +1,7 @@
 import { arrayAppend } from "../../array/array.mjs";
 import { existsSync, lstatSync, readdirSync } from "fs";
 import { config, configOS, configPath, } from "../../config.mjs";
+import { fileREName, fileREPart } from "../file/file.mjs";
 
 //#region get 0.0.1
 
@@ -136,7 +137,7 @@ export function pathGetAll(fragment = '.', limit) {
 };
 
 //#endregion
-//#region decompose 0.0.0
+//#region decompose 0.0.1
 
 /**
  * @typedef TBdecompose
@@ -204,7 +205,8 @@ function decomposeComply(t) {
     const path = pathGet(fragment);
     const parts = path.match(fileREPart);
 
-    return parts.map((e, i, a) => a.slice(0, i + 1).join(''));
+    if (parts) return parts.map((e, i, a) => a.slice(0, i + 1).join(''));
+    else return [path.match(fileREName)[1]];
     
 };
 

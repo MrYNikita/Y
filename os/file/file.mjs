@@ -2,20 +2,20 @@ import { pathGet } from "../path/path.mjs";
 import { existsSync, readFileSync, renameSync, writeFileSync } from "fs";
 import { config, configOS, configFile } from "../../config.mjs";
 import { arrayAppend } from "../../array/array.mjs";
-import { jectChange, jectSupplement } from "../../ject/ject.mjs";
+import { jectDeepChange } from "../../ject/ject.mjs";
 
 /**
  * Регулярное выражение для извлечения имени файла.
- * - Версия `0.0.0`
+ * - Версия `0.0.1`
  * @type {RegExp}
 */
-export const fileREName = /(?:.+?(\w+?)(?:\.|$))/;// /(?:.*?\/)*(.*?)\./;
+export const fileREName =  /.*?([.\w]+?)(?:\.|$)/; // /(?:.+?([\w]+?)(?:\.|$))/;
 /**
  * Регулярное выражение для извлечения вложенного пути.
- * - Версия `0.0.0`
+ * - Версия `0.0.1`
  * @type {RegExp}
 */
-export const fileREPart = /.*?\//g;
+export const fileREPart = /.+?(\/|$)/g;
 /**
  * Регулярное выражение для извлечения расширения файла.
  * - Версия `0.0.1`
@@ -27,7 +27,7 @@ export const fileREExpand = /(?:.+?\.)(.+)/;
  * - Версия `0.0.1`
  * @type {RegExp}
 */
-export const fileRELocation = /(.+)(?:\/)/; // /.*\//;
+export const fileRELocation = /(.+)(?:\/)/;
 
 //#region read 0.0.0
 
@@ -434,7 +434,7 @@ function appendComply(t) {
             const dataLast = fileReadJson(fragment);
 
             if (Array.isArray(dataLast)) arrayAppend(dataLast, ...data);
-            else jectChange(dataLast, ...data);
+            else jectDeepChange(dataLast, ...data);
 
             fileWriteJson(fragment, dataLast);
 

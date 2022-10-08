@@ -1,13 +1,13 @@
 /**
  * @typedef TBDirectory
- * @prop {} t
- * @typedef {YDirectory&TBDirectory&import("../../YFile.mjs").TFile} TDirectory
+ * @prop {any} _
+ * @typedef {DDirectory&TBDirectory&import("../../YFile.mjs").TFile} TDirectory
 */
 
 
 import { YBFile, YFile } from "../../YFile.mjs";
 import { jectFill } from "../../../../../ject/ject.mjs";
-import { pathGet, pathGetAll } from "../../../../path/path.mjs";
+import { pathDecompose, pathGet, pathGetAll } from "../../../../path/path.mjs";
 import { directoryGetDir, directoryGetFile } from "../directory.mjs";
 import { fileREExpand, fileRELocation, fileREName } from "../../../file.mjs";
 
@@ -46,7 +46,17 @@ class FDirectory extends DDirectory {
     /** @param {TDirectory} t @this {[]} */
     static #before(t) {
         
-        
+        if (t.constructor === String) {
+            
+            const name = t.match(fileREName)[1], location = t.match(fileRELocation)?.[0];
+            
+            t = {};
+
+            if (location) t.location = location;
+
+            t.name = name;
+
+        };
         
         if (!t) return {};
         else if (t) return t;
@@ -165,7 +175,8 @@ export class YBDirectory extends FDirectory {
 
         } = this;
 
-        return `${location}/${name}`;
+        if (location) return `${location}/${name}`;
+        else return name;
 
     };
     
@@ -178,6 +189,17 @@ export class YBDirectory extends FDirectory {
 */
 export class YDirectory extends YBDirectory {
     
-    
+    getNameFull() {
+
+        const {
+
+            name,
+            location,
+
+        } = this;
+
+        return `${this.location}/${this.name}`;
+
+    };
     
 };

@@ -3,11 +3,11 @@
  * @prop {string} name
  * @prop {string} expand
  * @prop {string} location
- * @typedef {YFile&TBFile} TFile
+ * @typedef {DFile&TBFile} TFile
 */
 
 import { jectFill } from "../../../ject/ject.mjs";
-import { fileAppend, fileDelete, fileMove, fileRead, fileReadText, fileRename, fileWrite } from "../file.mjs";
+import { fileAppend, fileDelete, fileMove, fileRead, fileReadText, fileREExpand, fileRELocation, fileREName, fileRename, fileWrite } from "../file.mjs";
 import { existsSync } from "fs";
 import { pathGet, pathGetAll } from "../../path/path.mjs";
 
@@ -61,7 +61,18 @@ class FFile extends DFile {
     /** @param {TFile} t @this {[]} */
     static #before(t) {
 
+        if (t.constructor === String) {
+            
+            const name = t.match(fileREName)[1], location = t.match(fileRELocation)?.[0], expand = t.match(fileREExpand)?.[1];
+            
+            t = {};
 
+            if (expand) t.expand = expand;
+            if (location) t.location = location;
+
+            t.name = name;
+
+        };
 
         if (!t) return {};
         else if (t) return t;
@@ -205,7 +216,8 @@ export class YBFile extends FFile {
 
         } = this;
 
-        return `${location}/${name}.${expand}`;
+        if (location) return `${location}/${name}.${expand}`;
+        else return `${name}.${expand}`;
 
     };
     /**
