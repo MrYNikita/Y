@@ -153,7 +153,7 @@ export class YBDirectory extends FDirectory {
 
         if (!this.deleted) {
 
-            const p = directoryGetFile(new RegExp(this.location), fragment);
+            const p = directoryGetFile(new RegExp(this.getPath()), fragment);
 
             return new YFile({
 

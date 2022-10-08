@@ -196,7 +196,7 @@ export class YAPI extends FAPI {
     */
     append(url, type, procedure, method) {
 
-        if (this.routs.every(r => r.url !== url)) this.routs.push(new YRout({ url, type, procedure, api: this }));
+        if (this.routs.every(r => r.url !== url)) this.routs.push(new YRout({ url, type, procedure, api: this, method }));
 
         return this;
 

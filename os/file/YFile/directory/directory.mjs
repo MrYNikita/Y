@@ -1,5 +1,5 @@
 import { config } from "process";
-import { pathGet } from "../../../path/path.mjs";
+import { pathGet, pathGetAll } from "../../../path/path.mjs";
 
 //#region getFile 0.0.0
 
@@ -44,12 +44,13 @@ function getFileHandle(t) {
    
     let {
     
-    
+        fragment,
     
     } = t;
     
+    if (fragment.constructor === String) t.fragment = new RegExp(t.fragment);
     
-    
+
     t = {
         
         ...t,
@@ -72,11 +73,11 @@ function getFileComply(t) {
     
     if (dir) {
 
-        return pathGet(new RegExp(pathGet(location) + '\/.*?' + fragment.source));
+        return pathGet(new RegExp(pathGet(location) + '/.*?' + fragment.source));
 
     } else {
 
-        return pathGet(new RegExp(pathGet(location) + '\/.*?' + fragment.source));
+        return pathGet(new RegExp(pathGet(location) + '/.*?' + fragment.source));
 
     };
     

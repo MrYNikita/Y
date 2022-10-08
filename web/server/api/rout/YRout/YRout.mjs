@@ -1,7 +1,7 @@
 /**
  * @typedef TBRout
  * 
- * @typedef {YRout&TBRout} TRout
+ * @typedef {DRout&TBRout} TRout
 */
 
 import { jectFill } from "../../../../../ject/ject.mjs";
