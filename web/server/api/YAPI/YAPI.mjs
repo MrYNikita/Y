@@ -176,8 +176,6 @@ export class YAPI extends FAPI {
 
         const f = pathGet(req.url.slice(1));
 
-        console.log(f, req.url);
-
         if (f) {
 
             res.setHeader('Content-Type', serverDefineContentType(f.match(fileREExpand)[1]));

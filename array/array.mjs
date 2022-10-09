@@ -363,6 +363,96 @@ export function arrayAppend(array, ...elements) {
 };
 
 //#endregion
+//#region replace 0.0.0
+
+/**
+ * @typedef TBreplace
+ * @prop {[]} array
+ * @prop {[]} replaces
+ * @prop {any} value
+ * @typedef {TBreplace} Treplace
+*/
+  
+/** @param {Treplace} t */
+function replaceDeceit(t) {
+    
+    try {
+        
+        return replaceVerify(t);
+        
+    } catch (e) {
+        
+        if (config.strict) throw e;
+        
+        return undefined;
+        
+    };
+    
+};
+/** @param {Treplace} t */
+function replaceVerify(t) {
+    
+    const {
+    
+    
+    
+    } = t;
+    
+    return replaceHandle(t);
+   
+};
+/** @param {Treplace} t */
+function replaceHandle(t) {
+   
+    let {
+    
+    
+    
+    } = t;
+    
+    
+    
+    t = {
+        
+        ...t,
+        
+    };
+   
+    return replaceComply(t);
+   
+};
+/** @param {Treplace} t */
+function replaceComply(t) {
+   
+    const {
+    
+        array,
+        value,
+        replaces,
+    
+    } = t;
+    
+    array.splice(array.indexOf(value), 1, ...replaces);
+
+    return array;
+    
+};
+
+/**
+ * Функция для замещения значения массива указанными значенииями.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @param {[]} array Исходный массив.
+ * @param {any} value Объект замещения.
+ * @param {...any} replaces Замещения.
+*/
+export function arrayReplace(array, value, ...replaces) {
+
+    return replaceDeceit({ array, value, replaces });
+
+};
+
+//#endregion
 //#region getRandomElement 0.0.0
 
 /**

@@ -96,13 +96,29 @@ export const config = {
 
         html: {
 
+            style: {
 
+                
+
+            },
+            element: {
+
+                create: {
+
+                    symbolId: '#',
+                    symbolType: '!',
+                    symbolClass: '.',
+                    defaultType: 'div',
+
+                },
+
+            },
 
         },
         server: {
 
-            name: 'yserver',
             port: '8000',
+            name: 'yserver',
             host: '127.0.0.1',
 
         },
@@ -186,8 +202,11 @@ export const configPath = config.os.path;
 export const configFile = config.os.file;
 
 export const configWeb = config.web;
-export const configHtml = configWeb.html;
 export const configServer = configWeb.server;
+
+export const configHtml = configWeb.html;
+export const configHtmlStyle = configHtml.style;
+export const configHtmlElement = configHtml.element;
 
 export const configLog = config.log;
 export const configNotice = configLog.notice;
