@@ -1265,7 +1265,7 @@ function extractComply(t) {
     } = t;
 
     if (fragment instanceof String) return string.match(new RegExp(fragment))[0];
-    else if (fragment.source.includes('?<e>')) return string.match(fragment).groups.e;
+    else if (fragment.source.includes('?<e>')) return string.match(fragment)?.groups?.e;
     else return string.match(fragment)[0];
 
 };

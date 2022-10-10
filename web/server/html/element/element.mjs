@@ -91,6 +91,8 @@ export function elementMove(over, ...elements) {
 };
 
 import { arrayReplace } from "../../../../array/array.mjs";
+import { stringExtract } from "../../../../string/string.mjs";
+import { YString } from "../../../../string/YString/YString.mjs";
 //#endregion
 //#region create 0.0.0
 
@@ -100,8 +102,9 @@ import { arrayReplace } from "../../../../array/array.mjs";
  * @prop {string} type
  * @prop {string} text
  * @prop {string} string
- * @prop {[string]} classes 
+ * @prop {[string]} childs
  * @prop {[string]} overId
+ * @prop {[string]} classes 
  * @prop {[string]} overTypes
  * @prop {[string]} overClasses
  * @typedef {TBcreate} Tcreate
@@ -140,19 +143,31 @@ function createHandle(t) {
    
     let {
     
-    
+        string,
     
     } = t;
     
     if (t.string) {
 
-        t.id = t.string.match(/(?:^| )#(\w+)/)?.[1] ?? '';
-        t.text = t.string.match(/(?:^| )\>(.+?)\<end/)?.[1] ?? '';
-        t.type = t.string.match(/(?:^| )!(\w+)/)?.[1] ?? '';
-        t.classes = t.string.match(/\.\[?([\w, ]+)+\]?/)?.[1]?.match(/\w+/g) ?? [];
-        t.overId = t.string.match(/\^#\[?([\w, ]+)+\]?/)?.[1]?.match(/\w+/g) ?? [];
-        t.overTypes = t.string.match(/\^!\[?([\w, ]+)+\]?/)?.[1]?.match(/\w+/g) ?? [];
-        t.overClasses = t.string.match(/\^\.\[?([\w, ]+)+\]?/)?.[1]?.match(/\w+/g) ?? [];
+        const ystr = new YString(string);
+
+        t.childs = ystr.extract(/\+\[(?<e>.*)\]\+/s);
+        t.id = ystr.extract(/#(?<e>\w+)/);
+        t.type = ystr.extract(/!(?<e>\w+)/);
+        t.classes = ystr.extract(/\.\[(?<e>[\w ,]+)\]/)?.match(/\w+/g);
+
+        if (t?.childs?.constructor === String) t.childs = t?.childs?.match(/.*? \/$/gms) ?? t.childs;
+
+        console.log(t);
+
+        // t.id = string.match(/(?:^| )#(\w+)(?:$| |\n)/)?.[1] ?? '';
+        // t.text = string.match(/(?:^| )\>(.+?)\<end(?:$| |\n)/)?.[1] ?? '';
+        // t.type = string.match(/(?:^| )!(\w+)(?:$| |\n)/)?.[1] ?? '';
+        // t.childs = string.match(/\+\[\]/s)?.[1]?.split('/').filter(s => s) ?? '';
+        // t.overId = string.match(/\^#\[?([\w, ]+)+\]?(?:$| |\n)/)?.[1]?.match(/\w+/g) ?? [];
+        // t.classes = string.match(/\.\[?([\w, ]+)+\]?(?:$| |\n)/)?.[1]?.match(/\w+/g) ?? [];
+        // t.overTypes = string.match(/\^!\[?([\w, ]+)+\]?(?:$| |\n)/)?.[1]?.match(/\w+/g) ?? [];
+        // t.overClasses = string.match(/\^\.\[?([\w, ]+)+\](?:$| |\n)?/)?.[1]?.match(/\w+/g) ?? [];
 
     };
 
@@ -173,8 +188,9 @@ function createComply(t) {
         id,
         type,
         text,
-        classes,
+        childs,
         overId,
+        classes,
         overTypes,
         overClasses,
     
@@ -184,9 +200,10 @@ function createComply(t) {
 
     if (id) e.id = id;
     if (text) e.textContent = text;
+    if (childs) e.append(...childs.map(e => elementCreateByString(e)));
     if (classes) classes.forEach(s => e.classList.add(s));
 
-    if (overId.length > 1 || overTypes.length || overClasses.length) {
+    if (overId || overTypes || overClasses) {
 
         const ss = [
             

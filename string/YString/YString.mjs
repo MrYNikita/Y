@@ -1,11 +1,11 @@
 /**
  * @typedef TBString
- * 
- * @typedef {YString&TBString} TString
+ * @prop {any} _
+ * @typedef {DString&TBString} TString
 */
 
 import { jectFill } from "../../ject/ject.mjs";
-import { stringAppend, stringBring, stringFilter, stringFind, stringFindToJect, stringHandle, stringPad, stringPaste, stringRemove, stringRepaint, stringReplace, stringReplacePoint, stringReverse } from "../string.mjs";
+import { stringAppend, stringBring, stringExtract, stringFilter, stringFind, stringFindToJect, stringHandle, stringPad, stringPaste, stringRemove, stringRepaint, stringReplace, stringReplacePoint, stringReverse } from "../string.mjs";
 
 class SString {
 
@@ -300,6 +300,15 @@ export class YString extends FString {
 
     };
     /**
+     * Функция для использования match нативных строк.
+     * @param {string|RegExp} fragment Строка или регулярное выражение для поиска соотвествий с помощью match.
+    */
+    match(fragment) {
+
+        return this.value.match(fragment);
+
+    };
+    /**
      * Метод обработки совпадений в строке.
      * @param {function} handle
      * @param {...string|RegExp} fragments
@@ -354,7 +363,7 @@ export class YString extends FString {
     */
     extract(fragment) {
 
-        const result = stringFind(this.value, fragment);
+        const result = stringExtract(this.value, fragment);
 
         this.value = stringFilter(this.value, fragment);
 
