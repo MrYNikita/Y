@@ -158,8 +158,6 @@ function createHandle(t) {
 
         if (t?.childs?.constructor === String) t.childs = t?.childs?.match(/.*? \/$/gms) ?? t.childs;
 
-        console.log(t);
-
         // t.id = string.match(/(?:^| )#(\w+)(?:$| |\n)/)?.[1] ?? '';
         // t.text = string.match(/(?:^| )\>(.+?)\<end(?:$| |\n)/)?.[1] ?? '';
         // t.type = string.match(/(?:^| )!(\w+)(?:$| |\n)/)?.[1] ?? '';

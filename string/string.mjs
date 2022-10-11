@@ -99,7 +99,7 @@ export function stringPad(string, pad, count, index = string.length) {
 /**
  * @typedef TBfind
  * @prop {string} string
- * @prop {boolean} jected
+ * @prop {boolean} variated
  * @prop {typeof Object} cls
  * @prop {[string|RegExp]} fragments
  * @typedef {TBfind} Tfind
@@ -138,21 +138,20 @@ function findHandle(t) {
 
     let {
 
-        cls,
-        jected,
+        
 
     } = t;
 
-    if (jected) {
+    t.fragments.forEach((e, i, a) => {
 
-        if (!cls) cls = Object;
+        if (e.constructor === String) a[i] = new RegExp(e, 'y');
+        else if (!e.flags.includes('y')) a[i] = new RegExp(e, e.flags + 'y');
 
-    };
+    });
 
     t = {
 
         ...t,
-        cls,
 
     };
 
@@ -166,6 +165,7 @@ function findComply(t) {
 
         cls,
         string,
+        variated,
         fragments,
 
     } = t;
@@ -173,7 +173,31 @@ function findComply(t) {
     /** @type {[]|{}} */
     let results;
 
-    if (cls) {
+    if (variated) {
+
+        results = [];
+
+        console.log(fragments, string);
+
+        fragments.forEach(f => {
+
+            for (let i = 0; i < string.length; i++) {
+
+                f.lastIndex = i;
+                const m = string.match(f);
+
+                if (m) {
+
+                    results.push(m[0]);
+                    console.log(f.lastIndex, m);
+
+                };
+
+            };
+
+        });
+
+    } else if (cls) {
 
         results = new cls();
 
@@ -218,7 +242,7 @@ function findComply(t) {
 */
 export function stringFind(string, ...fragments) {
 
-    return findDeceit({ string, fragments });
+    return findDeceit({ string, fragments, });
 
 };
 /**
@@ -234,9 +258,21 @@ export function stringFind(string, ...fragments) {
  * @param {...string|RegExp} fragments
  * @return {{}}
 */
-export function stringFindToJect(string, cls, ...fragments) {
+export function stringFindToJect(string, cls = Object, ...fragments) {
 
-    return findDeceit({ string, cls, fragments, jected: true });
+    return findDeceit({ string, cls, fragments, });
+
+};
+/**
+ * Функция для поиска всех возможных совпадений в строке.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @param {string} string
+ * @param {...string|RegExp} fragments
+*/
+export function stringFindVariation(string, ...fragments) {
+
+    return findDeceit({ string, fragments, variated: true, });
 
 };
 
