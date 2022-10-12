@@ -1,3 +1,6 @@
+import { YString } from "../../../../string/YString/YString.mjs";
+import { arrayReplace } from "../../../../array/array.mjs";
+import { stringExtract } from "../../../../string/string.mjs";
 import { config, configHtml, configHtmlElement } from "../../../../config.mjs";
 
 /**
@@ -89,10 +92,6 @@ export function elementMove(over, ...elements) {
     moveDeceit({ over, elements });
 
 };
-
-import { arrayReplace } from "../../../../array/array.mjs";
-import { stringExtract } from "../../../../string/string.mjs";
-import { YString } from "../../../../string/YString/YString.mjs";
 //#endregion
 //#region create 0.0.0
 
@@ -149,23 +148,32 @@ function createHandle(t) {
     
     if (t.string) {
 
-        const ystr = new YString(string);
+        const re = /(((([!#.]|\^[!#.])\w+|(.|\^[!#.])\[(\w+,?)+|:.+?::|\w+=\d+(\.\d+)?([%]|px|[pe]m)?|\w+=\w+| \w+|<.*>) ?)+\/)+/sg;
+        const ystr = new YString(t.string.match(re)[0]);
 
-        t.childs = ystr.extract(/\+\[(?<e>.*)\]\+/s);
-        t.id = ystr.extract(/#(?<e>\w+)/);
-        t.type = ystr.extract(/!(?<e>\w+)/);
-        t.classes = ystr.extract(/\.\[(?<e>[\w ,]+)\]/)?.match(/\w+/g);
+        [
 
-        if (t?.childs?.constructor === String) t.childs = t?.childs?.match(/.*? \/$/gms) ?? t.childs;
+            t.id,
+            t.type,
+            t.childs,
+            t.text,
+            t.classes,
+            t.overId,
+            t.overTypes,
+            t.overClasses,
+        
+        ] = [
+            
+            ystr.extract(/#(?<e>\w+)/) ?? '',
+            ystr.extract(/!(?<e>\w+)/) ?? '',
+            ystr.extract(/<(?<e>.*)>/s)?.match(re) ?? '',
+            ystr.extract(/:(?<e>.+?)::/) ?? '',
+            ystr.extract(/\.\[?(?<e>[\w,]+)/)?.match(/\w+/g) ?? [],
+            ystr.extract(/\^#\[?(?<e>[\w,]+)/)?.match(/\w+/g) ?? [],
+            ystr.extract(/\^!\[?(?<e>[\w,]+)/)?.match(/\w+/g) ?? [],
+            ystr.extract(/\^\.\[?(?<e>[\w,]+)/)?.match(/\w+/g) ?? [],
 
-        // t.id = string.match(/(?:^| )#(\w+)(?:$| |\n)/)?.[1] ?? '';
-        // t.text = string.match(/(?:^| )\>(.+?)\<end(?:$| |\n)/)?.[1] ?? '';
-        // t.type = string.match(/(?:^| )!(\w+)(?:$| |\n)/)?.[1] ?? '';
-        // t.childs = string.match(/\+\[\]/s)?.[1]?.split('/').filter(s => s) ?? '';
-        // t.overId = string.match(/\^#\[?([\w, ]+)+\]?(?:$| |\n)/)?.[1]?.match(/\w+/g) ?? [];
-        // t.classes = string.match(/\.\[?([\w, ]+)+\]?(?:$| |\n)/)?.[1]?.match(/\w+/g) ?? [];
-        // t.overTypes = string.match(/\^!\[?([\w, ]+)+\]?(?:$| |\n)/)?.[1]?.match(/\w+/g) ?? [];
-        // t.overClasses = string.match(/\^\.\[?([\w, ]+)+\](?:$| |\n)?/)?.[1]?.match(/\w+/g) ?? [];
+        ];
 
     };
 
@@ -178,7 +186,7 @@ function createHandle(t) {
     return createComply(t);
    
 };
-/** @param {Tcreate} t */
+/** @param {Tcreate} t @return {HTMLElement|[HTMLElement]} */
 function createComply(t) {
    
     const {
@@ -196,12 +204,14 @@ function createComply(t) {
 
     const e = document.createElement(type);
 
+    if (childs) console.log(elementCreateByString(childs[0]));
+
     if (id) e.id = id;
     if (text) e.textContent = text;
     if (childs) e.append(...childs.map(e => elementCreateByString(e)));
     if (classes) classes.forEach(s => e.classList.add(s));
 
-    if (overId || overTypes || overClasses) {
+    if (overId.length || overTypes.length || overClasses.length) {
 
         const ss = [
             
@@ -257,6 +267,7 @@ export function elementCreateByString(string) {
 
 };
 
+//#endregion
 //#endregion
 //#region remove 0.0.0
 
