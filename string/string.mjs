@@ -138,11 +138,11 @@ function findHandle(t) {
 
     let {
 
-        
+        variated,        
 
     } = t;
 
-    t.fragments.forEach((e, i, a) => {
+    if (variated) t.fragments.forEach((e, i, a) => {
 
         if (e.constructor === String) a[i] = new RegExp(e, 'y');
         else if (!e.flags.includes('y')) a[i] = new RegExp(e, e.flags + 'y');
@@ -177,21 +177,14 @@ function findComply(t) {
 
         results = [];
 
-        console.log(fragments, string);
-
         fragments.forEach(f => {
 
             for (let i = 0; i < string.length; i++) {
 
                 f.lastIndex = i;
-                const m = string.match(f);
+                const m = string.match(f)?.[0];
 
-                if (m) {
-
-                    results.push(m[0]);
-                    console.log(f.lastIndex, m);
-
-                };
+                if (m) results.push(m);
 
             };
 
@@ -205,12 +198,7 @@ function findComply(t) {
 
             const d = string.match(f);
 
-            if (d) Object.keys(d.groups).forEach(k => {
-
-                if (+d.groups[k]) results[k] = +d.groups[k];
-                else results[k] = d.groups[k];
-
-            });
+            if (d) Object.keys(d.groups).forEach(k => (+d.groups[k]) ? results[k] = +d.groups[k] : results[k] = d.groups[k]);
 
         });
 
@@ -220,9 +208,14 @@ function findComply(t) {
 
         fragments.forEach(f => {
 
-            const d = string.match(f);
+            const m = (f.flags.includes('g')) ? Array.from(string.matchAll(f)) : [string.match(f)];
 
-            if (d) d.forEach(f => results.push(f));
+            m.forEach(m => {
+
+                if (m?.groups?.f) results.push(m?.groups?.f);
+                else if (m) results.push(m[0]);
+
+            });
 
         });
 
@@ -1229,94 +1222,6 @@ function reverseComply(t) {
 export function stringReverse(string) {
 
     return reverseDeceit({ string });
-
-};
-
-//#endregion
-//#region extract 0.0.0
-
-/**
- * @typedef TBextract
- * @prop {string} string
- * @prop {string|RegExp} fragment
- * @typedef {TBextract} Textract
-*/
-
-/** @param {Textract} t */
-function extractDeceit(t) {
-
-    try {
-
-        return extractVerify(t);
-
-    } catch (e) {
-
-        if (config.strict) throw e;
-
-        return undefined;
-
-    };
-
-};
-/** @param {Textract} t */
-function extractVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return extractHandle(t);
-
-};
-/** @param {Textract} t */
-function extractHandle(t) {
-
-    let {
-
-
-
-    } = t;
-
-
-
-    t = {
-
-        ...t,
-
-    };
-
-    return extractComply(t);
-
-};
-/** @param {Textract} t */
-function extractComply(t) {
-
-    const {
-
-        string,
-        fragment,
-
-    } = t;
-
-    if (fragment instanceof String) return string.match(new RegExp(fragment))[0];
-    else if (fragment.source.includes('?<e>')) return string.match(fragment)?.groups?.e;
-    else return string.match(fragment)[0];
-
-};
-
-/**
- * Функция для извлечения из строки единственного совпадения.
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * @param {string} string Исходная строка.
- * @param {string|RegExp} fragment Фрагмент совпадения.
- * - Скобочная группа `e` позволяет извлечь подсвовпадение из совпадения.
-*/
-export function stringExtract(string, fragment) {
-
-    return extractDeceit({ string, fragment });
 
 };
 

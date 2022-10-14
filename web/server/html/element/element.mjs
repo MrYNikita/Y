@@ -1,6 +1,5 @@
 import { YString } from "../../../../string/YString/YString.mjs";
 import { arrayReplace } from "../../../../array/array.mjs";
-import { stringExtract } from "../../../../string/string.mjs";
 import { config, configHtml, configHtmlElement } from "../../../../config.mjs";
 
 /**
@@ -148,32 +147,43 @@ function createHandle(t) {
     
     if (t.string) {
 
-        const re = /(((([!#.]|\^[!#.])\w+|(.|\^[!#.])\[(\w+,?)+|:.+?::|\w+=\d+(\.\d+)?([%]|px|[pe]m)?|\w+=\w+| \w+|<.*>) ?)+\/)+/sg;
+        const re = /(((([!#.]|\^[!#.])\w+|(.|\^[!#.])\[(\w+,?)+|:.+?::|\w+=\d+(\.\d+)?([%]|px|[pe]m)?|\w+=\w+| \w+|<.*>) ?)+\/)+/gs;
         const ystr = new YString(t.string.match(re)[0]);
+
+        t.childs = ystr.extract(/<(?<f>.*)>/s)[0]?.match(re);
 
         [
 
             t.id,
             t.type,
-            t.childs,
             t.text,
             t.classes,
             t.overId,
             t.overTypes,
             t.overClasses,
         
-        ] = [
-            
-            ystr.extract(/#(?<e>\w+)/) ?? '',
-            ystr.extract(/!(?<e>\w+)/) ?? '',
-            ystr.extract(/<(?<e>.*)>/s)?.match(re) ?? '',
-            ystr.extract(/:(?<e>.+?)::/) ?? '',
-            ystr.extract(/\.\[?(?<e>[\w,]+)/)?.match(/\w+/g) ?? [],
-            ystr.extract(/\^#\[?(?<e>[\w,]+)/)?.match(/\w+/g) ?? [],
-            ystr.extract(/\^!\[?(?<e>[\w,]+)/)?.match(/\w+/g) ?? [],
-            ystr.extract(/\^\.\[?(?<e>[\w,]+)/)?.match(/\w+/g) ?? [],
+        ] = ystr.extract(
 
-        ];
+            /#(?<f>\w+)/,
+            /!(?<f>\w+)/,
+            /:(?<f>.+?)::/,
+            /\.\[?((?<f>\w+),?)/g,
+            /\^#\[?((?<f>\w+),?)/g,
+            /\^!\[?((?<f>\w+),?)/g,
+            /\^\.\[?((?<f>\w+),?)/g,
+
+        );
+            
+        console.log(t);
+
+        // ystr.extract(/#(?<f>\w+)/) ?? '',
+        // ystr.extract(/!(?<f>\w+)/) ?? '',
+        // ystr.extract(/<(?<f>.*)>/s)?.match(re) ?? '',
+        // ystr.extract(/:(?<f>.+?)::/) ?? '',
+        // ystr.extract(/\.\[?(?<f>[\w,]+)/)?.match(/\w+/g) ?? [],
+        // ystr.extract(/\^#\[?(?<f>[\w,]+)/)?.match(/\w+/g) ?? [],
+        // ystr.extract(/\^!\[?(?<f>[\w,]+)/)?.match(/\w+/g) ?? [],
+        // ystr.extract(/\^\.\[?(?<f>[\w,]+)/)?.match(/\w+/g) ?? [],
 
     };
 
@@ -204,20 +214,18 @@ function createComply(t) {
 
     const e = document.createElement(type);
 
-    if (childs) console.log(elementCreateByString(childs[0]));
-
     if (id) e.id = id;
     if (text) e.textContent = text;
     if (childs) e.append(...childs.map(e => elementCreateByString(e)));
     if (classes) classes.forEach(s => e.classList.add(s));
 
-    if (overId.length || overTypes.length || overClasses.length) {
+    if (overId?.length || overTypes?.length || overClasses?.length) {
 
         const ss = [
             
-            ...overId.map(s => document.querySelector(`#${s}`)),
-            ...overTypes.map(s => Array.from(document.querySelectorAll(s))).flat(),
-            ...overClasses.map(s => Array.from(document.querySelectorAll(`.${s}`))).flat()
+            ...overId?.map(s => document.querySelector(`#${s}`)),
+            ...overTypes?.map(s => Array.from(document.querySelectorAll(s)))?.flat() ?? [],
+            ...overClasses?.map(s => Array.from(document.querySelectorAll(`.${s}`)))?.flat() ?? []
 
         ];
 
@@ -267,7 +275,6 @@ export function elementCreateByString(string) {
 
 };
 
-//#endregion
 //#endregion
 //#region remove 0.0.0
 

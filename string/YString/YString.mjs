@@ -5,7 +5,7 @@
 */
 
 import { jectFill } from "../../ject/ject.mjs";
-import { stringAppend, stringBring, stringExtract, stringFilter, stringFind, stringFindToJect, stringHandle, stringPad, stringPaste, stringRemove, stringRepaint, stringReplace, stringReplacePoint, stringReverse } from "../string.mjs";
+import { stringAppend, stringBring, stringFilter, stringFind, stringFindToJect, stringHandle, stringPad, stringPaste, stringRemove, stringRepaint, stringReplace, stringReplacePoint, stringReverse } from "../string.mjs";
 
 class SString {
 
@@ -359,15 +359,22 @@ export class YString extends FString {
     };
     /**
      * Метод извлечения соответствия.
-     * @param {string|RegExp} fragment Фрагмент соотвествия.
+     * @param {...string|RegExp} fragments Фрагмент соотвествия.
     */
-    extract(fragment) {
+    extract(...fragments) {
 
-        const result = stringExtract(this.value, fragment);
+        const results = fragments.map(f => {
 
-        this.value = stringFilter(this.value, fragment);
+            const result = stringFind(this.value, f);
 
-        return result;
+            this.value = stringFilter(this.value, f);
+
+            return result;
+
+        });
+
+        if (results.length === 1) return results[0];
+        else return results;
 
     };
     /**
