@@ -4,7 +4,6 @@
  * @typedef {DDirectory&TBDirectory&import("../../YFile.mjs").TFile} TDirectory
 */
 
-
 import { YBFile, YFile } from "../../YFile.mjs";
 import { jectFill } from "../../../../../ject/ject.mjs";
 import { pathDecompose, pathGet, pathGetAll } from "../../../../path/path.mjs";
@@ -137,7 +136,7 @@ export class YBDirectory extends FDirectory {
 
         if (!this.deleted) {
 
-            const p = directoryGetDir(new RegExp(this.location), fragment);
+            const p = directoryGetDir(this.paths, fragment);
 
             return new YDirectory({
 
@@ -153,7 +152,7 @@ export class YBDirectory extends FDirectory {
 
         if (!this.deleted) {
 
-            const p = directoryGetFile(new RegExp(this.getPath()), fragment);
+            const p = directoryGetFile(this.paths, fragment);
 
             return new YFile({
 

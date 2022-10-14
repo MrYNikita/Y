@@ -1,13 +1,13 @@
 import { config } from "process";
-import { pathGet, pathGetAll } from "../../../path/path.mjs";
+import { pathGet, pathGetAll, pathGetIn } from "../../../path/path.mjs";
 
 //#region getFile 0.0.0
 
 /**
  * @typedef TBgetFile
  * @prop {boolean} dir
- * @prop {string|RegExp} location
  * @prop {string|RegExp} fragment
+ * @prop {[string]|string} paths
  * @typedef {TBgetFile} TgetFile
 */
   
@@ -48,8 +48,8 @@ function getFileHandle(t) {
     
     } = t;
     
+    if (t.paths.constructor === String) t.paths = pathGetAll(t.paths);
     if (fragment.constructor === String) t.fragment = new RegExp(t.fragment);
-    
 
     t = {
         
@@ -65,21 +65,12 @@ function getFileComply(t) {
    
     const {
     
-        dir,
+        paths,
         fragment,
-        location,
     
     } = t;
     
-    if (dir) {
-
-        return pathGet(new RegExp(pathGet(location) + '/.*?' + fragment.source));
-
-    } else {
-
-        return pathGet(new RegExp(pathGet(location) + '/.*?' + fragment.source));
-
-    };
+    return pathGetIn(paths, fragment);
     
 };
 
@@ -87,20 +78,24 @@ function getFileComply(t) {
  * Функция для получения указанной папки из данной директории по фрагменту пути.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
+ * @param {string|RegExp} fragment Фрагмент поиска.
+ * @param {[string]|string} paths Пути папки.
 */
-export function directoryGetDir(location, fragment) {
+export function directoryGetDir(paths, fragment) {
 
-    return getFileDeceit({ location, fragment, dir: true });
+    return getFileDeceit({ paths, fragment, dir: true });
 
 };
 /**
  * Функция для получения файла из данной директории по указанному фрагменту пути.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
-*/
-export function directoryGetFile(location, fragment) {
+ * @param {string|RegExp} fragment Фрагмент поиска.
+ * @param {[string]|string} paths Пути папки.
+ */
+export function directoryGetFile(paths, fragment) {
 
-    return getFileDeceit({ location, fragment })
+    return getFileDeceit({ paths, fragment })
 
 };
 

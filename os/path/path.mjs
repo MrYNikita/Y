@@ -8,6 +8,7 @@ import { fileREName, fileREPart } from "../file/file.mjs";
 /**
  * @typedef TBget
  * @prop {number} limit
+ * @prop {[string]} paths
  * @prop {string|RegExp} fragment
  * @typedef {TBget} Tget
 */
@@ -60,6 +61,7 @@ function getComply(t) {
     const {
 
         limit,
+        paths,
         fragment,
 
     } = t;
@@ -71,7 +73,7 @@ function getComply(t) {
     } else {
 
         const results = [];
-        const originals = readdirSync('.');
+        const originals = paths ?? readdirSync('.');
 
         for (
 
@@ -84,8 +86,8 @@ function getComply(t) {
 
             if (limit && fragment && path.match(fragment)) {
 
-                results.push(path);
                 c++;
+                results.push(path);
 
             } else if (!limit && fragment && path.match(fragment)) {
 
@@ -121,6 +123,19 @@ function getComply(t) {
 export function pathGet(fragment) {
 
     return getDeceit({ fragment, limit: 1 })[0];
+
+};
+/**
+ * Функция для получения первого по соответствию фрагменту пути в указанном массиве.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @param {[string]} paths Пути.
+ * @param {string|RegExp} fragment Фрагмент искомого пути.
+ * @returns {string}
+*/
+export function pathGetIn(paths, fragment) {
+
+    return getDeceit({ paths, fragment, limit: 1 })[0];
 
 };
 /**
