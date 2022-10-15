@@ -943,8 +943,6 @@ function replaceHandle(t) {
 
     } = t;
 
-
-
     t = {
 
         ...t,
@@ -960,42 +958,47 @@ function replaceComply(t) {
     const {
 
         string,
-        pointed,
         replaces,
 
     } = t;
 
     let result = string;
 
-    if (pointed) {
+    replaces.forEach(p => {
 
-        replaces.forEach(p => {
+        if (p[0].flags.includes('g')) {
 
-            if (p[0] instanceof String) p[0] = new RegExp(`(?<r>${p[0]})`);
-            else if (!p[0].source.includes('?<r>') && !p[0].source.includes('?<ra>')) p[0] = new RegExp(`(?<r>${p[0].source})`);
+            const m = Array.from(result.matchAll(p[0]));
 
-            const d = result.match(p[0]);
+            if (m.length) {
 
-            if (d) {
+                result = result.split(p[0]);
 
-                if (d.groups.r) result = result.replace(d[0], d[0].replace(d.groups.r, p[1]));
-                else if (d.groups.ra) result = result.replace(new RegExp(d.groups.ra, 'g'), p[1]);
+                if (m[0].groups?.r) {
+
+                    for (let i = 1, c = 0; i < result.length; i += 2, c++) result[i] = m[c][0].replace(m[c].groups.r, p[1]);
+
+                    result = result.join('');
+
+                } else result = result.join(p[1]);
 
             };
 
-        });
+        } else {
 
-    } else {
+            const m = result.match(p[0]);
 
-        replaces.forEach(p => {
+            if (m) {
 
-            if (p[0] instanceof String) p[0] = new RegExp(p[0]);
+                if (!m?.groups?.r) m.groups = { r: m[0] };
+                
+                result = result.replace(m[0], m[0].replace(m.groups.r, p[1]));
 
-            result = result.replace(p[0], p[1]);
+            };
 
-        });
+        };
 
-    };
+    });
 
     return result;
 
@@ -1011,25 +1014,6 @@ function replaceComply(t) {
 export function stringReplace(string, ...replaces) {
 
     return replaceDeceit({ string, replaces, });
-
-};
-/**
- * Функция для точечных изменений в найденных совпадениях.
- * Используя скобочные группы, можно точечно изменять часть совпадения без необходимости переписывать его.
- * Также точечные изменения позволяют менять фрагмент совпадения во всей строке, а не в едином фрагменте.
- * 
- * В данных фрагментах используются строго регулярные выражения. Все строки будут замещены на регулярные выражения
- * и целиком попадут под скобочную группу `r`. Таким образом данный фрагмент будет заменен целиком.
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * @param {string} string Исходная строка.
- * @param {...[RegExp, string]} replaces Пары фрагментов и их заместителей.
- * - Скобочная группа `r` используется для точечной замены в фрагменте строки.
- * - Скобочная группа `ra` используется для точечной замены всех совпадений в строке с указанным совпадением во фрагменте.
-*/
-export function stringReplacePoint(string, ...replaces) {
-
-    return replaceDeceit({ string, replaces, pointed: true });
 
 };
 

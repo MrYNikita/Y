@@ -5,7 +5,7 @@
 */
 
 import { jectFill } from "../../ject/ject.mjs";
-import { stringAppend, stringBring, stringFilter, stringFind, stringFindToJect, stringHandle, stringPad, stringPaste, stringRemove, stringRepaint, stringReplace, stringReplacePoint, stringReverse } from "../string.mjs";
+import { stringAppend, stringBring, stringFilter, stringFind, stringFindToJect, stringHandle, stringPad, stringPaste, stringRemove, stringRepaint, stringReplace, stringReverse } from "../string.mjs";
 
 class SString {
 
@@ -387,21 +387,6 @@ export class YString extends FString {
     findToJect(cls = Object, ...fragments) {
 
         return stringFindToJect(this.value, cls, ...fragments);
-
-    };
-    /**
-     * Метод для точечной замены совпадения.
-     * @param {...[string|RegExp, string]} replaces
-    */
-    replacePoint(...replaces) {
-
-        if (this.value) {
-
-            this.value = stringReplacePoint(this.value, ...replaces);
-
-        };
-
-        return this;
 
     };
 

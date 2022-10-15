@@ -3,11 +3,14 @@
  * @prop {string} id
  * @prop {string} type
  * @prop {[string]} classes
+ * @prop {[string]} overId
+ * @prop {[string]} overTypes
+ * @prop {[string]} overClasses
  * @typedef {DElement&TBElement} TElement
 */
 
 import { jectFill } from "../../../../../ject/ject.mjs";
-import { elementCreate } from "../element.mjs";
+import { elementCreate, elementCreateByString } from "../element.mjs";
 
 class SElement {
     
@@ -44,8 +47,7 @@ class FElement extends DElement {
     /** @param {TElement} t @this {[]} */
     static #before(t) {
         
-        
-        
+        if (t.constructor === String) t = { string: t, };
         if (!t) t = {};
         
         return t;
@@ -102,15 +104,23 @@ class FElement extends DElement {
         
         const {
             
-            id,
-            type,
-            classes,
+            
             
         } = t;
         
         jectFill.apply(this, [t]);
         
-        this.element = elementCreate(type, id, classes);
+        if (t.string) this.element = elementCreateByString(t.string);
+        else if (t.type) this.element = elementCreate(
+
+            t.type,
+            t.id,
+            t.classes,
+            t.overId,
+            t.overTypes,
+            t.overClasses,
+
+        );
         
     };
     

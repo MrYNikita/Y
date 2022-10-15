@@ -173,17 +173,6 @@ function createHandle(t) {
             /\^\.\[?((?<f>\w+),?)/g,
 
         );
-            
-        console.log(t);
-
-        // ystr.extract(/#(?<f>\w+)/) ?? '',
-        // ystr.extract(/!(?<f>\w+)/) ?? '',
-        // ystr.extract(/<(?<f>.*)>/s)?.match(re) ?? '',
-        // ystr.extract(/:(?<f>.+?)::/) ?? '',
-        // ystr.extract(/\.\[?(?<f>[\w,]+)/)?.match(/\w+/g) ?? [],
-        // ystr.extract(/\^#\[?(?<f>[\w,]+)/)?.match(/\w+/g) ?? [],
-        // ystr.extract(/\^!\[?(?<f>[\w,]+)/)?.match(/\w+/g) ?? [],
-        // ystr.extract(/\^\.\[?(?<f>[\w,]+)/)?.match(/\w+/g) ?? [],
 
     };
 
@@ -214,8 +203,8 @@ function createComply(t) {
 
     const e = document.createElement(type);
 
-    if (id) e.id = id;
-    if (text) e.textContent = text;
+    if (id?.[0]) e.id = id;
+    if (text?.[0]) e.textContent = text;
     if (childs) e.append(...childs.map(e => elementCreateByString(e)));
     if (classes) classes.forEach(s => e.classList.add(s));
 
@@ -255,12 +244,14 @@ function createComply(t) {
  * - Цепочка `DVHCa`
  * @param {string} id ID.
  * @param {string} type Тип.
- * @param {[string]} styles Стили.
  * @param {[string]} classes Классы.
+ * @param {[string]} overId Над элементы.
+ * @param {[string]} overTypes Над классы.
+ * @param {[string]} OverClasses Над типы.
 */
-export function elementCreate(type = configHtml.element.create.defaultType, id, classes, styles) {
+export function elementCreate(type = configHtml.element.create.defaultType, id, classes, overId, overTypes, overClasses) {
 
-    return createDeceit({ id, type, classes, styles });
+    return createDeceit({ id, type, classes, overId, overTypes, overClasses });
 
 };
 /**
@@ -361,6 +352,87 @@ function removeComply(t) {
 export function elementRemove(...elements) {
 
     return removeDeceit({ elements });
+
+};
+
+//#endregion
+//#region stringDecompose 0.0.0
+
+/**
+ * @typedef TBstringDecompose
+ * 
+ * @typedef {TBstringDecompose} TstringDecompose
+*/
+  
+/** @param {TstringDecompose} t */
+function stringDecomposeDeceit(t) {
+    
+    try {
+        
+        return stringDecomposeVerify(t);
+        
+    } catch (e) {
+        
+        if (config.strict) throw e;
+        
+        return undefined;
+        
+    };
+    
+};
+/** @param {TstringDecompose} t */
+function stringDecomposeVerify(t) {
+    
+    const {
+    
+    
+    
+    } = t;
+    
+    return stringDecomposeHandle(t);
+   
+};
+/** @param {TstringDecompose} t */
+function stringDecomposeHandle(t) {
+   
+    let {
+    
+    
+    
+    } = t;
+    
+    
+    
+    t = {
+        
+        ...t,
+        
+    };
+   
+    return stringDecomposeComply(t);
+   
+};
+/** @param {TstringDecompose} t */
+function stringDecomposeComply(t) {
+   
+    const {
+    
+    
+    
+    } = t;
+    
+    
+    
+};
+
+/**
+ * Функция для разбиения строки создания элементов на части.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+*/
+export function elementStringDecompose() {
+
+
 
 };
 
