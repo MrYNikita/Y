@@ -221,7 +221,12 @@ function findComply(t) {
 
     };
 
-    return results;
+    if (fragments.length === 1 && !fragments[0].flags.includes('g')) {
+
+        if (results.length === 1) return results[0];
+        else return null;
+
+    } else return results;
 
 };
 
@@ -993,7 +998,6 @@ function replaceComply(t) {
                 if (!m?.groups?.r) m.groups = { r: m[0] };
                 
                 result = result.replace(m[0], m[0].replace(m.groups.r, p[1]));
-
             };
 
         };

@@ -110,8 +110,7 @@ class FElement extends DElement {
         
         jectFill.apply(this, [t]);
         
-        if (t.string) this.element = elementCreateByString(t.string);
-        else if (t.type) this.element = elementCreate(
+        this.element = (t.string) ? elementCreateByString(t.string) : elementCreate(
 
             t.type,
             t.id,
@@ -120,7 +119,7 @@ class FElement extends DElement {
             t.overTypes,
             t.overClasses,
 
-        );
+        ); 
         
     };
     

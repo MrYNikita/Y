@@ -1,6 +1,13 @@
 import { YString } from "../../../../string/YString/YString.mjs";
 import { arrayReplace } from "../../../../array/array.mjs";
 import { config, configHtml, configHtmlElement } from "../../../../config.mjs";
+import { stringReplace } from "../../../../string/string.mjs";
+
+/**
+ * Регулярное выражение для поиска строк создания элементов.
+ * @type {RegExp}
+*/
+export const elementREString = /(((([!#.]|\^[!#.])\w+|(.|\^[!#.])\[(\w+,?)+|:.+?::|\w+=\d+(\.\d+)?([%]|px|[pe]m)?|\w+=\w+| \w+|<.*>) ?)+\/)+/gs;
 
 /**
  * @typedef TElements
@@ -14,69 +21,69 @@ import { config, configHtml, configHtmlElement } from "../../../../config.mjs";
  * @prop {HTMLElement} over
  * @typedef {TBmove&TElements} Tmove
 */
-  
+
 /** @param {Tmove} t */
 function moveDeceit(t) {
-    
+
     try {
-        
+
         return moveVerify(t);
-        
+
     } catch (e) {
-        
+
         if (config.strict) throw e;
-        
+
         return undefined;
-        
+
     };
-    
+
 };
 /** @param {Tmove} t */
 function moveVerify(t) {
-    
+
     const {
-    
-    
-    
+
+
+
     } = t;
-    
+
     return moveHandle(t);
-   
+
 };
 /** @param {Tmove} t */
 function moveHandle(t) {
-   
+
     let {
-    
-    
-    
+
+
+
     } = t;
-    
-    
-    
+
+
+
     t = {
-        
+
         ...t,
-        
+
     };
-   
+
     return moveComply(t);
-   
+
 };
 /** @param {Tmove} t */
 function moveComply(t) {
-   
+
     const {
-    
+
         over,
         elements,
-    
+
     } = t;
 
     elements.filter(e => e.constructor === String).forEach(e => arrayReplace(elements, e, ...document.querySelectorAll(e)));
 
     over.append(...elements.filter(e => e));
-    
+
 };
 
 /**
@@ -107,50 +114,49 @@ export function elementMove(over, ...elements) {
  * @prop {[string]} overClasses
  * @typedef {TBcreate} Tcreate
 */
-  
+
 /** @param {Tcreate} t */
 function createDeceit(t) {
-    
+
     try {
-        
+
         return createVerify(t);
-        
+
     } catch (e) {
-        
+
         if (config.strict) throw e;
-        
+
         return undefined;
-        
+
     };
-    
+
 };
 /** @param {Tcreate} t */
 function createVerify(t) {
-    
+
     const {
-    
-    
-    
+
+
+
     } = t;
-    
+
     return createHandle(t);
-   
+
 };
 /** @param {Tcreate} t */
 function createHandle(t) {
-   
+
     let {
-    
+
         string,
-    
+
     } = t;
-    
+
     if (t.string) {
 
-        const re = /(((([!#.]|\^[!#.])\w+|(.|\^[!#.])\[(\w+,?)+|:.+?::|\w+=\d+(\.\d+)?([%]|px|[pe]m)?|\w+=\w+| \w+|<.*>) ?)+\/)+/gs;
-        const ystr = new YString(t.string.match(re)[0]);
+        const ystr = new YString(t.string.match(elementREString)[0]);
 
-        t.childs = ystr.extract(/<(?<f>.*)>/s)[0]?.match(re);
+        t.childs = ystr.extract(/<(?<f>.*)>/s)?.[0]?.match(elementREString);
 
         [
 
@@ -161,7 +167,7 @@ function createHandle(t) {
             t.overId,
             t.overTypes,
             t.overClasses,
-        
+
         ] = ystr.extract(
 
             /#(?<f>\w+)/,
@@ -176,20 +182,23 @@ function createHandle(t) {
 
     };
 
+    if (!t.overId) t.overId = [];
+    if (!t.overClasses) t.overClasses = [];
+
     t = {
-        
+
         ...t,
-        
+
     };
-   
+
     return createComply(t);
-   
+
 };
 /** @param {Tcreate} t @return {HTMLElement|[HTMLElement]} */
 function createComply(t) {
-   
+
     const {
-    
+
         id,
         type,
         text,
@@ -198,7 +207,7 @@ function createComply(t) {
         classes,
         overTypes,
         overClasses,
-    
+
     } = t;
 
     const e = document.createElement(type);
@@ -211,7 +220,7 @@ function createComply(t) {
     if (overId?.length || overTypes?.length || overClasses?.length) {
 
         const ss = [
-            
+
             ...overId?.map(s => document.querySelector(`#${s}`)),
             ...overTypes?.map(s => Array.from(document.querySelectorAll(s)))?.flat() ?? [],
             ...overClasses?.map(s => Array.from(document.querySelectorAll(`.${s}`)))?.flat() ?? []
@@ -221,13 +230,13 @@ function createComply(t) {
         if (ss.length === 1) {
 
             ss[0].append(e);
-            
+
             return e;
 
         } else return ss.map((oe, i, a) => {
 
             const en = e.cloneNode(true);
-            
+
             en.id += i;
 
             oe.append(en);
@@ -235,7 +244,7 @@ function createComply(t) {
         });
 
     } else return e;
-    
+
 };
 
 /**
@@ -274,64 +283,64 @@ export function elementCreateByString(string) {
  * @prop {[HTMLElement|string]}
  * @typedef {TBremove} Tremove
 */
-  
+
 /** @param {Tremove} t */
 function removeDeceit(t) {
-    
+
     try {
-        
+
         return removeVerify(t);
-        
+
     } catch (e) {
-        
+
         if (config.strict) throw e;
-        
+
         return undefined;
-        
+
     };
-    
+
 };
 /** @param {Tremove} t */
 function removeVerify(t) {
-    
+
     const {
-    
-    
-    
+
+
+
     } = t;
-    
+
     return removeHandle(t);
-   
+
 };
 /** @param {Tremove} t */
 function removeHandle(t) {
-   
+
     let {
-    
-    
-    
+
+
+
     } = t;
-    
-    
-    
+
+
+
     t = {
-        
+
         ...t,
-        
+
     };
-   
+
     return removeComply(t);
-   
+
 };
 /** @param {Tremove} t */
 function removeComply(t) {
-   
+
     const {
-    
+
         elements,
-    
+
     } = t;
-    
+
     elements.forEach(e => {
 
         console.log(e);
@@ -340,7 +349,7 @@ function removeComply(t) {
         else e.remove();
 
     });
-    
+
 };
 
 /**
@@ -360,79 +369,123 @@ export function elementRemove(...elements) {
 
 /**
  * @typedef TBstringDecompose
- * 
+ * @prop {string} string
  * @typedef {TBstringDecompose} TstringDecompose
 */
-  
+
 /** @param {TstringDecompose} t */
 function stringDecomposeDeceit(t) {
-    
+
     try {
-        
+
         return stringDecomposeVerify(t);
-        
+
     } catch (e) {
-        
+
         if (config.strict) throw e;
-        
+
         return undefined;
-        
+
     };
-    
+
 };
 /** @param {TstringDecompose} t */
 function stringDecomposeVerify(t) {
-    
+
     const {
-    
-    
-    
+
+
+
     } = t;
-    
+
     return stringDecomposeHandle(t);
-   
+
 };
 /** @param {TstringDecompose} t */
 function stringDecomposeHandle(t) {
-   
+
     let {
-    
-    
-    
+
+
+
     } = t;
-    
-    
-    
+
+
+
     t = {
-        
+
         ...t,
-        
+
     };
-   
+
     return stringDecomposeComply(t);
-   
+
 };
 /** @param {TstringDecompose} t */
 function stringDecomposeComply(t) {
-   
+
     const {
-    
-    
-    
+
+        string,
+
     } = t;
+
+    const ystr = new YString(t.string.match(elementREString)[0]);
     
-    
-    
+    // console.log(ystr.extract(/<(?<f>.*)>/s)?.match(elementREString));
+    console.log(ystr.extract(new RegExp(stringReplace(`<(?<f>.*)>`), 'gs')));
+
+    let childs;
+
+    // let childs = ystr.extract(/<(?<f>.*)>/s)?.[0]?.match(elementREString);
+    // let childs = ystr.extract(/<(?<f>.*)>/gs)?.[0]?.match(elementREString);
+
+    let [
+
+        id,
+        type,
+        text,
+        classes,
+        overId,
+        overTypes,
+        overClasses,
+
+    ] = ystr.extract(
+
+        /#(?<f>\w+)/,
+        /!(?<f>\w+)/,
+        /:(?<f>.+?)::/,
+        /\.\[?((?<f>\w+),?)/g,
+        /\^#\[?((?<f>\w+),?)/g,
+        /\^!\[?((?<f>\w+),?)/g,
+        /\^\.\[?((?<f>\w+),?)/g,
+
+    );
+
+    return {
+
+        id,
+        type,
+        text,
+        childs,
+        classes,
+        overId,
+        overTypes,
+        overClasses,
+
+    };
+
 };
 
 /**
  * Функция для разбиения строки создания элементов на части.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
+ * @param {string} string
 */
-export function elementStringDecompose() {
+export function elementStringDecompose(string) {
 
-
+    return stringDecomposeDeceit({ string });
 
 };
 

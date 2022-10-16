@@ -371,7 +371,7 @@ export class YString extends FString {
 
             return result;
 
-        });
+        }).flat();
 
         if (results.length === 1) return results[0];
         else return results;
