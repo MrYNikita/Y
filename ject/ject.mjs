@@ -1,10 +1,12 @@
 import { config } from "../config.mjs";
 import { logChainError } from "../log/log.mjs";
 
-//#region fill 0.0.0
+//#region fill 0.1.0
 
 /**
- * @typedef {{}} Tfill
+ * @typedef Tfill
+ * @prop {{}} ject
+ * @prop {{}} filler
 */
 
 /** @param {Tfill} t */
@@ -12,7 +14,7 @@ function fillDeceit(t) {
 
     try {
 
-        return fillVerify.apply(this, [t]);
+        fillVerify(t);
 
     } catch (e) {
 
@@ -32,7 +34,7 @@ function fillVerify(t) {
 
     } = t;
 
-    return fillHandle.apply(this, [t]);
+    fillHandle(t);
 
 };
 /** @param {Tfill} t */
@@ -50,7 +52,7 @@ function fillHandle(t) {
 
     };
 
-    return fillComply.apply(this, [t]);
+    return fillComply(t);
 
 };
 /** @param {Tfill} t */
@@ -58,30 +60,119 @@ function fillComply(t) {
 
     const {
 
-
+        ject,
+        filler,
 
     } = t;
 
-    Object.keys(this).forEach(e => {
-
-        if (t[e] || t[e] === 0 || t[e] === '' || t[e] === false) this[e] = t[e];
-
-    });
+    Object.keys(ject).forEach(s => (filler[s] || filler[s] === 0 || filler[s] === '' || filler[s] === false) ? ject[s] = filler[s] : 0);
 
 };
 
 /**
  * Функция для заполнения `полей`, заданных в `конструкторе`, данными из `объекта передачи аргументов` с помощью приёма `универсального заполнения`.
  * - Версия: `1.0.0`
+ * @param {object} j Объект заполнения.
  * @param {object} t Объект передачи аргументов.
 */
-export function jectFill(t) {
+export function jectFill(ject, filler) {
 
-    fillDeceit.apply(this, [t]);
+    fillDeceit({ ject, filler });
 
 };
 
 //#endregion
+//#region supplement 0.0.0
+
+/**
+ * @typedef TBsupplement
+ * @prop {{}} ject
+ * @prop {{}} supplement
+ * @typedef {TBsupplement} Tsupplement
+*/
+  
+/** @param {Tsupplement} t */
+function supplementDeceit(t) {
+    
+    try {
+        
+        return supplementVerify(t);
+        
+    } catch (e) {
+        
+        if (config.strict) throw e;
+        
+        return undefined;
+        
+    };
+    
+};
+/** @param {Tsupplement} t */
+function supplementVerify(t) {
+    
+    const {
+    
+    
+    
+    } = t;
+    
+    return supplementHandle(t);
+   
+};
+/** @param {Tsupplement} t */
+function supplementHandle(t) {
+   
+    let {
+    
+    
+    
+    } = t;
+    
+    
+    
+    t = {
+        
+        ...t,
+        
+    };
+   
+    return supplementComply(t);
+   
+};
+/** @param {Tsupplement} t */
+function supplementComply(t) {
+   
+    const {
+    
+        ject,
+        supplement,
+    
+    } = t;
+    
+    Object.keys(supplement).forEach(s => ((ject[s] === undefined || ject[s] === null) && supplement[s] !== undefined) ? ject[s] = supplement[s] : 0);
+    
+    return ject;
+
+};
+
+/**
+ * Функция дополнения объекта свойствами дополнителя.
+ * Дополнение отличается от заполнения тем, что дополнитель не станет трогать уже существующие свойства объекта.
+ * Вместо этого, он найдет те его свойства, которые неопределены или null и заполнит их значениями заполнителя, если такие
+ * будут определены у самого заполнителя.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @param {{}} ject Исходный объект.
+ * @param {{}} supplement Объект-дополнитель.
+*/
+export function jectSupplement(ject, supplement) {
+
+    return supplementDeceit({ ject, supplement, });
+
+};
+
+//#endregion
+
 //#region deepGet 0.0.0
 
 /**

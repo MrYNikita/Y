@@ -1,10 +1,10 @@
+import { jectFill } from "../../../../../ject/ject.mjs";
+
 /**
  * @typedef TBStyle
  * @prop {any} _
  * @typedef {DStyle&TBStyle} TStyle
 */
-
-import { jectFill } from "../../../../../ject/ject.mjs";
 
 class SStyle {
     
@@ -28,9 +28,11 @@ class FStyle extends DStyle {
         
         t = FStyle.#before(...arguments);
         
+        FStyle.#deceit(t);
+        
         super(t);
         
-        FStyle.#deceit.apply(this, [t]);
+        FStyle.#create.apply(this, [t]);
         
     };
     
@@ -49,7 +51,7 @@ class FStyle extends DStyle {
         
         try {
             
-            FStyle.#verify.apply(this, arguments);
+            FStyle.#verify(t);
             
         } catch (e) {
             
@@ -67,7 +69,7 @@ class FStyle extends DStyle {
             
         } = t;
         
-        FStyle.#handle.apply(this, arguments);
+        FStyle.#handle(t);
         
     };
     /** @param {TStyle} t @this {YStyle} */
@@ -86,8 +88,6 @@ class FStyle extends DStyle {
             ...t,
             
         };
-       
-        FStyle.#create.apply(this, [t]);
         
     };
     /** @param {TStyle} t @this {YStyle} */
@@ -99,7 +99,7 @@ class FStyle extends DStyle {
             
         } = t;
         
-        jectFill.apply(this, [t]);
+        jectFill(this, t);
         
         
         
@@ -109,11 +109,11 @@ class FStyle extends DStyle {
 
 /**
  *
- * - Тип `SDFY`
+ * - Тип `SDFY-2.0`
  * - Версия `0.0.0`
  * - Цепочка `BDVHC`
 */
-export class YStyle extends FStyle {
+class YStyle extends FStyle {
     
     
     

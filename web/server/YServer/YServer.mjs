@@ -1,12 +1,3 @@
-/**
- * @typedef TBServer
- * @prop {string} name
- * @prop {string} port
- * @prop {string} host
- * @prop {YDirectory} dir
- * @typedef {YServer&TBServer} TServer
-*/
-
 import http from "http";
 import { YAPI } from "../api/YAPI/YAPI.mjs";
 import { Socket } from "net";
@@ -16,6 +7,15 @@ import { jectFill } from "../../../ject/ject.mjs";
 import { YDirectory } from "../../../os/file/YFile/directory/YDirectory/YDirectory.mjs";
 import { stringRepaint } from "../../../string/string.mjs";
 import { configServer, configWeb } from "../../../config.mjs";
+
+/**
+ * @typedef TBServer
+ * @prop {string} name
+ * @prop {string} port
+ * @prop {string} host
+ * @prop {YDirectory} dir
+ * @typedef {YServer&TBServer} TServer
+*/
 
 class SServer {
 
@@ -83,9 +83,11 @@ class FServer extends DServer {
 
         t = FServer.#before(...arguments);
 
+        FServer.#deceit(t);
+
         super(t);
 
-        FServer.#deceit.apply(this, [t]);
+        FServer.#create.apply(this, [t]);
 
     };
 
@@ -94,8 +96,9 @@ class FServer extends DServer {
 
 
 
-        if (!t) return {};
-        else if (t) return t;
+        if (!t) t = {};
+
+        return t;
 
     };
     /** @param {TServer} t @this {YServer} */
@@ -103,7 +106,7 @@ class FServer extends DServer {
 
         try {
 
-            FServer.#verify.apply(this, arguments);
+            FServer.#verify(t);
 
         } catch (e) {
 
@@ -121,7 +124,7 @@ class FServer extends DServer {
 
         } = t;
 
-        FServer.#handle.apply(this, arguments);
+        FServer.#handle(t);
 
     };
     /** @param {TServer} t @this {YServer} */
@@ -133,15 +136,13 @@ class FServer extends DServer {
 
         } = t;
 
-
+        if (t.dir.constructor === String) t.dir = new YDirectory(t.dir);
 
         t = {
 
             ...t,
 
         };
-
-        FServer.#create.apply(this, [t]);
 
     };
     /** @param {TServer} t @this {YServer} */
@@ -153,7 +154,7 @@ class FServer extends DServer {
 
         } = t;
 
-        jectFill.apply(this, [t]);
+        jectFill(this, t);
 
         this.serv = http.createServer();
 
@@ -163,7 +164,7 @@ class FServer extends DServer {
 
 /**
  *
- * - Тип `SDFY`
+ * - Тип `SDFY-2.0`
  * - Версия `0.0.0`
  * - Цепочка `BDVHC`
 */

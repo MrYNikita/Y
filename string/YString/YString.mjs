@@ -1,11 +1,11 @@
+import { jectFill } from "../../ject/ject.mjs";
+import { stringAppend, stringBring, stringFilter, stringFind, stringFindToJect, stringHandle, stringPad, stringPaste, stringRemove, stringRepaint, stringReplace, stringReverse } from "../string.mjs";
+
 /**
  * @typedef TBString
  * @prop {any} _
  * @typedef {DString&TBString} TString
 */
-
-import { jectFill } from "../../ject/ject.mjs";
-import { stringAppend, stringBring, stringFilter, stringFind, stringFindToJect, stringHandle, stringPad, stringPaste, stringRemove, stringRepaint, stringReplace, stringReverse } from "../string.mjs";
 
 class SString {
 
@@ -43,23 +43,11 @@ class FString extends DString {
 
         t = FString.#before(...arguments);
 
+        FString.#deceit(t);
+
         super(t);
 
-        FString.#deceit.apply(this, [t]);
-
-    };
-
-    [Symbol.toPrimitive](hint) {
-
-        if (hint === 'number') {
-
-            return +this.value;
-
-        } else if (hint === 'string') {
-
-            return this.get();
-
-        };
+        FString.#create.apply(this, [t]);
 
     };
 
@@ -68,8 +56,9 @@ class FString extends DString {
 
         if (t?.constructor === String || t?.constructor === Number) return { value: t, };
 
-        if (!t) return {};
-        else if (t) return t;
+        if (!t) t = {};
+
+        return t;
 
     };
     /** @param {TString} t @this {YString} */
@@ -77,7 +66,7 @@ class FString extends DString {
 
         try {
 
-            FString.#verify.apply(this, arguments);
+            FString.#verify(t);
 
         } catch (e) {
 
@@ -95,7 +84,7 @@ class FString extends DString {
 
         } = t;
 
-        FString.#handle.apply(this, arguments);
+        FString.#handle(t);
 
     };
     /** @param {TString} t @this {YString} */
@@ -115,8 +104,6 @@ class FString extends DString {
 
         };
 
-        FString.#create.apply(this, [t]);
-
     };
     /** @param {TString} t @this {YString} */
     static #create(t) {
@@ -127,7 +114,8 @@ class FString extends DString {
 
         } = t;
 
-        jectFill.apply(this, [t]);
+        jectFill(this, t);
+
 
 
     };
@@ -136,7 +124,7 @@ class FString extends DString {
 
 /**
  *
- * - Тип `SDFY`
+ * - Тип `SDFY-2.0`
  * - Версия `0.0.0`
  * - Цепочка `BDVHC`
 */
@@ -359,6 +347,7 @@ export class YString extends FString {
     };
     /**
      * Метод извлечения соответствия.
+     * - Версия `0.1.1`
      * @param {...string|RegExp} fragments Фрагмент соотвествия.
     */
     extract(...fragments) {
@@ -371,7 +360,7 @@ export class YString extends FString {
 
             return result;
 
-        }).flat();
+        });
 
         if (results.length === 1) return results[0];
         else return results;
@@ -380,6 +369,7 @@ export class YString extends FString {
     /**
      * Метод для поиска совпадений по фрагментам с преобразованием в объект указанного типа.
      * Свойства данного объекта - это указанные в регулярных выражениях поиска имена скобочных групп.
+     * - Версия `0.0.0` 
      * @param {typeof Object} cls Конструктор объекта.
      * @param {...string|RegExp} fragments Фрагменты.
      * @return {[]}
@@ -391,3 +381,9 @@ export class YString extends FString {
     };
 
 };
+
+/**
+ * @file ject.mjs
+ * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
+ * @copyright Yakhin Nikita Artemovich 2022
+*/

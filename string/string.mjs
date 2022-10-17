@@ -757,7 +757,7 @@ function filterHandle(t) {
 
     } = t;
 
-
+    
 
     t = {
 
@@ -901,7 +901,7 @@ export function stringHandle(string, handle, ...fragments) {
 };
 
 //#endregion
-//#region replace 0.0.0
+//#region replace 0.0.1
 
 /**
  * @typedef TBreplace
@@ -947,6 +947,8 @@ function replaceHandle(t) {
 
 
     } = t;
+
+    t.replaces = t.replaces.map(p => (p[0].constructor === RegExp) ? p : [new RegExp(p[0]), p[1]]);
 
     t = {
 
@@ -1720,3 +1722,9 @@ export function stringCastToPhoneNumberBlr(number) {
 };
 
 //#endregion
+
+/**
+ * @file ject.mjs
+ * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
+ * @copyright Yakhin Nikita Artemovich 2022
+*/

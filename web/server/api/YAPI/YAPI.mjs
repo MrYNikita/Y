@@ -1,9 +1,3 @@
-/**
- * @typedef TBAPI
- * 
- * @typedef {YAPI&TBAPI} TAPI
-*/
-
 import { YRout } from "../rout/YRout/YRout.mjs";
 import { YServer } from "../../YServer/YServer.mjs";
 import { YString } from "../../../../string/YString/YString.mjs";
@@ -11,6 +5,12 @@ import { pathGet } from "../../../../os/path/path.mjs";
 import { jectFill } from "../../../../ject/ject.mjs";
 import { fileReadText, fileREExpand } from "../../../../os/file/file.mjs";
 import { serverDefineContentType } from "../../server.mjs";
+
+/**
+ * @typedef TBAPI
+ * @prop {any} _
+ * @typedef {YAPI&TBAPI} TAPI
+*/
 
 class SAPI {
 
@@ -30,6 +30,7 @@ class DAPI extends SAPI {
     */
     routs = [];
 
+
 };
 class FAPI extends DAPI {
 
@@ -43,9 +44,11 @@ class FAPI extends DAPI {
 
         t = FAPI.#before(...arguments);
 
+        FAPI.#deceit(t);
+
         super(t);
 
-        FAPI.#deceit.apply(this, [t]);
+        FAPI.#create.apply(this, [t]);
 
     };
 
@@ -54,8 +57,9 @@ class FAPI extends DAPI {
 
 
 
-        if (!t) return {};
-        else if (t) return t;
+        if (!t) t = {};
+
+        return t;
 
     };
     /** @param {TAPI} t @this {YAPI} */
@@ -63,7 +67,7 @@ class FAPI extends DAPI {
 
         try {
 
-            FAPI.#verify.apply(this, arguments);
+            FAPI.#verify(t);
 
         } catch (e) {
 
@@ -81,7 +85,7 @@ class FAPI extends DAPI {
 
         } = t;
 
-        FAPI.#handle.apply(this, arguments);
+        FAPI.#handle(t);
 
     };
     /** @param {TAPI} t @this {YAPI} */
@@ -101,8 +105,6 @@ class FAPI extends DAPI {
 
         };
 
-        FAPI.#create.apply(this, [t]);
-
     };
     /** @param {TAPI} t @this {YAPI} */
     static #create(t) {
@@ -113,7 +115,7 @@ class FAPI extends DAPI {
 
         } = t;
 
-        jectFill.apply(this, [t]);
+        jectFill(this, t);
 
 
 

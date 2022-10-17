@@ -1,3 +1,8 @@
+import { jectFill } from "../../../ject/ject.mjs";
+import { fileAppend, fileDelete, fileMove, fileRead, fileReadText, fileREExpand, fileRELocation, fileREName, fileRename, fileWrite } from "../file.mjs";
+import { existsSync } from "fs";
+import { pathGet, pathGetAll } from "../../path/path.mjs";
+
 /**
  * @typedef TBFile
  * @prop {string} name
@@ -5,11 +10,6 @@
  * @prop {string} location
  * @typedef {DFile&TBFile} TFile
 */
-
-import { jectFill } from "../../../ject/ject.mjs";
-import { fileAppend, fileDelete, fileMove, fileRead, fileReadText, fileREExpand, fileRELocation, fileREName, fileRename, fileWrite } from "../file.mjs";
-import { existsSync } from "fs";
-import { pathGet, pathGetAll } from "../../path/path.mjs";
 
 class SFile {
 
@@ -52,9 +52,11 @@ class FFile extends DFile {
 
         t = FFile.#before(...arguments);
 
+        FFile.#deceit(t);
+
         super(t);
 
-        FFile.#deceit.apply(this, [t]);
+        FFile.#create.apply(this, [t]);
 
     };
 
@@ -62,9 +64,9 @@ class FFile extends DFile {
     static #before(t) {
 
         if (t.constructor === String) {
-            
+
             const name = t.match(fileREName)[1], location = t.match(fileRELocation)?.[0], expand = t.match(fileREExpand)?.[1];
-            
+
             t = {};
 
             if (expand) t.expand = expand;
@@ -74,8 +76,9 @@ class FFile extends DFile {
 
         };
 
-        if (!t) return {};
-        else if (t) return t;
+        if (!t) t = {};
+
+        return t;
 
     };
     /** @param {TFile} t @this {YFile} */
@@ -83,7 +86,7 @@ class FFile extends DFile {
 
         try {
 
-            FFile.#verify.apply(this, arguments);
+            FFile.#verify(t);
 
         } catch (e) {
 
@@ -97,15 +100,11 @@ class FFile extends DFile {
 
         const {
 
-            name,
-            expand,
-            location,
+
 
         } = t;
 
-        if (existsSync(`/${location}/${name}.${expand}`)) throw new Error(`/${location}/${name}.${expand}`);
-
-        FFile.#handle.apply(this, arguments);
+        FFile.#handle(t);
 
     };
     /** @param {TFile} t @this {YFile} */
@@ -125,8 +124,6 @@ class FFile extends DFile {
 
         };
 
-        FFile.#create.apply(this, [t]);
-
     };
     /** @param {TFile} t @this {YFile} */
     static #create(t) {
@@ -137,7 +134,9 @@ class FFile extends DFile {
 
         } = t;
 
-        jectFill.apply(this, [t]);
+        jectFill(this, t);
+
+
 
     };
 
@@ -195,7 +194,7 @@ export class YBFile extends FFile {
         if (!this.deleted) {
 
             fileDelete(this.getPath());
-            
+
             this.deleted = true;
 
         };

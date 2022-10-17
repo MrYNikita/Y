@@ -1,13 +1,52 @@
 import { YString } from "../../../../string/YString/YString.mjs";
 import { arrayReplace } from "../../../../array/array.mjs";
 import { config, configHtml, configHtmlElement } from "../../../../config.mjs";
-import { stringReplace } from "../../../../string/string.mjs";
 
 /**
  * Регулярное выражение для поиска строк создания элементов.
  * @type {RegExp}
 */
-export const elementREString = /(((([!#.]|\^[!#.])\w+|(.|\^[!#.])\[(\w+,?)+|:.+?::|\w+=\d+(\.\d+)?([%]|px|[pe]m)?|\w+=\w+| \w+|<.*>) ?)+\/)+/gs;
+export const elementREString = /((([!#.]\w+|([^:]|\^[!#.])(\w+,? ?)+\]|:.+:|\w+=\d+(\.\d+)?([%]|px|[pe]m)?|\w+=\w+| \w+|<.*>) ?)+\/?)+/gs;
+/**
+ * Регулярное выражение для поиска и проверки классов в строке создания элементов.
+ * @type {RegExp}
+*/
+export const elementREId = /(?:^| )#(?<f>\w+)/;
+/**
+ * Регулярное выражение для поиска и проверки классов в строке создания элементов.
+ * @type {RegExp}
+*/
+export const elementREType =/(?:^| )!(?<f>\w+)/;
+/**
+ * Регулярное выражение для поиска и проверки классов в строке создания элементов.
+ * @type {RegExp}
+*/
+export const elementREText = /(?:^| ):(?<f>.+):/ms;
+/**
+ * Регулярное выражение для поиска и проверки классов в строке создания элементов.
+ * @type {RegExp}
+*/
+export const elementREClasses = /(?:^| )\.(?<f>(\w+ ?)+)+\]/;
+/**
+ * Регулярное выражение для поиска и проверки над ID в строке создания элементов.
+ * @type {RegExp}
+*/
+export const elementREOverId =/(?:^| )\^\#(?<f>(\w+ ?)+)+\]/;
+/**
+ * Регулярное выражение для поиска и проверки над типов в строке создания элементов.
+ * @type {RegExp}
+*/
+export const elementREOverTypes = /(?:^| )\^\!(?<f>(\w+ ?)+)+\]/;
+/**
+ * Регулярное выражение для поиска и проверки над классов в строке создания элементов.
+ * @type {RegExp}
+*/
+export const elementREOverClasses = /(?:^| )\^\.(?<f>(\w+ ?)+)+\]/;
+/**
+ * Регулярное выражение для поиска и проверки над классов в строке создания элементов.
+ * @type {RegExp}
+*/
+export const elementREProperty = /(?:^| )(\w+=\d+(\.\d+)?([%]|px|[pe]m)?|\w+=\w+| \w+)/gm;
 
 /**
  * @typedef TElements
@@ -103,6 +142,7 @@ export function elementMove(over, ...elements) {
 
 /**
  * @typedef TBcreate
+ * @prop {{}} property
  * @prop {string} id
  * @prop {string} type
  * @prop {string} text
@@ -152,36 +192,7 @@ function createHandle(t) {
 
     } = t;
 
-    if (t.string) {
-
-        const ystr = new YString(t.string.match(elementREString)[0]);
-
-        t.childs = ystr.extract(/<(?<f>.*)>/s)?.[0]?.match(elementREString);
-
-        [
-
-            t.id,
-            t.type,
-            t.text,
-            t.classes,
-            t.overId,
-            t.overTypes,
-            t.overClasses,
-
-        ] = ystr.extract(
-
-            /#(?<f>\w+)/,
-            /!(?<f>\w+)/,
-            /:(?<f>.+?)::/,
-            /\.\[?((?<f>\w+),?)/g,
-            /\^#\[?((?<f>\w+),?)/g,
-            /\^!\[?((?<f>\w+),?)/g,
-            /\^\.\[?((?<f>\w+),?)/g,
-
-        );
-
-    };
-
+    if (t.string) t = { ...elementStringDecompose(t.string), ...t, };
     if (!t.overId) t.overId = [];
     if (!t.overClasses) t.overClasses = [];
 
@@ -205,6 +216,7 @@ function createComply(t) {
         childs,
         overId,
         classes,
+        property,
         overTypes,
         overClasses,
 
@@ -251,16 +263,18 @@ function createComply(t) {
  * Функция для создания html элемента.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
+ * @param {{}} property Свойства.
  * @param {string} id ID.
+ * @param {string} text Текст.
  * @param {string} type Тип.
  * @param {[string]} classes Классы.
  * @param {[string]} overId Над элементы.
  * @param {[string]} overTypes Над классы.
  * @param {[string]} OverClasses Над типы.
 */
-export function elementCreate(type = configHtml.element.create.defaultType, id, classes, overId, overTypes, overClasses) {
+export function elementCreate(type = configHtml.element.create.defaultType, id, classes, overId, overTypes, overClasses, text, property) {
 
-    return createDeceit({ id, type, classes, overId, overTypes, overClasses });
+    return createDeceit({ id, type, classes, overId, overTypes, overClasses, text, property });
 
 };
 /**
@@ -425,42 +439,24 @@ function stringDecomposeHandle(t) {
 function stringDecomposeComply(t) {
 
     const {
-
+        
         string,
 
     } = t;
 
-    const ystr = new YString(t.string.match(elementREString)[0]);
-    
-    // console.log(ystr.extract(/<(?<f>.*)>/s)?.match(elementREString));
-    console.log(ystr.extract(new RegExp(stringReplace(`<(?<f>.*)>`), 'gs')));
+    const ystr = new YString(string.match(elementREString)[0]);
 
-    let childs;
+    console.log(ystr.get());
 
-    // let childs = ystr.extract(/<(?<f>.*)>/s)?.[0]?.match(elementREString);
-    // let childs = ystr.extract(/<(?<f>.*)>/gs)?.[0]?.match(elementREString);
-
-    let [
-
-        id,
-        type,
-        text,
-        classes,
-        overId,
-        overTypes,
-        overClasses,
-
-    ] = ystr.extract(
-
-        /#(?<f>\w+)/,
-        /!(?<f>\w+)/,
-        /:(?<f>.+?)::/,
-        /\.\[?((?<f>\w+),?)/g,
-        /\^#\[?((?<f>\w+),?)/g,
-        /\^!\[?((?<f>\w+),?)/g,
-        /\^\.\[?((?<f>\w+),?)/g,
-
-    );
+    let childs = ystr.extract(/<(?<f>.*)>/s)?.match(elementREString) ?? [];
+    let text = ystr.extract(elementREText);
+    let overClasses = ystr.extract(elementREOverClasses)?.split(' ') ?? [];
+    let overTypes = ystr.extract(elementREOverTypes)?.split(' ') ?? [];
+    let overId = ystr.extract(elementREOverId)?.split(' ') ?? [];
+    let id = ystr.extract(elementREId);
+    let type = ystr.extract(elementREType);
+    let classes = ystr.extract(elementREClasses)?.split(' ') ?? [];
+    let property = ystr.extract(elementREProperty);
 
     return {
 

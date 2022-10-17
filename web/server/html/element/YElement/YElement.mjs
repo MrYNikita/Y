@@ -1,7 +1,12 @@
+import { jectFill, jectSupplement } from "../../../../../ject/ject.mjs";
+import { elementCreate, elementCreateByString, elementStringDecompose } from "../element.mjs";
+
 /**
  * @typedef TBElement
+ * @prop {{}} property
  * @prop {string} id
  * @prop {string} type
+ * @prop {string} text
  * @prop {[string]} classes
  * @prop {[string]} overId
  * @prop {[string]} overTypes
@@ -9,25 +14,22 @@
  * @typedef {DElement&TBElement} TElement
 */
 
-import { jectFill } from "../../../../../ject/ject.mjs";
-import { elementCreate, elementCreateByString } from "../element.mjs";
-
 class SElement {
-    
-    
-    
+
+
+
 };
 class DElement extends SElement {
-    
+
     /**
      * Привязанный элемент.
      * @type {HTMLElement}
     */
     element;
-    
+
 };
 class FElement extends DElement {
-    
+
     /**
      * 
      * - Версия `0.0.0`
@@ -35,82 +37,82 @@ class FElement extends DElement {
      *  @param {TElement} t
     */
     constructor(t = {}) {
-        
+
         t = FElement.#before(...arguments);
-        
+
+        FElement.#deceit(t);
+
         super(t);
-        
-        FElement.#deceit.apply(this, [t]);
-        
+
+        FElement.#create.apply(this, [t]);
+
     };
-    
+
     /** @param {TElement} t @this {[]} */
     static #before(t) {
-        
+
         if (t.constructor === String) t = { string: t, };
         if (!t) t = {};
-        
+
         return t;
-        
+
     };
     /** @param {TElement} t @this {YElement} */
     static #deceit(t) {
-        
+
         try {
-            
-            FElement.#verify.apply(this, arguments);
-            
+
+            FElement.#verify(t);
+
         } catch (e) {
-            
+
             throw e;
-            
+
         };
-        
+
     };
     /** @param {TElement} t @this {YElement} */
     static #verify(t) {
-        
+
         const {
-            
-            
-            
+
+
+
         } = t;
-        
-        FElement.#handle.apply(this, arguments);
-        
+
+        FElement.#handle(t);
+
     };
     /** @param {TElement} t @this {YElement} */
     static #handle(t) {
-        
+
         let {
-            
-            
-            
+
+
+
         } = t;
-        
-        
-        
+
+        if (t.string) jectSupplement(t, elementStringDecompose(t.string));
+
         t = {
-            
+
             ...t,
-            
+
         };
-       
-        FElement.#create.apply(this, [t]);
-        
+
     };
     /** @param {TElement} t @this {YElement} */
     static #create(t) {
-        
+
         const {
-            
-            
-            
+
+
+
         } = t;
-        
-        jectFill.apply(this, [t]);
-        
-        this.element = (t.string) ? elementCreateByString(t.string) : elementCreate(
+
+        jectFill(this, t);
+
+        this.element = elementCreate(
 
             t.type,
             t.id,
@@ -118,11 +120,13 @@ class FElement extends DElement {
             t.overId,
             t.overTypes,
             t.overClasses,
+            t.text,
+            t.property,
 
-        ); 
-        
+        );
+
     };
-    
+
 };
 
 /**
@@ -132,7 +136,7 @@ class FElement extends DElement {
  * - Цепочка `BDVHC`
 */
 export class YElement extends FElement {
-    
-    
-    
+
+
+
 };

@@ -1,17 +1,17 @@
-/**
- * @typedef TBRout
- * 
- * @typedef {DRout&TBRout} TRout
-*/
-
 import { jectFill } from "../../../../../ject/ject.mjs";
 import { serverDefineContentType } from "../../../server.mjs";
 import { YServer } from "../../../YServer/YServer.mjs";
 import { YAPI } from "../../YAPI/YAPI.mjs";
 
+/**
+ * @typedef TBRout
+ * @prop {any} _
+ * @typedef {DRout&TBRout} TRout
+*/
+
 class SRout {
 
-    
+
 
 };
 class DRout extends SRout {
@@ -55,9 +55,11 @@ class FRout extends DRout {
 
         t = FRout.#before(...arguments);
 
+        FRout.#deceit(t);
+
         super(t);
 
-        FRout.#deceit.apply(this, [t]);
+        FRout.#create.apply(this, [t]);
 
     };
 
@@ -66,8 +68,9 @@ class FRout extends DRout {
 
 
 
-        if (!t) return {};
-        else if (t) return t;
+        if (!t) t = {};
+
+        return t;
 
     };
     /** @param {TRout} t @this {YRout} */
@@ -75,7 +78,7 @@ class FRout extends DRout {
 
         try {
 
-            FRout.#verify.apply(this, arguments);
+            FRout.#verify(t);
 
         } catch (e) {
 
@@ -93,7 +96,7 @@ class FRout extends DRout {
 
         } = t;
 
-        FRout.#handle.apply(this, arguments);
+        FRout.#handle(t);
 
     };
     /** @param {TRout} t @this {YRout} */
@@ -113,8 +116,6 @@ class FRout extends DRout {
 
         };
 
-        FRout.#create.apply(this, [t]);
-
     };
     /** @param {TRout} t @this {YRout} */
     static #create(t) {
@@ -125,7 +126,7 @@ class FRout extends DRout {
 
         } = t;
 
-        jectFill.apply(this, [t]);
+        jectFill(this, t);
 
 
 
@@ -162,7 +163,7 @@ export class YRout extends FRout {
 
     };
     logInfo() {
-        
+
     };
     getInfo() {
 

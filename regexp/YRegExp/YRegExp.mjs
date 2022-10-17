@@ -1,12 +1,12 @@
+import { jectFill } from "../../ject/ject.mjs";
+import { regexpSplit } from "../regexp.mjs";
+import { YRegExpVariate } from "./YRegExpVariate/YRegExpVariate.mjs";
+
 /**
  * @typedef TBRegExp
  * @prop {any} _
  * @typedef {DRegExp&TBRegExp} TRegExp
 */
-
-import { jectFill } from "../../ject/ject.mjs";
-import { regexpSplit } from "../regexp.mjs";
-import { YRegExpVariate } from "./YRegExpVariate/YRegExpVariate.mjs";
 
 class SRegExp {
     

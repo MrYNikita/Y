@@ -1,31 +1,31 @@
-/**
- * @typedef TBDirectory
- * @prop {any} _
- * @typedef {DDirectory&TBDirectory&import("../../YFile.mjs").TFile} TDirectory
-*/
-
 import { YBFile, YFile } from "../../YFile.mjs";
 import { jectFill } from "../../../../../ject/ject.mjs";
 import { pathDecompose, pathGet, pathGetAll } from "../../../../path/path.mjs";
 import { directoryGetDir, directoryGetFile } from "../directory.mjs";
 import { fileREExpand, fileRELocation, fileREName } from "../../../file.mjs";
 
+/**
+ * @typedef TBDirectory
+ * @prop {any} _
+ * @typedef {DDirectory&TBDirectory&import("../../YFile.mjs").TFile} TDirectory
+*/
+
 class SDirectory extends YBFile {
-    
-    
-    
+
+
+
 };
 class DDirectory extends SDirectory {
-    
+
     /**
      * Массив путей к фалйам и папкам директории.
      * @type {[string]}
     */
     paths;
-    
+
 };
 class FDirectory extends DDirectory {
-    
+
     /**
      * 
      * - Версия `0.0.0`
@@ -33,22 +33,24 @@ class FDirectory extends DDirectory {
      *  @param {TDirectory} t
     */
     constructor(t = {}) {
-        
+
         t = FDirectory.#before(...arguments);
-        
+
+        FDirectory.#deceit(t);
+
         super(t);
-        
-        FDirectory.#deceit.apply(this, [t]);
-        
+
+        FDirectory.#create.apply(this, [t]);
+
     };
-    
+
     /** @param {TDirectory} t @this {[]} */
     static #before(t) {
-        
+
         if (t.constructor === String) {
-            
+
             const name = t.match(fileREName)[1], location = t.match(fileRELocation)?.[0];
-            
+
             t = {};
 
             if (location) t.location = location;
@@ -56,72 +58,71 @@ class FDirectory extends DDirectory {
             t.name = name;
 
         };
-        
-        if (!t) return {};
-        else if (t) return t;
-        
+
+        if (!t) t = {};
+
+        return t;
+
     };
     /** @param {TDirectory} t @this {YDirectory} */
     static #deceit(t) {
-        
+
         try {
-            
-            FDirectory.#verify.apply(this, arguments);
-            
+
+            FDirectory.#verify(t);
+
         } catch (e) {
-            
+
             throw e;
-            
+
         };
-        
+
     };
     /** @param {TDirectory} t @this {YDirectory} */
     static #verify(t) {
-        
+
         const {
-            
-            
-            
+
+
+
         } = t;
-        
-        FDirectory.#handle.apply(this, arguments);
-        
+
+        FDirectory.#handle(t);
+
     };
     /** @param {TDirectory} t @this {YDirectory} */
     static #handle(t) {
-        
+
         let {
-            
-            
-            
+
+
+
         } = t;
-        
+
         t.expand = 'dir';
-        
+
         t = {
-            
+
             ...t,
-            
+
         };
-       
-        FDirectory.#create.apply(this, [t]);
-        
+
     };
     /** @param {TDirectory} t @this {YDirectory} */
     static #create(t) {
-        
+
         const {
-            
-            
-            
+
+
+
         } = t;
-        
-        jectFill.apply(this, [t]);
+
+        jectFill(this, t);
 
         this.paths = pathGetAll(this.getPath() + '/');
-        
+
     };
-    
+
 };
 
 /**
@@ -131,7 +132,7 @@ class FDirectory extends DDirectory {
  * - Цепочка `BDVHC`
 */
 export class YBDirectory extends FDirectory {
-    
+
     getDir(fragment) {
 
         if (!this.deleted) {
@@ -178,7 +179,7 @@ export class YBDirectory extends FDirectory {
         else return name;
 
     };
-    
+
 };
 /**
  *
@@ -187,7 +188,7 @@ export class YBDirectory extends FDirectory {
  * - Цепочка `BDVHC`
 */
 export class YDirectory extends YBDirectory {
-    
+
     getNameFull() {
 
         const {
@@ -200,5 +201,5 @@ export class YDirectory extends YBDirectory {
         return `${this.location}/${this.name}`;
 
     };
-    
+
 };
