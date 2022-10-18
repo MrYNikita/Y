@@ -94,7 +94,7 @@ export function stringPad(string, pad, count, index = string.length) {
 };
 
 //#endregion
-//#region find 0.0.0
+//#region find 0.0.1
 
 /**
  * @typedef TBfind
@@ -146,6 +146,11 @@ function findHandle(t) {
 
         if (e.constructor === String) a[i] = new RegExp(e, 'y');
         else if (!e.flags.includes('y')) a[i] = new RegExp(e, e.flags + 'y');
+
+    }); else t.fragments = t.fragments.map(e => {
+
+        if (e.constructor === String) return new RegExp(e);
+        else return e;
 
     });
 
@@ -796,7 +801,7 @@ export function stringFilter(string, ...filters) {
 };
 
 //#endregion
-//#region handle 0.0.1
+//#region handle 0.0.2
 
 /**
  * @typedef TBhandle
@@ -878,7 +883,7 @@ function handleComply(t) {
         if (f.flags.includes('g')) fs = Array.from(result.matchAll(f)).reverse();
         else fs = [result.match(f)];
 
-        fs.forEach(m => result = stringPaste(result, handle(m[0]), m.index, m[0].length));
+        fs.forEach(m => (m) ? result = stringPaste(result, handle(m[0]), m.index, m[0].length) : 0);
 
     });
 

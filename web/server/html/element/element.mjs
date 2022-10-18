@@ -1,12 +1,14 @@
 import { YString } from "../../../../string/YString/YString.mjs";
 import { arrayReplace } from "../../../../array/array.mjs";
 import { config, configHtml, configHtmlElement } from "../../../../config.mjs";
+import { stringFind } from "../../../../string/string.mjs";
 
 /**
  * Регулярное выражение для поиска строк создания элементов.
+ * - Версия `0.0.3`
  * @type {RegExp}
 */
-export const elementREString = /((([!#.]\w+|([^:]|\^[!#.])(\w+,? ?)+\]|:.+:|\w+=\d+(\.\d+)?([%]|px|[pe]m)?|\w+=\w+| \w+|<.*>) ?)+\/?)+/gs;
+export const elementREString = /((([!#.]\w+|(\.|\^[!#.])(\w+ ?)+\]|:.+:|\w+=\d+(\.\d+)?([%]|px|[pe]m)?|\w+=\w+| \w+|<.*>) ?)+\/)+/gs;
 /**
  * Регулярное выражение для поиска и проверки классов в строке создания элементов.
  * @type {RegExp}
@@ -31,7 +33,7 @@ export const elementREClasses = /(?:^| )\.(?<f>(\w+ ?)+)+\]/;
  * Регулярное выражение для поиска и проверки над ID в строке создания элементов.
  * @type {RegExp}
 */
-export const elementREOverId =/(?:^| )\^\#(?<f>(\w+ ?)+)+\]/;
+export const elementREOverId = /(?:^| )\^\#(?<f>(\w+ ?)+)+\]/;
 /**
  * Регулярное выражение для поиска и проверки над типов в строке создания элементов.
  * @type {RegExp}
@@ -443,19 +445,17 @@ function stringDecomposeComply(t) {
         string,
 
     } = t;
-
+    
     const ystr = new YString(string.match(elementREString)[0]);
-
-    console.log(ystr.get());
 
     let childs = ystr.extract(/<(?<f>.*)>/s)?.match(elementREString) ?? [];
     let text = ystr.extract(elementREText);
+    let classes = ystr.extract(elementREClasses)?.split(' ') ?? [];
     let overClasses = ystr.extract(elementREOverClasses)?.split(' ') ?? [];
     let overTypes = ystr.extract(elementREOverTypes)?.split(' ') ?? [];
     let overId = ystr.extract(elementREOverId)?.split(' ') ?? [];
     let id = ystr.extract(elementREId);
     let type = ystr.extract(elementREType);
-    let classes = ystr.extract(elementREClasses)?.split(' ') ?? [];
     let property = ystr.extract(elementREProperty);
 
     return {
