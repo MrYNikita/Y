@@ -86,8 +86,8 @@ export const config = {
 
         templates: {
 
-            notice: `<t> - <m>`,
-            notices: `<t> - <s> - <m>`,
+            notice: `t - d`,
+            section: `t - s - d`,
 
         },
 

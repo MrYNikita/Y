@@ -87,7 +87,7 @@ function defineContentTypeComply(t) {
         case 'html': return 'text/html';
         case 'text': return 'text/plaint';
         case 'json': return 'application/json';
-        case 'js': case 'cjs': case 'mjs': return 'text/javascript';
+        case 'js': case 'cjs': case 'mjs': return 'application/javascript';
         default: return 'text/plain';
 
     };

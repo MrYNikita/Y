@@ -8,7 +8,7 @@ import { stringFind } from "../../../../string/string.mjs";
  * - Версия `0.0.3`
  * @type {RegExp}
 */
-export const elementREString = /((([!#.]\w+|(\.|\^[!#.])(\w+ ?)+\]|:.+:|\w+=\d+(\.\d+)?([%]|px|[pe]m)?|\w+=\w+| \w+|<.*>) ?)+\/)+/gs;
+export const elementREString = /((([!#.]\w+|(\.|\^[!#.])(\w+ ?)+\]|:.+:|\w+=\d+(\.\d+)?([%]|px|[pe]m)?|\w+=\w+| \w+|<.*>) ?)+\/)/gs;
 /**
  * Регулярное выражение для поиска и проверки классов в строке создания элементов.
  * @type {RegExp}
@@ -269,14 +269,15 @@ function createComply(t) {
  * @param {string} id ID.
  * @param {string} text Текст.
  * @param {string} type Тип.
+ * @param {[string]} childs Вложенные элементы. 
  * @param {[string]} classes Классы.
  * @param {[string]} overId Над элементы.
  * @param {[string]} overTypes Над классы.
  * @param {[string]} OverClasses Над типы.
 */
-export function elementCreate(type = configHtml.element.create.defaultType, id, classes, overId, overTypes, overClasses, text, property) {
+export function elementCreate(type = configHtml.element.create.defaultType, id, classes, overId, overTypes, overClasses, childs, text, property) {
 
-    return createDeceit({ id, type, classes, overId, overTypes, overClasses, text, property });
+    return createDeceit({ id, type, classes, overId, overTypes, overClasses, childs, text, property });
 
 };
 /**

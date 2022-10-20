@@ -7,6 +7,7 @@ import { jectFill } from "../../../ject/ject.mjs";
 import { YDirectory } from "../../../os/file/YFile/directory/YDirectory/YDirectory.mjs";
 import { stringRepaint } from "../../../string/string.mjs";
 import { configServer, configWeb } from "../../../config.mjs";
+import { YLog } from "../../../log/YLog/YLog.mjs";
 
 /**
  * @typedef TBServer
@@ -25,6 +26,30 @@ class SServer {
 class DServer extends SServer {
 
     /**
+     * Журнал.
+     * @type {YLog}
+    */
+    log = new YLog().appendSection(
+
+        {
+            label: 'error',
+            symbol: 'x',
+        },
+        {
+
+            label: 'notic',
+            symbol: '!'
+
+        },
+        {
+
+            label: 'info',
+            symbol: '*',
+
+        }
+
+    );
+    /**
      * `API`.
      * @type {YAPI}
     */
@@ -33,7 +58,7 @@ class DServer extends SServer {
      * Директория данных сервера.
      * @type {YDirectory}
     */
-    dir = new YDirectory({ location: '.test', name: 'source' });
+    dir;
     /**
      * Наименование сервера.
      * @type {string}
@@ -54,11 +79,6 @@ class DServer extends SServer {
      * @type {http.Server}
     */
     serv;
-    /**
-     * Массив событий сервера.
-     * @type {[string]}
-    */
-    logs = [];
     /**
      * Подключения к серверу.
      * @type {[Socket]}
@@ -174,16 +194,10 @@ export class YServer extends FServer {
 
         this.serv.listen(this.port, this.host, async () => {
 
-            this.logs.push(`Сервер ${this.name} начал прослушивание порта ${this.port} по хосту ${this.host}.`);
-
-        }).on('connection', (socket) => {
-
-            this.socks.push(socket);
-            this.logs.push(`Сервер ${this.name} фиксирует попытку подключения.`);
+            
 
         }).on('request', (req, res) => {
 
-            this.logs.push(`Сервер ${this.name} успешно отправил данные.`);
             this.api.exec(req, res);
 
         });
@@ -200,17 +214,6 @@ export class YServer extends FServer {
         });
 
         return this;
-
-    };
-    log() {
-
-        console.log(
-
-            new YString(this.logs.join('\n'))
-                .append(`Логи ${this.name}:\n---\n`, 0)
-                .get()
-
-        );
 
     };
     getUrl() {
@@ -244,7 +247,6 @@ export class YServer extends FServer {
             Сервер: ${name};
             Порт: ${port};
             Хост: ${host};
-            Сообщения: ${logs.length};
             Директория: ${dir.getPath()};
             Подключения: ${socks.length};
             url: ${host}:${port};

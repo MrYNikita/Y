@@ -1,7 +1,7 @@
-import { jectFill } from "../../../../../ject/ject.mjs";
-import { stringFind, stringHandle, stringReplace } from "../../../../../string/string.mjs";
 import { YString } from "../../../../../string/YString/YString.mjs";
+import { jectFill } from "../../../../../ject/ject.mjs";
 import { YElementStyle } from "../../element/YElement/YElementStyle/YElementStyle.mjs";
+import { stringFind, stringHandle, stringReplace } from "../../../../../string/string.mjs";
 
 /**
  * @typedef TBStyle

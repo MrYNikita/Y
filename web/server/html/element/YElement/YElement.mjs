@@ -7,6 +7,7 @@ import { elementCreate, elementCreateByString, elementStringDecompose } from "..
  * @prop {string} id
  * @prop {string} type
  * @prop {string} text
+ * @prop {[string]} childs
  * @prop {[string]} classes
  * @prop {[string]} overId
  * @prop {[string]} overTypes
@@ -110,6 +111,8 @@ class FElement extends DElement {
 
         } = t;
 
+        console.log(t);
+
         jectFill(this, t);
 
         this.element = elementCreate(
@@ -120,6 +123,7 @@ class FElement extends DElement {
             t.overId,
             t.overTypes,
             t.overClasses,
+            t.childs,
             t.text,
             t.property,
 

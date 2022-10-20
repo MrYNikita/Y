@@ -173,13 +173,13 @@ function removeComply(t) {
 
     } = t;
 
-    elements.forEach(e => {
+    if (elements.length) elements.forEach(e => {
 
         const i = array.indexOf(e);
 
         if (i !== -1) array.splice(i, 1);
 
-    });
+    }); else array.splice(0);
 
     return array;
 
@@ -187,7 +187,7 @@ function removeComply(t) {
 
 /**
  * Функция для удаления элементов из исходного массива.
- * - Версия `0.0.0`
+ * - Версия `0.1.0`
  * - Цепочка `DVHCa`
  * 
 */
@@ -279,7 +279,7 @@ export function arrayUnique(array) {
 };
 
 //#endregion
-//#region append 0.0.0
+//#region append 0.0.1
 
 /**
  * @typedef TBappend
@@ -345,6 +345,8 @@ function appendComply(t) {
     } = t;
 
     elements.forEach(e => array.push(e));
+
+    return array;
 
 };
 

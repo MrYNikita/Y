@@ -1,3 +1,5 @@
+import fs from 'fs';
+import http from 'http';
 import { YRout } from "../rout/YRout/YRout.mjs";
 import { YServer } from "../../YServer/YServer.mjs";
 import { YString } from "../../../../string/YString/YString.mjs";
@@ -181,7 +183,9 @@ export class YAPI extends FAPI {
         if (f) {
 
             res.setHeader('Content-Type', serverDefineContentType(f.match(fileREExpand)[1]));
-            res.end(fileReadText(f));
+
+            fs.createReadStream(f).pipe(res);
+
             return this;
 
         };
