@@ -1108,7 +1108,6 @@ function repaintComply(t) {
  * @param {string} string
  * @param {boolean} bright
  * @param {boolean} background
- * @return {string}
 */
 export function stringRepaint(string, color, bright, background) {
 
@@ -1432,6 +1431,9 @@ function getColorComply(t) {
  * Функция для определения цвета.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
+ * @param {string} color
+ * @param {boolean} bright
+ * @param {boolean} background
 */
 export function stringGetColor(color, bright, background) {
 

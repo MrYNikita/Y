@@ -6,7 +6,7 @@ import { YString } from "../../../string/YString/YString.mjs";
 import { jectFill } from "../../../ject/ject.mjs";
 import { YDirectory } from "../../../os/file/YFile/directory/YDirectory/YDirectory.mjs";
 import { stringRepaint } from "../../../string/string.mjs";
-import { configServer, configWeb } from "../../../config.mjs";
+import { config, configServer, configWeb } from "../../../config.mjs";
 import { YLog } from "../../../log/YLog/YLog.mjs";
 
 /**
@@ -73,7 +73,7 @@ class DServer extends SServer {
      * Хост.
      * @type {string}
     */
-    host = osGetIP();
+    host = osGetIP(config.local);
     /**
      * Сервер.
      * @type {http.Server}

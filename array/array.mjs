@@ -108,6 +108,97 @@ export function arrayMix(array, degree = 1) {
 };
 
 //#endregion
+//#region paste 0.0.0
+
+/**
+ * @typedef TBpaste
+ * @prop {[]} array
+ * @prop {[]} elements
+ * @prop {number} index
+ * @typedef {TBpaste} Tpaste
+*/
+  
+/** @param {Tpaste} t */
+function pasteDeceit(t) {
+    
+    try {
+        
+        return pasteVerify(t);
+        
+    } catch (e) {
+        
+        if (config.strict) throw e;
+        
+        return undefined;
+        
+    };
+    
+};
+/** @param {Tpaste} t */
+function pasteVerify(t) {
+    
+    const {
+    
+    
+    
+    } = t;
+    
+    return pasteHandle(t);
+   
+};
+/** @param {Tpaste} t */
+function pasteHandle(t) {
+   
+    let {
+    
+    
+    
+    } = t;
+    
+    
+    
+    t = {
+        
+        ...t,
+        
+    };
+   
+    return pasteComply(t);
+   
+};
+/** @param {Tpaste} t */
+function pasteComply(t) {
+   
+    const {
+    
+        array,
+        index,
+        elements,
+    
+    } = t;
+    
+    arrayAppend(elements, ...array.splice(index, 1));
+    array.splice(index, 0, ...elements);
+    
+    return array;
+    
+};
+
+/**
+ * Функция вставки в массив элемента со сдвигом.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @param {[]} array Исходный массив.
+ * @param {number} index Индекс сдвига.
+ * @param {...any} elements Элементы вставки.
+*/
+export function arrayPaste(array, index, ...elements) {
+
+    return pasteDeceit({ array, index, elements, });
+
+};
+
+//#endregion
 //#region remove 0.0.0
 
 /**
