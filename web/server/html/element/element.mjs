@@ -465,8 +465,9 @@ function stringDecomposeComply(t) {
         type,
         text,
         childs,
-        classes,
         overId,
+        classes,
+        property,
         overTypes,
         overClasses,
 

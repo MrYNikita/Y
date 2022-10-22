@@ -123,7 +123,7 @@ export class YLog extends FLog {
     
     get() {
 
-        return this.list.map(s => s.list).flat().sort((p, c) => p.index - c.index);
+        return this.list.map(s => s.get()).flat().sort((p, c) => p.index - c.index);
 
     };
     log() {
@@ -165,36 +165,6 @@ export class YLog extends FLog {
             });
 
         });
-
-        // notices.forEach(n => {
-
-        //     const a = n.splice(1);
-        //     const s = this.list.find(s => s.label === n[0] || s.symbol === n[0]);
-        //     const l = this.get();
-
-        //     if (l.length) {
-
-        //         const i = s.list.length + a.length - s.size - 1;
-        //         const j = (i < 0) ? null : s.list[i];
-
-        //         if (j) {
-                    
-        //             l.forEach(n => (n.index > j.index) ? n.index -= i + 1 : 0);
-        //             s.append(...a.map((n, i) => new YNotice({ data: n, index: l.length - i - 1 })));
-
-        //         } else {
-
-        //             s.append(...a.map((n, i) => new YNotice({ data: n, index: l.length + i })));
-
-        //         };
-
-        //     } else {
-
-        //         s.append(...a.map((n, i) => new YNotice({ data: n, index: i })));
-
-        //     };
-
-        // });
 
         return this;
 

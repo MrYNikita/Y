@@ -87,7 +87,7 @@ export const config = {
         templates: {
 
             notice: `t - d`,
-            section: `t - s - d`,
+            section: `s - d`,
 
         },
 

@@ -11,7 +11,7 @@ import { YNotice } from "../YNotice.mjs";
 */
 class SSection {
 
-
+    
 
 };
 class DSection extends SSection {
@@ -41,6 +41,16 @@ class DSection extends SSection {
      * @type {string}
     */
     symbol;
+    /**
+     * Цвет переднего фона.
+     * @type {string}
+    */
+    colorF;
+    /**
+     * Цвет заднего плана.
+     * @type {string}
+    */
+    colorB;
 
 };
 class FSection extends DSection {
@@ -148,7 +158,15 @@ export class YSection extends FSection {
     */
     log() {
 
-        console.log(this.get());
+        const {
+
+            colorF,
+            colorB,
+
+        } = this;
+
+        if (colorF || colorB) this.get().forEach(n => stringReplace(n.get(), [/.*? - (?<r>.*?) -/, ]));
+        else this.get().forEach(n => n.log());
 
         return this;
 
@@ -167,14 +185,7 @@ export class YSection extends FSection {
 
         } = this;
 
-        return list.sort((p, c) => p.date - c.date).map(n => stringReplace(
-            
-            configLog.templates.section,
-            ['t', stringCastToDate(n.date)],
-            ['s', symbol ?? label],
-            ['d', n.data]
-            
-        ));
+        return this.list.map(n => new YNotice({ ...n, data: stringReplace(configLog.templates.section, ['s', this.symbol ?? this.label], ['d', n.data]) }));
 
     };
     /**

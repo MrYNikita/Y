@@ -138,7 +138,7 @@ function findHandle(t) {
 
     let {
 
-        variated,        
+        variated,
 
     } = t;
 
@@ -762,7 +762,7 @@ function filterHandle(t) {
 
     } = t;
 
-    
+
 
     t = {
 
@@ -1003,7 +1003,7 @@ function replaceComply(t) {
             if (m) {
 
                 if (!m?.groups?.r) m.groups = { r: m[0] };
-                
+
                 result = result.replace(m[0], m[0].replace(m.groups.r, p[1]));
             };
 
@@ -1096,29 +1096,7 @@ function repaintComply(t) {
 
     } = t;
 
-    for (const c of Object.entries({
-
-        red: 31,
-        cyan: 36,
-        blue: 34,
-        black: 30,
-        green: 32,
-        white: 37,
-        yellow: 33,
-        magenta: 35,
-
-    })) {
-
-        if (c[0].includes(color)) {
-
-            if (background) c[1] += 10;
-            if (color.includes('bright') || bright) c[1] += 60;
-
-            return `\x1b[${c[1]}m${string}\x1b[${(background) ? 49 : 39}m`;
-
-        };
-
-    };
+    return `${stringGetColor(color, bright, background)}${string}${stringGetColor('reset', 0, background)}`;
 
 };
 
@@ -1355,6 +1333,109 @@ function generateWordComply(t) {
 export function stringGenerateWord(syllable = numberGetRandomReal(1, 3), begin = '', end = '', delimetr = '', camelCase = false, cutLast = true) {
 
     return generateWordDeceit({ syllable, begin, end, delimetr, camelCase, cutLast });
+
+};
+
+//#endregion
+
+//#region getColor 0.0.0
+
+/**
+ * @typedef TBgetColor
+ * @prop {string} color
+ * @prop {boolean} bright
+ * @prop {boolean} background
+ * @typedef {TBgetColor} TgetColor
+*/
+
+/** @param {TgetColor} t */
+function getColorDeceit(t) {
+
+    try {
+
+        return getColorVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @param {TgetColor} t */
+function getColorVerify(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return getColorHandle(t);
+
+};
+/** @param {TgetColor} t */
+function getColorHandle(t) {
+
+    let {
+
+
+
+    } = t;
+
+
+
+    t = {
+
+        ...t,
+
+    };
+
+    return getColorComply(t);
+
+};
+/** @param {TgetColor} t */
+function getColorComply(t) {
+
+    const {
+
+        color,
+        bright,
+        background,
+
+    } = t;
+
+    let result = Object.entries({
+
+        red: 31,
+        cyan: 36,
+        blue: 34,
+        reset: 39,
+        black: 30,
+        green: 32,
+        white: 37,
+        yellow: 33,
+        magenta: 35,
+
+    }).find(c => c[0].match(new RegExp(color)));
+
+    if (background) result[1] += 10;
+    if (bright && result[0] !== 'reset') result[1] += 60;
+
+    return `\x1b[${result[1]}m`;
+
+};
+
+/**
+ * Функция для определения цвета.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+*/
+export function stringGetColor(color, bright, background) {
+
+    return getColorDeceit({ color, bright, background });
 
 };
 
