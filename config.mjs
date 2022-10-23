@@ -77,6 +77,12 @@ export const config = {
             permissionDelete: true,
 
         },
+        stream: {
+
+            label: 'ystream',
+
+
+        },
 
     },
     log: {
@@ -84,6 +90,13 @@ export const config = {
         size: 100,
         visiable: 10,
 
+        section: [
+
+            { label: 'info', symbol: '*' },
+            { label: 'error', symbol: 'x' },
+            { label: 'warner', symbol: '!' },
+
+        ],
         templates: {
 
             notice: `t - d`,
@@ -200,6 +213,7 @@ export const config = {
 export const configOS = config.os;
 export const configPath = config.os.path;
 export const configFile = config.os.file;
+export const configStream = config.os.stream;
 
 export const configWeb = config.web;
 export const configServer = configWeb.server;

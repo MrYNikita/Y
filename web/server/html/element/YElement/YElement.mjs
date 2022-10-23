@@ -111,8 +111,6 @@ class FElement extends DElement {
 
         } = t;
 
-        console.log(t);
-
         jectFill(this, t);
 
         this.element = elementCreate(

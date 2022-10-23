@@ -1,3 +1,4 @@
+import { configLog } from "../../config.mjs";
 import { jectFill } from "../../ject/ject.mjs";
 import { YNotice } from "../YNotice/YNotice.mjs";
 import { YSection } from "../YNotice/YSection/YSection.mjs";
@@ -19,7 +20,7 @@ class DLog extends SLog {
      * Секции.
      * @type {[YSection]}
     */
-    list = [];
+    list = configLog.section.map(s => new YSection(s));
     
 };
 class FLog extends DLog {
@@ -126,7 +127,19 @@ export class YLog extends FLog {
         return this.list.map(s => s.get()).flat().sort((p, c) => p.index - c.index);
 
     };
-    log() {
+    /**
+     * Метод для копирования журнала.
+     * - Версия `0.0.0`
+    */
+    copy() {
+
+        return new YLog(this);
+
+    };
+    /**
+     * Метод для отображения записей журнала.
+    */
+    report() {
 
         this.get().forEach(n => console.log(n.get()));
 

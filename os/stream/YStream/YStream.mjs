@@ -1,5 +1,7 @@
 import { Duplex } from 'stream';
 import { jectFill } from "../../../ject/ject.mjs";
+import { YLog } from '../../../log/YLog/YLog.mjs';
+import { YString } from '../../../string/YString/YString.mjs';
 
 /**
  * @typedef TBStream
@@ -14,7 +16,22 @@ class SStream extends Duplex {
 };
 class DStream extends SStream {
     
-    
+    /**
+     * Журнал.
+     * @type {YLog}
+    */
+    log = new YLog().appendSection(
+
+        { label: 'info', symbol: '*' },
+        { label: 'noric', symbol: '!' },
+        { label: 'error', symbol: 'x' },
+
+    );
+    /**
+     * Метка потока.
+     * @type {string}
+    */
+    label;
     
 };
 class FStream extends DStream {
@@ -116,6 +133,10 @@ class FStream extends DStream {
 */
 export class YStream extends FStream {
     
-    
+    report() {
+
+
+
+    };
     
 };
