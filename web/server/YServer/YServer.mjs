@@ -192,6 +192,8 @@ export class YServer extends FServer {
 
     on() {
 
+        this.log.appendNotice(['!', 'Запущен сервер.']);
+
         this.serv.listen(this.port, this.host, async () => {
 
             
@@ -216,6 +218,17 @@ export class YServer extends FServer {
         return this;
 
     };
+    report() {
+
+        console.log(this.getInfo()
+            .handle(s => '', /\n\n| {2,}/g)
+            .handle(s => s.replace(/[\w\d]+/g, stringRepaint('$&', 'c')), /:.+?;/g)
+            .get()
+        );
+
+        return this;
+
+    };
     getUrl() {
 
         const {
@@ -234,10 +247,10 @@ export class YServer extends FServer {
 
             api,
             dir,
+            log,
             name,
             port,
             host,
-            logs,
             socks,
 
         } = this;
@@ -253,19 +266,10 @@ export class YServer extends FServer {
             ---
             Пути: ${api.routs.length};
             ${api.routs.map(r => r.getInfo()).join(';\n')};
+            ---
+            ${log.get().map(n => n.get())}
 
         `);
-
-    };
-    logInfo() {
-
-        console.log(this.getInfo()
-            .handle(s => '', /\n\n| {2,}/g)
-            .handle(s => s.replace(/[\w\d]+/g, stringRepaint('$&', 'c')), /:.+?;/g)
-            .get()
-        );
-
-        return this;
 
     };
 

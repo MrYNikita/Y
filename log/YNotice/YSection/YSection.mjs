@@ -11,7 +11,7 @@ import { YNotice } from "../YNotice.mjs";
 */
 class SSection {
 
-    
+
 
 };
 class DSection extends SSection {
@@ -153,39 +153,12 @@ class FSection extends DSection {
 export class YSection extends FSection {
 
     /**
-     * Метод для отображения уведомлений.
-     * - Версия `0.0.0`
-    */
-    log() {
-
-        const {
-
-            colorF,
-            colorB,
-
-        } = this;
-
-        if (colorF || colorB) this.get().forEach(n => stringReplace(n.get(), [/.*? - (?<r>.*?) -/, ]));
-        else this.get().forEach(n => n.log());
-
-        return this;
-
-    };
-    /**
-     * Метод для получения всех уведомлений в виде строки.
+     * Метод для получения массива уведомлений, преобразованных в строки.
      * - Версия `0.0.0`
     */
     get() {
 
-        const {
-
-            list,
-            label,
-            symbol,
-
-        } = this;
-
-        return this.list.map(n => new YNotice({ ...n, data: stringReplace(configLog.templates.section, ['s', this.symbol ?? this.label], ['d', n.data]) }));
+        return this.list.map(n => stringReplace(configLog.templates.section, ['d', n.get()], ['s', this.symbol ?? this.label]));
 
     };
     /**
@@ -208,6 +181,22 @@ export class YSection extends FSection {
         else if (notices.length > size) arrayAppend(arrayRemove(list), ...notices.splice(notices.length - size));
         else if (notices.length + list.length > size) arrayAppend(list, ...notices).splice(0, list.length - size);
         else arrayAppend(list, ...notices);
+
+        return this;
+
+    };
+    /**
+     * Метод для отображения уведомлений.
+     * - Версия `0.0.0`
+    */
+    display() {
+
+        const {
+
+            colorF,
+            colorB,
+
+        } = this;
 
         return this;
 

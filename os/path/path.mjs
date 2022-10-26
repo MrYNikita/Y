@@ -2,6 +2,7 @@ import { arrayAppend } from "../../array/array.mjs";
 import { existsSync, lstatSync, readdirSync } from "fs";
 import { config, configOS, configPath, } from "../../config.mjs";
 import { fileREName, fileREPart } from "../file/file.mjs";
+import { stringFind } from "../../string/string.mjs";
 
 //#region get 0.0.1
 
@@ -148,6 +149,87 @@ export function pathGetIn(paths, fragment) {
 export function pathGetAll(fragment = '.', limit) {
 
     return getDeceit({ fragment, limit });
+
+};
+
+//#endregion
+//#region getDisk 0.0.0
+
+/**
+ * @typedef TBgetDisk
+ * 
+ * @typedef {TBgetDisk} TgetDisk
+*/
+  
+/** @param {TgetDisk} t */
+function getDiskDeceit(t) {
+    
+    try {
+        
+        return getDiskVerify(t);
+        
+    } catch (e) {
+        
+        if (config.strict) throw e;
+        
+        return undefined;
+        
+    };
+    
+};
+/** @param {TgetDisk} t */
+function getDiskVerify(t) {
+    
+    const {
+    
+    
+    
+    } = t;
+    
+    return getDiskHandle(t);
+   
+};
+/** @param {TgetDisk} t */
+function getDiskHandle(t) {
+   
+    let {
+    
+    
+    
+    } = t;
+    
+    
+    
+    t = {
+        
+        ...t,
+        
+    };
+   
+    return getDiskComply(t);
+   
+};
+/** @param {TgetDisk} t */
+function getDiskComply(t) {
+   
+    const {
+    
+    
+    
+    } = t;
+    
+    return stringFind(import.meta.url.slice(8), /(?<f>\w+?):/);
+    
+};
+
+/**
+ * Функция для получения текущего диска расположения проекта.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+*/
+export function pathGetDisk() {
+
+    return getDiskDeceit({});
 
 };
 
