@@ -234,6 +234,88 @@ export function pathGetDisk() {
 };
 
 //#endregion
+//#region getProject 0.0.0
+
+/**
+ * @typedef TBgetProject
+ * 
+ * @typedef {TBgetProject} TgetProject
+*/
+  
+/** @param {TgetProject} t */
+function getProjectDeceit(t) {
+    
+    try {
+        
+        return getProjectVerify(t);
+        
+    } catch (e) {
+        
+        if (config.strict) throw e;
+        
+        return undefined;
+        
+    };
+    
+};
+/** @param {TgetProject} t */
+function getProjectVerify(t) {
+    
+    const {
+    
+    
+    
+    } = t;
+    
+    return getProjectHandle(t);
+   
+};
+/** @param {TgetProject} t */
+function getProjectHandle(t) {
+   
+    let {
+    
+    
+    
+    } = t;
+    
+    
+    
+    t = {
+        
+        ...t,
+        
+    };
+   
+    return getProjectComply(t);
+   
+};
+/** @param {TgetProject} t */
+function getProjectComply(t) {
+   
+    const {
+    
+    
+    
+    } = t;
+    
+    return import.meta.url.slice(8).split('/').slice(0, -3).join('/');
+    
+};
+
+/**
+ * Функция для получения полного пути до проекта.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+*/
+export function pathGetProject() {
+
+    return getProjectDeceit({});
+
+};
+
+//#endregion
+
 //#region decompose 0.0.1
 
 /**
