@@ -143,7 +143,7 @@ export class YNotice extends FNotice {
 
             configLog.templates.notice,
             ['t', stringCastToDate(this.date)],
-            ['d', this.data]
+            ['d', stringReplace(this.data,[/\n/g, '\\n'])]
 
         );
 

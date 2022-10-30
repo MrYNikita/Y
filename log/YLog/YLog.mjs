@@ -10,21 +10,26 @@ import { YSection } from "../YNotice/YSection/YSection.mjs";
 */
 
 class SLog {
-    
-    
-    
+
+
+
 };
 class DLog extends SLog {
-    
+
     /**
      * Секции.
      * @type {[YSection]}
     */
     list = configLog.section.map(s => new YSection(s));
-    
+    /**
+     * Активация логирования.
+     * @type {boolean}
+    */
+    loged = true;
+
 };
 class FLog extends DLog {
-    
+
     /**
      * 
      * - Версия `0.0.0`
@@ -32,86 +37,86 @@ class FLog extends DLog {
      *  @param {TLog} t
     */
     constructor(t = {}) {
-        
+
         t = FLog.#before(...arguments);
-        
+
         FLog.#deceit(t);
-        
+
         super(t);
-        
+
         FLog.#create.apply(this, [t]);
-        
+
     };
-    
+
     /** @param {TLog} t @this {[]} */
     static #before(t) {
-        
-        
-        
+
+
+
         if (!t) t = {};
-        
+
         return t;
-        
+
     };
     /** @param {TLog} t @this {YLog} */
     static #deceit(t) {
-        
+
         try {
-            
+
             FLog.#verify(t);
-            
+
         } catch (e) {
-            
+
             throw e;
-            
+
         };
-        
+
     };
     /** @param {TLog} t @this {YLog} */
     static #verify(t) {
-        
+
         const {
-            
-            
-            
+
+
+
         } = t;
-        
+
         FLog.#handle(t);
-        
+
     };
     /** @param {TLog} t @this {YLog} */
     static #handle(t) {
-        
+
         let {
-            
-            
-            
+
+
+
         } = t;
-        
-        
-        
+
+
+
         t = {
-            
+
             ...t,
-            
+
         };
-        
+
     };
     /** @param {TLog} t @this {YLog} */
     static #create(t) {
-        
+
         const {
-            
-            
-            
+
+
+
         } = t;
-        
+
         jectFill(this, t);
-        
-        
-        
+
+
+
     };
-    
+
 };
 
 /**
@@ -121,7 +126,7 @@ class FLog extends DLog {
  * - Цепочка `BDVHC`
 */
 export class YLog extends FLog {
-    
+
     get() {
 
         return this.list.map(s => s.get()).flat().sort((p, c) => p.index - c.index);
@@ -139,9 +144,9 @@ export class YLog extends FLog {
     /**
      * Метод для отображения записей журнала.
     */
-    report() {
+    display() {
 
-        this.get().forEach(n => console.log(n.get()));
+        this.get().forEach(n => console.log(n));
 
         return this;
 
@@ -153,31 +158,35 @@ export class YLog extends FLog {
     */
     appendNotice(...notices) {
 
-        const list = this.get();
+        if (this.loged) {
 
-        notices.forEach(n => {
+            const list = this.get();
 
-            const section = this.list.find(s => s.label === n[0] || s.symbol === n[0]);
+            notices.forEach(n => {
 
-            n.splice(1).forEach(n => {
+                const section = this.list.find(s => s.label === n[0] || s.symbol === n[0]);
 
-                if (section.list.length === section.size) {
+                n.splice(1).forEach(n => {
 
-                    const i = list.indexOf(section.list[0]);
+                    if (section.list.length === section.size) {
 
-                    list.slice(i + 1).forEach(n => n.index -= 1);
-                    list.splice(i, 1);
+                        const i = list.indexOf(section.list[0]);
 
-                };
+                        list.slice(i + 1).forEach(n => n.index -= 1);
+                        list.splice(i, 1);
 
-                n = new YNotice({ data: n, index: (list.length) ? list.length : 0 });
+                    };
 
-                section.append(n);
-                list.push(n)
+                    n = new YNotice({ data: n, index: (list.length) ? list.length : 0 });
+
+                    section.append(n);
+                    list.push(n)
+
+                });
 
             });
 
-        });
+        };
 
         return this;
 
@@ -194,5 +203,5 @@ export class YLog extends FLog {
         return this;
 
     };
-    
+
 };

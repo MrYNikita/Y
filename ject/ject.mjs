@@ -82,6 +82,164 @@ export function jectFill(ject, filler) {
 };
 
 //#endregion
+//#region equal 0.0.0
+
+/**
+ * @typedef TBequal
+ * @prop {[Object]} jects
+ * @typedef {TBequal} Tequal
+*/
+  
+/** @param {Tequal} t */
+function equalDeceit(t) {
+    
+    try {
+        
+        return equalVerify(t);
+        
+    } catch (e) {
+        
+        if (config.strict) throw e;
+        
+        return undefined;
+        
+    };
+    
+};
+/** @param {Tequal} t */
+function equalVerify(t) {
+    
+    const {
+    
+    
+    
+    } = t;
+    
+    return equalHandle(t);
+   
+};
+/** @param {Tequal} t */
+function equalHandle(t) {
+   
+    let {
+    
+    
+    
+    } = t;
+    
+    
+    
+    t = {
+        
+        ...t,
+        
+    };
+   
+    return equalComply(t);
+   
+};
+/** @param {Tequal} t */
+function equalComply(t) {
+   
+    const {
+    
+        jects,
+    
+    } = t;
+    
+    while (jects.length) {
+        
+        const j = jects.pop();
+
+
+
+    };
+    
+};
+
+/**
+ * Функция для проверки объектов на идентичность.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @param {...Object} jects
+*/
+export function jectEqual(...jects) {
+
+    return equalDeceit({ jects });
+
+};
+
+//#endregion
+//#region display 0.0.0
+
+/**
+ * @typedef TBdisplay
+ * 
+ * @typedef {TBdisplay} Tdisplay
+*/
+  
+/** @param {Tdisplay} t */
+function displayDeceit(t) {
+    
+    try {
+        
+        return displayVerify(t);
+        
+    } catch (e) {
+        
+        if (config.strict) throw e;
+        
+        return undefined;
+        
+    };
+    
+};
+/** @param {Tdisplay} t */
+function displayVerify(t) {
+    
+    const {
+    
+    
+    
+    } = t;
+    
+    return displayHandle(t);
+   
+};
+/** @param {Tdisplay} t */
+function displayHandle(t) {
+   
+    let {
+    
+    
+    
+    } = t;
+    
+    
+    
+    t = {
+        
+        ...t,
+        
+    };
+   
+    return displayComply(t);
+   
+};
+/** @param {Tdisplay} t */
+function displayComply(t) {
+   
+    const {
+    
+    
+    
+    } = t;
+    
+    
+    
+};
+
+//#endregion
 //#region supplement 0.0.0
 
 /**

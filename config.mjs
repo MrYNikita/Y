@@ -181,6 +181,18 @@ export const config = {
     },
     string: {
 
+        ystring: {
+
+            fixed: true,
+            loged: false,
+            cursorRepeated: true,
+            templates: [
+
+                { label: 'line', value: '---\n' },
+
+            ],
+
+        },
         castToDate: {
 
             ru: '<d>.<m>.<y>-<hh>:<mm>:<ss>'
@@ -229,4 +241,6 @@ export const configFunc = config.func;
 export const configJect = config.ject;
 export const configError = config.error;
 export const configArray = config.array;
+
 export const configString = config.string;
+export const configYString = configString.ystring;

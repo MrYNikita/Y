@@ -1,14 +1,14 @@
 import http from "http";
 import crypto from "crypto";
-import { YLog } from "../../../log/YLog/YLog.mjs";
-import { YAPI } from "../api/YAPI/YAPI.mjs";
+import { YLog } from "../../../../log/YLog/YLog.mjs";
+import { YAPI } from "../../api/YAPI/YAPI.mjs";
 import { Socket } from "net";
-import { osGetIP } from "../../../os/os.mjs";
-import { YString } from "../../../string/YString/YString.mjs";
-import { jectFill } from "../../../ject/ject.mjs";
-import { YDirectory } from "../../../os/file/YFile/directory/YDirectory/YDirectory.mjs";
-import { stringRepaint } from "../../../string/string.mjs";
-import { config, configServer, configWeb } from "../../../config.mjs";
+import { osGetIP } from "../../../../os/os.mjs";
+import { YString } from "../../../../string/YString/YString.mjs";
+import { jectFill } from "../../../../ject/ject.mjs";
+import { YDirectory } from "../../../../os/file/YFile/directory/YDirectory/YDirectory.mjs";
+import { stringRepaint } from "../../../../string/string.mjs";
+import { config, configServer, configWeb } from "../../../../config.mjs";
 
 /**
  * @typedef TBServer
@@ -157,7 +157,7 @@ class FServer extends DServer {
 
         } = t;
 
-        if (t.dir.constructor === String) t.dir = new YDirectory(t.dir);
+        if (t.dir && t.dir.constructor === String) t.dir = new YDirectory(t.dir);
 
         t = {
 
@@ -197,7 +197,26 @@ export class YServer extends FServer {
 
         this.serv.listen(this.port, this.host, async () => {
 
-            
+
+
+        }).on('upgrade', (req, socket) => {
+
+            const k = crypto
+
+                .createHash('sha1')
+                .update(req.headers['sec-websocket-key'] + '258EAFA5-E914-47DA-95CA-C5AB0DC85B11')
+                .digest('base64')
+
+            socket.write([
+
+                'HTTP/1.1 101',
+                'upgrade: websocket',
+                'connection: upgrade',
+                `sec-webSocket-accept: ${k}`
+
+            ].join('\r\n'));
+
+            this.socks.add(socket);
 
         }).on('request', (req, res) => {
 
@@ -216,16 +235,17 @@ export class YServer extends FServer {
 
         });
 
+        this.socks = new Set();
+
         return this;
 
     };
     report() {
 
-        console.log(this.getInfo()
+        new YString(this.getInfo())
             .handle(s => '', /\n\n| {2,}/g)
             .handle(s => s.replace(/[\w\d]+/g, stringRepaint('$&', 'c')), /:.+?;/g)
-            .get()
-        );
+            .log()
 
         return this;
 
@@ -244,32 +264,24 @@ export class YServer extends FServer {
     };
     getInfo() {
 
-        const {
+        return new YString()
 
-            api,
-            dir,
-            log,
-            name,
-            port,
-            host,
-            socks,
-
-        } = this;
-
-        return new YString(`
-
-            Сервер: ${name};
-            Порт: ${port};
-            Хост: ${host};
-            Директория: ${dir.getPath()};
-            Подключения: ${socks.length};
-            url: ${host}:${port};
-            ---
-            Пути: ${api.routs.length};
-            ${api.routs.map(r => r.getInfo()).join(';\n')};
-            ---
-
-        `);
+            .changeStringAppendEnd(';\n')
+            .append(`URL: ${this.host}:${this.port}`)
+            .append(`Протокол: http`)
+            .append(`Модификация: ws`)
+            .append(`Директория: ${(this.dir) ? this.dir.getNameFull() : 'N'}`)
+            .append(`Соединений: ${this.socks.size}`)
+            .changeStringAppendEnd('\n')
+            .append('---')
+            .changeStringAppendEnd(';\n')
+            .append(`Ошибок: ${this.log.list.find(s => s.label === 'error').list.length}`)
+            .append(`Уведомлений: ${this.log.list.find(s => s.label === 'warner').list.length}`)
+            .append(`Предупреждений: ${this.log.list.find(s => s.label === 'info').list.length}`)
+            .changeStringAppendEnd('\n')
+            .append('---')
+            .changeStringAppendEnd(';\n')
+            .get()
 
     };
 
