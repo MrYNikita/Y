@@ -129,7 +129,7 @@ export class YLog extends FLog {
 
     get() {
 
-        return this.list.map(s => s.get()).flat().sort((p, c) => p.index - c.index);
+        return this.list.map(s => s.list).flat().sort((p, c) => p.index - c.index).map(n => n.get());
 
     };
     /**

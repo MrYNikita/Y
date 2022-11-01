@@ -1,7 +1,7 @@
 import { arrayAppend, arrayRemove } from "../../../array/array.mjs";
 import { configLog } from "../../../config.mjs";
 import { jectFill } from "../../../ject/ject.mjs";
-import { stringCastToDate, stringReplace } from "../../../string/string.mjs";
+import { stringCastToDate, stringCastToSample, stringReplace } from "../../../string/string.mjs";
 import { YNotice } from "../YNotice.mjs";
 
 /**
@@ -138,7 +138,7 @@ class FSection extends DSection {
 
         jectFill(this, t);
 
-
+        this.list.forEach(n => n.section = this);
 
     };
 
@@ -158,7 +158,14 @@ export class YSection extends FSection {
     */
     get() {
 
-        return this.list.map(n => stringReplace(configLog.templates.section, ['d', n.get()], ['s', this.symbol ?? this.label]));
+        return this.list.map(n => stringReplace(
+
+            configLog.templates.section,
+            ['t', stringCastToDate(n.date)],
+            ['d', stringCastToSample(n.data)],
+            ['s', this.symbol ?? this.label]
+
+        ));
 
     };
     /**
@@ -175,7 +182,7 @@ export class YSection extends FSection {
 
         } = this;
 
-        notices.forEach((n, i, a) => a[i] = (n.constructor === String) ? new YNotice(n) : n);
+        notices.forEach((n, i, a) => a[i] = (n.constructor === String) ? new YNotice({ data: n, section: this }) : new YNotice({ ...n, section: this }));
 
         if (notices.length === size) this.list = notices;
         else if (notices.length > size) arrayAppend(arrayRemove(list), ...notices.splice(notices.length - size));
@@ -199,6 +206,29 @@ export class YSection extends FSection {
         } = this;
 
         return this;
+
+    };
+    /**
+     * Метод для преобразования указанного уведомления из списка в заданный формат.
+     * - Версия `0.0.0`
+     * @param {number|YNotice} notice Индекс уведомления в списке или само уведомление.
+    */
+    getNotice(notice) {
+
+        if (notice) {
+
+            if (notice.constructor === Number) notice = this.list?.[notice];
+
+            return stringReplace(
+
+                configLog.templates.section,
+                ['t', stringCastToDate(notice.date)],
+                ['d', stringCastToSample(notice.data)],
+                ['s', this.symbol ?? this.label]
+
+            );
+
+        };
 
     };
 

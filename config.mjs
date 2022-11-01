@@ -100,7 +100,7 @@ export const config = {
         templates: {
 
             notice: `t - d`,
-            section: `s - d`,
+            section: `t - s - d`,
 
         },
 

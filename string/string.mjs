@@ -1555,6 +1555,94 @@ export function stringCastToDateRu(date) {
 };
 
 //#endregion
+//#region castToSample 0.0.0
+
+/**
+ * @typedef TBcastToSample
+ * @prop {string} string
+ * @typedef {TBcastToSample} TcastToSample
+*/
+  
+/** @param {TcastToSample} t */
+function castToSampleDeceit(t) {
+    
+    try {
+        
+        return castToSampleVerify(t);
+        
+    } catch (e) {
+        
+        if (config.strict) throw e;
+        
+        return undefined;
+        
+    };
+    
+};
+/** @param {TcastToSample} t */
+function castToSampleVerify(t) {
+    
+    const {
+    
+    
+    
+    } = t;
+    
+    return castToSampleHandle(t);
+   
+};
+/** @param {TcastToSample} t */
+function castToSampleHandle(t) {
+   
+    let {
+    
+    
+    
+    } = t;
+    
+    
+    
+    t = {
+        
+        ...t,
+        
+    };
+   
+    return castToSampleComply(t);
+   
+};
+/** @param {TcastToSample} t */
+function castToSampleComply(t) {
+   
+    const {
+    
+        string,
+    
+    } = t;
+    
+    return new YString(string).replace(
+
+        [/\n/g, '\\n'],
+        [/\r/g, '\\r'],
+        [/\x1b/, '\\x1b'],
+
+    ).get();
+    
+};
+
+/**
+ * Функция для преобразования строки в строку с отображением всех спициальных символов.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @param {string} string Исходная строка.
+*/
+export function stringCastToSample(string) {
+
+    return castToSampleDeceit({ string });
+
+};
+
+//#endregion
 //#region castToNumber 0.0.0
 
 /**
@@ -1658,6 +1746,93 @@ function castToNumberComply(t) {
 export function stringCastToNumber(number, part = true) {
 
     return castToNumberDeceit({ number, part });
+
+};
+
+//#endregion
+//#region castToYReport 0.0.0
+
+/**
+ * @typedef TBcastToYReport
+ * @prop {string} string
+ * @typedef {TBcastToYReport} TcastToYReport
+*/
+  
+/** @param {TcastToYReport} t */
+function castToYReportDeceit(t) {
+    
+    try {
+        
+        return castToYReportVerify(t);
+        
+    } catch (e) {
+        
+        if (config.strict) throw e;
+        
+        return undefined;
+        
+    };
+    
+};
+/** @param {TcastToYReport} t */
+function castToYReportVerify(t) {
+    
+    const {
+    
+    
+    
+    } = t;
+    
+    return castToYReportHandle(t);
+   
+};
+/** @param {TcastToYReport} t */
+function castToYReportHandle(t) {
+   
+    let {
+    
+    
+    
+    } = t;
+    
+    
+    
+    t = {
+        
+        ...t,
+        
+    };
+   
+    return castToYReportComply(t);
+   
+};
+/** @param {TcastToYReport} t */
+function castToYReportComply(t) {
+   
+    const {
+    
+        string,
+    
+    } = t;
+    
+    return new YString(string)
+        
+        .handle(s => stringRepaint(s, 'c'), /[.,:;~\-]/g)
+        .handle(s => stringRepaint)
+        // .handle(s => stringReplace(s, [/:(?<r>.*);/, stringRepaint(stringFind(s, /:(?<f>.*);/), 'ye', 1)]), /:.*;/g)
+        .get()
+    
+};
+
+/**
+ * Преобразование строки в оформленную строку отчета для Y элементов.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @param {string} string Исходная строка.
+*/
+export function stringCastToYReport(string) {
+
+    return castToYReportDeceit({ string });
 
 };
 

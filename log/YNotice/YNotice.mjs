@@ -1,6 +1,7 @@
 import { jectFill } from "../../ject/ject.mjs";
 import { configLog } from "../../config.mjs";
-import { stringCastToDate, stringReplace } from "../../string/string.mjs";
+import { stringCastToDate, stringCastToSample, stringReplace } from "../../string/string.mjs";
+import { YSection } from "./YSection/YSection.mjs";
 
 /**
  * @typedef TBNotice
@@ -30,6 +31,11 @@ class DNotice extends SNotice {
      * @type {number?}
     */
     index;
+    /**
+     * Секция.
+     * @type {YSection}
+    */
+    section;
 
 };
 class FNotice extends DNotice {
@@ -139,11 +145,12 @@ export class YNotice extends FNotice {
 
     get() {
 
-        return stringReplace(
+        if (this.section) return this.section.getNotice(this);
+        else return stringReplace(
 
             configLog.templates.notice,
             ['t', stringCastToDate(this.date)],
-            ['d', stringReplace(this.data,[/\n/g, '\\n'])]
+            ['d', stringCastToSample(this.data)]
 
         );
 
