@@ -1929,11 +1929,12 @@ function castToNumberPhoneComply(t) {
 
     };
 
+    
     n.split('').forEach(s => result = result.replace('x', s));
-
+    
     const i = result.indexOf('x');
 
-    if (i) result = result.slice(0, i);
+    if (i !== -1) result = result.slice(0, i);
 
     return result;
 

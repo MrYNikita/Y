@@ -65,7 +65,7 @@ function fillComply(t) {
 
     } = t;
 
-    Object.keys(ject).forEach(s => (filler[s] || filler[s] === 0 || filler[s] === '' || filler[s] === false) ? ject[s] = filler[s] : 0);
+    Object.keys(ject).forEach(s => (filler[s] !== undefined) ? ject[s] = filler[s] : 0);
 
 };
 
@@ -331,21 +331,21 @@ export function jectSupplement(ject, supplement) {
 
 //#endregion
 
-//#region deepGet 0.0.0
+//#region getDeep 0.0.0
 
 /**
- * @typedef TBdeepGet
+ * @typedef TBgetDeep
  * @prop {{}} ject
  * @prop {string} property
- * @typedef {TBdeepGet} TdeepGet
+ * @typedef {TBgetDeep} TgetDeep
 */
 
-/** @param {TdeepGet} t */
-function deepGetDeceit(t) {
+/** @param {TgetDeep} t */
+function getDeepDeceit(t) {
 
     try {
 
-        return deepGetVerify(t);
+        return getDeepVerify(t);
 
     } catch (e) {
 
@@ -356,8 +356,8 @@ function deepGetDeceit(t) {
     };
 
 };
-/** @param {TdeepGet} t */
-function deepGetVerify(t) {
+/** @param {TgetDeep} t */
+function getDeepVerify(t) {
 
     const {
 
@@ -365,11 +365,11 @@ function deepGetVerify(t) {
 
     } = t;
 
-    return deepGetHandle(t);
+    return getDeepHandle(t);
 
 };
-/** @param {TdeepGet} t */
-function deepGetHandle(t) {
+/** @param {TgetDeep} t */
+function getDeepHandle(t) {
 
     let {
 
@@ -383,11 +383,11 @@ function deepGetHandle(t) {
 
     };
 
-    return deepGetComply(t);
+    return getDeepComply(t);
 
 };
-/** @param {TdeepGet} t */
-function deepGetComply(t) {
+/** @param {TgetDeep} t */
+function getDeepComply(t) {
 
     const {
 
@@ -414,27 +414,27 @@ function deepGetComply(t) {
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
 */
-export function jectDeepGet(ject, property) {
+export function jectGetDeep(ject, property) {
 
-    return deepGetDeceit({ ject, property });
+    return getDeepDeceit({ ject, property });
 
 };
 
 //#endregion
-//#region deepSet 0.0.0
+//#region setDeep 0.0.0
 
 /**
- * @typedef TBdeepSet
+ * @typedef TBsetDeep
  * @prop {any} value
- * @typedef {TBdeepSet&TdeepGet} TdeepSet
+ * @typedef {TBsetDeep&TgetDeep} TsetDeep
 */
 
-/** @param {TdeepSet} t */
-function deepSetDeceit(t) {
+/** @param {TsetDeep} t */
+function setDeepDeceit(t) {
 
     try {
 
-        return deepSetVerify(t);
+        return setDeepVerify(t);
 
     } catch (e) {
 
@@ -445,8 +445,8 @@ function deepSetDeceit(t) {
     };
 
 };
-/** @param {TdeepSet} t */
-function deepSetVerify(t) {
+/** @param {TsetDeep} t */
+function setDeepVerify(t) {
 
     const {
 
@@ -454,11 +454,11 @@ function deepSetVerify(t) {
 
     } = t;
 
-    return deepSetHandle(t);
+    return setDeepHandle(t);
 
 };
-/** @param {TdeepSet} t */
-function deepSetHandle(t) {
+/** @param {TsetDeep} t */
+function setDeepHandle(t) {
 
     let {
 
@@ -472,11 +472,11 @@ function deepSetHandle(t) {
 
     };
 
-    return deepSetComply(t);
+    return setDeepComply(t);
 
 };
-/** @param {TdeepSet} t */
-function deepSetComply(t) {
+/** @param {TsetDeep} t */
+function setDeepComply(t) {
 
     const {
 
@@ -508,28 +508,137 @@ function deepSetComply(t) {
  * @param {string} property Свойство глубокой установки.
  * @return {void}
 */
-export function jectDeepSet(ject, property, value) {
+export function jectSetDeep(ject, property, value) {
 
-    deepSetDeceit({ ject, property, value });
+    setDeepDeceit({ ject, property, value });
 
 };
 
 //#endregion
-//#region deepChange 0.0.0
+//#region copyDeep 0.0.0
 
 /**
- * @typedef TBdeepChange
+ * @typedef TBcopyDeep
+ * @param {{}} ject
+ * @typedef {TBcopyDeep} TcopyDeep
+*/
+  
+/** @param {TcopyDeep} t */
+function copyDeepDeceit(t) {
+    
+    try {
+        
+        return copyDeepVerify(t);
+        
+    } catch (e) {
+        
+        if (config.strict) throw e;
+        
+        return undefined;
+        
+    };
+    
+};
+/** @param {TcopyDeep} t */
+function copyDeepVerify(t) {
+    
+    const {
+    
+    
+    
+    } = t;
+    
+    return copyDeepHandle(t);
+   
+};
+/** @param {TcopyDeep} t */
+function copyDeepHandle(t) {
+   
+    let {
+    
+    
+    
+    } = t;
+    
+    
+    
+    t = {
+        
+        ...t,
+        
+    };
+   
+    return copyDeepComply(t);
+   
+};
+/** @param {TcopyDeep} t */
+function copyDeepComply(t) {
+   
+    const {
+    
+        ject,
+    
+    } = t;
+    
+    const r = { ...ject };
+    const s = [r];
+
+    for (const j of s) {
+
+        Object.entries(j).forEach(p => {
+
+            console.log(p);
+
+            if (p[1] instanceof Object) {
+
+                switch (p[1].constructor) {
+
+                    case Array: j[p[0]] = p[1].slice(); break;
+                    case Object: j[p[0]] = Object.assign({}, p[1]); break;
+                    default: j[p[0]] = new p[1].constructor(p[1]); break;
+
+                };
+
+                s.push(j[p[0]]);
+
+            };
+
+        });
+
+    };
+
+    return r;
+    
+};
+
+/**
+ * Функция для глубокого копирования объектов.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @param {{}} ject Исходный объект.
+*/
+export function jectCopyDeep(ject) {
+
+    return copyDeepDeceit({ ject });
+
+};
+
+//#endregion
+//#region changeDeep 0.0.0
+
+/**
+ * @typedef TBchangeDeep
  * @prop {{}} ject
- * @prop {[{}]} deepChanges
- * @typedef {TBdeepChange} TdeepChange
+ * @prop {[{}]} changeDeeps
+ * @typedef {TBchangeDeep} TchangeDeep
 */
 
-/** @param {TdeepChange} t */
-function deepChangeDeceit(t) {
+/** @param {TchangeDeep} t */
+function changeDeepDeceit(t) {
 
     try {
 
-        return deepChangeVerify(t);
+        return changeDeepVerify(t);
 
     } catch (e) {
 
@@ -540,8 +649,8 @@ function deepChangeDeceit(t) {
     };
 
 };
-/** @param {TdeepChange} t */
-function deepChangeVerify(t) {
+/** @param {TchangeDeep} t */
+function changeDeepVerify(t) {
 
     const {
 
@@ -549,11 +658,11 @@ function deepChangeVerify(t) {
 
     } = t;
 
-    return deepChangeHandle(t);
+    return changeDeepHandle(t);
 
 };
-/** @param {TdeepChange} t */
-function deepChangeHandle(t) {
+/** @param {TchangeDeep} t */
+function changeDeepHandle(t) {
 
     let {
 
@@ -569,20 +678,20 @@ function deepChangeHandle(t) {
 
     };
 
-    return deepChangeComply(t);
+    return changeDeepComply(t);
 
 };
-/** @param {TdeepChange} t */
-function deepChangeComply(t) {
+/** @param {TchangeDeep} t */
+function changeDeepComply(t) {
 
     const {
 
         ject,
-        deepChanges,
+        changeDeeps,
 
     } = t;
 
-    deepChanges.forEach(c => Object.entries(c).forEach(p => ject[p[0]] = p[1]));
+    changeDeeps.forEach(c => Object.entries(c).forEach(p => ject[p[0]] = p[1]));
 
 };
 
@@ -592,32 +701,32 @@ function deepChangeComply(t) {
  * Изменение происходит за счет свойств остаточных объектов.
  * Если свойство есть у остаточного объекта, то его значение будет перезаписано исходному.
  * @param {{}} ject Исходный объект.
- * @param {...{}} deepChanges Остаточные объекты изменения.
+ * @param {...{}} changeDeeps Остаточные объекты изменения.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
 */
-export function jectDeepChange(ject, ...deepChanges) {
+export function jectChangeDeep(ject, ...changeDeeps) {
 
-    deepChangeDeceit({ ject, deepChanges, });
+    changeDeepDeceit({ ject, changeDeeps, });
 
 };
 
 //#endregion
-//#region deepSupplement 0.0.0
+//#region supplementDeep 0.0.0
 
 /**
- * @typedef TBdeepSupplement
+ * @typedef TBsupplementDeep
  * @prop {{}} ject
- * @prop {[{}]} deepSupplements
- * @typedef {TBdeepSupplement} TdeepSupplement
+ * @prop {[{}]} supplementDeeps
+ * @typedef {TBsupplementDeep} TsupplementDeep
 */
 
-/** @param {TdeepSupplement} t */
-function deepSupplementDeceit(t) {
+/** @param {TsupplementDeep} t */
+function supplementDeepDeceit(t) {
 
     try {
 
-        return deepSupplementVerify(t);
+        return supplementDeepVerify(t);
 
     } catch (e) {
 
@@ -628,8 +737,8 @@ function deepSupplementDeceit(t) {
     };
 
 };
-/** @param {TdeepSupplement} t */
-function deepSupplementVerify(t) {
+/** @param {TsupplementDeep} t */
+function supplementDeepVerify(t) {
 
     const {
 
@@ -637,11 +746,11 @@ function deepSupplementVerify(t) {
 
     } = t;
 
-    return deepSupplementHandle(t);
+    return supplementDeepHandle(t);
 
 };
-/** @param {TdeepSupplement} t */
-function deepSupplementHandle(t) {
+/** @param {TsupplementDeep} t */
+function supplementDeepHandle(t) {
 
     let {
 
@@ -657,20 +766,20 @@ function deepSupplementHandle(t) {
 
     };
 
-    return deepSupplementComply(t);
+    return supplementDeepComply(t);
 
 };
-/** @param {TdeepSupplement} t */
-function deepSupplementComply(t) {
+/** @param {TsupplementDeep} t */
+function supplementDeepComply(t) {
 
     const {
 
         ject,
-        deepSupplements,
+        supplementDeeps,
 
     } = t;
 
-    deepSupplements.forEach(s => {
+    supplementDeeps.forEach(s => {
 
         Object.entries(s).forEach(p => {
 
@@ -687,11 +796,11 @@ function deepSupplementComply(t) {
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
  * @param {{}} ject Исходный объект.
- * @param {...{}} deepSupplements Объекты дополнения.
+ * @param {...{}} supplementDeeps Объекты дополнения.
 */
-export function jectChangeSupplement(ject, ...deepSupplements) {
+export function jectSupplementDeep(ject, ...supplementDeeps) {
 
-    deepSupplementDeceit({ ject, deepSupplements });
+    supplementDeepDeceit({ ject, supplementDeeps });
 
 };
 

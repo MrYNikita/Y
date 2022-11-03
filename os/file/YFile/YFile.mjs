@@ -63,22 +63,24 @@ class FFile extends DFile {
     /** @param {TFile} t @this {[]} */
     static #before(t) {
 
-        if (t.constructor === String) {
+        if (t?.constructor === String) {
 
-            const name = t.match(fileREName)[1], location = t.match(fileRELocation)?.[0], expand = t.match(fileREExpand)?.[1];
+            t = pathGet(t);
 
-            t = {};
+            return {
 
-            if (expand) t.expand = expand;
-            if (location) t.location = location;
+                name: t.match(fileREName)[1],
+                expand: t.match(fileREExpand)?.[1],
+                location: t.match(fileRELocation)?.[0],
 
-            t.name = name;
 
-        };
+            };
 
-        if (!t) t = {};
+        } else if (t instanceof Array) {
 
-        return t;
+            
+
+        } else return {};
 
     };
     /** @param {TFile} t @this {YFile} */
@@ -135,8 +137,6 @@ class FFile extends DFile {
         } = t;
 
         jectFill(this, t);
-
-
 
     };
 

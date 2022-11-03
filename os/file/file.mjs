@@ -2,14 +2,14 @@ import { pathGet } from "../path/path.mjs";
 import { existsSync, readFileSync, renameSync, writeFileSync } from "fs";
 import { config, configOS, configFile } from "../../config.mjs";
 import { arrayAppend } from "../../array/array.mjs";
-import { jectDeepChange } from "../../ject/ject.mjs";
+import { jectChangeDeep } from "../../ject/ject.mjs";
 
 /**
  * Регулярное выражение для извлечения имени файла.
  * - Версия `0.0.1`
  * @type {RegExp}
 */
-export const fileREName =  /.*?([.\w]+?)(?:\.|$)/; // /(?:.+?([\w]+?)(?:\.|$))/;
+export const fileREName =  /.*?([.\w]+?)(?:\.|$)/;
 /**
  * Регулярное выражение для извлечения вложенного пути.
  * - Версия `0.0.1`

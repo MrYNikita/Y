@@ -246,9 +246,11 @@ export class YString extends FString {
 
                 if (s instanceof Function) s = s() + '';
 
-                this.value = this.prefix + stringPaste(this.value, s, c.index, c.size) + this.postfix;
+                this.value = stringPaste(this.value, this.prefix + s + this.postfix, c.index, c.size);
 
                 c.move(this.prefix.length + s.length + this.postfix.length);
+
+                console.log(this.value);
 
                 this.log.appendNotice(['*', `добавлено значение: ${stringCastToSample(s)}`]);
 
@@ -266,7 +268,7 @@ export class YString extends FString {
 
                     if (s instanceof Function) s = s() + '';
 
-                    this.value = this.prefix + stringPaste(this.value, s, c.index, c.size) + this.postfix;
+                    this.value = this.prefix + stringPaste(this.prefix + this.value + this.postfix, s, c.index, c.size);
 
                     c.move(this.prefix.length + s.length + this.postfix.length);
 
@@ -301,7 +303,7 @@ export class YString extends FString {
     report() {
 
         new YString()
-            .changePasteEnd(';\n')
+            .changePostfix(';\n')
             .paste(
 
                 `Префикс: ${stringCastToSample(this.prefix)}`,
@@ -471,7 +473,7 @@ export class YString extends FString {
 
         this.cusrors.push(c);
 
-        this.log.appendNotice(['*', `Добавлен кусор. Индекс: ${c.index}; Размер: ${c.size};`, ])
+        this.log.appendNotice(['*', `Добавлен кусор. Индекс: ${c.index}; Размер: ${c.size};`,])
 
         return this;
 
@@ -497,7 +499,7 @@ export class YString extends FString {
     */
     addTemplate(label, value) {
 
-        this.templates.add(new YTemplate(label, value));
+        this.templates.push(new YTemplate(label, value));
 
         return this;
 
@@ -568,31 +570,31 @@ export class YString extends FString {
 
     };
     /**
-     * Метод для изменения строки конечного добавления.
-     * - Версия `0.0.0`
-     * @param {string} string
-    */
-    changePasteEnd(string = '') {
-
-        this.postfix = string;
-
-        if (string) this.log.appendNotice(['*', `Изменено значение конечной вставки: ${string}`]);
-        else this.log.appendNotice(['*', `Сброшено значение конечной вставки.`]);
-
-        return this;
-
-    };
-    /**
      * Метод для изменения строки начального добавления.
      * - Версия `0.0.0`
      * @param {string}
     */
-    changePasteStart(string = '') {
+    changePrefix(string = '') {
 
         this.prefix = string;
 
         if (string) this.log.appendNotice(['*', `Изменено значение начальной вставки: ${string}`]);
         else this.log.appendNotice(['*', `Сброшено значение начальной вставки.`]);
+
+        return this;
+
+    };
+    /**
+     * Метод для изменения строки конечного добавления.
+     * - Версия `0.0.0`
+     * @param {string} string
+    */
+    changePostfix(string = '') {
+
+        this.postfix = string;
+
+        if (string) this.log.appendNotice(['*', `Изменено значение конечной вставки: ${string}`]);
+        else this.log.appendNotice(['*', `Сброшено значение конечной вставки.`]);
 
         return this;
 

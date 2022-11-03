@@ -4,7 +4,7 @@ import { config, configOS, configPath, } from "../../config.mjs";
 import { fileREName, fileREPart } from "../file/file.mjs";
 import { stringFind } from "../../string/string.mjs";
 
-//#region get 0.0.1
+//#region get 0.0.2
 
 /**
  * @typedef TBget
@@ -52,6 +52,7 @@ function getHandle(t) {
     } = t;
 
     if (!t.fragment) t.fragment = new RegExp();
+    if (!configPath.pathProject) configPath.pathProject = pathGetProject();
 
     return getComply(t);
 
@@ -73,8 +74,14 @@ function getComply(t) {
 
     } else {
 
+        const {
+
+            pathProject,
+
+        } = configPath;
+
         const results = [];
-        const originals = paths ?? readdirSync('.');
+        const originals = paths ?? readdirSync(pathProject);
 
         for (
 
@@ -104,7 +111,7 @@ function getComply(t) {
 
             };
 
-            if (lstatSync(path).isDirectory()) arrayAppend(originals, ...readdirSync(path).map(e => `${path}/${e}`));
+            if (lstatSync(pathProject + '/' + path).isDirectory()) arrayAppend(originals, ...readdirSync(pathProject + '/' + path).map(e => `${path}/${e}`));
 
         };
 
