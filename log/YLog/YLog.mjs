@@ -17,6 +17,11 @@ class SLog {
 class DLog extends SLog {
 
     /**
+     * Видимость.
+     * @type {number}
+    */
+    vis = configLog.visiable;
+    /**
      * Секции.
      * @type {[YSection]}
     */
@@ -133,6 +138,17 @@ export class YLog extends FLog {
 
     };
     /**
+     * Метод получения сообщений в области видимости.
+     * - Версия `0.0.0`
+     * @param {number} vis Область видимости.
+     * - По умолчанию `this.vis`
+    */
+    getVisiable(vis = this.vis) {
+
+        return this.get().slice(-vis);
+
+    };
+    /**
      * Метод для копирования журнала.
      * - Версия `0.0.0`
     */
@@ -160,7 +176,7 @@ export class YLog extends FLog {
 
         if (this.loged) {
 
-            const list = this.get();
+            const list = this.list.map(s => s.list).flat();
 
             notices.forEach(n => {
 

@@ -139,6 +139,11 @@ export const config = {
             port: '8000',
             name: 'yserver',
             host: '127.0.0.1',
+            /**
+             * Время проверки соединений в милисекундах по умолчанию.
+             * @type {number}
+            */
+            pingIntervalTime: 1000,
 
         },
 

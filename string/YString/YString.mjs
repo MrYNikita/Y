@@ -250,8 +250,6 @@ export class YString extends FString {
 
                 c.move(this.prefix.length + s.length + this.postfix.length);
 
-                console.log(this.value);
-
                 this.log.appendNotice(['*', `добавлено значение: ${stringCastToSample(s)}`]);
 
             });
@@ -549,11 +547,13 @@ export class YString extends FString {
 
             v = template.value;
 
-            this.templates.add(template);
+            this.templates.push(template);
 
         };
 
-        this.value = stringAppend(this.value, index, v);
+        this.value += v;
+
+        this.cusrors[0].move(v.length);
 
         return this;
 
