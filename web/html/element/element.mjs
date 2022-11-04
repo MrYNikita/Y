@@ -1,4 +1,3 @@
-
 import { arrayReplace } from "../../../../array/array.mjs";
 import { config, configHtml, configHtmlElement } from "../../../../config.mjs";
 import { stringFind } from "../../../../string/string.mjs";
@@ -9,7 +8,7 @@ import { YString } from "../../../string/YString/YString.mjs";
  * - Версия `0.0.4`
  * @type {RegExp}
 */
-export const elementREString = /((^| )(([!#]\w+)|(.|\^[.!#])(\w+ ?)+\]|:.*?:|\w+=?([^ ]*)?|<.*>) ?)+\//gs;;
+export const elementREString = /((^| )(([!#]\w+)|(.|\^[.!#])(\w+ ?)+\]|:.*?:|\w+=?([^ ]*)?|<.*>) ?)+\//gs;
 /**
  * Регулярное выражение для поиска и проверки классов в строке создания элементов.
  * @type {RegExp}
@@ -24,7 +23,7 @@ export const elementREType =/(?:^| )!(?<f>\w+)/;
  * Регулярное выражение для поиска и проверки классов в строке создания элементов.
  * @type {RegExp}
 */
-export const elementREText = /(?:^| ):(?<f>.+):/ms;
+export const elementREText = /(?:^| ):(?<f>.+?):/ms;
 /**
  * Регулярное выражение для поиска и проверки классов в строке создания элементов.
  * @type {RegExp}
@@ -450,9 +449,7 @@ function stringDecomposeComply(t) {
     
     const ystr = new YString(string.match(elementREString)[0]);
     
-    console.log(ystr.value);
-    
-    let childs = ystr.extract(/<(?<f>.*)>/ms) ?? [];
+    let childs = ystr.extract(/<.+>/gms)?.[0]?.match(elementREString) ?? [];
     let text = ystr.extract(elementREText);
     let classes = ystr.extract(elementREClasses)?.split(' ') ?? [];
     let overClasses = ystr.extract(elementREOverClasses)?.split(' ') ?? [];

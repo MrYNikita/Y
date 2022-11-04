@@ -449,7 +449,7 @@ export class YString extends FString {
 
             const result = stringFind(this.value, f);
 
-            this.value = stringFilter(this.value, f);
+            if (result) this.value = stringFilter(this.value, f);
 
             return result;
 
