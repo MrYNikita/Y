@@ -1,7 +1,9 @@
-import { YString } from "../YString.mjs";
-import { jectFill } from "../../../ject/ject.mjs";
-import { arrayRemove } from "../../../array/array.mjs";
-import { configString, configYString } from "../../../config.mjs";
+import { YString } from "../../string/YString/YString.mjs";
+import { arrayRemove } from "../../array/array.mjs";
+import { configYString } from "../../config.mjs";
+import { jectFill } from "../ject.mjs";
+import { numberGetNearstIndex } from "../../number/number.mjs";
+import { YList } from "../YList/YList.mjs";
 
 /**
  * @typedef TBCursor
@@ -22,6 +24,11 @@ class DCursor extends SCursor {
     */
     size = 0;
     /**
+     * Массив.
+     * @type {YList}
+    */
+    list = null;
+    /**
      * Индекс размещения.
      * @type {number}
     */
@@ -32,11 +39,6 @@ class DCursor extends SCursor {
      * @type {boolean}
     */
     fixed = configYString.fixed ?? true;
-    /**
-     * Строка.
-     * @type {YString}
-    */
-    string = null;
 
 };
 class FCursor extends DCursor {
@@ -104,7 +106,7 @@ class FCursor extends DCursor {
 
         } = t;
 
-        if ((!t.index && t.index !== 0) && t.string) t.index = t.string.value.length;
+        if ((!t.index && t.index !== 0) && t.list) t.index = t.list.value.length;
 
         t = {
 
@@ -149,7 +151,7 @@ export class YCursor extends FCursor {
 
         if (this.fixed && number) this.index += number - this.size;
         if (this.index < 0) this.index = 0;
-        if (this.index > this.string.value.length - 1) this.index = this.string.value.length;
+        if (this.index > this.list.value.length - 1) this.index = this.list.value.length;
 
         return this;
 
@@ -193,11 +195,45 @@ export class YCursor extends FCursor {
     */
     delete() {
 
-        arrayRemove(this.string.cusrors, this);
+        arrayRemove(this.list.cursors, this);
 
         this.size = undefined;
         this.index = undefined;
-        this.string = undefined;
+        this.list = undefined;
+
+    };
+    /**
+     * Метод поглощения курсорами других курсоров.
+     * - Версия `0.0.0` 
+    */
+    absorb() {
+
+        
+
+    };
+    /**
+     * Метод вычисления конечного индекса.
+     * 
+     * Данный метод учитывает тот факт, что значение размера курсора касается и его первоначального индекса.
+     * Это означает, что если размер курсора равен `1` или `-1`, то область влияния курсора будет ограничиваться его индексом.
+     * Отличие от `0` заключается в том, что для такого курсора область влияния отсутсвует.
+     * Таким образом конечный индекс не изменился.
+     * 
+     * Учитывая данный факт, метод возвращает значение, которое будет являться индексом завершения области влияния курсора.
+     * Метод используется в вычислениях.
+     * - Версия `0.0.0`
+    */
+    calculateIndexEnd() {
+
+        const {
+
+            size,
+            index,
+
+        } = this;
+
+        if (size) return index + ((size < 0) ? size + 1 : size - 1);
+        else return index;
 
     };
 

@@ -117,7 +117,11 @@ export const config = {
 
             style: {
 
+                template: {
 
+                    
+
+                },
 
             },
             element: {
@@ -196,6 +200,7 @@ export const config = {
 
             fixed: true,
             loged: false,
+            tabValue: ' '.repeat(4),
             cursorRepeated: true,
             templates: [
 

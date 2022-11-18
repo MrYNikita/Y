@@ -1,7 +1,9 @@
-import { YString } from "../../../../../string/YString/YString.mjs";
+import { YString } from "../../../../string/YString/YString.mjs";
 import { jectFill } from "../../../../../ject/ject.mjs";
 import { YElementStyle } from "../../element/YElement/YElementStyle/YElementStyle.mjs";
 import { stringFind, stringHandle, stringReplace } from "../../../../../string/string.mjs";
+import { stringConvertCamelCaseToDelimetr } from "../../../../string/string.mjs";
+import { YStyleSet } from "./YStyleSet/YStyleSet.mjs";
 
 /**
  * @typedef TBStyle
@@ -35,7 +37,7 @@ class DStyle extends SStyle {
      * Свойства.
      * @type {CSSStyleDeclaration}
     */
-    property;
+    property = {};
 
 };
 class FStyle extends DStyle {
@@ -175,29 +177,36 @@ export class YStyle extends FStyle {
     };
     /**
      * Метод изменения свойства стиля.
-     * @param {CSSStyleDeclaration} property
+     * @param {CSSStyleDeclaration} set Набор `YSet`'ов или объект с описанием свойств.
     */
-    change(property) {
+    change(set) {
 
-        Object.entries(property).forEach(p => {
+        const {
 
-            p[0] = p[0][0].toLowerCase() + stringHandle(p[0].slice(1), s => '-' + s.toLowerCase(), /[A-Z]/);
+            tabel,
+            label,
+
+        } = this;
+
+        Object.entries(set).forEach(p => {
+
+            const s = new YStyleSet(...p);
 
             const {
 
-                label,
-                tabel,
+                value,
+                property,
 
-            } = this;
+            } = s;
 
-            const ystr = new YString(stringFind(this.tabel.element.innerText, `${label} ?{.*?}`));
+            const ystr = new YString(stringFind(tabel.element.innerText, `${label} ?{.*?}`));
 
-            if (ystr.find(p[0] + ':.*?;')) {
+            if (ystr.find(property + ':.*?;')) {
 
-                if (p[1] === '') ystr.replace([p[0] + `:.*?;`, ``]);
-                else ystr.replace([p[0] + `:.*?;`, `${p[0]}:${p[1]};`]);
+                if (!value) ystr.replace([property + `:.*?;`, ``]);
+                else ystr.replace([property + `:.*?;`, `${property}:${value};`]);
 
-            } else if (p[1] !== '') ystr.replace([/}/, `${p[0]}:${p[1]};}`]);
+            } else if (value) ystr.replace([/}/, `${property}:${value};}`]);
 
             tabel.element.innerText = stringReplace(tabel.element.innerText, [label + ' ?{.*?}', ystr.get()]);
 

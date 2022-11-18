@@ -801,7 +801,7 @@ export function stringFilter(string, ...filters) {
 };
 
 //#endregion
-//#region handle 0.0.2
+//#region handle 0.0.3
 
 /**
  * @typedef TBhandle
@@ -850,6 +850,7 @@ function handleHandle(t) {
 
     t.fragments.forEach((f, i, a) => {
 
+        if (f.constructor === String) a[i] = f = new RegExp(t.fragments);
         if (f.source.match(/\d|\\d/)) a[i] = new RegExp(f.source.replace(/\\d/, '(?<!\\x1b\\[\\d*?)$&'), f.flags);
 
     });
@@ -1008,6 +1009,8 @@ function replaceComply(t) {
             };
 
         };
+
+        result.replace('\x1b[39m\x1b[39m', '\x1b[39m');
 
     });
 
@@ -1817,9 +1820,11 @@ function castToYReportComply(t) {
     
     return new YString(string)
         
-        .handle(s => stringRepaint(s, 'c'), /[.,:;~\-]/g)
+        .handle(s => stringRepaint(s, 'c'), /[.,:;~\-\[\]]/g)
         .handle(s => stringRepaint)
-        // .handle(s => stringReplace(s, [/:(?<r>.*);/, stringRepaint(stringFind(s, /:(?<f>.*);/), 'ye', 1)]), /:.*;/g)
+        .replace([/true/g, '+'])
+        .replace([/false/g, '-'])
+        // .handle(s => stringReplace(s, [/:(\x1b\[\d+m)?(?<r>.*?)(\x1b\[\d+m)?;/, stringRepaint(stringFind(s, /:(\x1b\[\d+m)?(?<f>.*?)(\x1b\[\d+m)?;/), 'ye', 1)]), /:.*?;/g)
         .get()
     
 };
@@ -1987,8 +1992,189 @@ export function stringCastToPhoneNumberBlr(number) {
 
 //#endregion
 
+//#region convertCamelCaseToDelimetr 0.0.0
+
 /**
- * @file ject.mjs
+ * @typedef TBconvertCamelCaseToDelimetr
+ * @prop {string} string
+ * @prop {string} delimetr
+ * @prop {boolean} lower
+ * @typedef {TBconvertCamelCaseToDelimetr} TconvertCamelCaseToDelimetr
+*/
+  
+/** @param {TconvertCamelCaseToDelimetr} t */
+function convertCamelCaseToDelimetrDeceit(t) {
+    
+    try {
+        
+        return convertCamelCaseToDelimetrVerify(t);
+        
+    } catch (e) {
+        
+        if (config.strict) throw e;
+        
+        return undefined;
+        
+    };
+    
+};
+/** @param {TconvertCamelCaseToDelimetr} t */
+function convertCamelCaseToDelimetrVerify(t) {
+    
+    const {
+    
+    
+    
+    } = t;
+    
+    return convertCamelCaseToDelimetrHandle(t);
+   
+};
+/** @param {TconvertCamelCaseToDelimetr} t */
+function convertCamelCaseToDelimetrHandle(t) {
+   
+    let {
+    
+    
+    
+    } = t;
+    
+    
+    
+    t = {
+        
+        ...t,
+        
+    };
+   
+    return convertCamelCaseToDelimetrComply(t);
+   
+};
+/** @param {TconvertCamelCaseToDelimetr} t */
+function convertCamelCaseToDelimetrComply(t) {
+   
+    const {
+    
+        lower,
+        string,
+        delimetr,
+    
+    } = t;
+    
+    return lower ? string[0].toLowerCase() + stringHandle(string.slice(1), s => delimetr + s.toLowerCase(), /[A-Z]/) : stringHandle(string, s => delimetr + s.toLowerCase(), /[A-Z]/);;
+    
+};
+
+/**
+ * Функция для трансофрмации строки `CamelCase` в строку с разделителем.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @param {string} string Исходная строка.
+ * @param {string} delimetr Разделитель.
+ * - По умолчанию `-`
+ * @param {boolean} lower Логическое значение, определяющее стиль `CamelCase` строки, как `lower`.
+ * - По умолчанию `true`
+*/
+export function stringConvertCamelCaseToDelimetr(string, delimetr = '-', lower = true) {
+
+    return convertCamelCaseToDelimetrDeceit({ string, delimetr, lower });
+
+};
+
+//#endregion
+//#region convertDelimetrToCamelCase 0.0.0
+
+/**
+ * @typedef TBconvertDelimetrToCamelCase
+ * @prop {string} string
+ * @prop {string} delimetr
+ * @prop {boolean} lower
+ * @typedef {TBconvertDelimetrToCamelCase} TconvertDelimetrToCamelCase
+*/
+  
+/** @param {TconvertDelimetrToCamelCase} t */
+function convertDelimetrToCamelCaseDeceit(t) {
+    
+    try {
+        
+        return convertDelimetrToCamelCaseVerify(t);
+        
+    } catch (e) {
+        
+        if (config.strict) throw e;
+        
+        return undefined;
+        
+    };
+    
+};
+/** @param {TconvertDelimetrToCamelCase} t */
+function convertDelimetrToCamelCaseVerify(t) {
+    
+    const {
+    
+    
+    
+    } = t;
+    
+    return convertDelimetrToCamelCaseHandle(t);
+   
+};
+/** @param {TconvertDelimetrToCamelCase} t */
+function convertDelimetrToCamelCaseHandle(t) {
+   
+    let {
+    
+    
+    
+    } = t;
+    
+    
+    
+    t = {
+        
+        ...t,
+        
+    };
+   
+    return convertDelimetrToCamelCaseComply(t);
+   
+};
+/** @param {TconvertDelimetrToCamelCase} t */
+function convertDelimetrToCamelCaseComply(t) {
+   
+    const {
+    
+        lower,
+        string,
+        delimetr,
+    
+    } = t;
+    
+    return lower ? string[0].toUpperCase() + stringHandle(string.slice(1), s => s[1].toUpperCase(), `${delimetr}\\w`) : stringHandle(string, s => s[1].toUpperCase(), `${delimetr}\\w`);
+    
+};
+
+/**
+ * Функция конвертирования delimetr строки в `CamelCase`.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @param {string} string Исходная строка.
+ * @param {string} delimetr Разделитель строки.
+ * - По умолчанию `false`
+ * @param {boolean} lower Логическо значение определяющее стиль `CamelCase` как `lower`.
+ * - По умолчанию `true`
+*/
+export function stringConverDelimetrToCamelCase(string, delimetr = '-', lower = true) {
+
+    return convertDelimetrToCamelCaseDeceit({ string, delimetr, lower });
+
+};
+
+//#endregion
+
+/**
+ * @file string.mjs
  * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
  * @copyright Yakhin Nikita Artemovich 2022
 */

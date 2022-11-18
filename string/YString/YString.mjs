@@ -1,10 +1,12 @@
 import { arrayRemove } from "../../array/array.mjs";
-import { configLog, configYString } from "../../config.mjs";
+import { configLog, configString, configYString } from "../../config.mjs";
+import { YFunc } from "../../func/YFunc/YFunc.mjs";
+import { YProc } from "../../func/YFunc/YProc/YProc.mjs";
 import { jectFill } from "../../ject/ject.mjs";
+import { YCursor } from "../../ject/YCursor/YCursor.mjs";
 import { YLog } from "../../log/YLog/YLog.mjs";
 import { YSection } from "../../log/YNotice/YSection/YSection.mjs";
 import { stringAppend, stringBring, stringCastToSample, stringCastToYReport, stringFilter, stringFind, stringFindToJect, stringHandle, stringPad, stringPaste, stringRemove, stringRepaint, stringReplace, stringReverse } from "../string.mjs";
-import { YCursor } from "./YCursor/YCursor.mjs";
 import { YTemplate } from "./YTemplate/YTemplate.mjs";
 
 /**
@@ -46,19 +48,15 @@ class DString extends SString {
     colorB = '';
     /**
      * Курсоры.
-     * @type {[YCursor]}
+     * @type {Array<YCursor>}
     */
     cusrors;
     /**
-     * Значение повторения для курсоров.
-     * @type {boolean}
+     * Начальная строка добавления.
+     * Данная подстрока будет добавляться в начало к каждому вызову `paste` метода.
+     * @type {string}
     */
-    cursorRepeated = configYString.cursorRepeated ?? true;
-    /**
-     * шаблоны.
-     * @type {[YTemplate]}
-    */
-    templates;
+    prefix = '';
     /**
      * Конечная строка добавления.
      * Данная подстрока будет добавляться в конец к каждому вызову `paste` метода.
@@ -66,11 +64,25 @@ class DString extends SString {
     */
     postfix = '';
     /**
-     * Начальная строка добавления.
-     * Данная подстрока будет добавляться в начало к каждому вызову `paste` метода.
+     * Значение табуляции.
      * @type {string}
     */
-    prefix = '';
+    tabValue = configString?.ystring?.tabValue ?? '';
+    /**
+     * Индекс табуляции.
+     * @type {number}
+    */
+    tabIndex = 0;
+    /**
+     * шаблоны.
+     * @type {Array<YTemplate>}
+    */
+    templates;
+    /**
+     * Над-строка.
+     * @type {YString?}
+    */
+    stringOver = null;
 
 };
 class FString extends DString {
@@ -156,7 +168,7 @@ class FString extends DString {
 
         jectFill(this, t);
 
-        this.cusrors = [new YCursor({ string: this })];
+        this.cusrors = [new YCursor({ list: this })];
         this.templates = [];
         this.log.loged = (t.loged) ? t.loged : configYString.loged;
 
@@ -165,9 +177,12 @@ class FString extends DString {
 };
 
 /**
- *
+ * Класс строк.
+ * 
+ * Данный класс позволяет работать со строками.
+ * Экземпляры класса позволяют производить манипуляции над добавленными в неё значениями.
  * - Тип `SDFY-2.0`
- * - Версия `0.1.0`
+ * - Версия `0.1.2`
  * - Цепочка `BDVHC`
 */
 export class YString extends FString {
@@ -240,37 +255,32 @@ export class YString extends FString {
     */
     paste(...strings) {
 
-        if (this.cursorRepeated) this.cusrors.forEach(c => {
+        strings = strings.reverse();
 
-            strings.forEach(s => {
-
-                if (s instanceof Function) s = s() + '';
-
-                this.value = stringPaste(this.value, this.prefix + s + this.postfix, c.index, c.size);
-
-                c.move(this.prefix.length + s.length + this.postfix.length);
-
-                this.log.appendNotice(['*', `добавлено значение: ${stringCastToSample(s)}`]);
-
-            });
-
-        }); else while (strings.length) {
-
-            strings = strings.reverse();
+        while (strings.length) {
 
             for (const c of this.cusrors) {
 
                 if (strings.length) {
 
-                    const s = strings.pop();
+                    let sp = strings.pop(), so;
 
-                    if (s instanceof Function) s = s() + '';
+                    if (sp instanceof Function) sp = sp() + '';
+                    else if (sp instanceof YString) {
 
-                    this.value = this.prefix + stringPaste(this.prefix + this.value + this.postfix, s, c.index, c.size);
+                        sp.stringOver = this;
+                        sp = sp.get();
 
-                    c.move(this.prefix.length + s.length + this.postfix.length);
+                    };
 
-                    this.log.appendNotice(['*', `добавлено значение: ${stringCastToSample(s)}`]);
+                    so = sp;
+                    sp = (this.prefix + sp + this.postfix).replace(/^.+/mg, (this.tabValue ?? this?.stringOver?.tabValue)?.repeat(this.tabIndex ?? this?.stringOver?.tabIndex ?? 0) + '$&');
+
+                    this.value = stringPaste(this.value, sp, c.index, c.size);
+
+                    c.move(sp.length);
+
+                    this.log.appendNotice(['*', `добавлено значение: ${stringCastToSample(so)}`]);
 
                 } else break;
 
@@ -300,22 +310,10 @@ export class YString extends FString {
     */
     report() {
 
-        new YString()
-            .changePostfix(';\n')
-            .paste(
+        new YString(this.getReport())
 
-                `Префикс: ${stringCastToSample(this.prefix)}`,
-                `Постфикс: ${stringCastToSample(this.postfix)}`,
-                `Цвет заднего плана: ${this.colorB}`,
-                `Цвет переднего плана: ${this.colorF}`,
-                `Кол-во символов: ${this.value.length}`,
-                `Кол-во курсоров: ${this.cusrors.length}`,
-                `Кол-во шаблонов: ${this.templates.length}`,
-                `Позиции курсоров: ${this.cusrors.map(c => c.index)}`,
-
-            )
             .castToYReport()
-            .display();
+            .display()
 
         return this;
 
@@ -381,7 +379,7 @@ export class YString extends FString {
     */
     display() {
 
-        let r = this.value;
+        let r = this.get();
 
         if (this.colorF) {
 
@@ -460,6 +458,30 @@ export class YString extends FString {
 
     };
     /**
+     * Метод для получения информации.
+     * - Версия `0.0.0`
+    */
+    getReport() {
+
+        return new YString()
+
+            .changePostfix(';\n')
+            .paste(
+
+                `Префикс: '${stringCastToSample(this.prefix)}'`,
+                `Постфикс: '${stringCastToSample(this.postfix)}'`,
+                `Цвет заднего плана: '${this.colorB}'`,
+                `Цвет переднего плана: '${this.colorF}'`,
+                `Кол-во символов: ${this.value.length}`,
+                `Кол-во курсоров: ${this.cusrors.length}`,
+                `Кол-во шаблонов: ${this.templates.length}`,
+                `Позиции курсоров: [${this.cusrors.map(c => c.index)}]`,
+
+            )
+            .get();
+
+    };
+    /**
      * Метод для добавления курсора.
      * - Версия `0.0.0`
      * @param {number} size
@@ -467,7 +489,7 @@ export class YString extends FString {
     */
     addCursor(index, size) {
 
-        const c = new YCursor({ size, index, string: this, })
+        const c = new YCursor({ size, index, list: this, })
 
         this.cusrors.push(c);
 
@@ -517,7 +539,7 @@ export class YString extends FString {
 
             cursors.forEach(c => c.delete());
 
-            if (!this.length) this.cusrors.push(new YCursor({ string: this }));
+            if (!this.length) this.cusrors.push(new YCursor({ list: this }));
 
         };
 
@@ -570,6 +592,19 @@ export class YString extends FString {
 
     };
     /**
+     * Метод для изменения строки табуляции.
+     * - Версия `0.0.0`
+     * @param {string} string Новая строка табуляции.
+     * - По умолчанию `''`
+    */
+    changeTab(string = '') {
+
+        this.tabValue = string;
+
+        return this;
+
+    };
+    /**
      * Метод для изменения строки начального добавления.
      * - Версия `0.0.0`
      * @param {string}
@@ -595,6 +630,49 @@ export class YString extends FString {
 
         if (string) this.log.appendNotice(['*', `Изменено значение конечной вставки: ${string}`]);
         else this.log.appendNotice(['*', `Сброшено значение конечной вставки.`]);
+
+        return this;
+
+    };
+    /**
+     * Метод очистки префикса и постфикса.
+     * - Версия `0.0.0`
+    */
+    clearPrePostfix() {
+
+        this.changePrefix().changePostfix();
+
+        return this;
+
+    };
+    /**
+     * Метод для увелечения индекса табуляции.
+     * - Версия `0.0.0`
+     * @param {number} increase Сдвиг индекса табуляции.
+     * - По умолчанию `1`
+    */
+    increaseTab(increase = 1) {
+
+        this.tabIndex += increase;
+
+        return this;
+
+    };
+    /**
+     * Метод для уменьшения индекса табуляции.
+     * - Версия `0.0.0`
+     * @param {number} decrease Сдвиг индекса табуляции.
+     * - По умолчанию `1`
+    */
+    decreaseTab(decrease = 1) {
+
+        if (this.tabIndex) {
+
+            this.tabIndex -= decrease;
+
+            if (this.tabIndex < 0) this.tabIndex = 0;
+
+        };
 
         return this;
 

@@ -130,7 +130,7 @@ class FElement extends DElement {
     };
 
 };
-
+ 
 /**
  *
  * - Тип `SDFY`

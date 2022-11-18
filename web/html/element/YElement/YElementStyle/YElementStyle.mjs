@@ -1,8 +1,8 @@
 import { YElement } from "../YElement.mjs";
 import { jectFill } from "../../../../../../ject/ject.mjs";
-import { YStyle } from "../../../style/YStyle/YStyle.mjs";
 import { stringReplace } from "../../../../../../string/string.mjs";
 import { arrayRemove } from "../../../../../../array/array.mjs";
+import { YStyle } from "../../../style/YStyle/YStyle.mjs";
 
 /**
  * @typedef TBElementStyle
@@ -19,26 +19,26 @@ class DElementStyle extends SElementStyle {
 
     /**
      * Стили для типов.
-     * @type {[YStyle]}
+     * @type {Array<YStyle>}
     */
     types = [];
     /**
      * Стили для классов.
-     * @type {[YStyle]}
+     * @type {Array<YStyle>}
     */
     classes = [];
     /**
      * Стили для классов.
-     * @type {[YStyle]}
+     * @type {Array<YStyle>}
     */
     commons = [];
     /**
      * Стили для элементов.
-     * @type {[YStyle]}
+     * @type {Array<YStyle>}
     */
     identificators = [];
 
-    /** @type {HTMLStyleElement} */
+    /** @type {HTMLElementStyleElement} */
     element = this.element;
 
 };
@@ -52,7 +52,7 @@ class FElementStyle extends DElementStyle {
     */
     constructor(t = {}) {
 
-        t = FElementStyle.#before(...arguments);
+        t = FElementStyle.#before(arguments);
 
         FElementStyle.#deceit(t);
 
@@ -65,10 +65,19 @@ class FElementStyle extends DElementStyle {
     /** @param {TElementStyle} t @this {[]} */
     static #before(t) {
 
-        if (t.constructor === String) t = { string: t, };
-        if (!t) t = {};
-
-        return t;
+        if (t?.length === 1 && t[0]?.constructor === Object) {
+            
+            return t[0];
+            
+        } else if (t?.length) {
+            
+            const r = {};
+            
+            
+            
+            return r;
+            
+        } else return {};
 
     };
     /** @param {TElementStyle} t @this {YElementStyle} */
@@ -132,7 +141,13 @@ class FElementStyle extends DElementStyle {
 };
 
 /**
- *
+ * Класс элементов стиля.
+ * 
+ * Данный класс предназначен для работы с элементом `HTMLElementStyle`.
+ * Экземпляр размещается в заголовок документа.
+ * 
+ * Селекторы размещенные в данном элементе сохранены для того, чтобы быстро ссылаться на их значения.
+ * Все селекторы хранятся, как экземпляры `YStyle`, что позволяет изменять стили страницы через свойства данных экземпляров.
  * - Тип `SDFY-2.0`
  * - Версия `0.0.0`
  * - Цепочка `BDVHC`
@@ -147,7 +162,10 @@ export class YElementStyle extends FElementStyle {
 
         styles.forEach(s => {
 
-            if (s instanceof YStyle) switch (s.label[0]) {
+            s.tabel = this;
+
+            if (s.constructor === Object) s = new YStyle(s);
+            else switch (s.label[0]) {
 
                 default: {
 
@@ -172,6 +190,8 @@ export class YElementStyle extends FElementStyle {
                 }; break;
 
             };
+
+            s.change(s.property);
 
         });
 

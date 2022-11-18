@@ -1,3 +1,4 @@
+import { config } from "../config.mjs";
 import { numberGetRandomReal } from "../number/number.mjs";
 
 //#region mix 0.0.0
@@ -542,6 +543,89 @@ function replaceComply(t) {
 export function arrayReplace(array, value, ...replaces) {
 
     return replaceDeceit({ array, value, replaces });
+
+};
+
+//#endregion
+//#region countSignificant 0.0.0
+
+/**
+ * @typedef TBcountSignificant
+ * @prop {[]} array
+ * @typedef {TBcountSignificant} TcountSignificant
+*/
+  
+/** @param {TcountSignificant} t */
+function countSignificantDeceit(t) {
+    
+    try {
+        
+        return countSignificantVerify(t);
+        
+    } catch (e) {
+        
+        if (config.strict) throw e;
+        
+        return undefined;
+        
+    };
+    
+};
+/** @param {TcountSignificant} t */
+function countSignificantVerify(t) {
+    
+    const {
+    
+    
+    
+    } = t;
+    
+    return countSignificantHandle(t);
+   
+};
+/** @param {TcountSignificant} t */
+function countSignificantHandle(t) {
+   
+    let {
+    
+    
+    
+    } = t;
+    
+    
+    
+    t = {
+        
+        ...t,
+        
+    };
+   
+    return countSignificantComply(t);
+   
+};
+/** @param {TcountSignificant} t */
+function countSignificantComply(t) {
+   
+    const {
+    
+        array,
+    
+    } = t;
+    
+    return array.reduce(p => ++p, 0);
+    
+};
+
+/**
+ * Функция подсчета существенных элементов массива.
+ * Вернет число, соотвествующую кол-ву элементов, не являющихся пустыми.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @param {[]} array
+*/
+export function arrayCountSignificant(array) {
+
+    return countSignificantDeceit({ array });
 
 };
 
