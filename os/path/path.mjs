@@ -4,12 +4,13 @@ import { config, configOS, configPath, } from "../../config.mjs";
 import { fileREName, fileREPart } from "../file/file.mjs";
 import { stringFind } from "../../string/string.mjs";
 
-//#region get 0.0.2
+//#region get 0.1.0
 
 /**
  * @typedef TBget
  * @prop {number} limit
- * @prop {[string]} paths
+ * @prop {boolean} full
+ * @prop {Array<string>} paths
  * @prop {string|RegExp} fragment
  * @typedef {TBget} Tget
 */
@@ -62,6 +63,7 @@ function getComply(t) {
 
     const {
 
+        full,
         limit,
         paths,
         fragment,
@@ -115,7 +117,7 @@ function getComply(t) {
 
         };
 
-        return results;
+        return (full) ? results.map(r => configPath.pathProject + '/' + r) : results;
 
     };
 
@@ -123,14 +125,15 @@ function getComply(t) {
 
 /**
  * Функция для получения первого по соответствию фрагменту пути.
- * - Версия `0.0.0`
+ * - Версия `0.1.0`
  * - Цепочка `DVHCa`
+ * @param {boolean} full Логическое значение, определяющее полноту возвращаемого пути. Если `true`, то вернется полный путь до файла, `иначе` относительный.
  * @param {string|RegExp} fragment Фрагмент искомого пути.
  * @returns {string}
 */
-export function pathGet(fragment) {
+export function pathGet(fragment, full = configPath.full) {
 
-    return getDeceit({ fragment, limit: 1 })[0];
+    return getDeceit({ fragment, limit: 1, full })[0];
 
 };
 /**

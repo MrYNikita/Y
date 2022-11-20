@@ -1,4 +1,4 @@
-import { jectFill, jectSupplement } from "../../../../../ject/ject.mjs";
+import { jectFill, jectSupplement } from "../../../../ject/ject.mjs";
 import { elementCreate, elementCreateByString, elementStringDecompose } from "../element.mjs";
 
 /**

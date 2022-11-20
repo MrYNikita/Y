@@ -160,10 +160,3 @@ export class YStyleSet extends FStyleSet {
     };
     
 };
-
-export const backgroundGradientLinear = new YStyleSet(
-
-    `backgroundColor`,
-    `linear-gradient(45deg, blue, red)`
-
-);

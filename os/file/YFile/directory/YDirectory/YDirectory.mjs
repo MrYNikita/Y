@@ -3,6 +3,9 @@ import { jectFill } from "../../../../../ject/ject.mjs";
 import { pathDecompose, pathGet, pathGetAll } from "../../../../path/path.mjs";
 import { directoryGetDir, directoryGetFile } from "../directory.mjs";
 import { fileREExpand, fileRELocation, fileREName } from "../../../file.mjs";
+import { YString } from "../../../../../string/YString/YString.mjs";
+import { statSync } from 'fs';
+import { YTemplate } from "../../../../../string/YString/YTemplate/YTemplate.mjs";
 
 /**
  * @typedef TBDirectory
@@ -34,7 +37,7 @@ class FDirectory extends DDirectory {
     */
     constructor(t = {}) {
 
-        t = FDirectory.#before(...arguments);
+        t = FDirectory.#before(arguments);
 
         FDirectory.#deceit(t);
 
@@ -47,21 +50,30 @@ class FDirectory extends DDirectory {
     /** @param {TDirectory} t @this {[]} */
     static #before(t) {
 
-        if (t.constructor === String) {
+        if (t?.length === 1 && t[0]?.constructor === Object) {
 
-            const name = t.match(fileREName)[1], location = t.match(fileRELocation)?.[0];
+            return t;
 
-            t = {};
+        } else if (t?.length) {
 
-            if (location) t.location = location;
+            const r = {};
 
-            t.name = name;
+            switch (t.length) {
 
-        };
+                case 1: {
 
-        if (!t) t = {};
+                    const p = pathGet(t[0], false);
 
-        return t;
+                    r.name = p.match(fileREName)[1];
+                    r.location = p?.match(fileRELocation)?.[0] ?? '';
+
+                };
+
+            };
+
+            return r;
+
+        } else return {};
 
     };
     /** @param {TDirectory} t @this {YDirectory} */
@@ -119,7 +131,7 @@ class FDirectory extends DDirectory {
 
         jectFill(this, t);
 
-        this.paths = pathGetAll(this.getPath() + '/');
+        this.paths = pathGetAll(this.getPath());
 
     };
 
@@ -133,6 +145,20 @@ class FDirectory extends DDirectory {
 */
 export class YBDirectory extends FDirectory {
 
+    /**
+     * Метод отображения информации.
+     * - Версия `0.0.0`
+    */
+    report() {
+
+        new YString(this.getReport())
+
+            .castToYReport()
+            .display();
+
+        return this;
+
+    };
     getDir(fragment) {
 
         if (!this.deleted) {
@@ -175,8 +201,43 @@ export class YBDirectory extends FDirectory {
 
         } = this;
 
-        if (location) return `${location}/${name}`;
-        else return name;
+        console.log(name, location);
+
+        if (location) return `${location}${name}/`;
+        else return `${name}/`;
+
+    };
+    /**
+     * Метод получения информации в виде строки.
+     * - Версия `0.0.0`
+    */
+    getReport() {
+
+        const d = statSync(pathGet(this.getPath()));
+
+        return new YString()
+
+            .changePostfix(';\n')
+            .paste(
+
+                `Наименование: ${this.name}`,
+                `Расположение: ${this.location}`,
+                `Расширение: ${this.expand}`,
+                `Удален: ${this.deleted}`,
+                `Размер: ${d.size} KB`,
+                `Путей: ${this.paths.length}`,
+                
+            )
+            .pasteTemplate(new YTemplate('l', '---\n'))
+            .changePostfix('\n')
+            .paste(`Пути:`)
+            .increaseTab()
+            .changePostfix(';\n')
+            .paste(...this.paths)
+            .changePostfix()
+            .decreaseTab()
+            .pasteTemplate('l')
+            .get()
 
     };
 

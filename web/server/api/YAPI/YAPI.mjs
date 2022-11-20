@@ -164,7 +164,7 @@ export class YAPI extends FAPI {
     */
     exec(req, res) {
 
-        const r = this.routs.find(r => r.url === req.url);
+        const r = this.routs.find(r => r.url === req.url.split('?')[0] ?? req.url);
 
         if (r) {
 

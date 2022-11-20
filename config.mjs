@@ -16,6 +16,11 @@ export const config = {
         path: {
 
             /**
+             * Параметр возврата полного пути до искомых файлов.
+             * @type {boolean}
+            */
+            full: true,
+            /**
              * `Пути` проекта.
              * 
              * При кэшировании поиска путей, сохраняет найденные пути. Используется для оптимизации.
@@ -136,6 +141,14 @@ export const config = {
                 },
 
             },
+            scriptsBody: [
+
+                'YStyle',
+                'YElement',
+                'YStyleSet',
+                'YElementStyle',
+
+            ].map(s => s + '.mjs'),
 
         },
         server: {

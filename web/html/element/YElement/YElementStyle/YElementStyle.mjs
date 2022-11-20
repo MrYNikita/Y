@@ -1,7 +1,7 @@
 import { YElement } from "../YElement.mjs";
-import { jectFill } from "../../../../../../ject/ject.mjs";
-import { stringReplace } from "../../../../../../string/string.mjs";
-import { arrayRemove } from "../../../../../../array/array.mjs";
+import { jectFill } from "../../../../../ject/ject.mjs";
+import { stringReplace } from "../../../../../string/string.mjs";
+import { arrayRemove } from "../../../../../array/array.mjs";
 import { YStyle } from "../../../style/YStyle/YStyle.mjs";
 
 /**

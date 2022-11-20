@@ -231,9 +231,8 @@ export class YServer extends FServer {
             })
             .on('request', (req, res) => {
 
-                console.log('IP: ' + req.socket.remoteAddress, 'LocalIP: ' + req.socket.localAddress);
-
                 this.api.exec(req, res);
+                this.log.appendNotice(['*', `Осуществлен запрос по адресу: ${req.url}`])
 
             })
             .listen(this.port, this.host, async () => {

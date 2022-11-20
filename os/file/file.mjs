@@ -1,5 +1,5 @@
-import { pathGet } from "../path/path.mjs";
-import { existsSync, readFileSync, renameSync, writeFileSync } from "fs";
+import { pathGet, pathGetProject } from "../path/path.mjs";
+import { existsSync, readFileSync, renameSync, unlinkSync, writeFileSync } from "fs";
 import { config, configOS, configFile } from "../../config.mjs";
 import { arrayAppend } from "../../array/array.mjs";
 import { jectChangeDeep } from "../../ject/ject.mjs";
@@ -21,7 +21,7 @@ export const fileREPart = /.+?(\/|$)/g;
  * - Версия `0.0.1`
  * @type {RegExp}
 */
-export const fileREExpand = /(?:.+?\.)(.+)/;
+export const fileREExpand = /(?:\.)([^.]+)$/;
 /**
  * Регулярное выражение для извлечения места размещения файла.
  * - Версия `0.0.1`
@@ -75,7 +75,11 @@ function readHandle(t) {
 
     } = t;
 
+    if (t.fragment) {
 
+        if (!t.fragment.includes(pathGetProject())) t.fragment = pathGet(t.fragment);
+
+    };
 
     t = {
 
@@ -96,10 +100,12 @@ function readComply(t) {
 
     } = t;
 
+    const r = readFileSync(fragment, 'utf8');
+
     switch (expand) {
 
-        case 'json': return JSON.parse(readFileSync(pathGet(fragment)));
-        default: return readFileSync(pathGet(fragment), 'utf8');
+        case 'json': return JSON.parse(r);
+        default: return r;
 
     };
 
@@ -107,7 +113,7 @@ function readComply(t) {
 
 /**
  * Функция для считывания данных файла как текста.
- * - Версия `0.0.0`
+ * - Версия `0.0.1`
  * - Цепочка `DVHCa`
  * @param {string} expand
  * @param {string|RegExp} fragment
@@ -120,7 +126,7 @@ export function fileRead(fragment, expand) {
 };
 /**
  * Функция для считывания данных файла как текста.
- * - Версия `0.0.0`
+ * - Версия `0.0.1`
  * - Цепочка `DVHCa`
  * @param {string|RegExp} fragment
  * @returns {{}|string}
@@ -132,7 +138,7 @@ export function fileReadText(fragment) {
 };
 /**
  * Функция для считывания данных файла как json.
- * - Версия `0.0.0`
+ * - Версия `0.0.1`
  * - Цепочка `DVHCa`
  * @param {string}
  * @returns {{}|[]|string}
@@ -552,7 +558,7 @@ function deleteComply(t) {
     
     const path = pathGet(fragment);
 
-    if (!fileConfig.protected.includes(path)) unlinkSync(pathGet(fragment));
+    if (!configFile.protects.includes(path)) unlinkSync(pathGet(fragment));
     
 };
 

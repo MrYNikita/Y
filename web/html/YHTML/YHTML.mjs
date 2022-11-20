@@ -1,5 +1,9 @@
-import { jectFill } from "../../../ject/ject.mjs";
 import { YString } from "../../../string/YString/YString.mjs";
+import { jectFill } from "../../../ject/ject.mjs";
+import { configHtml } from "../../../config.mjs";
+import { YElementStyle } from "../element/YElement/YElementStyle/YElementStyle.mjs";
+import { fileRead, fileReadJson, fileReadText } from "../../../os/file/file.mjs";
+import { pathGet } from "../../../os/path/path.mjs";
 
 /**
  * @typedef TBHTML
@@ -20,6 +24,11 @@ class DHTML extends SHTML {
     */
     title = 'YHTML';
     /**
+     * Элементы.
+     * @type {Array<string>}
+    */
+    elements = [];
+    /**
      * Скрипты заголовка доккумента.
      * Данные скрипты будут загружены перед загрузкой страницы.
      * @type {Array<string>}
@@ -30,7 +39,12 @@ class DHTML extends SHTML {
      * Данные скрипты будут загружены по мере возможности.
      * @type {Array<string>}
     */
-    scriptsBody = ['index'];
+    scriptsBody = ['index.mjs'];
+    /**
+     * Функция инициализации.
+     * @type {() => {}}
+    */
+    initialization = () => {};
     
 };
 class FHTML extends DHTML {
@@ -106,8 +120,6 @@ class FHTML extends DHTML {
             
         } = t;
         
-        [t?.scriptsHead, t?.scriptsBody].forEach(s => s?.map(s => /\.m?js/.test(s) ? s : s + '.mjs'));
-        
         t = {
             
             ...t,
@@ -125,8 +137,8 @@ class FHTML extends DHTML {
         } = t;
         
         jectFill(this, t);
-        
-        
+
+        console.log(fileRead('YStyleSet.mjs'));
         
     };
     
@@ -195,21 +207,12 @@ export class YHTML extends FHTML {
                             .changePostfix('\n')
                             .paste(
 
+                                ...this.elements,
                                 ...this.scriptsBody.map(s => `<script type='module' src='${s}'></script>`)
 
                             )
                             .changePostfix()
-                            .paste(
-
-                               `<script type='module'>
-                                    (${(_ => {
-
-                                                
-
-                                    }).toString()})()
-                               </script>`
-
-                            )
+                            .paste(`<script type='module'>(${this.initialization.toString()})()</script>`)
                             .get(),
                     )
                     .changePostfix()

@@ -1,8 +1,7 @@
 import { YString } from "../../../../string/YString/YString.mjs";
-import { jectFill } from "../../../../../ject/ject.mjs";
+import { jectFill } from "../../../../ject/ject.mjs";
 import { YElementStyle } from "../../element/YElement/YElementStyle/YElementStyle.mjs";
-import { stringFind, stringHandle, stringReplace } from "../../../../../string/string.mjs";
-import { stringConvertCamelCaseToDelimetr } from "../../../../string/string.mjs";
+import { stringConvertCamelCaseToDelimetr, stringFind, stringHandle, stringReplace } from "../../../../string/string.mjs";
 import { YStyleSet } from "./YStyleSet/YStyleSet.mjs";
 
 /**

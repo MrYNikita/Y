@@ -1,6 +1,6 @@
-import { arrayReplace } from "../../../../array/array.mjs";
-import { config, configHtml, configHtmlElement } from "../../../../config.mjs";
-import { stringFind } from "../../../../string/string.mjs";
+import { arrayReplace } from "../../../array/array.mjs";
+import { config, configHtml, configHtmlElement } from "../../../config.mjs";
+import { stringFind } from "../../../string/string.mjs";
 import { YString } from "../../../string/YString/YString.mjs";
 
 /**

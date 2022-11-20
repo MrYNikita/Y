@@ -1,7 +1,8 @@
 import { jectFill } from "../../../ject/ject.mjs";
 import { fileAppend, fileDelete, fileMove, fileRead, fileReadText, fileREExpand, fileRELocation, fileREName, fileRename, fileWrite } from "../file.mjs";
-import { existsSync } from "fs";
-import { pathGet, pathGetAll } from "../../path/path.mjs";
+import { stat, statSync } from "fs";
+import { pathGet } from "../../path/path.mjs";
+import { YString } from "../../../string/YString/YString.mjs";
 
 /**
  * @typedef TBFile
@@ -170,6 +171,20 @@ export class YBFile extends FFile {
 
     };
     /**
+     * Метод отображения информации.
+     * - Версия `0.0.0`
+    */
+    report() {
+
+        new YString(this.getReport())
+            
+            .castToYReport()
+            .display()
+
+        return this;
+
+    };
+    /**
      * Метод для переименования файла.
      * @param {string} name
     */
@@ -217,6 +232,29 @@ export class YBFile extends FFile {
 
         if (location) return `${location}/${name}.${expand}`;
         else return `${name}.${expand}`;
+
+    };
+    /**
+     * Метод получения информации отображения в виде строки.
+     * - Версия `0.0.0`
+    */
+    getReport() {
+
+        const d = statSync(this.location + this.getNameFull());
+
+        return new YString()
+
+            .changePostfix(';\n')
+            .paste(
+
+                `Наименование: ${this.name}`,
+                `Расширение: ${this.expand}`,
+                `Размещение: ${this.location}`,
+                `Удален: ${this.deleted}`,
+                `Размер: ${d.size}KB`,
+
+            )
+            .get()
 
     };
     /**
