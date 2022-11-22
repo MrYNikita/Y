@@ -25,7 +25,7 @@ class DClient extends SClient {
      * Адрес.
      * @type {string}
     */
-    url;
+    url = '192.168.0.106:8000';
     /**
      * WebSocket соединение.
      * @type {WebSocket}

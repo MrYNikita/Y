@@ -70,7 +70,7 @@ function getComply(t) {
 
     } = t;
 
-    if (existsSync(fragment.source)) {
+    if (existsSync(fragment.source) && !full) {
 
         return [fragment.source];
 
@@ -92,7 +92,7 @@ function getComply(t) {
 
         ) {
 
-            const path = originals.pop();
+            let path = originals.pop();
 
             if (limit && fragment && path.match(fragment)) {
 
@@ -112,7 +112,7 @@ function getComply(t) {
                 results.push(path);
 
             };
-
+            
             if (lstatSync(pathProject + '/' + path).isDirectory()) arrayAppend(originals, ...readdirSync(pathProject + '/' + path).map(e => `${path}/${e}`));
 
         };

@@ -212,7 +212,6 @@ export class YAPI extends FAPI {
         return this;
 
     };
-
     logInfo() {
 
         let {

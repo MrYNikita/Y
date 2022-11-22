@@ -1201,6 +1201,100 @@ export function stringReverse(string) {
 };
 
 //#endregion
+//#region reflect 0.0.0
+
+/**
+ * @typedef TBreflect
+ * @prop {string} string
+ * @prop {boolean} every
+ * @prop {Array<[string,string]>} mirrors
+ * @typedef {TBreflect} Treflect
+*/
+  
+/** @param {Treflect} t */
+function reflectDeceit(t) {
+    
+    try {
+        
+        return reflectVerify(t);
+        
+    } catch (e) {
+        
+        if (config.strict) throw e;
+        
+        return undefined;
+        
+    };
+    
+};
+/** @param {Treflect} t */
+function reflectVerify(t) {
+    
+    const {
+    
+    
+    
+    } = t;
+    
+    return reflectHandle(t);
+   
+};
+/** @param {Treflect} t */
+function reflectHandle(t) {
+   
+    let {
+    
+    
+    
+    } = t;
+    
+    if (t.mirrors.length) t.mirrors.forEach(m => m[0] = new RegExp(m[0], 'g'));
+    
+    t = {
+        
+        ...t,
+        
+    };
+   
+    return reflectComply(t);
+   
+};
+/** @param {Treflect} t */
+function reflectComply(t) {
+   
+    const {
+    
+        every,
+        string,
+        mirrors,
+    
+    } = t;
+    
+    return every ? string.split('\n').map(s => s + stringReverse(stringReplace(s, ...mirrors))).join('\n') : string + stringReverse(stringReplace(string, ...mirrors));
+    
+};
+
+/**
+ * Функция для добавления к строке её зеркального отражения.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @param {string} string Исходная строка.
+ * @param {boolean} every Логическое значение, которое определяет, как следует проводить отражение.
+ * Значение `true` означает, что необходимо зеркально отразить каждую строку с переносом по отдельности.
+ * Значение `false` же прибавит инвертированную копию текущей строки на конец исходной.
+ * - По умоланию `false`
+ * @param {...[string,string]} mirrors Зеркальные символы. Представлен парой ключ-значение.
+ * По ключу осуществляется поиск символа исходной строки.
+ * Найденное совпадение в отражении заменяется значением, если соответсвующий ключ существует.
+ * - По умолчанию `[]`
+*/
+export function stringReflect(string, every = false, ...mirrors) {
+
+    return reflectDeceit({ string, every, mirrors });
+
+};
+
+//#endregion
 //#region generateWord 0.0.0
 
 /**

@@ -4,7 +4,7 @@ import { pathDecompose, pathGet, pathGetAll } from "../../../../path/path.mjs";
 import { directoryGetDir, directoryGetFile } from "../directory.mjs";
 import { fileREExpand, fileRELocation, fileREName } from "../../../file.mjs";
 import { YString } from "../../../../../string/YString/YString.mjs";
-import { statSync } from 'fs';
+import { readdirSync, statSync } from 'fs';
 import { YTemplate } from "../../../../../string/YString/YTemplate/YTemplate.mjs";
 
 /**
@@ -138,7 +138,9 @@ class FDirectory extends DDirectory {
 };
 
 /**
- *
+ * Базовый класс директорий.
+ * 
+ * Базовый класс директорий содержит базовую основу директорий, которая может использоваться для наследования, аналогично базовому классу файлов.
  * - Тип `SDFY`
  * - Версия `0.0.0`
  * - Цепочка `BDVHC`
@@ -201,8 +203,6 @@ export class YBDirectory extends FDirectory {
 
         } = this;
 
-        console.log(name, location);
-
         if (location) return `${location}${name}/`;
         else return `${name}/`;
 
@@ -221,10 +221,10 @@ export class YBDirectory extends FDirectory {
             .paste(
 
                 `Наименование: ${this.name}`,
-                `Расположение: ${this.location}`,
+                `Расположение: '${this.location}'`,
                 `Расширение: ${this.expand}`,
                 `Удален: ${this.deleted}`,
-                `Размер: ${d.size} KB`,
+                // `Размер: ${readdirSync(this.getPath()).reduce((p, c) => p + statSync(c).size, 0)} KB`,
                 `Путей: ${this.paths.length}`,
                 
             )
@@ -259,7 +259,7 @@ export class YDirectory extends YBDirectory {
 
         } = this;
 
-        return `${this.location}/${this.name}`;
+        return `${this.location}${this.name}`;
 
     };
 

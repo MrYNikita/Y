@@ -176,7 +176,7 @@ export class YRout extends FRout {
 
         } = this;
 
-        return `* ${api.serv.getUrl()}${url}; Метод: ${method}; Тип данных: ${type}`;
+        return `${api.serv.getUrl()}${url}; Метод: ${method}; Тип данных: ${type}`;
 
     };
 

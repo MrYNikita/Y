@@ -1,4 +1,4 @@
-import http from "http";
+import http, { get } from "http";
 import crypto from "crypto";
 import { YLog } from "../../../log/YLog/YLog.mjs";
 import { YAPI } from "../api/YAPI/YAPI.mjs";
@@ -24,7 +24,7 @@ import { arrayRemove } from "../../../array/array.mjs";
 
 class SServer {
 
-
+    static protocol = 'http';
 
 };
 class DServer extends SServer {
@@ -330,16 +330,32 @@ export class YServer extends FServer {
     };
     report() {
 
-        new YString()
+        new YString(this.getReport())
+
+            .castToYReport()
+            .display()
+
+        return this;
+
+    };
+    /**
+     * Метод получения информации в виде строки.
+     * - Версия `0.0.0`
+    */
+    getReport() {
+
+        return new YString()
+
             .changePostfix(';\n')
             .paste(
 
                 `url: ${this.host}:${this.port}`,
+                `Путей: ${this.api.routs.length}`,
                 `Протокол: http`,
                 `Модификация: ws`,
-                `Директория: ${this?.dir?.getNameFull()}`,
+                `Директория: ${this?.dir?.getPath()}`,
                 `Соединений: ${this.socks.length}`,
-                `Интервал проверки соединений: ${this.pingIntervalTime}ms`
+                `Интервал проверки соединений: ${this.pingIntervalTime}ms`,
 
             )
             .pasteTemplate(new YTemplate({ label: 'l', value: '---\n' }))
@@ -352,24 +368,17 @@ export class YServer extends FServer {
 
             )
             .pasteTemplate('l')
-            .paste(
-
-                `Путей: ${this.api.routs.length}`,
-                ...this.api.routs.map(r => r.getInfo())
-
-            )
+            .changePostfix('\n')
+            .paste(`Пути:`)
+            .changePostfix(';\n')
+            .paste(...this.api.routs.map(r => r.getInfo()))
             .pasteTemplate('l')
             .changePostfix('\n')
-            .paste(
-
-                `Журнал уведомлений:`,
-                ...this.log.getVisiable()
-
-            )
-            .castToYReport()
-            .display()
-
-        return this;
+            .paste('Соединения:')
+            .changePostfix(';\n')
+            .paste(...this.socks)
+            .pasteTemplate('l')
+            get();
 
     };
     getUrl() {
@@ -381,7 +390,7 @@ export class YServer extends FServer {
 
         } = this;
 
-        return `${host}:${port}`;
+        return `${YServer.protocol}://${host}:${port}`;
 
     };
 
