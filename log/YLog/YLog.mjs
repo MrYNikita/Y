@@ -1,5 +1,7 @@
 import { configLog } from "../../config.mjs";
 import { jectFill } from "../../ject/ject.mjs";
+import { YString } from "../../string/YString/YString.mjs";
+import { YTemplate } from "../../string/YString/YTemplate/YTemplate.mjs";
 import { YNotice } from "../YNotice/YNotice.mjs";
 import { YSection } from "../YNotice/YSection/YSection.mjs";
 
@@ -31,6 +33,14 @@ class DLog extends SLog {
      * @type {boolean}
     */
     loged = true;
+    /**
+     * Секция по умолчанию.
+     * Данная секция используется всеми методами для взаимодействия с секциями журнала.
+     * Если такие методы нуждаются в указании, то данная секция будет указана для взаимодействия по умолчанию, если та была не указана.
+     * В противном случае, если методы работают только с секцией по умолчанию, то они найдут её здесь.
+     * @type {YSection}
+    */
+    sectionDefault = this.list[0];
 
 };
 class FLog extends DLog {
@@ -138,6 +148,65 @@ export class YLog extends FLog {
 
     };
     /**
+     * Метод отображения информации.
+     * - Версия `0.0.0`
+    */
+    report() {
+
+        new YString(this.getReport()).castToYReport().display();
+
+        return this;
+
+    };
+    /**
+     * Метод получения информации.
+     * - Версия `0.0.0`
+    */
+    getReport() {
+
+        return new YString()
+
+            .changePostfix(';\n')
+            .paste(
+
+                `Секций: ${this.list.length}`,
+                `Записей: ${this.list.reduce((p, c) => p + c.list.length, 0)}`,
+                `Видимость: ${this.vis}`,
+
+            )
+            .pasteTemplate(new YTemplate('l', '---\n'))
+            .changePostfix('\n')
+            .paste(
+
+                ...this.list.map(s => new YString().changePostfix('; ').paste(
+                    
+                    `Метка: ${s.label}`,
+                    `Символ: ${s.symbol}`,
+                    `Размер: ${s.size}`,
+                    `Записей: ${s.list.length}`,
+                    
+                ))
+
+            )
+            .get();
+
+    };
+    /**
+     * Метод добавления запичи в журнал.
+     * - Версия `0.0.0`
+     * @param {string} label Метка, по которой определяется тип записи.
+     * Вместо метки может быть указан символ.
+     * - По умолчанию `this.list[0].label`
+     * @param {...string} records Записи для журнала.
+    */
+    write(label, ...records) {
+
+        if (this.loged) this.list.find(s => s.label === label || s.symbol === label).append(...records);
+
+        return this;
+
+    };
+    /**
      * Метод получения сообщений в области видимости.
      * - Версия `0.0.0`
      * @param {number} vis Область видимости.
@@ -146,6 +215,24 @@ export class YLog extends FLog {
     getVisiable(vis = this.vis) {
 
         return this.get().slice(-vis);
+
+    };
+    /**
+     * Метод назначения секции по умолчанию.
+     * - Версия `0.0.0`
+     * @param {number|string} determinant Определитель.
+     * По данному параметру осуществляется выбор секции по умолчанию.
+     * Если указана `строка`, то определителем выступает метка или символ секции.
+     * 
+     * Если же указано `число`, то определителем выступает индекс секции в списке - данный вариант является `предпочтительным`.
+     * В случае указания некоректного значения, будет выбрана первая секция в списке журнала.
+    */
+    setSectionDefault(determinant) {
+
+        if (determinant.constructor === Number) this.sectionDefault = this.list[determinant] ?? this.list[0];
+        else if (determinant.constructor === String) this.sectionDefault = this.list.find(s => s.label === determinant || s.symbol === determinant);
+
+        return this;
 
     };
     /**

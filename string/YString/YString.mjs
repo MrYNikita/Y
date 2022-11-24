@@ -6,7 +6,7 @@ import { jectFill } from "../../ject/ject.mjs";
 import { YCursor } from "../../ject/YCursor/YCursor.mjs";
 import { YLog } from "../../log/YLog/YLog.mjs";
 import { YSection } from "../../log/YNotice/YSection/YSection.mjs";
-import { stringAppend, stringBring, stringCastToSample, stringCastToYReport, stringFilter, stringFind, stringFindToJect, stringHandle, stringPad, stringPaste, stringRemove, stringRepaint, stringReplace, stringReverse } from "../string.mjs";
+import { stringAppend, stringBring, stringCastToSample, stringCastToYReport, stringFilter, stringFind, stringFindToJect, stringHandle, stringPad, stringPaste, stringReflect, stringRemove, stringRepaint, stringReplace, stringReverse } from "../string.mjs";
 import { YTemplate } from "./YTemplate/YTemplate.mjs";
 
 /**
@@ -50,7 +50,7 @@ class DString extends SString {
      * Курсоры.
      * @type {Array<YCursor>}
     */
-    cusrors;
+    cursors;
     /**
      * Начальная строка добавления.
      * Данная подстрока будет добавляться в начало к каждому вызову `paste` метода.
@@ -168,7 +168,7 @@ class FString extends DString {
 
         jectFill(this, t);
 
-        this.cusrors = [new YCursor({ list: this })];
+        this.cursors = [new YCursor({ list: this })];
         this.templates = [];
         this.log.loged = (t.loged) ? t.loged : configYString.loged;
 
@@ -259,7 +259,7 @@ export class YString extends FString {
 
         while (strings.length) {
 
-            for (const c of this.cusrors) {
+            for (const c of this.cursors) {
 
                 if (strings.length) {
 
@@ -374,6 +374,21 @@ export class YString extends FString {
 
     };
     /**
+     * Метод отзеркаливания строки.
+     * - Версия `0.0.0`
+     * @param {boolean} every Логическое значение, которое определяет, как следует проводить отражение.
+     * Значение true означает, что необходимо зеркально отразить каждую строку с переносом по отдельности.
+     * Значение false же прибавит инвертированную копию текущей строки на конец исходной.
+     * @param {...Array<string,string>} mirrors 
+    */
+    reflect(every = false, ...mirrors) {
+
+        this.value = stringReflect(this.value, every, ...mirrors);
+
+        return this;
+
+    };
+    /**
      * Метод для отображения текущего состояния строки.
      * - Версия `0.1.0`
     */
@@ -458,6 +473,30 @@ export class YString extends FString {
 
     };
     /**
+     * Метод установки размера области влияния курсоров.
+     * - Версия `0.0.0`
+     * @param {number} size Область влияния курсоров.
+    */
+    setCursorSize(size = 0) {
+
+        this.cursors.forEach(c => c.size = size);
+        
+        return this;
+
+    };
+    /**
+     * Метод утсановки курсора на заданную позицию.
+     * - Версия `0.0.0`
+     * @param {number} position Место установки для курсора.
+    */
+    setCursorPositionTo(position) {
+
+        this.removeCursor().cursors[0].move(position - this.cursors[0].index);
+
+        return this;
+
+    };
+    /**
      * Метод для получения информации.
      * - Версия `0.0.0`
     */
@@ -473,9 +512,9 @@ export class YString extends FString {
                 `Цвет заднего плана: '${this.colorB}'`,
                 `Цвет переднего плана: '${this.colorF}'`,
                 `Кол-во символов: ${this.value.length}`,
-                `Кол-во курсоров: ${this.cusrors.length}`,
+                `Кол-во курсоров: ${this.cursors.length}`,
                 `Кол-во шаблонов: ${this.templates.length}`,
-                `Позиции курсоров: [${this.cusrors.map(c => c.index)}]`,
+                `Позиции курсоров: [${this.cursors.map(c => c.index)}]`,
 
             )
             .get();
@@ -491,7 +530,7 @@ export class YString extends FString {
 
         const c = new YCursor({ size, index, list: this, })
 
-        this.cusrors.push(c);
+        this.cursors.push(c);
 
         this.log.appendNotice(['*', `Добавлен кусор. Индекс: ${c.index}; Размер: ${c.size};`,])
 
@@ -533,13 +572,13 @@ export class YString extends FString {
 
         if (!cursors.length) {
 
-            this.cusrors.splice(1).forEach(c => c.delete());
+            this.cursors.splice(1).forEach(c => c.delete());
 
         } else {
 
             cursors.forEach(c => c.delete());
 
-            if (!this.length) this.cusrors.push(new YCursor({ list: this }));
+            if (!this.length) this.cursors.push(new YCursor({ list: this }));
 
         };
 
@@ -575,7 +614,7 @@ export class YString extends FString {
 
         this.value += v;
 
-        this.cusrors[0].move(v.length);
+        this.cursors[0].move(v.length);
 
         return this;
 

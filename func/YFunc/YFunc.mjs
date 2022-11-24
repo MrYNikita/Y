@@ -1,5 +1,5 @@
 import { YLog } from "../../log/YLog/YLog.mjs";
-import { jectFill } from "../../ject/ject.mjs";
+import { jectFill, jectReplaceDeep, jectSetDeep } from "../../ject/ject.mjs";
 import { YProc } from "./YProc/YProc.mjs";
 import { YSection } from "../../log/YNotice/YSection/YSection.mjs";
 import { arrayUnique } from "../../array/array.mjs";
@@ -28,6 +28,21 @@ class DFunc extends SFunc {
      * @type {number}
     */
     index = 0;
+    /**
+     * Метка. Определяет текущую исполняемую функцией процедуру.
+     * - По умолчанию `null`
+     * @type {string?}
+    */
+    label = null;
+    /**
+     * Карта.
+     * 
+     * Это представление последовательности в объектном варианте.
+     * Каждое свойство данного объекта - `логическая часть функции`.
+     * Значениями таких свойств выступают строки, которые ссылаются на метки нужных процедур.
+     * @type {{}}
+    */
+    card = {};
     /**
      * Последовательность.
      * @type {Array<[string,YProc]>}
@@ -171,11 +186,16 @@ export class YFunc extends FFunc {
 
         const yfc = this.copy();
 
-        yfc.sequence = yfc.sequence.slice().filter(p => !yfc.filterCategory.includes(p[1].category));
+        yfc.sequence = Object.entries(yfc.card);
 
-        for (; yfc.sequence[yfc.index]; yfc.index++) yfc.sequence[yfc.index][1].instruction.apply(yfc, [yfc.transmit, {  }]);
+        while (yfc.index !== -1 && yfc.sequence[yfc.index]) {
 
-        yfc.index = 0;
+            yfc.sequence[yfc.index][1].instruction.apply(yfc, [yfc.transmit, {}]);
+
+            if (!yfc.index && yfc.index !== 0) break;
+            else yfc.index++;
+
+        };
 
         return this;
 
@@ -217,7 +237,20 @@ export class YFunc extends FFunc {
     */
     finish() {
 
-        this.index = -1;
+        this.index = -2;
+
+        return this;
+
+    };
+    /**
+     * Метод для исключения процедур последовательности по указанным категориям.
+     * - Версия `0.0.0`
+     * @param {...string} categories Категории исключения.
+    */
+    excludeByCategory(...categories) {
+
+        this.procedures = this.procedures.filter(p => !categories.includes(p.category));
+        this.sequence = this.sequence.filter(p => !categories.includes(p[1].category));
 
         return this;
 
@@ -241,6 +274,19 @@ export class YFunc extends FFunc {
 
             )
             .get();
+
+    };
+    /**
+     * Метод изменения карты.
+     * - Версия `0.0.0`
+     * @param {{}} card Новая карта.
+     * - По умолчанию `{}`
+    */
+    changeCard(card = {}) {
+
+        this.card = card;
+
+        return this;
 
     };
     /**
@@ -285,77 +331,20 @@ export class YFunc extends FFunc {
     /**
      * Метод добавления процедуры.
      * - Версия `0.0.0`
-     * @param {...string|YProc|[string, string|YProc]} procs Метка процедуры или новая процедура.
+     * @param {...YProc|[string,import("./YProc/YProc.mjs").TProcInstruction,string]} procs Метка процедуры или новая процедура.
     */
     appendProcedure(...procs) {
+    
+        for (let p of procs) {
 
-        for (let pair of procs) {
+            switch (p.constructor) {
 
-            let proc = pair;
-
-            if (proc) {
-
-                switch (proc.constructor) {
-
-                    case YProc: {
-
-                        this.appendProcedure(proc);
-
-                    }; break;
-                    case String: {
-
-                        this.log.appendNotice(['*', `Осуществялется поиск процедуры ${proc};`]);
-
-                        proc = this.procedures.find(p => p.label === proc);
-
-                        if (proc) {
-
-                            this.log.appendNotice(['*', `Процедура ${proc.label} найдена;`]);
-
-                        } else {
-
-                            this.log.appendNotice(['!', `Процедура ${proc} не существует;`]);
-
-                            return this;
-
-                        };
-
-                    }; break;
-
-                };
-
-                if (pair.length === 1) this.sequence.push(['', proc]);
-                else this.sequence.push([pair[0], proc]);
-
-                this.log.appendNotice(['*', `В последовательность добавлена новая процедура ${proc.label};`]);
+                case Array: p = new YProc({ label: p[0], instruction: p[1], category: p[2], func: this, }); break;
+                case Object: p = new YProc({ ...p, func: this, }); break;
 
             };
 
-        };
-
-        return this;
-
-    };
-    /**
-     * Метод для создания процедуры.
-     * - Версия `0.0.0`
-     * @param {string} label Метка.
-     * @param {string} category Категория.
-     * @param {function} func Функция.
-    */
-    createProcedure(label, func, category) {
-
-        this.log.appendNotice(['*', `Создание процедуры ${label};`])
-
-        if (this.procedures.every(p => p.label !== label)) {
-
-            this.procedures.push(new YProc({ label, category, instruction: func, func: this }));
-
-            this.log.appendNotice(['*', `Создана процедура ${label};`]);
-
-        } else {
-
-            this.log.appendNotice(['!', `Процедура с меткой ${label} уже существует;`]);
+            if (!this.procedures.includes(p)) this.procedures.push(p);
 
         };
 
@@ -373,10 +362,9 @@ export class YFunc extends FFunc {
 
             if (alias.constructor === String) {
 
-
                 const index = this.sequence.findIndex(p => p[0] === alias);
-
-                if ((index || index === 0) && index !== -1) this.index = index - 1;
+                
+                this.index = index >= 0 ? index - 1 : this.index;
 
             };
 

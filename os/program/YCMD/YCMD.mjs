@@ -1,8 +1,11 @@
-import { spawn } from "child_process";
+import { exec, fork, spawn } from "child_process";
+import { config } from "process";
+import { configPath } from "../../../config.mjs";
 import { jectFill } from "../../../ject/ject.mjs";
 import { YLog } from "../../../log/YLog/YLog.mjs";
 import { stringRepaint } from "../../../string/string.mjs";
 import { YString } from "../../../string/YString/YString.mjs";
+import { YTemplate } from "../../../string/YString/YTemplate/YTemplate.mjs";
 import { pathGetProject } from "../../path/path.mjs";
 
 /**
@@ -28,6 +31,25 @@ class DCMD extends SCMD {
      * @type {import("child_process").ChildProcessWithoutNullStreams}
     */
     connect;
+    /**
+     * Текущее местоположение запущенного терминала.
+     * @type {string}
+    */
+    pathNow;
+    /**
+     * Путь до места, где будет запущен терминал.
+     * - По умолчанию `configPath.pathProject` - равен пути до проекта.
+     * @type {string}
+    */
+    pathBegin;
+    /**
+     * Логическое значение отстраненности.
+     * Если `true`, то запущенный процесс не является основным и работает в фоновом режиме.
+     * Иначе работает, как основной.
+     * - По умолчанию `true`.
+     * @type {boolean}
+    */
+    detached = true;
 
 };
 class FCMD extends DCMD {
@@ -95,7 +117,8 @@ class FCMD extends DCMD {
 
         } = t;
 
-
+        if (!t.pathBegin) t.pathBegin = configPath.pathProject ?? pathGetProject();
+        if (!t.pathNow) t.pathNow = t.pathBegin;
 
         t = {
 
@@ -115,7 +138,15 @@ class FCMD extends DCMD {
 
         jectFill(this, t);
 
-        this.connect = spawn('cmd.exe', { cwd: pathGetProject(), detached: true, });
+        this.connect = spawn('cmd.exe', { cwd: this.pathBegin, detached: this.detached });
+
+        this.exec(`cd ${this.pathBegin}`);
+
+        this.connect.stdout.on('data', (data) => {
+
+            console.log(data.toString());
+
+        });
 
     };
 
@@ -132,23 +163,47 @@ class FCMD extends DCMD {
 export class YCMD extends FCMD {
 
     /**
+     * Метод выполнения команд.
+     * - Версия `0.0.0`
+     * @param {...string} commands Набор команд, переданных для выполнения.
+    */
+    exec(...commands) {
+
+        commands.forEach(c => this.connect.stdin.write(`${c}\n`));
+
+        return this;
+
+    };
+    /**
      * Метод отображения информации.
      * - Версия `0.0.0`
     */
     report() {
 
-        const ystr = new YString()
-
-            .append(`YCMD\n`)
-            .append(`---\n`)
-            .append(`Тип: ${this.constructor.name};\n`)
-            .append(`Сообщений: ${this.log.get().length};\n`)
-            .append(`Состояние: ${(!this.connect.killed) ? 'on' : 'off'};\n`)
-            .handle(s => s.replace(/[\w\d]+/g, stringRepaint('$&', 'c')), /:.+?;/g)
-
-        ystr.log();
+        new YString(this.getReport()).castToYReport().display();
 
         return this;
+
+    };
+    /**
+     * Метод получения информации.
+     * - Версия `0.0.0`
+    */
+    getReport() {
+
+        return new YString()
+
+            .changePostfix(';\n')
+            .paste(
+
+                `Состояние: ${!this.connect.killed}`,
+                `Текущее местоположение: ${this.pathNow}`,
+                `Начальное местоположение: ${this.pathBegin}`,
+
+            )
+            .pasteTemplate(new YTemplate('l', '---\n'))
+            .paste(...this.log.getVisiable())
+            .get();
 
     };
 
