@@ -1,6 +1,6 @@
 import { YString } from "../../string/YString/YString.mjs";
-import { arrayRemove } from "../../array/array.mjs";
-import { configYString } from "../../config.mjs";
+import { arrayRemoveByElement } from "../../array/array.mjs";
+import { configJect, configYString } from "../../config.mjs";
 import { jectFill } from "../ject.mjs";
 import { numberGetNearstIndex } from "../../number/number.mjs";
 import { YList } from "../YList/YList.mjs";
@@ -38,7 +38,7 @@ class DCursor extends SCursor {
      * Если `true`, то индекс будет смещаться на кол-во добавленных символов.
      * @type {boolean}
     */
-    fixed = configYString.fixed ?? true;
+    fixed = configJect?.fixed ?? true;
 
 };
 class FCursor extends DCursor {
@@ -195,7 +195,7 @@ export class YCursor extends FCursor {
     */
     delete() {
 
-        arrayRemove(this.list.cursors, this);
+        arrayRemoveByElement(this.list.cursors, this);
 
         this.size = undefined;
         this.index = undefined;

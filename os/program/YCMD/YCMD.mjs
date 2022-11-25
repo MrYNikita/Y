@@ -27,6 +27,13 @@ class DCMD extends SCMD {
     */
     log = new YLog();
     /**
+     * Данные.
+     * Данные, полученные при выполнении команд в терминале сохраняются в данное свойство.
+     * - По умолчанию `[]`
+     * @type {Array<string}
+    */
+    data = [];
+    /**
      * Соединение с терминалом.
      * @type {import("child_process").ChildProcessWithoutNullStreams}
     */
@@ -144,7 +151,9 @@ class FCMD extends DCMD {
 
         this.connect.stdout.on('data', (data) => {
 
-            console.log(data.toString());
+            this.data.push(data.toString());
+
+            this.log.write('*', `Добавлены новые данные`);
 
         });
 
@@ -197,6 +206,7 @@ export class YCMD extends FCMD {
             .paste(
 
                 `Состояние: ${!this.connect.killed}`,
+                `Блоков данных: ${this.data.length}`,
                 `Текущее местоположение: ${this.pathNow}`,
                 `Начальное местоположение: ${this.pathBegin}`,
 

@@ -1,8 +1,9 @@
-import { arrayRemove } from "../../array/array.mjs";
-import { configLog, configString, configYString } from "../../config.mjs";
+import { arrayRemoveByElement } from "../../array/array.mjs";
+import { configLog, configString } from "../../config.mjs";
 import { YFunc } from "../../func/YFunc/YFunc.mjs";
 import { YProc } from "../../func/YFunc/YProc/YProc.mjs";
 import { jectFill } from "../../ject/ject.mjs";
+import { YBasic } from "../../ject/YBasic/YBasic.mjs";
 import { YCursor } from "../../ject/YCursor/YCursor.mjs";
 import { YLog } from "../../log/YLog/YLog.mjs";
 import { YSection } from "../../log/YNotice/YSection/YSection.mjs";
@@ -15,22 +16,13 @@ import { YTemplate } from "./YTemplate/YTemplate.mjs";
  * @typedef {DString&TBString} TString
 */
 
-class SString {
+class SString extends YBasic {
 
 
 
 };
 class DString extends SString {
 
-    /**
-     * Журнал.
-     * @type {YLog}
-    */
-    log = new YLog({ loged: configYString.loged ?? false }).appendSection(
-
-        { label: 'info', symbol: '*' },
-
-    );
     /**
      * Текущее состояние строки.
      * @type {string}
@@ -67,7 +59,7 @@ class DString extends SString {
      * Значение табуляции.
      * @type {string}
     */
-    tabValue = configString?.ystring?.tabValue ?? '';
+    tabValue = configString?.tabValue ?? '';
     /**
      * Индекс табуляции.
      * @type {number}
@@ -77,7 +69,7 @@ class DString extends SString {
      * шаблоны.
      * @type {Array<YTemplate>}
     */
-    templates;
+    templates = configString?.templates?.map(t => new YTemplate(...t));
     /**
      * Над-строка.
      * @type {YString?}
@@ -169,8 +161,7 @@ class FString extends DString {
         jectFill(this, t);
 
         this.cursors = [new YCursor({ list: this })];
-        this.templates = [];
-        this.log.loged = (t.loged) ? t.loged : configYString.loged;
+        this.log.loged = (t.loged) ? t.loged : configString?.loged ?? false;
 
     };
 
@@ -587,34 +578,89 @@ export class YString extends FString {
     };
     /**
      * Метод для добавления шаблона в строку.
-     * - Версия `0.0.0`
-     * @param {number} index Индекс добавления.
-     * @param {...string|YString} Вставки.
-     * @param {string|YString|YTemplate} template Строка, выступающая шаблоном, метка существубщего шаблона или новый экземпляр шаблона.
+     * 
+     * Шаблон вставляется в соответствии с правилом курсоров.
+     * Это означает, что его размещение зависит от местоположения курсора.
+     * 
+     * Шаблон может включать в себя вставки.
+     * Подробнее о вставках можно прочитать в классе шаблонов.
+     * - Версия `0.1.0`
+     * @param {...string|YTemplate|[string, string, Array<string|number>]|[YTemplate, Array<string|number>]} templates Шаблоны.
+     * Передаются в качестве остаточного параметра двумя вариантами: экземпляром шаблона или массивом строк.
+     * 
+     * Первый вариант предполагает, что нужный шаблон уже существует и воспринимает аргумент как его метку.
+     * В данном случае для вставки достаточно лишь указать метку в виде строки.
+     * 
+     * Второй вариант предполагает явное указание экземпляра шаблона или объекта с аналогичными свойствами.
+     * Указание объекта желательно избегать в пользу третьего варианта.
+     * 
+     * Третий вариант предполагает указание в качестве шаблона массива значений.
+     * Первые два значения являются строками, а последнее - массивом с набором вставок, если они требуются.
+     * 
+     * Четвертый вариант аналогичен первому и третьему, так как указывается массивом и в качестве первого аргумента приводится экземпляр шаблона.
+     * Вторым аргументом указывается массив вставок, если он требуется. 
     */
-    pasteTemplate(template, index = this.value.length, ...inserts) {
+    pasteTemplate(...templates) {
 
-        let v;
+        templates.forEach(tn => {
 
-        if (template.constructor === String) {
+            let v = '';
+            
+            switch (tn.constructor) {
 
-            v = Array.from(this.templates).find(t => t.label === template)?.value ?? '';
+                case Array: {
 
-        } else if (template instanceof YString) {
+                    if (tn.length >= 2 && tn[0].constructor === String) {
 
-            v = template.get(true);
+                        tn = new YTemplate(...tn);
+                        
+                        v = tn.value;
+                        
+                        this.templates.push(tn);
 
-        } else if (template instanceof YTemplate) {
+                        if (tn[2]);
 
-            v = template.value;
+                    } else {
 
-            this.templates.push(template);
+                        v = tn[0].value;
 
-        };
+                        this.templates.push(tn[0]);
 
-        this.value += v;
+                        if (tn[1]);
 
-        this.cursors[0].move(v.length);
+                    };
+
+                }; break;
+                case String: {
+
+                    v = this.templates.find(t => t.label === tn)?.value ?? '';
+
+                }; break;
+                case YString: {
+
+                    v = tn.get(true);
+
+                }; break;
+                case Object: {
+
+                    tn = new YTemplate(tn);
+
+                };
+                case YTemplate: {
+
+                    v = tn.value;
+
+                    this.templates.push(tn);
+
+                }; break;
+
+            };
+
+            this.value += v;
+
+            this.cursors[0].move(v.length);
+
+        });
 
         return this;
 

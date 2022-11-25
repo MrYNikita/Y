@@ -173,16 +173,16 @@ function defineContentTypeComply(t) {
 
     switch (type) {
 
-        case 'css': return 'text/css';
-        case 'ico': return 'image/x-icon';
-        case 'png': return 'image/png';
-        case 'gif': return 'image/gif';
-        case 'html': return 'text/html';
-        case 'text': return 'text/plaint';
-        case 'pdf': return 'application/pdf';
-        case 'json': return 'application/json';
-        case 'js': case 'cjs': case 'mjs': return 'application/javascript';
-        default: return 'text/plain';
+        case 'css': return 'text/css; charset=utf-8';
+        case 'ico': return 'image/x-icon; charset=utf-8';
+        case 'png': return 'image/png; charset=utf-8';
+        case 'gif': return 'image/gif; charset=utf-8';
+        case 'html': return 'text/html; charset=utf-8';
+        case 'text': return 'text/plaint; charset=utf-8';
+        case 'pdf': return 'application/pdf; charset=utf-8';
+        case 'json': return 'application/json; charset=utf-8';
+        case 'js': case 'cjs': case 'mjs': return 'application/javascript; charset=utf-8';
+        default: return 'text/plain; charset=utf-8 ';
 
     };
     

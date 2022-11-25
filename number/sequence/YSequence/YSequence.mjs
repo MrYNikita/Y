@@ -176,7 +176,7 @@ class FSequence extends DSequence {
 
         jectFill(this, t);
 
-        this.calculateCount();
+        this.сount();
 
     };
 
@@ -215,6 +215,64 @@ export class YSequence extends FSequence {
 
     };
     /**
+     * Метод добавления значений в последовательность.
+     * - Версия `0.0.0`
+     * @param {...number} numbers Числа.
+    */
+    append(...numbers) {
+
+        numbers = numbers.reverse();
+
+        if (!this.min) this.min = numbers[0];
+        if (!this.max) this.max = numbers[0];
+
+        this.count += numbers.length;
+
+        while (numbers.length) {
+
+            const n = numbers.pop();
+
+            if (n < this.min) this.min = n;
+            if (n > this.max) this.max = n;
+            
+            if (this.numbers.at(-1) instanceof Array && Math.abs(this.numbers.at(-1)[1] - n) === 1) {
+                
+                this.numbers.at(-1)[1] = n;
+                
+            } else if (Math.abs(this.numbers.at(-1) - n) === 1) {
+
+                this.numbers.push([this.numbers.pop(), n]);
+
+            } else this.numbers.push(n);
+
+        };
+
+
+        return this;
+
+    };
+    /**
+     * Метод подсчета чисел в последовательности.
+     * - Версия `0.0.0`
+    */
+    сount() {
+
+        return this.count = this.numbers.reduce((p, c) => {
+
+            if (c instanceof Array) {
+
+                let [min, max] = c;
+
+                if (min > max) [min, max] = [max, min];
+
+                return p + (max - min) + 1;
+
+            } else return p++;
+
+        }, 0);
+
+    };
+    /**
      * 
      * - Версия `0.0.0`
      * 
@@ -243,27 +301,6 @@ export class YSequence extends FSequence {
     checkEntry(...sequence) {
 
         return sequenceCheckEntry(this.numbers, ...sequence.map(s => (s instanceof YSequence) ? s.numbers : s));
-
-    };
-    /**
-     * Метод подсчета чисел в последовательности.
-     * - Версия `0.0.0`
-    */
-    calculateCount() {
-
-        return this.count = this.numbers.reduce((p, c) => {
-
-            if (c instanceof Array) {
-
-                let [min, max] = c;
-
-                if (min > max) [min, max] = [max, min];
-
-                return p + (max - min) + 1;
-
-            } else return p++;
-
-        }, 0);
 
     };
 

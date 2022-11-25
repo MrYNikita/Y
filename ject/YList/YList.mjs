@@ -1,4 +1,4 @@
-import { arrayRemove } from "../../array/array.mjs";
+import { arrayRemoveByElement } from "../../array/array.mjs";
 import { YFunc } from "../../func/YFunc/YFunc.mjs";
 import { numberGetNearstIndex, numberCheckEntryRange } from "../../number/number.mjs";
 import { YString } from "../../string/YString/YString.mjs";

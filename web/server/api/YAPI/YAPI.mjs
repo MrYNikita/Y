@@ -164,6 +164,9 @@ export class YAPI extends FAPI {
     */
     exec(req, res) {
 
+        res.setHeader('X-Content-Type-Options', 'nosniff');
+        res.setHeader('Cache-Control', 'no-cache');
+
         const r = this.routs.find(r => r.url === req.url.split('?')[0] ?? req.url);
 
         if (r) {

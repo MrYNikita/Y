@@ -1,4 +1,4 @@
-import { arrayRemove } from "../array/array.mjs";
+import { arrayRemoveByElement } from "../array/array.mjs";
 import { config, configNotice } from "../config.mjs";
 import { logChainError } from "../log/log.mjs";
 
@@ -504,7 +504,7 @@ function setDeepComply(t) {
 
         };
 
-        for (const v of arrayRemove(Object.values(s), value)) if (typeof v === 'object' && v !== property && !su.includes(v)) {
+        for (const v of arrayRemoveByElement(Object.values(s), value)) if (typeof v === 'object' && v !== property && !su.includes(v)) {
 
             su.push(v);
             structures.push(v);

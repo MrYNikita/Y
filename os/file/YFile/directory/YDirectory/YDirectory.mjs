@@ -62,10 +62,11 @@ class FDirectory extends DDirectory {
 
                 case 1: {
 
-                    const p = pathGet(t[0], false);
+                    const p = pathGet(t[0]);
 
                     r.name = p.match(fileREName)[1];
                     r.location = p?.match(fileRELocation)?.[0] ?? '';
+
 
                 };
 

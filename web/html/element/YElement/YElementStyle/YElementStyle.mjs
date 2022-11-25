@@ -1,7 +1,7 @@
 import { YElement } from "../YElement.mjs";
 import { jectFill } from "../../../../../ject/ject.mjs";
 import { stringReplace } from "../../../../../string/string.mjs";
-import { arrayRemove } from "../../../../../array/array.mjs";
+import { arrayRemoveByElement } from "../../../../../array/array.mjs";
 import { YStyle } from "../../../style/YStyle/YStyle.mjs";
 
 /**
@@ -211,7 +211,7 @@ export class YElementStyle extends FElementStyle {
             
             this.element.innerText = stringReplace(this.element.innerText, [s.label + ' ?{.*?}', '']);
             
-            arrayRemove(s.location, s);
+            arrayRemoveByElement(s.location, s);
 
         });
 

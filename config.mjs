@@ -183,6 +183,17 @@ export const config = {
     },
     ject: {
 
+        basic: {
+
+
+
+        },
+        cursor: {
+
+            fixed: true,
+
+        },
+
     },
     func: {
 
@@ -225,19 +236,13 @@ export const config = {
     },
     string: {
 
-        ystring: {
+        loged: false,
+        tabValue: ' '.repeat(4),
+        templates: [
 
-            fixed: true,
-            loged: false,
-            tabValue: ' '.repeat(4),
-            cursorRepeated: true,
-            templates: [
-
-                { label: 'line', value: '---\n' },
-
-            ],
-
-        },
+            ['l', '---\n'],
+            
+        ],
         castToDate: {
 
             ru: '<d>.<m>.<y>-<hh>:<mm>:<ss>'

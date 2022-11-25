@@ -11,7 +11,8 @@ import { YTemplate } from "../../../string/YString/YTemplate/YTemplate.mjs";
 import { YDirectory } from "../../../os/file/YFile/directory/YDirectory/YDirectory.mjs";
 import { stringRepaint } from "../../../string/string.mjs";
 import { config, configServer, configWeb } from "../../../config.mjs";
-import { arrayRemove } from "../../../array/array.mjs";
+import { arrayRemoveByElement } from "../../../array/array.mjs";
+import { YBasic } from "../../../ject/YBasic/YBasic.mjs";
 
 /**
  * @typedef TBServer
@@ -22,37 +23,13 @@ import { arrayRemove } from "../../../array/array.mjs";
  * @typedef {YServer&TBServer} TServer
 */
 
-class SServer {
+class SServer extends YBasic {
 
     static protocol = 'http';
 
 };
 class DServer extends SServer {
 
-    /**
-     * Журнал.
-     * @type {YLog}
-    */
-    log = new YLog().appendSection(
-
-        {
-            label: 'error',
-            symbol: 'x',
-        },
-        {
-
-            label: 'warner',
-            symbol: '!'
-
-        },
-        {
-
-            label: 'info',
-            symbol: '*',
-
-        }
-
-    );
     /**
      * `API`.
      * @type {YAPI}
@@ -172,7 +149,7 @@ class FServer extends DServer {
 
         } = t;
 
-        if (t.dir.constructor === String) t.dir = new YDirectory(t.dir);
+        if (t.dir.constructor === String || t.dir.constructor === RegExp) t.dir = new YDirectory(t.dir);
 
         t = {
 
@@ -328,20 +305,6 @@ export class YServer extends FServer {
         return this;
 
     };
-    report() {
-
-        new YString(this.getReport())
-
-            .castToYReport()
-            .display()
-
-        return this;
-
-    };
-    /**
-     * Метод получения информации в виде строки.
-     * - Версия `0.0.0`
-    */
     getReport() {
 
         return new YString()
@@ -353,7 +316,7 @@ export class YServer extends FServer {
                 `Путей: ${this.api.routs.length}`,
                 `Протокол: http`,
                 `Модификация: ws`,
-                `Директория: ${this?.dir?.getPath()}`,
+                `Директория: ${this?.dir?.getNameFull()}`,
                 `Соединений: ${this.socks.length}`,
                 `Интервал проверки соединений: ${this.pingIntervalTime}ms`,
 
@@ -378,7 +341,7 @@ export class YServer extends FServer {
             .changePostfix(';\n')
             .paste(...this.socks)
             .pasteTemplate('l')
-            get();
+            .get();
 
     };
     getUrl() {

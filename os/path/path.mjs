@@ -9,125 +9,18 @@ import { jectReplaceDeep, jectSetDeep } from "../../ject/ject.mjs";
 import { YString } from "../../string/YString/YString.mjs";
 import { YCMD } from "../program/YCMD/YCMD.mjs";
 
+/** @type {regexp} */
+export const pathREFileInfo = /(\d+\.){2}\d{4,} *?\d{2}:\d{2} *?(<DIR>)? *?(\d+?)? *?(\w|\.)+/mg;
+
 //#region get 0.2.0
 
 /**
  * @typedef TBget
  * @prop {number} limit
- * @prop {boolean} full
  * @prop {Array<string>} paths
  * @prop {string|RegExp} fragment
  * @typedef {TBget} Tget
 */
-
-const yfGetDeceit = new YFunc().changeCard({
-
-    conditionDebug: 'conditionDebug',
-    conditionLimit: 'conditionLimit',
-    conditionFragment: 'conditionFragment',
-    extractPath: 'extractPath',
-    count: 'count',
-    checkFragment: 'checkFragment',
-    append: 'append',
-    checkLimit: 'checkLimit',
-    additemPath: 'additemPath',
-    report: 'report',
-    conditionCiclePath: 'conditionCiclePath',
-
-}).appendProcedure(
-
-    ['conditionDebug', function (t) {
-
-        if (!t.debug) this.excludeByCategory('debug');
-
-    }],
-    ['conditionLimit', function (t) {
-
-        if (!t.limit) {
-
-            this.excludeByCategory('limit');
-
-            t.notic.paste(`Проверка лимитов отключена!`);
-
-        } else t.notic.paste(`Проверка лимитов включена! Лимит: ${t.limit}`);
-
-
-    }, 'limit'],
-    ['conditionFragment', function (t) {
-
-        if (!t.fragment) {
-
-            this.excludeByCategory('fragment');
-
-            t.notic.paste(`Проверка фрагментов отключена!`);
-
-        } else t.notic.paste(`Проверка фрагментов включена! Фрагмент: ${t.fragment.source ?? t.fragment}`);
-
-    }, 'fragment'],
-    ['extractPath', function (t) {
-
-        t.p = t.paths.pop();
-
-        t.notic.paste(
-
-            `Итерация: ${t.n}`,
-            `Извлечен путь: ${t.p}`,
-
-        );
-
-    }],
-    ['checkLimit', function (t) {
-
-        if (t.limit === t.results.length) this.finish();
-
-    }, 'limit'],
-    ['count', function (t) {
-
-        t.notic.paste(`Счетчик увеличен с ${t.n} до ${++t.n}`);
-
-    }],
-    ['report', function (t) {
-
-        t.notic
-
-            .paste(
-
-                `Путей на данный момент: ${t.results.length}`,
-                `Кандидаты: ${t.paths.length}`
-
-            )
-            .pasteTemplate('l')
-            .display();
-
-        t.notic.value = '';
-
-    }, 'debug'],
-    ['checkFragment', function (t) {
-
-        if (t.p.match(t.fragment)) this.moveIndexByAlias('append');
-        else this.moveIndexByAlias('additemPath');
-
-    }, 'fragment'],
-    ['append', function (t) {
-
-        t.notic.paste(`Путь ${t.p} входит в фрагмент ${t.fragment.source} и был добавлен в результат.`);
-
-        t.results.push(t.p);
-
-    }],
-    ['additemPath', function (t) {
-
-        if (lstatSync(t.pathProject + '/' + t.p).isDirectory()) arrayAppend(t.paths, ...readdirSync(t.pathProject + '/' + t.p).map(e => `${t.p}/${e}`));
-
-    }],
-    ['conditionCiclePath', function (t) {
-
-        if (t.paths.length) this.moveIndexByAlias('extractPath');
-        else this.finish();
-
-    }],
-
-);
 
 /** @param {Tget} t */
 function getDeceit(t) {
@@ -177,7 +70,6 @@ function getComply(t) {
 
     const {
 
-        full,
         limit,
         paths = readdirSync(configPath.pathProject),
         fragment,
@@ -188,31 +80,76 @@ function getComply(t) {
 
     } = configPath;
 
+    const func0 = path => lstatSync(pathProject + '/' + path).isDirectory() ? arrayAppend(paths, ...readdirSync(pathProject + '/' + path).map(e => `${path}/${e}`)) : 0;
     /** @type {Array<string>} */
     const results = [];
 
-    if (existsSync(fragment.source)) return [fragment.source];
+    if (fragment && limit) {
 
-    new YCMD().report();
+        for (
 
-    // yfGetDeceit.setTransmit({
+            let count = 0;
+            paths.length && count < limit;
+            
+        ) {
 
-    //     n: 0,
-    //     full,
-    //     p: null,
-    //     paths,
-    //     pathProject,
-    //     limit,
-    //     results,
-    //     fragment,
-    //     debug: configPath.debug,
-    //     notic: new YString()
+            const path = paths.pop();
 
-    //         .changePrefix(' * ')
-    //         .changePostfix(';\n')
-    //         .addTemplate('l', '---\n')
+            if (path.match(fragment)) {
 
-    // }).exec();
+                count++;
+                results.push(path);
+
+            };
+
+            func0(path);
+
+        };
+
+    } else if (fragment && !limit) {
+
+        while (paths.length) {
+
+            const path = paths.pop();
+
+            if (path.match(fragment)) results.push(path);
+
+            func0(path);
+
+        };
+
+    } else if (!fragment && limit) {
+
+        for (
+            
+            let count = 0;
+            count < limit;
+            
+        ) {
+
+            const path = paths.pop();
+
+            results.push(path);
+
+            func0(path);
+            
+            count++;
+
+        };
+
+    } else {
+
+        while (paths.length) {
+
+            const path = paths.pop();
+
+            results.push(path);
+
+            func0(path);
+
+        };
+
+    };
 
     return results;
 
@@ -220,15 +157,14 @@ function getComply(t) {
 
 /**
  * Функция для получения первого по соответствию фрагменту пути.
- * - Версия `0.1.0`
+ * - Версия `0.1.1`
  * - Цепочка `DVHCa`
- * @param {boolean} full Логическое значение, определяющее полноту возвращаемого пути. Если `true`, то вернется полный путь до файла, `иначе` относительный.
  * @param {string|RegExp} fragment Фрагмент искомого пути.
  * @returns {string}
 */
-export function pathGet(fragment, full = configPath.full) {
+export function pathGet(fragment) {
 
-    return getDeceit({ fragment, limit: 1, full });
+    return getDeceit({ fragment, limit: 1 })[0];
 
 };
 /**
