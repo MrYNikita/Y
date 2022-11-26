@@ -1,11 +1,4 @@
-<<<<<<< HEAD
 import { configString } from "../../config.mjs";
-=======
-import { arrayRemoveByElement } from "../../array/array.mjs";
-import { configLog, configString } from "../../config.mjs";
-import { YFunc } from "../../func/YFunc/YFunc.mjs";
-import { YProc } from "../../func/YFunc/YProc/YProc.mjs";
->>>>>>> main
 import { jectFill } from "../../ject/ject.mjs";
 import { YBasic } from "../../ject/YBasic/YBasic.mjs";
 import { YCursor } from "../../ject/YCursor/YCursor.mjs";
@@ -163,10 +156,6 @@ class FString extends DString {
         jectFill(this, t);
 
         this.cursors = [new YCursor({ list: this })];
-<<<<<<< HEAD
-=======
-        this.log.loged = (t.loged) ? t.loged : configString?.loged ?? false;
->>>>>>> main
 
     };
 
@@ -582,7 +571,6 @@ export class YString extends FString {
     };
     /**
      * Метод для добавления шаблона в строку.
-<<<<<<< HEAD
      *
      * Шаблон вставляется в соответствии с правилом курсоров.
      * Это означает, что его размещение зависит от местоположения курсора.
@@ -610,91 +598,12 @@ export class YString extends FString {
             this.templates.push(yt);
 
             v = yt.get();
-=======
-     * 
-     * Шаблон вставляется в соответствии с правилом курсоров.
-     * Это означает, что его размещение зависит от местоположения курсора.
-     * 
-     * Шаблон может включать в себя вставки.
-     * Подробнее о вставках можно прочитать в классе шаблонов.
-     * - Версия `0.1.0`
-     * @param {...string|YTemplate|[string, string, Array<string|number>]|[YTemplate, Array<string|number>]} templates Шаблоны.
-     * Передаются в качестве остаточного параметра двумя вариантами: экземпляром шаблона или массивом строк.
-     * 
-     * Первый вариант предполагает, что нужный шаблон уже существует и воспринимает аргумент как его метку.
-     * В данном случае для вставки достаточно лишь указать метку в виде строки.
-     * 
-     * Второй вариант предполагает явное указание экземпляра шаблона или объекта с аналогичными свойствами.
-     * Указание объекта желательно избегать в пользу третьего варианта.
-     * 
-     * Третий вариант предполагает указание в качестве шаблона массива значений.
-     * Первые два значения являются строками, а последнее - массивом с набором вставок, если они требуются.
-     * 
-     * Четвертый вариант аналогичен первому и третьему, так как указывается массивом и в качестве первого аргумента приводится экземпляр шаблона.
-     * Вторым аргументом указывается массив вставок, если он требуется. 
-    */
-    pasteTemplate(...templates) {
 
-        templates.forEach(tn => {
+        };
 
-            let v = '';
-            
-            switch (tn.constructor) {
+        this.value += v;
 
-                case Array: {
-
-                    if (tn.length >= 2 && tn[0].constructor === String) {
-
-                        tn = new YTemplate(...tn);
-                        
-                        v = tn.value;
-                        
-                        this.templates.push(tn);
-
-                        if (tn[2]);
-
-                    } else {
-
-                        v = tn[0].value;
->>>>>>> main
-
-                        this.templates.push(tn[0]);
-
-                        if (tn[1]);
-
-                    };
-
-                }; break;
-                case String: {
-
-                    v = this.templates.find(t => t.label === tn)?.value ?? '';
-
-                }; break;
-                case YString: {
-
-                    v = tn.get(true);
-
-                }; break;
-                case Object: {
-
-                    tn = new YTemplate(tn);
-
-                };
-                case YTemplate: {
-
-                    v = tn.value;
-
-                    this.templates.push(tn);
-
-                }; break;
-
-            };
-
-            this.value += v;
-
-            this.cursors[0].move(v.length);
-
-        });
+        this.cursors[0].move(v.length);
 
         return this;
 

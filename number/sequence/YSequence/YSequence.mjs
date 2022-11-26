@@ -234,19 +234,11 @@ export class YSequence extends FSequence {
 
             if (n < this.min) this.min = n;
             if (n > this.max) this.max = n;
-<<<<<<< HEAD
 
             if (this.numbers.at(-1) instanceof Array && Math.abs(this.numbers.at(-1)[1] - n) === 1) {
 
                 this.numbers.at(-1)[1] = n;
 
-=======
-            
-            if (this.numbers.at(-1) instanceof Array && Math.abs(this.numbers.at(-1)[1] - n) === 1) {
-                
-                this.numbers.at(-1)[1] = n;
-                
->>>>>>> main
             } else if (Math.abs(this.numbers.at(-1) - n) === 1) {
 
                 this.numbers.push([this.numbers.pop(), n]);
@@ -281,15 +273,9 @@ export class YSequence extends FSequence {
 
     };
     /**
-<<<<<<< HEAD
      *
      * - Версия `0.0.0`
      *
-=======
-     * 
-     * - Версия `0.0.0`
-     * 
->>>>>>> main
     */
     getReport() {
 
@@ -310,11 +296,7 @@ export class YSequence extends FSequence {
     /**
      * Метод проверки указанного диапазона на принадлежнсоть данному.
      * - Версия `0.0.0`
-<<<<<<< HEAD
      * @param {...YSequence|Array<number>|number} sequence Диапазон, который будет проверен на принадлежность вышестоящему диапазону.
-=======
-     * @param {...YSequence|Array<number>|number} sequence Диапазон, который будет проверен на принадлежность вышестоящему диапазону. 
->>>>>>> main
     */
     checkEntry(...sequence) {
 

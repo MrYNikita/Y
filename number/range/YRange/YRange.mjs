@@ -146,11 +146,7 @@ class FRange extends IRange {
 
 /**
  * Класс числовых диапазонов.
-<<<<<<< HEAD
  *
-=======
- * 
->>>>>>> main
  * Данный класс предназначен для работы с линейными диапазонами.
  * Диапазоны хранят исключительно уникальные значения.
  * - Тип `SDIFY-1.0`
@@ -159,7 +155,6 @@ class FRange extends IRange {
 */
 export class YRange extends FRange {
 
-<<<<<<< HEAD
     /**
      * Метод для проверки вхождения значения в диапазон.
      * - Версия `0.0.0`
@@ -184,10 +179,6 @@ export class YRange extends FRange {
 
     };
 
-=======
-
-
->>>>>>> main
     getReport() {
 
         return new YString()
