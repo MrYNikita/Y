@@ -210,7 +210,11 @@ export class YElementStyle extends FElementStyle {
             if (s.constructor === String) {};
 
             this.element.innerText = stringReplace(this.element.innerText, [s.label + ' ?{.*?}', '']);
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> main
             arrayRemoveByElement(s.location, s);
 
         });

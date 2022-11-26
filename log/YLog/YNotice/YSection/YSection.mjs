@@ -1,7 +1,14 @@
+<<<<<<< HEAD:log/YLog/YNotice/YSection/YSection.mjs
 import { arrayAppend, arrayRemoveByElement } from "../../../../array/array.mjs";
 import { configLog } from "../../../../config.mjs";
 import { jectFill } from "../../../../ject/ject.mjs";
 import { stringCastToDate, stringCastToSample, stringReplace } from "../../../../string/string.mjs";
+=======
+import { arrayAppend, arrayRemoveByElement } from "../../../array/array.mjs";
+import { configLog } from "../../../config.mjs";
+import { jectFill } from "../../../ject/ject.mjs";
+import { stringCastToDate, stringCastToSample, stringReplace } from "../../../string/string.mjs";
+>>>>>>> main:log/YNotice/YSection/YSection.mjs
 import { YNotice } from "../YNotice.mjs";
 
 /**

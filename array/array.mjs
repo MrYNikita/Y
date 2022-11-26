@@ -270,6 +270,7 @@ function removeComply(t) {
     } = t;
 
     if (elements?.length) while (elements.length) {
+<<<<<<< HEAD
 
         const element = elements.pop();
 
@@ -290,6 +291,28 @@ function removeComply(t) {
 
         array.splice(index, 1);
 
+=======
+
+        const element = elements.pop();
+
+        for (let index = 0; index < array.length; index++) {
+
+            if (array[index] === element) {
+
+                array.splice(index, 1);
+                index--;
+                
+            };
+            
+        };
+        
+    } else if (indexs?.length) while(indexs.length) {
+        
+        const index = indexs.pop();
+        
+        array.splice(index, 1);
+        
+>>>>>>> main
     } else array.splice(0);
 
     return array;
@@ -299,6 +322,7 @@ function removeComply(t) {
 /**
  * Функция для удаления элементов из массива по индексам.
  * - Версия `0.0.0`
+<<<<<<< HEAD
  * - Цепочка `DVHCa`
  * @param {Array<any>} array Исходный массив.
  * @param {...number} indexs Индексы удаления.
@@ -315,6 +339,24 @@ export function arrayRemoveByIndex(array, ...indexs) {
  * - Версия `0.2.0`
  * - Цепочка `DVHCa`
  * @param {Array<any>} array Исходный массив.
+=======
+ * - Цепочка `DVHCa`
+ * @param {Array<any>} array Исходный массив.
+ * @param {...number} indexs Индексы удаления.
+*/
+export function arrayRemoveByIndex(array, ...indexs) {
+
+    return removeDeceit({ array, indexs });
+
+};
+/**
+ * Функция для удаления элементов из исходного массива.
+ * 
+ * Удалены будут все вхождения данных элементов.
+ * - Версия `0.2.0`
+ * - Цепочка `DVHCa`
+ * @param {Array<any>} array Исходный массив.
+>>>>>>> main
  * @param {...any} elements Элементы для удаления.
 */
 export function arrayRemoveByElement(array, ...elements) {
@@ -597,6 +639,7 @@ export function arrayReplace(array, value, ...replaces) {
  * @prop {Array<any>} array
  * @typedef {TBrearrange} Trearrange
 */
+<<<<<<< HEAD
 
 /** @param {Trearrange} t */
 function rearrangeDeceit(t) {
@@ -638,10 +681,54 @@ function rearrangeHandle(t) {
     if (t.indexOne !== 0 && !t.indexOne) t.indexOne = -1;
     if (t.indexTwo !== 0 && !t.indexTwo) t.indexTwo = -1;
 
+=======
+  
+/** @param {Trearrange} t */
+function rearrangeDeceit(t) {
+    
+    try {
+        
+        return rearrangeVerify(t);
+        
+    } catch (e) {
+        
+        if (config.strict) throw e;
+        
+        return undefined;
+        
+    };
+    
+};
+/** @param {Trearrange} t */
+function rearrangeVerify(t) {
+    
+    const {
+    
+    
+    
+    } = t;
+    
+    return rearrangeHandle(t);
+   
+};
+/** @param {Trearrange} t */
+function rearrangeHandle(t) {
+   
+    let {
+    
+    
+    
+    } = t;
+    
+    if (t.indexOne !== 0 && !t.indexOne) t.indexOne = -1;
+    if (t.indexTwo !== 0 && !t.indexTwo) t.indexTwo = -1;
+    
+>>>>>>> main
     if (t.elementOne) t.indexOne = t.array.find(e => e === t.elementOne);
     if (t.elementTwo) t.indexTwo = t.array.find(e => e === t.elementTwo);
 
     t = {
+<<<<<<< HEAD
 
         ...t,
 
@@ -661,12 +748,37 @@ function rearrangeComply(t) {
 
     } = t;
 
+=======
+        
+        ...t,
+        
+    };
+   
+    return rearrangeComply(t);
+   
+};
+/** @param {Trearrange} t */
+function rearrangeComply(t) {
+   
+    const {
+    
+        array,
+        indexOne,
+        indexTwo,
+    
+    } = t;
+    
+>>>>>>> main
     if (indexOne === -1 || indexTwo === -1 || indexOne === indexTwo) return;
 
     [array[indexOne], array[indexTwo]] = [array[indexTwo], array[indexOne]];
 
     return array;
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> main
 };
 
 /**
@@ -690,7 +802,11 @@ export function arrayRearrangeByIndex(array, indexOne, indexTwo) {
  * - Цепочка `DVHCa`
  * @param {Array<any>} array Исходный массив.
  * @param {any} elementOne Первый элемент.
+<<<<<<< HEAD
  * @param {any} elementTwo Второй элемент.
+=======
+ * @param {any} elementTwo Второй элемент. 
+>>>>>>> main
 */
 export function arrayRearrangeByElement(array, elementOne, elementTwo) {
 

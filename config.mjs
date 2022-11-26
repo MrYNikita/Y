@@ -165,6 +165,17 @@ export const configWeb = {
         */
         pingIntervalTime: 1000,
 
+        basic: {
+
+
+
+        },
+        cursor: {
+
+            fixed: true,
+
+        },
+
     },
 
 };
@@ -264,6 +275,7 @@ export const configError = {
     },
     chain: {
 
+<<<<<<< HEAD
         incident: 'ошибка в функциональной цепочке.'
 
     },
@@ -276,6 +288,16 @@ export const configError = {
 };
 
 export const configArray = {
+=======
+        loged: false,
+        tabValue: ' '.repeat(4),
+        templates: [
+
+            ['l', '---\n'],
+            
+        ],
+        castToDate: {
+>>>>>>> main
 
 
 
