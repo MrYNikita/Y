@@ -1,7 +1,6 @@
 import { YLog } from "../../log/YLog/YLog.mjs";
 import { jectFill, jectReplaceDeep, jectSetDeep } from "../../ject/ject.mjs";
 import { YProc } from "./YProc/YProc.mjs";
-import { YSection } from "../../log/YNotice/YSection/YSection.mjs";
 import { arrayUnique } from "../../array/array.mjs";
 import { YString } from "../../string/YString/YString.mjs";
 
@@ -36,7 +35,7 @@ class DFunc extends SFunc {
     label = null;
     /**
      * Карта.
-     * 
+     *
      * Это представление последовательности в объектном варианте.
      * Каждое свойство данного объекта - `логическая часть функции`.
      * Значениями таких свойств выступают строки, которые ссылаются на метки нужных процедур.
@@ -68,7 +67,7 @@ class DFunc extends SFunc {
 class FFunc extends DFunc {
 
     /**
-     * 
+     *
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
      *  @param {TFunc} t
@@ -166,12 +165,12 @@ class FFunc extends DFunc {
 
 /**
  * Класс `функций`.
- * 
+ *
  * Данный класс позволяет определять экземпляры класса `YFunc`.
  * Любой такой экземпляр представлен совокупностью процедур (`YProcedure`).
- * 
+ *
  * Любая `YFunc` выполняется от функции входа (`input`) - первая функция в последовательности.
- * После указывается последовательность (`sequence`) процедур. 
+ * После указывается последовательность (`sequence`) процедур.
  * - Тип `SDFY-2.0`
  * - Версия `0.0.0`
  * - Цепочка `BDVHC`
@@ -224,7 +223,7 @@ export class YFunc extends FFunc {
     report() {
 
         new YString(this.getReport())
-            
+
             .castToYReport()
             .display();
 
@@ -256,14 +255,14 @@ export class YFunc extends FFunc {
 
     };
     /**
-     * 
+     *
      * - Версия `0.0.0`
-     * 
+     *
     */
     getReport() {
-        
+
         return new YString()
-        
+
             .changePostfix(';\n')
             .paste(
 
@@ -306,7 +305,7 @@ export class YFunc extends FFunc {
     /**
      * Метод для очистки последовательности.
      * - Версия `0.0.0`
-     * 
+     *
     */
     clearSequence() {
 
@@ -334,7 +333,7 @@ export class YFunc extends FFunc {
      * @param {...YProc|[string,import("./YProc/YProc.mjs").TProcInstruction,string]} procs Метка процедуры или новая процедура.
     */
     appendProcedure(...procs) {
-    
+
         for (let p of procs) {
 
             switch (p.constructor) {
@@ -363,7 +362,7 @@ export class YFunc extends FFunc {
             if (alias.constructor === String) {
 
                 const index = this.sequence.findIndex(p => p[0] === alias);
-                
+
                 this.index = index >= 0 ? index - 1 : this.index;
 
             };

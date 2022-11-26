@@ -8,65 +8,65 @@ import { config } from "../config.mjs";
  * @prop {string} type
  * @typedef {TBgetIP} TgetIP
 */
-  
+
 /** @param {TgetIP} t */
 function getIPDeceit(t) {
-    
+
     try {
-        
+
         return getIPVerify(t);
-        
+
     } catch (e) {
-        
+
         if (config.strict) throw e;
-        
+
         return undefined;
-        
+
     };
-    
+
 };
 /** @param {TgetIP} t */
 function getIPVerify(t) {
-    
+
     const {
-    
-    
-    
+
+
+
     } = t;
-    
+
     return getIPHandle(t);
-   
+
 };
 /** @param {TgetIP} t */
 function getIPHandle(t) {
-   
+
     let {
-    
-    
-    
+
+
+
     } = t;
-    
-    
-    
+
+
+
     t = {
-        
+
         ...t,
-        
+
     };
-   
+
     return getIPComply(t);
-   
+
 };
 /** @param {TgetIP} t */
 function getIPComply(t) {
-   
+
     const {
-    
+
         type,
         local,
-    
+
     } = t;
-    
+
     const net = Object.entries(os.networkInterfaces());
 
     switch (type) {

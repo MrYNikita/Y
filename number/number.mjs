@@ -6,65 +6,65 @@
  * @prop {number} number
  * @typedef {TBdevide} Tdevide
 */
-  
+
 /** @param {Tdevide} t */
 function devideDeceit(t) {
-    
+
     try {
-        
+
         return devideVerify(t);
-        
+
     } catch (e) {
-        
+
         if (config.strict) throw e;
-        
+
         return undefined;
-        
+
     };
-    
+
 };
 /** @param {Tdevide} t */
 function devideVerify(t) {
-    
+
     const {
-    
-    
-    
+
+
+
     } = t;
-    
+
     return devideHandle(t);
-   
+
 };
 /** @param {Tdevide} t */
 function devideHandle(t) {
-   
+
     let {
-    
-    
-    
+
+
+
     } = t;
-   
+
     t = {
-        
+
         ...t,
-        
+
     };
-   
+
     return devideComply(t);
-   
+
 };
 /** @param {Tdevide} t */
 function devideComply(t) {
-   
+
     const {
-    
+
         count,
         number,
-    
+
     } = t;
-    
+
     return Math.floor(number / count);
-    
+
 };
 
 /**
@@ -89,65 +89,65 @@ export function numberDevide(number, count) {
  * @prop {number} number
  * @typedef {TBbefore} Tbefore
 */
-  
+
 /** @param {Tbefore} t */
 function beforeDeceit(t) {
-    
+
     try {
-        
+
         return beforeVerify(t);
-        
+
     } catch (e) {
-        
+
         if (config.strict) throw e;
-        
+
         return undefined;
-        
+
     };
-    
+
 };
 /** @param {Tbefore} t */
 function beforeVerify(t) {
-    
+
     const {
-    
-    
-    
+
+
+
     } = t;
-    
+
     return beforeHandle(t);
-   
+
 };
 /** @param {Tbefore} t */
 function beforeHandle(t) {
-   
+
     let {
-    
-    
-    
+
+
+
     } = t;
-   
+
     t = {
-        
+
         ...t,
-        
+
     };
-   
+
     return beforeComply(t);
-   
+
 };
 /** @param {Tbefore} t */
 function beforeComply(t) {
-   
+
     const {
-    
+
         to,
         number,
-    
+
     } = t;
-    
+
     return number - (number % to);
-    
+
 };
 
 /**
@@ -648,85 +648,85 @@ export function numberGetSequence(count = 2, begin = 1, step = 1, ...handlers) {
  * @prop {[number]} array
  * @typedef {TBgetNearstIndex} TgetNearstIndex
 */
-  
+
 /** @param {TgetNearstIndex} t */
 function getNearstIndexDeceit(t) {
-    
+
     try {
-        
+
         return getNearstIndexVerify(t);
-        
+
     } catch (e) {
-        
+
         if (config.strict) throw e;
-        
+
         return undefined;
-        
+
     };
-    
+
 };
 /** @param {TgetNearstIndex} t */
 function getNearstIndexVerify(t) {
-    
+
     const {
-    
-    
-    
+
+
+
     } = t;
-    
+
     return getNearstIndexHandle(t);
-   
+
 };
 /** @param {TgetNearstIndex} t */
 function getNearstIndexHandle(t) {
-   
+
     let {
-    
-    
-    
+
+
+
     } = t;
-    
-    
-    
+
+
+
     t = {
-        
+
         ...t,
-        
+
     };
-   
+
     return getNearstIndexComply(t);
-   
+
 };
 /** @param {TgetNearstIndex} t */
 function getNearstIndexComply(t) {
-   
+
     const {
-    
+
         array,
         number,
-    
+
     } = t;
-    
+
     const ir = array.findIndex(n => n >= number);
 
-    
+
     if (ir !== -1) {
-        
+
         const max = array[ir], il = ir - 1, min = array?.[il];
-        
+
         if (max === number) return [ir, ir];
         else if (!min) return [null, ir];
         else return [il, ir];
 
     } else return [--array.length, null];
-    
+
 };
 
 /**
  * Функция для получения индексов указанного массива ближайших к указанному значению.
  * Первый индекс обозначает ближайший слева элемент.
  * Второй - ближайший справа.
- * 
+ *
  * Если один из индексов не существует, то он равен null.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
@@ -749,68 +749,68 @@ export function numberGetNearstIndex(number, array) {
  * @prop {[number]} numbers
  * @typedef {TBcheckEntryRange} TcheckEntryRange
 */
-  
+
 /** @param {TcheckEntryRange} t */
 function checkEntryRangeDeceit(t) {
-    
+
     try {
-        
+
         return checkEntryRangeVerify(t);
-        
+
     } catch (e) {
-        
+
         if (config.strict) throw e;
-        
+
         return undefined;
-        
+
     };
-    
+
 };
 /** @param {TcheckEntryRange} t */
 function checkEntryRangeVerify(t) {
-    
+
     const {
-    
-    
-    
+
+
+
     } = t;
-    
+
     return checkEntryRangeHandle(t);
-   
+
 };
 /** @param {TcheckEntryRange} t */
 function checkEntryRangeHandle(t) {
-   
+
     let {
-    
-    
-    
+
+
+
     } = t;
-    
+
     if (t.min > t.max) [t.min, t.max] = [t.max, t.min];
-    
+
     t = {
-        
+
         ...t,
-        
+
     };
-   
+
     return checkEntryRangeComply(t);
-   
+
 };
 /** @param {TcheckEntryRange} t */
 function checkEntryRangeComply(t) {
-   
+
     const {
-    
+
         min,
         max,
         numbers,
-    
+
     } = t;
-    
+
     return numbers.every(n => n >= min && n <= max);
-    
+
 };
 
 /**
@@ -834,69 +834,69 @@ export function numberCheckEntryRange(min, max, ...numbers) {
 
 /**
  * @typedef TBcheckIntersectionRange
- * 
+ *
  * @typedef {TBcheckIntersectionRange} TcheckIntersectionRange
 */
-  
+
 /** @param {TcheckIntersectionRange} t */
 function checkIntersectionRangeDeceit(t) {
-    
+
     try {
-        
+
         return checkIntersectionRangeVerify(t);
-        
+
     } catch (e) {
-        
+
         if (config.strict) throw e;
-        
+
         return undefined;
-        
+
     };
-    
+
 };
 /** @param {TcheckIntersectionRange} t */
 function checkIntersectionRangeVerify(t) {
-    
+
     const {
-    
-    
-    
+
+
+
     } = t;
-    
+
     return checkIntersectionRangeHandle(t);
-   
+
 };
 /** @param {TcheckIntersectionRange} t */
 function checkIntersectionRangeHandle(t) {
-   
+
     let {
-    
-    
-    
+
+
+
     } = t;
-    
-    
-    
+
+
+
     t = {
-        
+
         ...t,
-        
+
     };
-   
+
     return checkIntersectionRangeComply(t);
-   
+
 };
 /** @param {TcheckIntersectionRange} t */
 function checkIntersectionRangeComply(t) {
-   
+
     const {
-    
-    
-    
+
+
+
     } = t;
-    
-    
-    
+
+
+
 };
 
 /**

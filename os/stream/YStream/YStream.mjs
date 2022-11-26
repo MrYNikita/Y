@@ -10,12 +10,12 @@ import { YString } from '../../../string/YString/YString.mjs';
 */
 
 class SStream extends Duplex {
-    
-    
-    
+
+
+
 };
 class DStream extends SStream {
-    
+
     /**
      * Журнал.
      * @type {YLog}
@@ -32,97 +32,97 @@ class DStream extends SStream {
      * @type {string}
     */
     label;
-    
+
 };
 class FStream extends DStream {
-    
+
     /**
-     * 
+     *
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
      *  @param {TStream} t
     */
     constructor(t = {}) {
-        
+
         t = FStream.#before(...arguments);
-        
+
         FStream.#deceit(t);
-        
+
         super(t);
-        
+
         FStream.#create.apply(this, [t]);
-        
+
     };
-    
+
     /** @param {TStream} t @this {[]} */
     static #before(t) {
-        
-        
-        
+
+
+
         if (!t) t = {};
-        
+
         return t;
-        
+
     };
     /** @param {TStream} t @this {YStream} */
     static #deceit(t) {
-        
+
         try {
-            
+
             FStream.#verify(t);
-            
+
         } catch (e) {
-            
+
             throw e;
-            
+
         };
-        
+
     };
     /** @param {TStream} t @this {YStream} */
     static #verify(t) {
-        
+
         const {
-            
-            
-            
+
+
+
         } = t;
-        
+
         FStream.#handle(t);
-        
+
     };
     /** @param {TStream} t @this {YStream} */
     static #handle(t) {
-        
+
         let {
-            
-            
-            
+
+
+
         } = t;
-        
-        
-        
+
+
+
         t = {
-            
+
             ...t,
-            
+
         };
-        
+
     };
     /** @param {TStream} t @this {YStream} */
     static #create(t) {
-        
+
         const {
-            
-            
-            
+
+
+
         } = t;
-        
+
         jectFill(this, t);
-        
-        
-        
+
+
+
     };
-    
+
 };
 
 /**
@@ -132,11 +132,11 @@ class FStream extends DStream {
  * - Цепочка `BDVHC`
 */
 export class YStream extends FStream {
-    
+
     report() {
 
 
 
     };
-    
+
 };

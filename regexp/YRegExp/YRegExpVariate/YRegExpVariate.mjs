@@ -9,108 +9,108 @@ import { YRegExpBracket } from "./YRegExpBracket/YRegExpBracket.mjs";
 import { YRegExpSymbol } from "./YRegExpSymbol/YRegExpSymbol.mjs";
 
 class SRegExpVariate {
-    
-    
-    
+
+
+
 };
 class DRegExpVariate extends SRegExpVariate {
-    
+
     /**
      * Последовательность символов и скобочных групп.
      * @type {[YRegExpSymbol|YRegExpBracket]}
     */
     sequence = [];
-    
+
 };
 class FRegExpVariate extends DRegExpVariate {
-    
+
     /**
-     * 
+     *
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
      *  @param {TRegExpVariate} t
     */
     constructor(t = {}) {
-        
+
         t = FRegExpVariate.#before(...arguments);
-        
+
         super(t);
-        
+
         FRegExpVariate.#deceit.apply(this, [t]);
-        
+
     };
-    
+
     /** @param {TRegExpVariate} t @this {[]} */
     static #before(t) {
-        
-        
-        
+
+
+
         if (!t) t = {};
-        
+
         return t;
-        
+
     };
     /** @param {TRegExpVariate} t @this {YRegExpVariate} */
     static #deceit(t) {
-        
+
         try {
-            
+
             FRegExpVariate.#verify.apply(this, arguments);
-            
+
         } catch (e) {
-            
+
             throw e;
-            
+
         };
-        
+
     };
     /** @param {TRegExpVariate} t @this {YRegExpVariate} */
     static #verify(t) {
-        
+
         const {
-            
-            
-            
+
+
+
         } = t;
-        
+
         FRegExpVariate.#handle.apply(this, arguments);
-        
+
     };
     /** @param {TRegExpVariate} t @this {YRegExpVariate} */
     static #handle(t) {
-        
+
         let {
-            
-            
-            
+
+
+
         } = t;
-        
-        
-        
+
+
+
         t = {
-            
+
             ...t,
-            
+
         };
-       
+
         FRegExpVariate.#create.apply(this, [t]);
-        
+
     };
     /** @param {TRegExpVariate} t @this {YRegExpVariate} */
     static #create(t) {
-        
+
         const {
-            
-            
-            
+
+
+
         } = t;
-        
+
         jectFill.apply(this, [t]);
-        
-        
-        
+
+
+
     };
-    
+
 };
 
 /**
@@ -120,7 +120,7 @@ class FRegExpVariate extends DRegExpVariate {
  * - Цепочка `BDVHC`
 */
 export class YRegExpVariate extends FRegExpVariate {
-    
-    
-    
+
+
+
 };

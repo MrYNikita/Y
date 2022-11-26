@@ -10,65 +10,65 @@ import { createReadStream, createWriteStream } from 'fs';
  * @prop {[Writable]} sw
  * @typedef {TBbind} Tbind
 */
-  
+
 /** @param {Tbind} t */
 function bindDeceit(t) {
-    
+
     try {
-        
+
         return bindVerify(t);
-        
+
     } catch (e) {
-        
+
         if (config.strict) throw e;
-        
+
         return undefined;
-        
+
     };
-    
+
 };
 /** @param {Tbind} t */
 function bindVerify(t) {
-    
+
     const {
-    
-    
-    
+
+
+
     } = t;
-    
+
     return bindHandle(t);
-   
+
 };
 /** @param {Tbind} t */
 function bindHandle(t) {
-   
+
     let {
-    
-    
-    
+
+
+
     } = t;
-    
-    
-    
+
+
+
     t = {
-        
+
         ...t,
-        
+
     };
-   
+
     return bindComply(t);
-   
+
 };
 /** @param {Tbind} t */
 function bindComply(t) {
-   
+
     const {
-    
+
         sr,
         sw,
-    
+
     } = t;
-    
+
     sw.forEach(w => sr.pipe(w));
 
 };

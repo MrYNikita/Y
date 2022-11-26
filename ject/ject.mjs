@@ -1,6 +1,5 @@
-import { arrayRemove } from "../array/array.mjs";
+import { arrayRemoveByElement } from "../array/array.mjs";
 import { config, configNotice } from "../config.mjs";
-import { logChainError } from "../log/log.mjs";
 
 //#region fill 0.1.0
 
@@ -31,7 +30,7 @@ function fillVerify(t) {
 
     const {
 
-        
+
 
     } = t;
 
@@ -90,72 +89,72 @@ export function jectFill(ject, filler) {
  * @prop {[Object]} jects
  * @typedef {TBequal} Tequal
 */
-  
+
 /** @param {Tequal} t */
 function equalDeceit(t) {
-    
+
     try {
-        
+
         return equalVerify(t);
-        
+
     } catch (e) {
-        
+
         if (config.strict) throw e;
-        
+
         return undefined;
-        
+
     };
-    
+
 };
 /** @param {Tequal} t */
 function equalVerify(t) {
-    
+
     const {
-    
-    
-    
+
+
+
     } = t;
-    
+
     return equalHandle(t);
-   
+
 };
 /** @param {Tequal} t */
 function equalHandle(t) {
-   
+
     let {
-    
-    
-    
+
+
+
     } = t;
-    
-    
-    
+
+
+
     t = {
-        
+
         ...t,
-        
+
     };
-   
+
     return equalComply(t);
-   
+
 };
 /** @param {Tequal} t */
 function equalComply(t) {
-   
+
     const {
-    
+
         jects,
-    
+
     } = t;
-    
+
     while (jects.length) {
-        
+
         const j = jects.pop();
 
 
 
     };
-    
+
 };
 
 /**
@@ -175,69 +174,69 @@ export function jectEqual(...jects) {
 
 /**
  * @typedef TBdisplay
- * 
+ *
  * @typedef {TBdisplay} Tdisplay
 */
-  
+
 /** @param {Tdisplay} t */
 function displayDeceit(t) {
-    
+
     try {
-        
+
         return displayVerify(t);
-        
+
     } catch (e) {
-        
+
         if (config.strict) throw e;
-        
+
         return undefined;
-        
+
     };
-    
+
 };
 /** @param {Tdisplay} t */
 function displayVerify(t) {
-    
+
     const {
-    
-    
-    
+
+
+
     } = t;
-    
+
     return displayHandle(t);
-   
+
 };
 /** @param {Tdisplay} t */
 function displayHandle(t) {
-   
+
     let {
-    
-    
-    
+
+
+
     } = t;
-    
-    
-    
+
+
+
     t = {
-        
+
         ...t,
-        
+
     };
-   
+
     return displayComply(t);
-   
+
 };
 /** @param {Tdisplay} t */
 function displayComply(t) {
-   
+
     const {
-    
-    
-    
+
+
+
     } = t;
-    
-    
-    
+
+
+
 };
 
 //#endregion
@@ -249,67 +248,67 @@ function displayComply(t) {
  * @prop {{}} supplement
  * @typedef {TBsupplement} Tsupplement
 */
-  
+
 /** @param {Tsupplement} t */
 function supplementDeceit(t) {
-    
+
     try {
-        
+
         return supplementVerify(t);
-        
+
     } catch (e) {
-        
+
         if (config.strict) throw e;
-        
+
         return undefined;
-        
+
     };
-    
+
 };
 /** @param {Tsupplement} t */
 function supplementVerify(t) {
-    
+
     const {
-    
-    
-    
+
+
+
     } = t;
-    
+
     return supplementHandle(t);
-   
+
 };
 /** @param {Tsupplement} t */
 function supplementHandle(t) {
-   
+
     let {
-    
-    
-    
+
+
+
     } = t;
-    
-    
-    
+
+
+
     t = {
-        
+
         ...t,
-        
+
     };
-   
+
     return supplementComply(t);
-   
+
 };
 /** @param {Tsupplement} t */
 function supplementComply(t) {
-   
+
     const {
-    
+
         ject,
         supplement,
-    
+
     } = t;
-    
+
     Object.keys(supplement).forEach(s => ((ject[s] === undefined || ject[s] === null) && supplement[s] !== undefined) ? ject[s] = supplement[s] : 0);
-    
+
     return ject;
 
 };
@@ -504,7 +503,7 @@ function setDeepComply(t) {
 
         };
 
-        for (const v of arrayRemove(Object.values(s), value)) if (typeof v === 'object' && v !== property && !su.includes(v)) {
+        for (const v of arrayRemoveByElement(Object.values(s), value)) if (typeof v === 'object' && v !== property && !su.includes(v)) {
 
             su.push(v);
             structures.push(v);
@@ -544,64 +543,64 @@ export function jectSetDeep(ject, property, value, all = false) {
  * @param {{}} ject
  * @typedef {TBcopyDeep} TcopyDeep
 */
-  
+
 /** @param {TcopyDeep} t */
 function copyDeepDeceit(t) {
-    
+
     try {
-        
+
         return copyDeepVerify(t);
-        
+
     } catch (e) {
-        
+
         if (config.strict) throw e;
-        
+
         return undefined;
-        
+
     };
-    
+
 };
 /** @param {TcopyDeep} t */
 function copyDeepVerify(t) {
-    
+
     const {
-    
-    
-    
+
+
+
     } = t;
-    
+
     return copyDeepHandle(t);
-   
+
 };
 /** @param {TcopyDeep} t */
 function copyDeepHandle(t) {
-   
+
     let {
-    
-    
-    
+
+
+
     } = t;
-    
-    
-    
+
+
+
     t = {
-        
+
         ...t,
-        
+
     };
-   
+
     return copyDeepComply(t);
-   
+
 };
 /** @param {TcopyDeep} t */
 function copyDeepComply(t) {
-   
+
     const {
-    
+
         ject,
-    
+
     } = t;
-    
+
     const r = { ...ject };
     const s = [r];
 
@@ -630,7 +629,7 @@ function copyDeepComply(t) {
     };
 
     return r;
-    
+
 };
 
 /**
@@ -719,7 +718,7 @@ function changeDeepComply(t) {
 
 /**
  * Функция для изменения исходного объекта свойствами остаточных объектов.
- * 
+ *
  * Изменение происходит за счет свойств остаточных объектов.
  * Если свойство есть у остаточного объекта, то его значение будет перезаписано исходному.
  * @param {{}} ject Исходный объект.
@@ -744,67 +743,67 @@ export function jectChangeDeep(ject, ...changeDeeps) {
  * @prop {boolean} all
  * @typedef {TBreplaceDeep} TreplaceDeep
 */
-  
+
 /** @param {TreplaceDeep} t */
 function replaceDeepDeceit(t) {
-    
+
     try {
-        
+
         return replaceDeepVerify(t);
-        
+
     } catch (e) {
-        
+
         if (config.strict) throw e;
-        
+
         return undefined;
-        
+
     };
-    
+
 };
 /** @param {TreplaceDeep} t */
 function replaceDeepVerify(t) {
-    
+
     const {
-    
-    
-    
+
+
+
     } = t;
-    
+
     return replaceDeepHandle(t);
-   
+
 };
 /** @param {TreplaceDeep} t */
 function replaceDeepHandle(t) {
-   
+
     let {
-    
-    
-    
+
+
+
     } = t;
-    
-    
-    
+
+
+
     t = {
-        
+
         ...t,
-        
+
     };
-   
+
     return replaceDeepComply(t);
-   
+
 };
 /** @param {TreplaceDeep} t */
 function replaceDeepComply(t) {
-   
+
     const {
-    
+
         all,
         ject,
         value,
         replace,
-    
+
     } = t;
-    
+
     const structures = [ject];
     const su = [...structures];
 
@@ -817,18 +816,18 @@ function replaceDeepComply(t) {
             for (const p of Object.entries(s)) {
 
                 if (p[1] !== value) continue;
-    
+
                 s[p[0]] = replace;
-    
+
                 if (!all) return;
-    
+
             };
 
             for (const v of Object.values(s)) if (v && typeof v === 'object' && v !== replace && !su.includes(v)) {
 
                 su.push(v);
                 structures.push(v);
-    
+
             };
 
         };
@@ -836,7 +835,7 @@ function replaceDeepComply(t) {
     };
 
     return ject;
-    
+
 };
 
 /**
@@ -863,70 +862,70 @@ export function jectReplaceDeep(ject, value, replace, all = false) {
 /**
  * @typedef TBgetPathDeep
  * @prop {{}} ject
- * @prop {any} value 
+ * @prop {any} value
  * @prop {string} property
  * @prop {string} target
  * @typedef {TBgetPathDeep} TgetPathDeep
 */
-  
+
 /** @param {TgetPathDeep} t */
 function getPathDeepDeceit(t) {
-    
+
     try {
-        
+
         return getPathDeepVerify(t);
-        
+
     } catch (e) {
-        
+
         if (config.strict) throw e;
-        
+
         return undefined;
-        
+
     };
-    
+
 };
 /** @param {TgetPathDeep} t */
 function getPathDeepVerify(t) {
-    
+
     const {
-    
-    
-    
+
+
+
     } = t;
-    
+
     return getPathDeepHandle(t);
-   
+
 };
 /** @param {TgetPathDeep} t */
 function getPathDeepHandle(t) {
-   
+
     let {
-    
-    
-    
+
+
+
     } = t;
-    
-    
-    
+
+
+
     t = {
-        
+
         ...t,
-        
+
     };
-   
+
     return getPathDeepComply(t);
-   
+
 };
 /** @param {TgetPathDeep} t */
 function getPathDeepComply(t) {
-   
+
     const {
-    
+
         ject,
         value,
         target,
         property,
-    
+
     } = t;
 
     const f = (s, e = []) => Object.entries(s).map(p => [[...e, p[0]], p[1]]);
@@ -964,7 +963,7 @@ function getPathDeepComply(t) {
     };
 
     return r;
-    
+
 };
 
 /**

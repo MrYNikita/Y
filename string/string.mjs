@@ -252,7 +252,7 @@ export function stringFind(string, ...fragments) {
  * Функция для поиска фрагментов в исходной строке.
  * Данная функция поиска возвращает все совпадения объектом.
  * Свойства данного объекта - это указанные в регулярных выражениях поиска имена скобочных групп.
- * 
+ *
  * Функция также может вернуть экземпляр класса. Для этого укажите необходимый класс вторым параметром.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
@@ -1210,68 +1210,68 @@ export function stringReverse(string) {
  * @prop {Array<[string,string]>} mirrors
  * @typedef {TBreflect} Treflect
 */
-  
+
 /** @param {Treflect} t */
 function reflectDeceit(t) {
-    
+
     try {
-        
+
         return reflectVerify(t);
-        
+
     } catch (e) {
-        
+
         if (config.strict) throw e;
-        
+
         return undefined;
-        
+
     };
-    
+
 };
 /** @param {Treflect} t */
 function reflectVerify(t) {
-    
+
     const {
-    
-    
-    
+
+
+
     } = t;
-    
+
     return reflectHandle(t);
-   
+
 };
 /** @param {Treflect} t */
 function reflectHandle(t) {
-   
+
     let {
-    
-    
-    
+
+
+
     } = t;
-    
+
     if (t.mirrors.length) t.mirrors.forEach(m => m[0] = new RegExp(m[0], 'g'));
-    
+
     t = {
-        
+
         ...t,
-        
+
     };
-   
+
     return reflectComply(t);
-   
+
 };
 /** @param {Treflect} t */
 function reflectComply(t) {
-   
+
     const {
-    
+
         every,
         string,
         mirrors,
-    
+
     } = t;
-    
+
     return every ? string.split('\n').map(s => s + stringReverse(stringReplace(s, ...mirrors))).join('\n') : string + stringReverse(stringReplace(string, ...mirrors));
-    
+
 };
 
 /**
@@ -1659,64 +1659,64 @@ export function stringCastToDateRu(date) {
  * @prop {string} string
  * @typedef {TBcastToSample} TcastToSample
 */
-  
+
 /** @param {TcastToSample} t */
 function castToSampleDeceit(t) {
-    
+
     try {
-        
+
         return castToSampleVerify(t);
-        
+
     } catch (e) {
-        
+
         if (config.strict) throw e;
-        
+
         return undefined;
-        
+
     };
-    
+
 };
 /** @param {TcastToSample} t */
 function castToSampleVerify(t) {
-    
+
     const {
-    
-    
-    
+
+
+
     } = t;
-    
+
     return castToSampleHandle(t);
-   
+
 };
 /** @param {TcastToSample} t */
 function castToSampleHandle(t) {
-   
+
     let {
-    
-    
-    
+
+
+
     } = t;
-    
-    
-    
+
+
+
     t = {
-        
+
         ...t,
-        
+
     };
-   
+
     return castToSampleComply(t);
-   
+
 };
 /** @param {TcastToSample} t */
 function castToSampleComply(t) {
-   
+
     const {
-    
+
         string,
-    
+
     } = t;
-    
+
     return new YString(string).replace(
 
         [/\n/g, '\\n'],
@@ -1724,7 +1724,7 @@ function castToSampleComply(t) {
         [/\x1b/, '\\x1b'],
 
     ).get();
-    
+
 };
 
 /**
@@ -1854,73 +1854,73 @@ export function stringCastToNumber(number, part = true) {
  * @prop {string} string
  * @typedef {TBcastToYReport} TcastToYReport
 */
-  
+
 /** @param {TcastToYReport} t */
 function castToYReportDeceit(t) {
-    
+
     try {
-        
+
         return castToYReportVerify(t);
-        
+
     } catch (e) {
-        
+
         if (config.strict) throw e;
-        
+
         return undefined;
-        
+
     };
-    
+
 };
 /** @param {TcastToYReport} t */
 function castToYReportVerify(t) {
-    
+
     const {
-    
-    
-    
+
+
+
     } = t;
-    
+
     return castToYReportHandle(t);
-   
+
 };
 /** @param {TcastToYReport} t */
 function castToYReportHandle(t) {
-   
+
     let {
-    
-    
-    
+
+
+
     } = t;
-    
-    
-    
+
+
+
     t = {
-        
+
         ...t,
-        
+
     };
-   
+
     return castToYReportComply(t);
-   
+
 };
 /** @param {TcastToYReport} t */
 function castToYReportComply(t) {
-   
+
     const {
-    
+
         string,
-    
+
     } = t;
-    
+
     return new YString(string)
-        
+
         .handle(s => stringRepaint(s, 'c'), /[.,:;~\-\[\]]/g)
         .handle(s => stringRepaint)
         .replace([/true/g, '+'])
         .replace([/false/g, '-'])
         // .handle(s => stringReplace(s, [/:(\x1b\[\d+m)?(?<r>.*?)(\x1b\[\d+m)?;/, stringRepaint(stringFind(s, /:(\x1b\[\d+m)?(?<f>.*?)(\x1b\[\d+m)?;/), 'ye', 1)]), /:.*?;/g)
         .get()
-    
+
 };
 
 /**
@@ -2028,9 +2028,9 @@ function castToNumberPhoneComply(t) {
 
     };
 
-    
+
     n.split('').forEach(s => result = result.replace('x', s));
-    
+
     const i = result.indexOf('x');
 
     if (i !== -1) result = result.slice(0, i);
@@ -2095,68 +2095,68 @@ export function stringCastToPhoneNumberBlr(number) {
  * @prop {boolean} lower
  * @typedef {TBconvertCamelCaseToDelimetr} TconvertCamelCaseToDelimetr
 */
-  
+
 /** @param {TconvertCamelCaseToDelimetr} t */
 function convertCamelCaseToDelimetrDeceit(t) {
-    
+
     try {
-        
+
         return convertCamelCaseToDelimetrVerify(t);
-        
+
     } catch (e) {
-        
+
         if (config.strict) throw e;
-        
+
         return undefined;
-        
+
     };
-    
+
 };
 /** @param {TconvertCamelCaseToDelimetr} t */
 function convertCamelCaseToDelimetrVerify(t) {
-    
+
     const {
-    
-    
-    
+
+
+
     } = t;
-    
+
     return convertCamelCaseToDelimetrHandle(t);
-   
+
 };
 /** @param {TconvertCamelCaseToDelimetr} t */
 function convertCamelCaseToDelimetrHandle(t) {
-   
+
     let {
-    
-    
-    
+
+
+
     } = t;
-    
-    
-    
+
+
+
     t = {
-        
+
         ...t,
-        
+
     };
-   
+
     return convertCamelCaseToDelimetrComply(t);
-   
+
 };
 /** @param {TconvertCamelCaseToDelimetr} t */
 function convertCamelCaseToDelimetrComply(t) {
-   
+
     const {
-    
+
         lower,
         string,
         delimetr,
-    
+
     } = t;
-    
+
     return lower ? string[0].toLowerCase() + stringHandle(string.slice(1), s => delimetr + s.toLowerCase(), /[A-Z]/) : stringHandle(string, s => delimetr + s.toLowerCase(), /[A-Z]/);;
-    
+
 };
 
 /**
@@ -2185,68 +2185,68 @@ export function stringConvertCamelCaseToDelimetr(string, delimetr = '-', lower =
  * @prop {boolean} lower
  * @typedef {TBconvertDelimetrToCamelCase} TconvertDelimetrToCamelCase
 */
-  
+
 /** @param {TconvertDelimetrToCamelCase} t */
 function convertDelimetrToCamelCaseDeceit(t) {
-    
+
     try {
-        
+
         return convertDelimetrToCamelCaseVerify(t);
-        
+
     } catch (e) {
-        
+
         if (config.strict) throw e;
-        
+
         return undefined;
-        
+
     };
-    
+
 };
 /** @param {TconvertDelimetrToCamelCase} t */
 function convertDelimetrToCamelCaseVerify(t) {
-    
+
     const {
-    
-    
-    
+
+
+
     } = t;
-    
+
     return convertDelimetrToCamelCaseHandle(t);
-   
+
 };
 /** @param {TconvertDelimetrToCamelCase} t */
 function convertDelimetrToCamelCaseHandle(t) {
-   
+
     let {
-    
-    
-    
+
+
+
     } = t;
-    
-    
-    
+
+
+
     t = {
-        
+
         ...t,
-        
+
     };
-   
+
     return convertDelimetrToCamelCaseComply(t);
-   
+
 };
 /** @param {TconvertDelimetrToCamelCase} t */
 function convertDelimetrToCamelCaseComply(t) {
-   
+
     const {
-    
+
         lower,
         string,
         delimetr,
-    
+
     } = t;
-    
+
     return lower ? string[0].toUpperCase() + stringHandle(string.slice(1), s => s[1].toUpperCase(), `${delimetr}\\w`) : stringHandle(string, s => s[1].toUpperCase(), `${delimetr}\\w`);
-    
+
 };
 
 /**

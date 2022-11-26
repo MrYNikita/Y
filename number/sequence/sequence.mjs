@@ -8,58 +8,58 @@ import { config } from "../../config.mjs";
  * @prop {Array<Array<number>|number>} sequence
  * @typedef {TBorder} Torder
 */
-  
+
 /** @param {Torder} t */
 function orderDeceit(t) {
-    
+
     try {
-        
+
         return orderVerify(t);
-        
+
     } catch (e) {
-        
+
         if (config.strict) throw e;
-        
+
         return undefined;
-        
+
     };
-    
+
 };
 /** @param {Torder} t */
 function orderVerify(t) {
-    
+
     const {
-    
-    
-    
+
+
+
     } = t;
-    
+
     return orderHandle(t);
-   
+
 };
 /** @param {Torder} t */
 function orderHandle(t) {
-   
+
     let {
-    
-    
-    
+
+
+
     } = t;
-    
-    
-    
+
+
+
     t = {
-        
+
         ...t,
-        
+
     };
-   
+
     return orderComply(t);
-   
+
 };
 /** @param {Torder} t */
 function orderComply(t) {
-   
+
     const r = [];
 
     if (t.desc) t.sequence = t.sequence.sort((p, c) => p - c);
@@ -96,7 +96,7 @@ function orderComply(t) {
     };
 
     return r;
-    
+
 };
 
 /**
@@ -118,7 +118,7 @@ export function sequenceOrder(sequence, desc = false) {
 
 /**
  * @typedef TBgetNearst
- * 
+ *
  * @typedef {TBgetNearst} TgetNearst
 */
 
@@ -184,15 +184,15 @@ function getNearstComply(t) {
 };
 
 /**
- * Функция для получения соседних значений из последовательности 
+ * Функция для получения соседних значений из последовательности
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {number} number Число, которое 
+ * @param {number} number Число, которое
  * @param {Array<number>} sequence
 */
 export function sequenceGetNearst(sequence, number) {
 
-    
+
 
 };
 

@@ -1,6 +1,6 @@
 import { YString } from "../../string/YString/YString.mjs";
-import { arrayRemove } from "../../array/array.mjs";
-import { configYString } from "../../config.mjs";
+import { arrayRemoveByElement } from "../../array/array.mjs";
+import { configJect, configYString } from "../../config.mjs";
 import { jectFill } from "../ject.mjs";
 import { numberGetNearstIndex } from "../../number/number.mjs";
 import { YList } from "../YList/YList.mjs";
@@ -38,13 +38,13 @@ class DCursor extends SCursor {
      * Если `true`, то индекс будет смещаться на кол-во добавленных символов.
      * @type {boolean}
     */
-    fixed = configYString.fixed ?? true;
+    fixed = configJect?.fixed ?? true;
 
 };
 class FCursor extends DCursor {
 
     /**
-     * 
+     *
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
      *  @param {TCursor} t
@@ -132,7 +132,7 @@ class FCursor extends DCursor {
 
 /**
  * Класс курсоров.
- * 
+ *
  * Курсоры размещаются в строке YString в единственном и множественных кол-вах.
  * С их помощью осуществляется вставка, удаление, копирование и добавление фрагментов из/в исходную строку.
  * - Тип `SDFY-2.0`
@@ -195,7 +195,7 @@ export class YCursor extends FCursor {
     */
     delete() {
 
-        arrayRemove(this.list.cursors, this);
+        arrayRemoveByElement(this.list.cursors, this);
 
         this.size = undefined;
         this.index = undefined;
@@ -204,21 +204,21 @@ export class YCursor extends FCursor {
     };
     /**
      * Метод поглощения курсорами других курсоров.
-     * - Версия `0.0.0` 
+     * - Версия `0.0.0`
     */
     absorb() {
 
-        
+
 
     };
     /**
      * Метод вычисления конечного индекса.
-     * 
+     *
      * Данный метод учитывает тот факт, что значение размера курсора касается и его первоначального индекса.
      * Это означает, что если размер курсора равен `1` или `-1`, то область влияния курсора будет ограничиваться его индексом.
      * Отличие от `0` заключается в том, что для такого курсора область влияния отсутсвует.
      * Таким образом конечный индекс не изменился.
-     * 
+     *
      * Учитывая данный факт, метод возвращает значение, которое будет являться индексом завершения области влияния курсора.
      * Метод используется в вычислениях.
      * - Версия `0.0.0`

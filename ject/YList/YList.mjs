@@ -1,4 +1,4 @@
-import { arrayRemove } from "../../array/array.mjs";
+import { arrayRemoveByElement } from "../../array/array.mjs";
 import { YFunc } from "../../func/YFunc/YFunc.mjs";
 import { numberGetNearstIndex, numberCheckEntryRange } from "../../number/number.mjs";
 import { YString } from "../../string/YString/YString.mjs";
@@ -14,13 +14,13 @@ import { YCursor } from "../YCursor/YCursor.mjs";
 
 class SList {
 
-    
+
 
 };
 class DList extends SList {
 
     /**
-     * Коллекция элементов. 
+     * Коллекция элементов.
      * @type {Array<any>}
     */
     value = [];
@@ -34,7 +34,7 @@ class DList extends SList {
 class FList extends DList {
 
     /**
-     * 
+     *
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
      *  @param {TList} t
@@ -132,7 +132,7 @@ class FList extends DList {
 
 /**
  * Класс листов.
- * 
+ *
  * Данный класс предназначен для описания базовых методов и свойств для работы с коллекциями.
  * - Тип `SDFY-2.0`
  * - Версия `0.0.0`
@@ -181,8 +181,8 @@ export class YList extends FList {
 
     };
     /**
-     * 
-     * 
+     *
+     *
     */
     moveCursor(indexCursor, direction) {
 

@@ -151,7 +151,7 @@ export function elementMove(over, ...elements) {
  * @prop {string} string
  * @prop {[string]} childs
  * @prop {[string]} overId
- * @prop {[string]} classes 
+ * @prop {[string]} classes
  * @prop {[string]} overTypes
  * @prop {[string]} overClasses
  * @typedef {TBcreate} Tcreate
@@ -269,7 +269,7 @@ function createComply(t) {
  * @param {string} id ID.
  * @param {string} text Текст.
  * @param {string} type Тип.
- * @param {[string]} childs Вложенные элементы. 
+ * @param {[string]} childs Вложенные элементы.
  * @param {[string]} classes Классы.
  * @param {[string]} overId Над элементы.
  * @param {[string]} overTypes Над классы.
@@ -442,13 +442,13 @@ function stringDecomposeHandle(t) {
 function stringDecomposeComply(t) {
 
     const {
-        
+
         string,
 
     } = t;
-    
+
     const ystr = new YString(string.match(elementREString)[0]);
-    
+
     let childs = ystr.extract(/<.+>/gms)?.[0]?.match(elementREString) ?? [];
     let text = ystr.extract(elementREText);
     let classes = ystr.extract(elementREClasses)?.split(' ') ?? [];

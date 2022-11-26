@@ -1,7 +1,7 @@
 import { config } from "../config.mjs";
 import { numberGetRandomReal } from "../number/number.mjs";
 
-//#region mix 0.0.0
+//#region mix 0.1.0
 
 /**
  * @typedef TBmix
@@ -86,7 +86,7 @@ function mixComply(t) {
 
         };
 
-        [a[i], a[i1]] = [a[i1], a[i]];
+        arrayRearrangeByIndex(a, i, i1);
 
     });
 
@@ -118,71 +118,71 @@ export function arrayMix(array, degree = 1) {
  * @prop {number} index
  * @typedef {TBpaste} Tpaste
 */
-  
+
 /** @param {Tpaste} t */
 function pasteDeceit(t) {
-    
+
     try {
-        
+
         return pasteVerify(t);
-        
+
     } catch (e) {
-        
+
         if (config.strict) throw e;
-        
+
         return undefined;
-        
+
     };
-    
+
 };
 /** @param {Tpaste} t */
 function pasteVerify(t) {
-    
+
     const {
-    
-    
-    
+
+
+
     } = t;
-    
+
     return pasteHandle(t);
-   
+
 };
 /** @param {Tpaste} t */
 function pasteHandle(t) {
-   
+
     let {
-    
-    
-    
+
+
+
     } = t;
-    
-    
-    
+
+
+
     t = {
-        
+
         ...t,
-        
+
     };
-   
+
     return pasteComply(t);
-   
+
 };
 /** @param {Tpaste} t */
 function pasteComply(t) {
-   
+
     const {
-    
+
         array,
         index,
         elements,
-    
+
     } = t;
-    
+
     arrayAppend(elements, ...array.splice(index, 1));
     array.splice(index, 0, ...elements);
-    
+
     return array;
-    
+
 };
 
 /**
@@ -200,12 +200,13 @@ export function arrayPaste(array, index, ...elements) {
 };
 
 //#endregion
-//#region remove 0.0.0
+//#region remove 0.1.0
 
 /**
  * @typedef TBremove
- * @prop {[any]} array
- * @prop {[any]} elements
+ * @prop {Array<any>} array
+ * @prop {Array<any>} elements
+ * @prop {Array<number>} indexs
  * @typedef {TBremove} Tremove
 */
 
@@ -246,6 +247,8 @@ function removeHandle(t) {
 
     } = t;
 
+    if (t.indexs) t.indexs = t.indexs.sort((p, c) => p - c);
+
     t = {
 
         ...t,
@@ -261,36 +264,67 @@ function removeComply(t) {
     const {
 
         array,
+        indexs,
         elements,
 
     } = t;
 
-    if (elements.length) elements.forEach(e => {
+    if (elements?.length) while (elements.length) {
 
-        const i = array.indexOf(e);
+        const element = elements.pop();
 
-        if (i !== -1) array.splice(i, 1);
+        for (let index = 0; index < array.length; index++) {
 
-    }); else array.splice(0);
+            if (array[index] === element) {
+
+                array.splice(index, 1);
+                index--;
+
+            };
+
+        };
+
+    } else if (indexs?.length) while(indexs.length) {
+
+        const index = indexs.pop();
+
+        array.splice(index, 1);
+
+    } else array.splice(0);
 
     return array;
 
 };
 
 /**
- * Функция для удаления элементов из исходного массива.
- * - Версия `0.1.0`
+ * Функция для удаления элементов из массива по индексам.
+ * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * 
+ * @param {Array<any>} array Исходный массив.
+ * @param {...number} indexs Индексы удаления.
 */
-export function arrayRemove(array, ...elements) {
+export function arrayRemoveByIndex(array, ...indexs) {
+
+    return removeDeceit({ array, indexs });
+
+};
+/**
+ * Функция для удаления элементов из исходного массива.
+ *
+ * Удалены будут все вхождения данных элементов.
+ * - Версия `0.2.0`
+ * - Цепочка `DVHCa`
+ * @param {Array<any>} array Исходный массив.
+ * @param {...any} elements Элементы для удаления.
+*/
+export function arrayRemoveByElement(array, ...elements) {
 
     return removeDeceit({ array, elements });
 
 };
 
 //#endregion
-//#region unique 0.0.0
+//#region unique 0.1.0
 
 /**
  * @typedef TBunique
@@ -353,16 +387,21 @@ function uniqueComply(t) {
 
     } = t;
 
-    return Array.from(new Set(array));
+    const ua = Array.from(new Set(array));
+
+    arrayRemoveByElement(array);
+
+    array.push(...ua);
+
+    return array;
 
 };
 
 /**
  * Функция для фильтрации элементов массива по критерию уникальности.
- * - Версия `0.0.0`
+ * - Версия `0.1.0`
  * - Цепочка `DVHCa`
- * @param {[any]} array исходный массив.
- * @returns {[any]}
+ * @param {Array<any>} array Исходный массив.
 */
 export function arrayUnique(array) {
 
@@ -466,74 +505,74 @@ export function arrayAppend(array, ...elements) {
  * @prop {any} value
  * @typedef {TBreplace} Treplace
 */
-  
+
 /** @param {Treplace} t */
 function replaceDeceit(t) {
-    
+
     try {
-        
+
         return replaceVerify(t);
-        
+
     } catch (e) {
-        
+
         if (config.strict) throw e;
-        
+
         return undefined;
-        
+
     };
-    
+
 };
 /** @param {Treplace} t */
 function replaceVerify(t) {
-    
+
     const {
-    
-    
-    
+
+
+
     } = t;
-    
+
     return replaceHandle(t);
-   
+
 };
 /** @param {Treplace} t */
 function replaceHandle(t) {
-   
+
     let {
-    
-    
-    
+
+
+
     } = t;
-    
-    
-    
+
+
+
     t = {
-        
+
         ...t,
-        
+
     };
-   
+
     return replaceComply(t);
-   
+
 };
 /** @param {Treplace} t */
 function replaceComply(t) {
-   
+
     const {
-    
+
         array,
         value,
         replaces,
-    
+
     } = t;
-    
+
     array.splice(array.indexOf(value), 1, ...replaces);
 
     return array;
-    
+
 };
 
 /**
- * Функция для замещения значения массива указанными значенииями.
+ * Функция для замещения значения массива указанными значениями.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
  * @param {[]} array Исходный массив.
@@ -547,6 +586,119 @@ export function arrayReplace(array, value, ...replaces) {
 };
 
 //#endregion
+//#region rearrange 0.0.0
+
+/**
+ * @typedef TBrearrange
+ * @prop {any} elementOne
+ * @prop {any} elementTwo
+ * @prop {number} indexOne
+ * @prop {number} indexTwo
+ * @prop {Array<any>} array
+ * @typedef {TBrearrange} Trearrange
+*/
+
+/** @param {Trearrange} t */
+function rearrangeDeceit(t) {
+
+    try {
+
+        return rearrangeVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @param {Trearrange} t */
+function rearrangeVerify(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return rearrangeHandle(t);
+
+};
+/** @param {Trearrange} t */
+function rearrangeHandle(t) {
+
+    let {
+
+
+
+    } = t;
+
+    if (t.indexOne !== 0 && !t.indexOne) t.indexOne = -1;
+    if (t.indexTwo !== 0 && !t.indexTwo) t.indexTwo = -1;
+
+    if (t.elementOne) t.indexOne = t.array.find(e => e === t.elementOne);
+    if (t.elementTwo) t.indexTwo = t.array.find(e => e === t.elementTwo);
+
+    t = {
+
+        ...t,
+
+    };
+
+    return rearrangeComply(t);
+
+};
+/** @param {Trearrange} t */
+function rearrangeComply(t) {
+
+    const {
+
+        array,
+        indexOne,
+        indexTwo,
+
+    } = t;
+
+    if (indexOne === -1 || indexTwo === -1 || indexOne === indexTwo) return;
+
+    [array[indexOne], array[indexTwo]] = [array[indexTwo], array[indexOne]];
+
+    return array;
+
+};
+
+/**
+ * Функция для перестановки элементов массива по индексам.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @param {Array<any>} array Исходный массив.
+ * @param {number} indexOne Индекс первого элемента.
+ * @param {number} indexTwo Индекс второго элемента.
+*/
+export function arrayRearrangeByIndex(array, indexOne, indexTwo) {
+
+    return rearrangeDeceit({ array, indexOne, indexTwo, });
+
+};
+/**
+ * Функция для перестановки элементов массива по явному указанию.
+ * Данную функцию следует использовать для массивов, содержащих элементы ссылочного типа или уникальные значения.
+ * В противном случае следует использовать функцию перестановки по индексу.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @param {Array<any>} array Исходный массив.
+ * @param {any} elementOne Первый элемент.
+ * @param {any} elementTwo Второй элемент.
+*/
+export function arrayRearrangeByElement(array, elementOne, elementTwo) {
+
+    return rearrangeDeceit({ array, elementOne, elementTwo, });
+
+};
+
+//#endregion
 //#region countSignificant 0.0.0
 
 /**
@@ -554,66 +706,66 @@ export function arrayReplace(array, value, ...replaces) {
  * @prop {[]} array
  * @typedef {TBcountSignificant} TcountSignificant
 */
-  
+
 /** @param {TcountSignificant} t */
 function countSignificantDeceit(t) {
-    
+
     try {
-        
+
         return countSignificantVerify(t);
-        
+
     } catch (e) {
-        
+
         if (config.strict) throw e;
-        
+
         return undefined;
-        
+
     };
-    
+
 };
 /** @param {TcountSignificant} t */
 function countSignificantVerify(t) {
-    
+
     const {
-    
-    
-    
+
+
+
     } = t;
-    
+
     return countSignificantHandle(t);
-   
+
 };
 /** @param {TcountSignificant} t */
 function countSignificantHandle(t) {
-   
+
     let {
-    
-    
-    
+
+
+
     } = t;
-    
-    
-    
+
+
+
     t = {
-        
+
         ...t,
-        
+
     };
-   
+
     return countSignificantComply(t);
-   
+
 };
 /** @param {TcountSignificant} t */
 function countSignificantComply(t) {
-   
+
     const {
-    
+
         array,
-    
+
     } = t;
-    
+
     return array.reduce(p => ++p, 0);
-    
+
 };
 
 /**

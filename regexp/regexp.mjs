@@ -8,64 +8,64 @@ import { config } from "../config.mjs";
  * @prop {RegExp} regexp
  * @typedef {TBsplit} Tsplit
 */
-  
+
 /** @param {Tsplit} t */
 function splitDeceit(t) {
-    
+
     try {
-        
+
         return splitVerify(t);
-        
+
     } catch (e) {
-        
+
         if (config.strict) throw e;
-        
+
         return undefined;
-        
+
     };
-    
+
 };
 /** @param {Tsplit} t */
 function splitVerify(t) {
-    
+
     const {
-    
-    
-    
+
+
+
     } = t;
-    
+
     return splitHandle(t);
-   
+
 };
 /** @param {Tsplit} t */
 function splitHandle(t) {
-   
+
     let {
-    
-    
-    
+
+
+
     } = t;
-    
-    
-    
+
+
+
     t = {
-        
+
         ...t,
-        
+
     };
-   
+
     return splitComply(t);
-   
+
 };
 /** @param {Tsplit} t */
 function splitComply(t) {
-   
+
     const {
-    
+
         regexp,
-    
+
     } = t;
-    
+
     const results = [regexp]
 
     Array.from(regexp.source.matchAll(/[^\\]\|/g)).forEach(e => {
@@ -77,7 +77,7 @@ function splitComply(t) {
         arrayAppend(results, ...rs.map(e => new RegExp(e, regexp.flags)));
 
     });
-    
+
     return results;
 
 };

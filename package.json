@@ -11,12 +11,14 @@
         "os/",
         "log/",
         "web/",
+        "test/",
         "func/",
         "ject/",
         "error/",
         "array/",
         "number/",
         "string/",
+        "regexp/",
         "config.mjs",
         "README.md",
         "LICENSE.md"
@@ -24,7 +26,7 @@
     ],
     "author": "Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>",
     "license": "Apache-2.0",
-    "version": "0.12.4",
+    "version": "0.14.0",
     "keywords": [
 
         "y",

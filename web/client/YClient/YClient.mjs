@@ -36,7 +36,7 @@ class DClient extends SClient {
 class FClient extends DClient {
 
     /**
-     * 
+     *
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
      *  @param {TClient} t

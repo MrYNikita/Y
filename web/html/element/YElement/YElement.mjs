@@ -1,4 +1,5 @@
 import { jectFill, jectSupplement } from "../../../../ject/ject.mjs";
+import { YBasic } from "../../../../ject/YBasic/YBasic.mjs";
 import { elementCreate, elementCreateByString, elementStringDecompose } from "../element.mjs";
 
 /**
@@ -15,7 +16,7 @@ import { elementCreate, elementCreateByString, elementStringDecompose } from "..
  * @typedef {DElement&TBElement} TElement
 */
 
-class SElement {
+class SElement extends YBasic {
 
 
 
@@ -32,7 +33,7 @@ class DElement extends SElement {
 class FElement extends DElement {
 
     /**
-     * 
+     *
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
      *  @param {TElement} t
@@ -130,7 +131,7 @@ class FElement extends DElement {
     };
 
 };
- 
+
 /**
  *
  * - Тип `SDFY`

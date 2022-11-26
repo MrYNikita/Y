@@ -30,7 +30,7 @@ class DDirectory extends SDirectory {
 class FDirectory extends DDirectory {
 
     /**
-     * 
+     *
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
      *  @param {TDirectory} t
@@ -62,10 +62,11 @@ class FDirectory extends DDirectory {
 
                 case 1: {
 
-                    const p = pathGet(t[0], false);
+                    const p = pathGet(t[0]);
 
                     r.name = p.match(fileREName)[1];
                     r.location = p?.match(fileRELocation)?.[0] ?? '';
+
 
                 };
 
@@ -139,7 +140,7 @@ class FDirectory extends DDirectory {
 
 /**
  * Базовый класс директорий.
- * 
+ *
  * Базовый класс директорий содержит базовую основу директорий, которая может использоваться для наследования, аналогично базовому классу файлов.
  * - Тип `SDFY`
  * - Версия `0.0.0`
@@ -226,7 +227,7 @@ export class YBDirectory extends FDirectory {
                 `Удален: ${this.deleted}`,
                 // `Размер: ${readdirSync(this.getPath()).reduce((p, c) => p + statSync(c).size, 0)} KB`,
                 `Путей: ${this.paths.length}`,
-                
+
             )
             .pasteTemplate(new YTemplate('l', '---\n'))
             .changePostfix('\n')

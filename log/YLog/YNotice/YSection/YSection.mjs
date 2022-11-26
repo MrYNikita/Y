@@ -1,7 +1,7 @@
-import { arrayAppend, arrayRemove } from "../../../array/array.mjs";
-import { configLog } from "../../../config.mjs";
-import { jectFill } from "../../../ject/ject.mjs";
-import { stringCastToDate, stringCastToSample, stringReplace } from "../../../string/string.mjs";
+import { arrayAppend, arrayRemoveByElement } from "../../../../array/array.mjs";
+import { configLog } from "../../../../config.mjs";
+import { jectFill } from "../../../../ject/ject.mjs";
+import { stringCastToDate, stringCastToSample, stringReplace } from "../../../../string/string.mjs";
 import { YNotice } from "../YNotice.mjs";
 
 /**
@@ -56,7 +56,7 @@ class DSection extends SSection {
 class FSection extends DSection {
 
     /**
-     * 
+     *
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
      *  @param {TSection} t
@@ -185,7 +185,7 @@ export class YSection extends FSection {
         notices.forEach((n, i, a) => a[i] = (n.constructor === String) ? new YNotice({ data: n, section: this }) : new YNotice({ ...n, section: this }));
 
         if (notices.length === size) this.list = notices;
-        else if (notices.length > size) arrayAppend(arrayRemove(list), ...notices.splice(notices.length - size));
+        else if (notices.length > size) arrayAppend(arrayRemoveByElement(list), ...notices.splice(notices.length - size));
         else if (notices.length + list.length > size) arrayAppend(list, ...notices).splice(0, list.length - size);
         else arrayAppend(list, ...notices);
 

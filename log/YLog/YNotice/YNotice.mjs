@@ -1,6 +1,6 @@
-import { jectFill } from "../../ject/ject.mjs";
-import { configLog } from "../../config.mjs";
-import { stringCastToDate, stringCastToSample, stringReplace } from "../../string/string.mjs";
+import { jectFill } from "../../../ject/ject.mjs";
+import { configLog } from "../../../config.mjs";
+import { stringCastToDate, stringCastToSample, stringReplace } from "../../../string/string.mjs";
 import { YSection } from "./YSection/YSection.mjs";
 
 /**
@@ -41,7 +41,7 @@ class DNotice extends SNotice {
 class FNotice extends DNotice {
 
     /**
-     * 
+     *
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
      *  @param {TNotice} t
@@ -131,11 +131,11 @@ class FNotice extends DNotice {
 
 /**
  * Класс `YNotice`.
- * 
+ *
  * Данный класс предназначен для создания уведомлений.
  * Уведомления могут содержать информацию формата: <t> - <d>, где
  * t - `Время` и d - `Данные`.
- * 
+ *
  * Указание `date` не требуется, так как дата будет выставлена на момент создания уведомления.
  * - Тип `SDFY-2.0`
  * - Версия `0.0.0`

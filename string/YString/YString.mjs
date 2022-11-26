@@ -1,11 +1,7 @@
-import { arrayRemove } from "../../array/array.mjs";
-import { configLog, configString, configYString } from "../../config.mjs";
-import { YFunc } from "../../func/YFunc/YFunc.mjs";
-import { YProc } from "../../func/YFunc/YProc/YProc.mjs";
+import { configString } from "../../config.mjs";
 import { jectFill } from "../../ject/ject.mjs";
+import { YBasic } from "../../ject/YBasic/YBasic.mjs";
 import { YCursor } from "../../ject/YCursor/YCursor.mjs";
-import { YLog } from "../../log/YLog/YLog.mjs";
-import { YSection } from "../../log/YNotice/YSection/YSection.mjs";
 import { stringAppend, stringBring, stringCastToSample, stringCastToYReport, stringFilter, stringFind, stringFindToJect, stringHandle, stringPad, stringPaste, stringReflect, stringRemove, stringRepaint, stringReplace, stringReverse } from "../string.mjs";
 import { YTemplate } from "./YTemplate/YTemplate.mjs";
 
@@ -15,22 +11,13 @@ import { YTemplate } from "./YTemplate/YTemplate.mjs";
  * @typedef {DString&TBString} TString
 */
 
-class SString {
+class SString extends YBasic {
 
 
 
 };
 class DString extends SString {
 
-    /**
-     * Журнал.
-     * @type {YLog}
-    */
-    log = new YLog({ loged: configYString.loged ?? false }).appendSection(
-
-        { label: 'info', symbol: '*' },
-
-    );
     /**
      * Текущее состояние строки.
      * @type {string}
@@ -67,7 +54,7 @@ class DString extends SString {
      * Значение табуляции.
      * @type {string}
     */
-    tabValue = configString?.ystring?.tabValue ?? '';
+    tabValue = configString?.tabValue ?? '';
     /**
      * Индекс табуляции.
      * @type {number}
@@ -77,7 +64,7 @@ class DString extends SString {
      * шаблоны.
      * @type {Array<YTemplate>}
     */
-    templates;
+    templates = configString?.templates?.map(t => new YTemplate(...t));
     /**
      * Над-строка.
      * @type {YString?}
@@ -88,7 +75,7 @@ class DString extends SString {
 class FString extends DString {
 
     /**
-     * 
+     *
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
      *  @param {TString} t
@@ -169,8 +156,6 @@ class FString extends DString {
         jectFill(this, t);
 
         this.cursors = [new YCursor({ list: this })];
-        this.templates = [];
-        this.log.loged = (t.loged) ? t.loged : configYString.loged;
 
     };
 
@@ -178,7 +163,7 @@ class FString extends DString {
 
 /**
  * Класс строк.
- * 
+ *
  * Данный класс позволяет работать со строками.
  * Экземпляры класса позволяют производить манипуляции над добавленными в неё значениями.
  * - Тип `SDFY-2.0`
@@ -220,7 +205,7 @@ export class YString extends FString {
      * Метод для дополнения строки.
      * @param {string} string Строка дополнения.
      * @param {number} count Кол-во дополнений.
-     * @param {boolean} left Сторона дополнения. 
+     * @param {boolean} left Сторона дополнения.
     */
     pad(string, count, index = this.value.length) {
 
@@ -250,7 +235,7 @@ export class YString extends FString {
     };
     /**
      * Метод для вставки значения.
-     * - Версия `0.1.0`
+     * - Версия `0.2.0`
      * @param {...string|Function} strings Строка вставки.
     */
     paste(...strings) {
@@ -259,32 +244,31 @@ export class YString extends FString {
 
         while (strings.length) {
 
-            for (const c of this.cursors) {
+            let sp = strings.pop();
 
-                if (strings.length) {
+            if (!sp) continue;
 
-                    let sp = strings.pop(), so;
+            if (sp instanceof Function) {
 
-                    if (sp instanceof Function) sp = sp() + '';
-                    else if (sp instanceof YString) {
+                sp = sp() + '';
 
-                        sp.stringOver = this;
-                        sp = sp.get();
+            } else if (sp instanceof YString) {
 
-                    };
-
-                    so = sp;
-                    sp = (this.prefix + sp + this.postfix).replace(/^.+/mg, (this.tabValue ?? this?.stringOver?.tabValue)?.repeat(this.tabIndex ?? this?.stringOver?.tabIndex ?? 0) + '$&');
-
-                    this.value = stringPaste(this.value, sp, c.index, c.size);
-
-                    c.move(sp.length);
-
-                    this.log.appendNotice(['*', `добавлено значение: ${stringCastToSample(so)}`]);
-
-                } else break;
+                sp.stringOver = this;
+                sp = sp.get();
 
             };
+
+            sp = ((this.prefix instanceof YTemplate ? this.prefix.get() : this.prefix) + sp +(this.postfix instanceof YTemplate ? this.postfix.get() : this.postfix)
+            ).replace(/^.+/mg, (this.tabValue ?? this?.stringOver?.tabValue)?.repeat(this.tabIndex ?? this?.stringOver?.tabIndex ?? 0) + '$&');
+
+            this.cursors.forEach(c => {
+
+                this.value = stringPaste(this.value, sp, c.index, c.size);
+
+                c.move(sp.length);
+
+            });
 
         };
 
@@ -379,7 +363,7 @@ export class YString extends FString {
      * @param {boolean} every Логическое значение, которое определяет, как следует проводить отражение.
      * Значение true означает, что необходимо зеркально отразить каждую строку с переносом по отдельности.
      * Значение false же прибавит инвертированную копию текущей строки на конец исходной.
-     * @param {...Array<string,string>} mirrors 
+     * @param {...Array<string,string>} mirrors
     */
     reflect(every = false, ...mirrors) {
 
@@ -480,7 +464,7 @@ export class YString extends FString {
     setCursorSize(size = 0) {
 
         this.cursors.forEach(c => c.size = size);
-        
+
         return this;
 
     };
@@ -540,7 +524,7 @@ export class YString extends FString {
     /**
      * Метод для поиска совпадений по фрагментам с преобразованием в объект указанного типа.
      * Свойства данного объекта - это указанные в регулярных выражениях поиска имена скобочных групп.
-     * - Версия `0.0.0` 
+     * - Версия `0.0.0`
      * @param {typeof Object} cls Конструктор объекта.
      * @param {...string|RegExp} fragments Фрагменты.
      * @return {[]}
@@ -554,7 +538,7 @@ export class YString extends FString {
      * Метод для добавления нового шаблона в перечень всех шаблонов.
      * - Версия `0.0.0`
      * @param {string} label Метка.
-     * @param {string|YString|YTemplate} value Шаблон. 
+     * @param {string|YString|YTemplate} value Шаблон.
     */
     addTemplate(label, value) {
 
@@ -587,28 +571,33 @@ export class YString extends FString {
     };
     /**
      * Метод для добавления шаблона в строку.
-     * - Версия `0.0.0`
-     * @param {number} index Индекс добавления.
-     * @param {...string|YString} Вставки.
-     * @param {string|YString|YTemplate} template Строка, выступающая шаблоном, метка существубщего шаблона или новый экземпляр шаблона.
+     *
+     * Шаблон вставляется в соответствии с правилом курсоров.
+     * Это означает, что его размещение зависит от местоположения курсора.
+     *
+     * Шаблон может включать в себя вставки.
+     * Подробнее о вставках можно прочитать в классе шаблонов.
+     * - Версия `0.2.0`
+     * @param {string} label Метка.
+     * @param {string} value Значение.
+     * @param {...[string, string|number|function():string|number]} inserts Вставки.
     */
-    pasteTemplate(template, index = this.value.length, ...inserts) {
+    pasteTemplate(label, value, ...inserts) {
 
         let v;
+        let yt = this.templates.find(t => t.label === label);
 
-        if (template.constructor === String) {
+        if (yt) {
 
-            v = Array.from(this.templates).find(t => t.label === template)?.value ?? '';
+            v = yt.get(value, ...inserts);
 
-        } else if (template instanceof YString) {
+        } else {
 
-            v = template.get(true);
+            yt = new YTemplate(label, value, ...inserts);
 
-        } else if (template instanceof YTemplate) {
+            this.templates.push(yt);
 
-            v = template.value;
-
-            this.templates.push(template);
+            v = yt.get();
 
         };
 
@@ -646,14 +635,11 @@ export class YString extends FString {
     /**
      * Метод для изменения строки начального добавления.
      * - Версия `0.0.0`
-     * @param {string}
+     * @param {string} string
     */
     changePrefix(string = '') {
 
         this.prefix = string;
-
-        if (string) this.log.appendNotice(['*', `Изменено значение начальной вставки: ${string}`]);
-        else this.log.appendNotice(['*', `Сброшено значение начальной вставки.`]);
 
         return this;
 
@@ -667,8 +653,55 @@ export class YString extends FString {
 
         this.postfix = string;
 
-        if (string) this.log.appendNotice(['*', `Изменено значение конечной вставки: ${string}`]);
-        else this.log.appendNotice(['*', `Сброшено значение конечной вставки.`]);
+        return this;
+
+    };
+    /**
+     * Метод изменения строки начального добавления на строку шаблона.
+     * - Версия `0.0.0`
+     * @param {string} label Метка.
+     * @param {string} value Значение.
+     * @param {...[string, string|number|function():string|number]} inserts Вставки.
+    */
+    changePrefixByTemplate(label, value, ...inserts) {
+
+        let yt = this.templates.find(t => t.label === label);
+
+        if (yt) {
+
+            this.prefix = yt;
+
+        } else {
+
+            this.prefix = new YTemplate(label, value, ...inserts);
+            this.templates.push(this.postfix);
+
+        };
+
+        return this;
+
+    };
+    /**
+     * Метод изменения строки конечного добавления на шаблон.
+     * - Версия `0.0.0`
+     * @param {string} label Метка.
+     * @param {string} value Значение.
+     * @param {...[string, string|number|function():string|number]} inserts Вставки.
+    */
+    changePostfixByTemplate(label, value, ...inserts) {
+
+        let yt = this.templates.find(t => t.label === label);
+
+        if (yt) {
+
+            this.postfix = yt;
+
+        } else {
+
+            this.postfix = new YTemplate(label, value, ...inserts);
+            this.templates.push(this.postfix);
+
+        };
 
         return this;
 

@@ -85,7 +85,7 @@ export function styleApplyY() {
 
 /**
  * @typedef TBcreate
- * 
+ *
  * @typedef {TBcreate} Tcreate
 */
 

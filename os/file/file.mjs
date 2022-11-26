@@ -498,68 +498,68 @@ export function fileAppendJson(fragment, ...data) {
  * @prop {string|RegExp} fragment
  * @typedef {TBdelete} Tdelete
 */
-  
+
 /** @param {Tdelete} t */
 function deleteDeceit(t) {
-    
+
     try {
-        
+
         return deleteVerify(t);
-        
+
     } catch (e) {
-        
+
         if (config.strict) throw e;
-        
+
         return undefined;
-        
+
     };
-    
+
 };
 /** @param {Tdelete} t */
 function deleteVerify(t) {
-    
+
     const {
-    
-    
-    
+
+
+
     } = t;
-    
+
     return deleteHandle(t);
-   
+
 };
 /** @param {Tdelete} t */
 function deleteHandle(t) {
-   
+
     let {
-    
-    
-    
+
+
+
     } = t;
-    
-    
-    
+
+
+
     t = {
-        
+
         ...t,
-        
+
     };
-   
+
     return deleteComply(t);
-   
+
 };
 /** @param {Tdelete} t */
 function deleteComply(t) {
-   
+
     const {
-    
+
         fragment,
-    
+
     } = t;
-    
+
     const path = pathGet(fragment);
 
     if (!configFile.protects.includes(path)) unlinkSync(pathGet(fragment));
-    
+
 };
 
 /**
@@ -583,63 +583,63 @@ export function fileDelete(fragment) {
  * @prop {string|RegExp} fragment
  * @typedef {TBrename} Trename
 */
-  
+
 /** @param {Trename} t */
 function renameDeceit(t) {
-    
+
     try {
-        
+
         return renameVerify(t);
-        
+
     } catch (e) {
-        
+
         if (config.strict) throw e;
-        
+
         return undefined;
-        
+
     };
-    
+
 };
 /** @param {Trename} t */
 function renameVerify(t) {
-    
+
     const {
-    
-    
-    
+
+
+
     } = t;
-    
+
     return renameHandle(t);
-   
+
 };
 /** @param {Trename} t */
 function renameHandle(t) {
-   
+
     let {
-    
-    
-    
+
+
+
     } = t;
-    
-    
-    
+
+
+
     t = {
-        
+
         ...t,
-        
+
     };
-   
+
     return renameComply(t);
-   
+
 };
 /** @param {Trename} t */
 function renameComply(t) {
-   
+
     const {
-    
+
         name,
         fragment,
-    
+
     } = t;
 
     const path = pathGet(fragment);
@@ -648,7 +648,7 @@ function renameComply(t) {
     const location = path.match(fileRELocation)[0];
 
     renameSync(location + nameLast + '.' + expand, location + name + '.' + expand);
-    
+
 };
 
 /**

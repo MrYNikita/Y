@@ -7,62 +7,62 @@ import { config } from "process";
  * @prop {Buffer} data
  * @typedef {TBdescrypt} Tdescrypt
 */
-  
+
 /** @param {Tdescrypt} t */
 function descryptDeceit(t) {
-    
+
     try {
-        
+
         return descryptVerify(t);
-        
+
     } catch (e) {
-        
+
         if (config.strict) throw e;
-        
+
         return undefined;
-        
+
     };
-    
+
 };
 /** @param {Tdescrypt} t */
 function descryptVerify(t) {
-    
+
     const {
-    
-    
-    
+
+
+
     } = t;
-    
+
     return descryptHandle(t);
-   
+
 };
 /** @param {Tdescrypt} t */
 function descryptHandle(t) {
-   
+
     let {
-    
-    
-    
+
+
+
     } = t;
-    
-    
-    
+
+
+
     t = {
-        
+
         ...t,
-        
+
     };
-   
+
     return descryptComply(t);
-   
+
 };
 /** @param {Tdescrypt} t */
 function descryptComply(t) {
-   
+
     const {
-    
+
         data,
-    
+
     } = t;
 
     const l = data[1] ^ 128;
@@ -77,7 +77,7 @@ function descryptComply(t) {
     const m = r.mask, d = r.data;
 
     return Buffer.from(d.map((byte, i) => byte ^  m[i % 4]));
-    
+
 };
 
 /**
@@ -101,58 +101,58 @@ export function serverDescrypt(data) {
  * @prop {string} type
  * @typedef {TBdefineContentType} TdefineContentType
 */
-  
+
 /** @param {TdefineContentType} t */
 function defineContentTypeDeceit(t) {
-    
+
     try {
-        
+
         return defineContentTypeVerify(t);
-        
+
     } catch (e) {
-        
+
         if (config.strict) throw e;
-        
+
         return undefined;
-        
+
     };
-    
+
 };
 /** @param {TdefineContentType} t */
 function defineContentTypeVerify(t) {
-    
+
     const {
-    
-    
-    
+
+
+
     } = t;
-    
+
     return defineContentTypeHandle(t);
-   
+
 };
 /** @param {TdefineContentType} t */
 function defineContentTypeHandle(t) {
-   
+
     let {
-    
-    
-    
+
+
+
     } = t;
-    
-    
-    
+
+
+
     t = {
-        
+
         ...t,
-        
+
     };
-   
+
     return defineContentTypeComply(t);
-   
+
 };
 /** @param {TdefineContentType} t */
 function defineContentTypeComply(t) {
-   
+
     let {
 
         type,
@@ -160,11 +160,11 @@ function defineContentTypeComply(t) {
     } = t;
 
     const {
-    
+
         data,
-    
+
     } = t;
-    
+
     if (!type) {
 
 
@@ -173,19 +173,19 @@ function defineContentTypeComply(t) {
 
     switch (type) {
 
-        case 'css': return 'text/css';
-        case 'ico': return 'image/x-icon';
-        case 'png': return 'image/png';
-        case 'gif': return 'image/gif';
-        case 'html': return 'text/html';
-        case 'text': return 'text/plaint';
-        case 'pdf': return 'application/pdf';
-        case 'json': return 'application/json';
-        case 'js': case 'cjs': case 'mjs': return 'application/javascript';
-        default: return 'text/plain';
+        case 'css': return 'text/css; charset=utf-8';
+        case 'ico': return 'image/x-icon; charset=utf-8';
+        case 'png': return 'image/png; charset=utf-8';
+        case 'gif': return 'image/gif; charset=utf-8';
+        case 'html': return 'text/html; charset=utf-8';
+        case 'text': return 'text/plaint; charset=utf-8';
+        case 'pdf': return 'application/pdf; charset=utf-8';
+        case 'json': return 'application/json; charset=utf-8';
+        case 'js': case 'cjs': case 'mjs': return 'application/javascript; charset=utf-8';
+        default: return 'text/plain; charset=utf-8 ';
 
     };
-    
+
 };
 
 /**

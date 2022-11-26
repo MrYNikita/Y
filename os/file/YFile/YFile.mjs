@@ -44,7 +44,7 @@ class DFile extends SFile {
 class FFile extends DFile {
 
     /**
-     * 
+     *
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
      *  @param {TFile} t
@@ -79,7 +79,7 @@ class FFile extends DFile {
 
         } else if (t instanceof Array) {
 
-            
+
 
         } else return {};
 
@@ -177,7 +177,7 @@ export class YBFile extends FFile {
     report() {
 
         new YString(this.getReport())
-            
+
             .castToYReport()
             .display()
 

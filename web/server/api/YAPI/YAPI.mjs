@@ -37,7 +37,7 @@ class DAPI extends SAPI {
 class FAPI extends DAPI {
 
     /**
-     * 
+     *
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
      *  @param {TAPI} t
@@ -127,7 +127,7 @@ class FAPI extends DAPI {
 
 /**
  * Класс `API`.
- * 
+ *
  * Предназначен для использования в `YServer`. Содержит в себе функциональные возможности сервера, которые могут быть получены по запросу.
  * Запрос сопастоявляется с перечнем `YRout`.
  * - Тип `SDFY`
@@ -164,6 +164,9 @@ export class YAPI extends FAPI {
     */
     exec(req, res) {
 
+        res.setHeader('X-Content-Type-Options', 'nosniff');
+        res.setHeader('Cache-Control', 'no-cache');
+
         const r = this.routs.find(r => r.url === req.url.split('?')[0] ?? req.url);
 
         if (r) {
@@ -196,7 +199,7 @@ export class YAPI extends FAPI {
 
     };
     /**
-     * 
+     *
     */
     append(url, type, procedure, method) {
 

@@ -12,12 +12,12 @@ import { pathGet } from "../../../os/path/path.mjs";
 */
 
 class SHTML {
-    
-    
-    
+
+
+
 };
 class DHTML extends SHTML {
-    
+
     /**
      * Заголовок.
      * @type {string}
@@ -45,108 +45,108 @@ class DHTML extends SHTML {
      * @type {() => {}}
     */
     initialization = () => {};
-    
+
 };
 class FHTML extends DHTML {
-    
+
     /**
-     * 
+     *
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
      *  @param {THTML} t
     */
     constructor(t = {}) {
-        
+
         t = FHTML.#before(arguments);
-        
+
         FHTML.#deceit(t);
-        
+
         super(t);
-        
+
         FHTML.#create.apply(this, [t]);
-        
+
     };
-    
+
     /** @param {THTML} t */
     static #before(t) {
-        
+
         if (t?.length === 1 && t[0]?.constructor === Object) {
-            
+
             return t[0];
-            
+
         } else if (t?.length) {
-            
+
             const r = {};
-            
-            
-            
+
+
+
             return r;
-            
+
         } else return {};
-        
+
     };
     /** @param {THTML} t @this {YHTML} */
     static #deceit(t) {
-        
+
         try {
-            
+
             FHTML.#verify(t);
-            
+
         } catch (e) {
-            
+
             throw e;
-            
+
         };
-        
+
     };
     /** @param {THTML} t @this {YHTML} */
     static #verify(t) {
-        
+
         const {
-            
-            
-            
+
+
+
         } = t;
-        
+
         FHTML.#handle(t);
-        
+
     };
     /** @param {THTML} t @this {YHTML} */
     static #handle(t) {
-        
+
         let {
-            
-            
-            
+
+
+
         } = t;
-        
+
         t = {
-            
+
             ...t,
-            
+
         };
-        
+
     };
     /** @param {THTML} t @this {YHTML} */
     static #create(t) {
-        
+
         const {
-            
-            
-            
+
+
+
         } = t;
-        
+
         jectFill(this, t);
 
         console.log(fileRead('YStyleSet.mjs'));
-        
+
     };
-    
+
 };
 
 /**
  * Класс `html` документа.
- * 
+ *
  * Данный класс предназначен для создания `html` документа.
  * Экземпляры данного класа позволяют дополнять заголовки в `head` и `body`.
  * - Тип `SDFY-2.0`
@@ -154,7 +154,7 @@ class FHTML extends DHTML {
  * - Цепочка `BDVHC`
 */
 export class YHTML extends FHTML {
-    
+
     /**
      * Метод для получения `html` текста.
      * - Версия `0.0.0`
@@ -162,7 +162,7 @@ export class YHTML extends FHTML {
     get() {
 
         return new YString()
-            
+
             .changePostfix('\n')
             .paste(
 
@@ -225,5 +225,5 @@ export class YHTML extends FHTML {
             .get()
 
     };
-    
+
 };

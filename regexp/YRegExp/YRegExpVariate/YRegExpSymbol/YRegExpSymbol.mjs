@@ -7,12 +7,12 @@
 import { jectFill } from "../../../../ject/ject.mjs";
 
 class SRegExpSymbol {
-    
-    
-    
+
+
+
 };
 class DRegExpSymbol extends SRegExpSymbol {
-    
+
     /**
      * Минимальное кол-во повторений.
      * @type {number?}
@@ -43,69 +43,69 @@ class DRegExpSymbol extends SRegExpSymbol {
      * @type {string}
     */
     quantifier = '';
-    
+
 };
 class FRegExpSymbol extends DRegExpSymbol {
-    
+
     /**
-     * 
+     *
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
      *  @param {TRegExpSymbol} t
     */
     constructor(t = {}) {
-        
+
         t = FRegExpSymbol.#before(...arguments);
-        
+
         super(t);
-        
+
         FRegExpSymbol.#deceit.apply(this, [t]);
-        
+
     };
-    
+
     /** @param {TRegExpSymbol} t @this {[]} */
     static #before(t) {
-        
-        
-        
+
+
+
         if (!t) t = {};
-        
+
         return t;
-        
+
     };
     /** @param {TRegExpSymbol} t @this {YRegExpSymbol} */
     static #deceit(t) {
-        
+
         try {
-            
+
             FRegExpSymbol.#verify.apply(this, arguments);
-            
+
         } catch (e) {
-            
+
             throw e;
-            
+
         };
-        
+
     };
     /** @param {TRegExpSymbol} t @this {YRegExpSymbol} */
     static #verify(t) {
-        
+
         const {
-            
-            
-            
+
+
+
         } = t;
-        
+
         FRegExpSymbol.#handle.apply(this, arguments);
-        
+
     };
     /** @param {TRegExpSymbol} t @this {YRegExpSymbol} */
     static #handle(t) {
-        
+
         let {
-            
-            
-            
+
+
+
         } = t;
 
         if (t.min || t.max) {
@@ -119,31 +119,31 @@ class FRegExpSymbol extends DRegExpSymbol {
 
         if ((t.min > 0 || t.max > 0 || t.equ > 0) && t.quantifier) [t.quantifier, t.lazy] = ['', false];
         else if (t.quantifier === '?') t.lazy = false;
-        
+
         t = {
-            
+
             ...t,
-            
+
         };
-       
+
         FRegExpSymbol.#create.apply(this, [t]);
-        
+
     };
     /** @param {TRegExpSymbol} t @this {YRegExpSymbol} */
     static #create(t) {
-        
+
         const {
-            
-            
-            
+
+
+
         } = t;
-        
+
         jectFill.apply(this, [t]);
-        
-        
-        
+
+
+
     };
-    
+
 };
 
 /**
@@ -190,5 +190,5 @@ export class YRegExpSymbol extends FRegExpSymbol {
         return this;
 
     };
-    
+
 };

@@ -46,7 +46,7 @@ class DRout extends SRout {
 class FRout extends DRout {
 
     /**
-     * 
+     *
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
      *  @param {TRout} t

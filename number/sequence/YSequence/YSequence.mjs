@@ -41,7 +41,7 @@ class DSequence extends SSequence {
 class FSequence extends DSequence {
 
     /**
-     * 
+     *
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
      *  @param {TSequence} t
@@ -176,7 +176,7 @@ class FSequence extends DSequence {
 
         jectFill(this, t);
 
-        this.calculateCount();
+        this.сount();
 
     };
 
@@ -184,12 +184,12 @@ class FSequence extends DSequence {
 
 /**
  * Класс числовых последовательностей.
- * 
+ *
  * Данный класс используется для создания числовых последовательностей.
  * Экземпляры данного класа хранят набор своих чисел, максимальное и минимальное значение последовательности.
- * 
+ *
  * Последовательности можно использовать для `сравнения` и `сопоставления` между собой.
- * 
+ *
  * Последовательности оптимизируются за счет сжатия правильных диапазонов -
  * это означает, что при обнаружении последовательностью правильных диапазонов,
  * они будут сжаты. Пример: `[..., 7, 8, 9,...] будет сжато в [..., [7, 9], ...]`.
@@ -215,9 +215,67 @@ export class YSequence extends FSequence {
 
     };
     /**
-     * 
+     * Метод добавления значений в последовательность.
      * - Версия `0.0.0`
-     * 
+     * @param {...number} numbers Числа.
+    */
+    append(...numbers) {
+
+        numbers = numbers.reverse();
+
+        if (!this.min) this.min = numbers[0];
+        if (!this.max) this.max = numbers[0];
+
+        this.count += numbers.length;
+
+        while (numbers.length) {
+
+            const n = numbers.pop();
+
+            if (n < this.min) this.min = n;
+            if (n > this.max) this.max = n;
+
+            if (this.numbers.at(-1) instanceof Array && Math.abs(this.numbers.at(-1)[1] - n) === 1) {
+
+                this.numbers.at(-1)[1] = n;
+
+            } else if (Math.abs(this.numbers.at(-1) - n) === 1) {
+
+                this.numbers.push([this.numbers.pop(), n]);
+
+            } else this.numbers.push(n);
+
+        };
+
+
+        return this;
+
+    };
+    /**
+     * Метод подсчета чисел в последовательности.
+     * - Версия `0.0.0`
+    */
+    сount() {
+
+        return this.count = this.numbers.reduce((p, c) => {
+
+            if (c instanceof Array) {
+
+                let [min, max] = c;
+
+                if (min > max) [min, max] = [max, min];
+
+                return p + (max - min) + 1;
+
+            } else return p++;
+
+        }, 0);
+
+    };
+    /**
+     *
+     * - Версия `0.0.0`
+     *
     */
     getReport() {
 
@@ -238,32 +296,11 @@ export class YSequence extends FSequence {
     /**
      * Метод проверки указанного диапазона на принадлежнсоть данному.
      * - Версия `0.0.0`
-     * @param {...YSequence|Array<number>|number} sequence Диапазон, который будет проверен на принадлежность вышестоящему диапазону. 
+     * @param {...YSequence|Array<number>|number} sequence Диапазон, который будет проверен на принадлежность вышестоящему диапазону.
     */
     checkEntry(...sequence) {
 
         return sequenceCheckEntry(this.numbers, ...sequence.map(s => (s instanceof YSequence) ? s.numbers : s));
-
-    };
-    /**
-     * Метод подсчета чисел в последовательности.
-     * - Версия `0.0.0`
-    */
-    calculateCount() {
-
-        return this.count = this.numbers.reduce((p, c) => {
-
-            if (c instanceof Array) {
-
-                let [min, max] = c;
-
-                if (min > max) [min, max] = [max, min];
-
-                return p + (max - min) + 1;
-
-            } else return p++;
-
-        }, 0);
 
     };
 

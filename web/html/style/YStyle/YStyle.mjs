@@ -42,7 +42,7 @@ class DStyle extends SStyle {
 class FStyle extends DStyle {
 
     /**
-     * 
+     *
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
      *  @param {TStyle} t
@@ -135,7 +135,7 @@ class FStyle extends DStyle {
             set(j, p, v) {
 
                 const prop = {};
-                
+
                 j[p] = v;
 
                 prop.p = v;
@@ -154,7 +154,7 @@ class FStyle extends DStyle {
 
 /**
  * Класс `YStyle`.
- * 
+ *
  * Данный класс предназначен для работы со стилями.
  * - Тип `SDFY-2.0`
  * - Версия `0.0.0`

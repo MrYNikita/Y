@@ -74,7 +74,7 @@ class DArray extends SArray {
 class FArray extends DArray {
 
     /**
-     * 
+     *
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
      *  @param {TArray} t
@@ -198,7 +198,7 @@ class FArray extends DArray {
 
 /**
  * Класс `массивов`.
- * 
+ *
  * Данный класс дополняет обычные массивы новым функционалом и улучшает, переопределяя старый.
  * - Тип `SDFY-2.0`
  * - Версия `0.0.0`
@@ -221,7 +221,7 @@ export class YArray extends FArray {
     /**
      * Функция отображения информации.
      * - Версия `0.0.0`
-     * 
+     *
     */
     report() {
 
@@ -231,9 +231,9 @@ export class YArray extends FArray {
 
     };
     /**
-     * 
+     *
      * - Версия `0.0.0`
-     * 
+     *
     */
     getReport() {
 
@@ -272,7 +272,7 @@ export class YArray extends FArray {
     /**
      * Метод заполнения пустых элементов массива указанными значениями.
      * - Версия `0.0.0`
-     * 
+     *
     */
     supplement() {
 
@@ -280,7 +280,7 @@ export class YArray extends FArray {
 
     };
     /**
-     * 
+     *
      * - Версия `0.0.0`
      * @param {number} index Индекс вставки.
      * @param {...any} elements Элементы вставки.

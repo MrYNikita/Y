@@ -1,7 +1,7 @@
 import { YElement } from "../YElement.mjs";
 import { jectFill } from "../../../../../ject/ject.mjs";
 import { stringReplace } from "../../../../../string/string.mjs";
-import { arrayRemove } from "../../../../../array/array.mjs";
+import { arrayRemoveByElement } from "../../../../../array/array.mjs";
 import { YStyle } from "../../../style/YStyle/YStyle.mjs";
 
 /**
@@ -45,7 +45,7 @@ class DElementStyle extends SElementStyle {
 class FElementStyle extends DElementStyle {
 
     /**
-     * 
+     *
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
      *  @param {TElementStyle} t
@@ -66,17 +66,17 @@ class FElementStyle extends DElementStyle {
     static #before(t) {
 
         if (t?.length === 1 && t[0]?.constructor === Object) {
-            
+
             return t[0];
-            
+
         } else if (t?.length) {
-            
+
             const r = {};
-            
-            
-            
+
+
+
             return r;
-            
+
         } else return {};
 
     };
@@ -142,10 +142,10 @@ class FElementStyle extends DElementStyle {
 
 /**
  * Класс элементов стиля.
- * 
+ *
  * Данный класс предназначен для работы с элементом `HTMLElementStyle`.
  * Экземпляр размещается в заголовок документа.
- * 
+ *
  * Селекторы размещенные в данном элементе сохранены для того, чтобы быстро ссылаться на их значения.
  * Все селекторы хранятся, как экземпляры `YStyle`, что позволяет изменять стили страницы через свойства данных экземпляров.
  * - Тип `SDFY-2.0`
@@ -170,14 +170,14 @@ export class YElementStyle extends FElementStyle {
                 default: {
 
                     s.location = this.commons;
-                    
+
                     this.commons.push(s);
 
                 }; break;
                 case '.': {
-                    
+
                     s.location = this.classes;
-                    
+
                     this.classes.push(s);
 
                 }; break;
@@ -206,12 +206,12 @@ export class YElementStyle extends FElementStyle {
 
         ys.forEach(s => {
 
-            
-            if (s.constructor === String) {}; 
-            
+
+            if (s.constructor === String) {};
+
             this.element.innerText = stringReplace(this.element.innerText, [s.label + ' ?{.*?}', '']);
-            
-            arrayRemove(s.location, s);
+
+            arrayRemoveByElement(s.location, s);
 
         });
 
