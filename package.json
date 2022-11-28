@@ -19,14 +19,15 @@
         "number/",
         "string/",
         "regexp/",
-        "config.mjs",
+        ".source/",
         "README.md",
+        "config.mjs",
         "LICENSE.md"
 
     ],
     "author": "Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>",
     "license": "Apache-2.0",
-    "version": "0.14.0",
+    "version": "0.14.1",
     "keywords": [
 
         "y",

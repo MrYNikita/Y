@@ -1,7 +1,9 @@
 import { jectFill } from "../../../ject/ject.mjs";
+import { YJect } from "../../../ject/YJect/YJect.mjs";
 import { YLog } from "../../../log/YLog/YLog.mjs";
 import { YString } from "../../../string/YString/YString.mjs";
 import { YTemplate } from "../../../string/YString/YTemplate/YTemplate.mjs";
+import { YEvent } from "../../event/YEvent/YEvent.mjs";
 
 /**
  * @typedef TBClient
@@ -9,23 +11,49 @@ import { YTemplate } from "../../../string/YString/YTemplate/YTemplate.mjs";
  * @typedef {DClient&TBClient} TClient
 */
 
-class SClient {
+class SClient extends YJect {
 
 
 
 };
 class DClient extends SClient {
 
-    /**
-     * Журнал.
-     * @type {YLog}
-    */
-    log = new YLog();
+
+
+};
+class IClient extends DClient {
+
     /**
      * Адрес.
      * @type {string}
     */
-    url = '192.168.0.106:8000';
+    url = location.host;
+    /**
+     * Данные клавиши.
+    */
+    key = {
+
+        value: '',
+        alt: false,
+        caps: false,
+        ctrl: false,
+        shift: false,
+
+    };
+    /**
+     * Данные курсора.
+    */
+    cursor = {
+
+        x: 0,
+        y: 0,
+
+    };
+    /**
+     * Обработчик событий.
+     * @type {YEvent}
+    */
+    event = new YEvent();
     /**
      * WebSocket соединение.
      * @type {WebSocket}
@@ -33,17 +61,51 @@ class DClient extends SClient {
     socket;
 
 };
-class FClient extends DClient {
+class MClient extends IClient {
 
     /**
-     *
+     * Метод для остлеживания данных пользователя.
+     * - Версия `0.0.0`
+     * @protected
+    */
+    track() {
+
+        /** @param {KeyboardEvent} ev */
+        addEventListener('keydown', (ev) => {
+
+            this.key.value = ev.key;
+            this.key.alt = ev.altKey;
+            this.key.caps = ev.key === 'CapsLock' ? !this.key.caps : this.key.caps;
+            this.key.ctrl = ev.ctrlKey;
+            this.key.shift = ev.shiftKey;
+
+            this.record('*', `Прослушено нажатие клавиши`);
+
+        });
+        /** @param {MouseEvent} em */
+        addEventListener('mousemove', (em) => {
+
+            this.cursor.x = em.clientX;
+            this.cursor.y = em.clientY;
+
+            this.record('*', `Произошло смещение курсора на координаты ${this.cursor.x}:${this.cursor.y}`);
+
+        });
+
+    };
+
+};
+class FClient extends MClient {
+
+    /**
+     * Контсруктор класса `YClient`
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
      *  @param {TClient} t
     */
     constructor(t = {}) {
 
-        t = FClient.#before(arguments);
+        t = FClient.#before(Object.values(arguments));
 
         FClient.#deceit(t);
 
@@ -53,7 +115,7 @@ class FClient extends DClient {
 
     };
 
-    /** @param {[]} t */
+    /** @param {Array<any>} t */
     static #before(t) {
 
         if (t?.length === 1 && t[0]?.constructor === Object) {
@@ -62,11 +124,18 @@ class FClient extends DClient {
 
         } else if (t?.length) {
 
-            return {
+            /** @type {TClient} */
+            const r = {};
 
-                url: t[0],
+            switch (t.length) {
+
+                case 3:
+                case 2:
+                case 1:
 
             };
+
+            return r;
 
         } else return {};
 
@@ -100,19 +169,7 @@ class FClient extends DClient {
     /** @param {TClient} t @this {YClient} */
     static #handle(t) {
 
-        let {
 
-
-
-        } = t;
-
-
-
-        t = {
-
-            ...t,
-
-        };
 
     };
     /** @param {TClient} t @this {YClient} */
@@ -128,47 +185,49 @@ class FClient extends DClient {
 
         this.socket = new WebSocket(`ws://${this.url}`);
 
+        this.track();
+
+        this
+
+            .appendReport(_ => new YString()
+
+                .changePostfix(';\n')
+                .paste(
+
+                    `Соединение: ${this.socket.readyState === 0 ? '<->' : this.socket.readyState === 1 ? true : false}`,
+
+                )
+                .get(), 'f', 'Сведения')
+
+            .appendReport(_ => new YString()
+
+                .changePostfix(';\n')
+                .paste(
+
+                    `Alt: ${this.key.alt}`,
+                    `Caps: ${this.key.caps}`,
+                    `Ctrl: ${this.key.ctrl}`,
+                    `Shift: ${this.key.shift}`,
+                    `Клавиша: ${this.key.value}`,
+                    `Позиция курсора по X: ${this.cursor.x}`,
+                    `Позиция курсора по Y: ${this.cursor.y}`,
+
+                )
+                .get(), 'f', 'Пользователь',)
+
+
     };
 
 };
 
 /**
  *
- * - Тип `SDFY-2.0`
- * - Версия `0.0.0`
+ * - Тип `SDIFMY-1.0`
+ * - Версия `0.1.0`
  * - Цепочка `BDVHC`
 */
 export class YClient extends FClient {
 
-    /**
-     * Метод отображения текущего состояния.
-     * - Версия `0.0.0`
-    */
-    report() {
 
-        new YString()
-            .changePostfix(';\n')
-            .paste(
-
-                `ws: ${this.url}`,
-                `Подключение: ${(this.socket.readyState === 1) ? '+' : '-'}`
-
-            )
-            .pasteTemplate(new YTemplate('l', '---\n'))
-            .paste(
-
-                `Видимость: ${this.log.vis}`,
-                `Ошибок: ${this.log.list.find(s => s.symbol === 'x').list.length}`,
-                `Предупреждений: ${this.log.list.find(s => s.symbol === '!').list.length}`,
-                `Уведмолений: ${this.log.list.find(s => s.symbol === '*').list.length}`,
-
-            )
-            .pasteTemplate('l')
-            .castToYReport()
-            .display()
-
-        return this;
-
-    };
 
 };

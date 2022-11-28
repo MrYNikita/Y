@@ -489,6 +489,92 @@ export function stringPaste(string, paste, index, size) {
 };
 
 //#endregion
+//#region shield 0.0.0
+
+/**
+ * @typedef TBshield
+ * @prop {string} string
+ * @typedef {TBshield} Tshield
+*/
+
+/** @param {Tshield} t */
+function shieldDeceit(t) {
+
+    try {
+
+        return shieldVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @param {Tshield} t */
+function shieldVerify(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return shieldHandle(t);
+
+};
+/** @param {Tshield} t */
+function shieldHandle(t) {
+
+    let {
+
+
+
+    } = t;
+
+
+
+    t = {
+
+        ...t,
+
+    };
+
+    return shieldComply(t);
+
+};
+/** @param {Tshield} t */
+function shieldComply(t) {
+
+    const {
+
+        string,
+
+    } = t;
+
+    return stringReplace(string,
+
+        [/\*/, '\\*'],
+
+    );
+
+};
+
+/**
+ * Функция для экранирования символов строки.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @param {string} string Исходная строка.
+*/
+export function stringShield(string) {
+
+    return shieldDeceit({ string, });
+
+};
+
+//#endregion
 //#region append 0.0.0
 
 /**
@@ -1540,6 +1626,98 @@ export function stringGetColor(color, bright, background) {
 
 //#endregion
 
+//#region castToJect 0.0.0
+
+/**
+ * @typedef TBcastToJect
+ * @prop {string} string
+ * @typedef {TBcastToJect} TcastToJect
+*/
+
+/** @param {TcastToJect} t */
+function castToJectDeceit(t) {
+
+    try {
+
+        return castToJectVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @param {TcastToJect} t */
+function castToJectVerify(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return castToJectHandle(t);
+
+};
+/** @param {TcastToJect} t */
+function castToJectHandle(t) {
+
+    let {
+
+
+
+    } = t;
+
+
+
+    t = {
+
+        ...t,
+
+    };
+
+    return castToJectComply(t);
+
+};
+/** @param {TcastToJect} t */
+function castToJectComply(t) {
+
+    const {
+
+        string,
+
+    } = t;
+
+    const r = {};
+
+    string.match(/[\w\d_]+:.+;?/g).forEach(m => {
+
+        const p = m.split(':');
+
+        r[p[0]] = p[1];
+
+    });
+
+    return r;
+
+};
+
+/**
+ * Функция для превращения строки в объект.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @param {string} string исходная строка.
+*/
+export function stringCastToJect(string) {
+
+    return castToJectDeceit({ string });
+
+};
+
+//#endregion
 //#region castToDate 0.0.0
 
 /**
@@ -1914,7 +2092,7 @@ function castToYReportComply(t) {
 
     return new YString(string)
 
-        .handle(s => stringRepaint(s, 'c'), /[.,:;~\-\[\]]/g)
+        .handle(s => stringRepaint(s, 'c'), /[.,:;~\-\[\]\/#]/g)
         .handle(s => stringRepaint)
         .replace([/true/g, '+'])
         .replace([/false/g, '-'])
@@ -2155,7 +2333,7 @@ function convertCamelCaseToDelimetrComply(t) {
 
     } = t;
 
-    return lower ? string[0].toLowerCase() + stringHandle(string.slice(1), s => delimetr + s.toLowerCase(), /[A-Z]/) : stringHandle(string, s => delimetr + s.toLowerCase(), /[A-Z]/);;
+    return lower ? string[0].toLowerCase() + stringHandle(string.slice(1), s => delimetr + s.toLowerCase(), /[A-Z]/g) : stringHandle(string, s => delimetr + s.toLowerCase(), /[A-Z]/g);;
 
 };
 

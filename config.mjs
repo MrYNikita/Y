@@ -146,10 +146,7 @@ export const configWeb = {
         },
         scriptsBody: [
 
-            'YStyle',
-            'YElement',
-            'YStyleSet',
-            'YElementStyle',
+            'global',
 
         ].map(s => s + '.mjs'),
 
@@ -334,3 +331,9 @@ export const configString = {
 };
 
 export const configYString = configString.ystring;
+
+/**
+ * @file config.mjs
+ * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
+ * @copyright Yakhin Nikita Artemovich 2022
+*/

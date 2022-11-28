@@ -1,5 +1,6 @@
 import { jectFill, jectSupplement } from "../../../../ject/ject.mjs";
 import { YBasic } from "../../../../ject/YBasic/YBasic.mjs";
+import { YJect } from "../../../../ject/YJect/YJect.mjs";
 import { elementCreate, elementCreateByString, elementStringDecompose } from "../element.mjs";
 
 /**
@@ -16,7 +17,7 @@ import { elementCreate, elementCreateByString, elementStringDecompose } from "..
  * @typedef {DElement&TBElement} TElement
 */
 
-class SElement extends YBasic {
+class SElement extends YJect {
 
 
 

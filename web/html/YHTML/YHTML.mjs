@@ -1,6 +1,6 @@
 import { YString } from "../../../string/YString/YString.mjs";
 import { jectFill } from "../../../ject/ject.mjs";
-import { configHtml } from "../../../config.mjs";
+import { configHtml, configWeb } from "../../../config.mjs";
 import { YElementStyle } from "../element/YElement/YElementStyle/YElementStyle.mjs";
 import { fileRead, fileReadJson, fileReadText } from "../../../os/file/file.mjs";
 import { pathGet } from "../../../os/path/path.mjs";
@@ -39,7 +39,7 @@ class DHTML extends SHTML {
      * Данные скрипты будут загружены по мере возможности.
      * @type {Array<string>}
     */
-    scriptsBody = ['index.mjs'];
+    scriptsBody = [];
     /**
      * Функция инициализации.
      * @type {() => {}}
@@ -138,8 +138,6 @@ class FHTML extends DHTML {
 
         jectFill(this, t);
 
-        console.log(fileRead('YStyleSet.mjs'));
-
     };
 
 };
@@ -208,7 +206,7 @@ export class YHTML extends FHTML {
                             .paste(
 
                                 ...this.elements,
-                                ...this.scriptsBody.map(s => `<script type='module' src='${s}'></script>`)
+                                ...[...this.scriptsBody, ...configWeb.html.scriptsBody].map(s => `<script type='module' src='${s}'></script>`)
 
                             )
                             .changePostfix()

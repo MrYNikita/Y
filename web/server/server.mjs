@@ -213,3 +213,9 @@ export function serverDefineContentTypeByData(data) {
 };
 
 //#endregion
+
+/**
+ * @file server.mjs
+ * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
+ * @copyright Yakhin Nikita Artemovich 2022
+*/

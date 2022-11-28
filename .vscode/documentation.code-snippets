@@ -1,0 +1,117 @@
+{
+	"type": {
+		"body": [
+			"/** @type {$1} */",
+			"$0"
+		],
+		"scope": "javascript",
+		"prefix": "#docType",
+		"description": "Создание типизатора js doc."
+	},
+	"field": {
+		"body": [
+			"/**",
+			" * $2",
+			" * @type {$1}",
+			"*/",
+			"$0;",
+		],
+		"scope": "javascript",
+		"prefix": "#docField",
+		"description": "Создать типизированное поле с комментарием."
+	},
+	"fieldProteced": {
+		"body": [
+			"/**",
+			" * $2",
+			" * @protected",
+			" * @type {$1}",
+			"*/",
+			"$0;",
+		],
+		"scope": "javascript",
+		"prefix": "#docFieldProtected",
+		"description": "Создать типизированное поле с комментарием и модификатором protected."
+	},
+	"paramLine": {
+
+		"body": "/** @param {$1} $2 */",
+		"scope": "javascript",
+		"prefix": "#docParamLine",
+		"description": "Создать параметр для функции."
+
+	},
+	"method": {
+
+		"body": [
+
+            "/**",
+			" * $2",
+			" * - Версия `0.0.0`",
+			" * ${1}",
+			"*/",
+            "$0() {",
+            "    ",
+            "    ",
+            "    ",
+            "};",
+
+		],
+		"scope": "javascript",
+		"prefix": "#docMethod",
+		"description": "Создать метод."
+
+	},
+	"methodProtected": {
+
+		"body": [
+
+			"/**",
+			" * $2",
+			" * - Версия `0.0.0`",
+            " * @protected",
+			" * ${1}",
+			"*/",
+            "$0() {",
+            "    ",
+            "    ",
+            "    ",
+            "};",
+
+		],
+		"scope": "javascript",
+		"prefix": "#docMethodProtected",
+		"description": "Создать метод с модификатором @protected."
+
+	},
+	"typeComment": {
+		"body": [
+			"/**",
+			" * $2",
+			" * @type {$1}",
+			"*/",
+		],
+		"scope": "javascript",
+		"prefix": "#docTypeCom",
+		"description": "Создание типизатора js doc с комментарием."
+	},
+	"documentation": {
+		"body": [
+			"/**",
+			" * $1",
+			"*/",
+			"",
+		],
+		"scope": "javascript",
+		"prefix": "#doc",
+		"description": "Создание документации js."
+	},
+
+	"textStrong": {
+
+		"body": "**$1**$0",
+		"scope": "markdown",
+		"prefix": "#dTextStrong",
+
+	}
+}

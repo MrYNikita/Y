@@ -3,14 +3,15 @@ import { jectFill } from "../../../../ject/ject.mjs";
 import { YElementStyle } from "../../element/YElement/YElementStyle/YElementStyle.mjs";
 import { stringConvertCamelCaseToDelimetr, stringFind, stringHandle, stringReplace } from "../../../../string/string.mjs";
 import { YStyleSet } from "./YStyleSet/YStyleSet.mjs";
+import { YJect } from "../../../../ject/YJect/YJect.mjs";
 
 /**
  * @typedef TBStyle
- * @prop {any} _
+ * @prop {CSSStyleDeclaration} property
  * @typedef {DStyle&TBStyle} TStyle
 */
 
-class SStyle {
+class SStyle extends YJect {
 
 
 
@@ -33,23 +34,41 @@ class DStyle extends SStyle {
     */
     location;
     /**
-     * Свойства.
-     * @type {CSSStyleDeclaration}
+     * Проекторы.
+     *
+     * Это массив, указывающий данному `стилю`, на какие стили ему необходимо ориентироваться.
+     * Данный стиль подписывается на все указанные в массиве стили, чтобы в последствии перенимать их поведение.
+     *
+     * Таким образом, любое изменение в стиле, приписанному указанному экземпляру, отразится и на нём самом.
+     *
+     * @type {Array<YStyle>}
     */
-    property = {};
+    projectors = [];
 
 };
-class FStyle extends DStyle {
+class IStyle extends DStyle {
 
     /**
+     * Проекции.
      *
+     * Это массив, указывает указанным стилям, что они должны повторять за данным стилем.
+     *
+     * @type {Array<YStyle>}
+    */
+    projections = [];
+
+};
+class FStyle extends IStyle {
+
+    /**
+     * Контсруктор класса `YStyle`
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
      *  @param {TStyle} t
     */
     constructor(t = {}) {
 
-        t = FStyle.#before(...arguments);
+        t = FStyle.#before(Object.values(arguments));
 
         FStyle.#deceit(t);
 
@@ -59,14 +78,30 @@ class FStyle extends DStyle {
 
     };
 
-    /** @param {TStyle} t @this {[]} */
+    /** @param {Array<any>} t */
     static #before(t) {
 
+        if (t?.length === 1 && t[0]?.constructor === Object) {
 
+            return t[0];
 
-        if (!t) t = {};
+        } else if (t?.length) {
 
-        return t;
+            /** @type {TStyle} */
+            const r = {};
+
+            switch (t.length) {
+
+                default: r.projectors = t[3];
+                case 3: r.property = t[2];
+                case 2: r.label = t[1];
+                case 1: r.tabel = t[0];
+
+            };
+
+            return r;
+
+        } else return {};
 
     };
     /** @param {TStyle} t @this {YStyle} */
@@ -98,17 +133,11 @@ class FStyle extends DStyle {
     /** @param {TStyle} t @this {YStyle} */
     static #handle(t) {
 
-        let {
+        switch (t.label[0]) {
 
-
-
-        } = t;
-
-
-
-        t = {
-
-            ...t,
+            default: t.location = t.tabel.commons; break;
+            case '.': t.location = t.tabel.classes; break;
+            case '#': t.location = t.tabel.identificators; break;
 
         };
 
@@ -122,33 +151,21 @@ class FStyle extends DStyle {
 
         } = t;
 
-        const ys = this;
-
         jectFill(this, t);
 
-        if (this.tabel) this.tabel.append(this);
+        this.location.push(this);
 
         this.tabel.element.innerText += `${this.label}{}`;
 
-        this.property = new Proxy(Array.from(this.tabel.element.sheet.cssRules).at(-1).style, {
-
-            set(j, p, v) {
-
-                const prop = {};
-
-                j[p] = v;
-
-                prop.p = v;
-
-                ys.change(prop);
-
-                return true;
-
-            },
-
-        });
+        this.change(t.property);
+        this.reflect(...this.projectors);
 
     };
+
+};
+class MStyle extends FStyle {
+
+
 
 };
 
@@ -156,22 +173,26 @@ class FStyle extends DStyle {
  * Класс `YStyle`.
  *
  * Данный класс предназначен для работы со стилями.
- * - Тип `SDFY-2.0`
+ * - Тип `SDIFMY-1.0`
  * - Версия `0.0.0`
  * - Цепочка `BDVHC`
 */
-export class YStyle extends FStyle {
+export class YStyle extends MStyle {
 
     get() {
 
         const {
 
             label,
-            property,
 
         } = this;
 
-        return stringFind(this.tabel.element.innerText, label + ' ?{.*?}');
+        return new YString(this.tabel.element.innerText)
+
+            .find(label + ' ?{(?<f>.*?)}')
+            .replace([/;/g, '\n'])
+            .remove(1)
+            .castToJect()
 
     };
     /**
@@ -183,11 +204,12 @@ export class YStyle extends FStyle {
         const {
 
             tabel,
-            label,
 
         } = this;
 
-        Object.entries(set).forEach(p => {
+        const label = this.label === '*' ? '\\*' : this.label;
+
+        if (set) Object.entries(set).forEach(p => {
 
             const s = new YStyleSet(...p);
 
@@ -200,7 +222,7 @@ export class YStyle extends FStyle {
 
             const ystr = new YString(stringFind(tabel.element.innerText, `${label} ?{.*?}`));
 
-            if (ystr.find(property + ':.*?;')) {
+            if (ystr.copy().find(property + ':.*?;').get()) {
 
                 if (!value) ystr.replace([property + `:.*?;`, ``]);
                 else ystr.replace([property + `:.*?;`, `${property}:${value};`]);
@@ -208,6 +230,8 @@ export class YStyle extends FStyle {
             } else if (value) ystr.replace([/}/, `${property}:${value};}`]);
 
             tabel.element.innerText = stringReplace(tabel.element.innerText, [label + ' ?{.*?}', ystr.get()]);
+
+            this.projections.forEach(s => s.change(set));
 
         });
 
@@ -220,6 +244,30 @@ export class YStyle extends FStyle {
     delete() {
 
         if (this.tabel) this.tabel.remove(this);
+
+        return this;
+
+    };
+    /**
+     * Метод для отражения от указанных стилей.
+     * - Версия `0.0.0`
+     * @param {...string|YStyle} styles Стили.
+    */
+    reflect(...styles) {
+
+
+        if (this.projectors) this.projectors = styles.map(p => [...this.tabel.classes, ...this.tabel.identificators, ...this.tabel.commons, ...this.tabel.types].find(s => p.constructor === String ? p === s.label : p === s)).filter(p => p);
+        else this.projectors = [];
+
+        this.projectors.forEach(s => {
+
+            if (s.projections.includes(this)) return;
+
+            s.projections.push(this);
+
+            this.change(s.get());
+
+        });
 
         return this;
 

@@ -3,6 +3,8 @@ import { jectFill } from "../../../../../ject/ject.mjs";
 import { stringReplace } from "../../../../../string/string.mjs";
 import { arrayRemoveByElement } from "../../../../../array/array.mjs";
 import { YStyle } from "../../../style/YStyle/YStyle.mjs";
+import { YRept } from "../../../../../ject/YJect/YRept/YRept.mjs";
+import { YString } from "../../../../../string/YString/YString.mjs";
 
 /**
  * @typedef TBElementStyle
@@ -136,6 +138,18 @@ class FElementStyle extends DElementStyle {
 
         jectFill(this, t);
 
+        this.appendReport(_ => new YString()
+
+            .changePostfix(';\n')
+            .paste(
+
+                `Стилей: ${[this.classes, this.commons, this.identificators].reduce((p, c) => p + c.length, 0)}`,
+
+            )
+            .get()
+
+        , 'f', 'Сведения');
+
     };
 
 };
@@ -156,42 +170,17 @@ export class YElementStyle extends FElementStyle {
 
     /**
      * Метод добавления стилей.
-     * @param {...YStyle} styles
+     * @param {...[string, CSSStyleDeclaration, Array<string|YStyle>]} styles
     */
     append(...styles) {
 
         styles.forEach(s => {
 
-            s.tabel = this;
+            switch (s.constructor) {
 
-            if (s.constructor === Object) s = new YStyle(s);
-            else switch (s.label[0]) {
-
-                default: {
-
-                    s.location = this.commons;
-
-                    this.commons.push(s);
-
-                }; break;
-                case '.': {
-
-                    s.location = this.classes;
-
-                    this.classes.push(s);
-
-                }; break;
-                case '#': {
-
-                    s.location = this.identificators;
-
-                    this.identificators.push(s);
-
-                }; break;
+                case Array: s = new YStyle(this, ...s); break;
 
             };
-
-            s.change(s.property);
 
         });
 
@@ -214,6 +203,33 @@ export class YElementStyle extends FElementStyle {
             arrayRemoveByElement(s.location, s);
 
         });
+
+        return this;
+
+    };
+    /**
+     * Метод для изменения стиля по его метке.
+     * - Версия `0.0.0`
+     * @param {string} label Метка.
+     * @param {CSSStyleDeclaration} property Стиль.
+    */
+    change(label, property) {
+
+        if (label) {
+
+            let s;
+
+            switch (label[0]) {
+
+                default: s = this.commons; break;
+                case '.': s = this.classes; break;
+                case '#': s = this.identificators; break;
+
+            };
+
+            s.find(s => s.label === label).change(property);
+
+        };
 
         return this;
 

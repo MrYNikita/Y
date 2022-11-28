@@ -13,17 +13,18 @@ import { stringRepaint } from "../../../string/string.mjs";
 import { config, configServer, configWeb } from "../../../config.mjs";
 import { arrayRemoveByElement } from "../../../array/array.mjs";
 import { YBasic } from "../../../ject/YBasic/YBasic.mjs";
+import { YJect } from "../../../ject/YJect/YJect.mjs";
 
 /**
  * @typedef TBServer
  * @prop {string} name
  * @prop {string} port
  * @prop {string} host
- * @prop {YDirectory} dir
+ * @prop {string|YDirectory} dir
  * @typedef {YServer&TBServer} TServer
 */
 
-class SServer extends YBasic {
+class SServer extends YJect {
 
     static protocol = 'http';
 
@@ -171,6 +172,37 @@ class FServer extends DServer {
 
         this.serv = http.createServer();
 
+        this
+
+            .appendReport(new YString()
+
+                .changePostfix(';\n')
+                .paste(
+
+                    `url: ${this.host}:${this.port}`,
+                    `Путей: ${this.api.routs.length}`,
+                    `Протокол: http`,
+                    `Модификация: ws`,
+                    `Директория: ${this?.dir?.getNameFull()}`,
+                    `Соединений: ${this.socks.length}`,
+                    `Интервал проверки соединений: ${this.pingIntervalTime}ms`,
+
+                )
+                .get(),
+                'f',
+                'Сведения',
+
+            )
+            .appendReport(_ => new YString()
+
+                .changePostfix(';\n')
+                .paste(...this.api.routs.map(r => r.getInfo()))
+                .get(),
+                'f',
+                'Пути',
+
+            )
+
     };
 
 };
@@ -184,8 +216,6 @@ class FServer extends DServer {
 export class YServer extends FServer {
 
     on() {
-
-        this.log.appendNotice(['!', 'Запущен сервер.']);
 
         this.serv
 
@@ -209,7 +239,6 @@ export class YServer extends FServer {
             .on('request', (req, res) => {
 
                 this.api.exec(req, res);
-                this.log.appendNotice(['*', `Осуществлен запрос по адресу: ${req.url}`])
 
             })
             .listen(this.port, this.host, async () => {
@@ -305,45 +334,6 @@ export class YServer extends FServer {
         return this;
 
     };
-    getReport() {
-
-        return new YString()
-
-            .changePostfix(';\n')
-            .paste(
-
-                `url: ${this.host}:${this.port}`,
-                `Путей: ${this.api.routs.length}`,
-                `Протокол: http`,
-                `Модификация: ws`,
-                `Директория: ${this?.dir?.getNameFull()}`,
-                `Соединений: ${this.socks.length}`,
-                `Интервал проверки соединений: ${this.pingIntervalTime}ms`,
-
-            )
-            .pasteTemplate(new YTemplate({ label: 'l', value: '---\n' }))
-            .paste(
-
-                `Видимость: ${this.log.vis}`,
-                `Ошибок: ${this.log.list.find(s => s.symbol === 'x').list.length}`,
-                `Уведомлений: ${this.log.list.find(s => s.symbol === '*').list.length}`,
-                `Предупреждений: ${this.log.list.find(s => s.symbol === '!').list.length}`
-
-            )
-            .pasteTemplate('l')
-            .changePostfix('\n')
-            .paste(`Пути:`)
-            .changePostfix(';\n')
-            .paste(...this.api.routs.map(r => r.getInfo()))
-            .pasteTemplate('l')
-            .changePostfix('\n')
-            .paste('Соединения:')
-            .changePostfix(';\n')
-            .paste(...this.socks)
-            .pasteTemplate('l')
-            .get();
-
-    };
     getUrl() {
 
         const {
@@ -358,3 +348,9 @@ export class YServer extends FServer {
     };
 
 };
+
+/**
+ * @file YServer.mjs
+ * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
+ * @copyright Yakhin Nikita Artemovich 2022
+*/

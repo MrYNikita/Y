@@ -2,7 +2,7 @@ import { configString } from "../../config.mjs";
 import { jectFill } from "../../ject/ject.mjs";
 import { YBasic } from "../../ject/YBasic/YBasic.mjs";
 import { YCursor } from "../../ject/YCursor/YCursor.mjs";
-import { stringAppend, stringBring, stringCastToSample, stringCastToYReport, stringFilter, stringFind, stringFindToJect, stringHandle, stringPad, stringPaste, stringReflect, stringRemove, stringRepaint, stringReplace, stringReverse } from "../string.mjs";
+import { stringAppend, stringBring, stringCastToJect, stringCastToSample, stringCastToYReport, stringFilter, stringFind, stringFindToJect, stringHandle, stringPad, stringPaste, stringReflect, stringRemove, stringRepaint, stringReplace, stringReverse } from "../string.mjs";
 import { YTemplate } from "./YTemplate/YTemplate.mjs";
 
 /**
@@ -216,12 +216,14 @@ export class YString extends FString {
     };
     /**
      * Метод для поиска вложенных подстрок в строке.
+     * - Версия `0.1.0`
      * @param {...string|RegExp} fragments
-     * @return {[string]}
     */
     find(...fragments) {
 
-        return stringFind(this.value, ...fragments);
+        this.value = stringFind(this.value, ...fragments);
+
+        return this;
 
     };
     /**
@@ -606,6 +608,15 @@ export class YString extends FString {
         this.cursors[0].move(v.length);
 
         return this;
+
+    };
+    /**
+     * Метод преобразования строки в объект.
+     * - Версия `0.0.0`
+    */
+    castToJect() {
+
+        return stringCastToJect(this.value);
 
     };
     /**
