@@ -1,6 +1,7 @@
 import { jectFill, jectSupplement } from "../../../../ject/ject.mjs";
 import { YBasic } from "../../../../ject/YBasic/YBasic.mjs";
 import { YJect } from "../../../../ject/YJect/YJect.mjs";
+import { YEvent } from "../../../event/YEvent/YEvent.mjs";
 import { elementCreate, elementCreateByString, elementStringDecompose } from "../element.mjs";
 
 /**
@@ -9,11 +10,13 @@ import { elementCreate, elementCreateByString, elementStringDecompose } from "..
  * @prop {string} id
  * @prop {string} type
  * @prop {string} text
- * @prop {[string]} childs
- * @prop {[string]} classes
- * @prop {[string]} overId
- * @prop {[string]} overTypes
- * @prop {[string]} overClasses
+ * @prop {string} string
+ * @prop {Array<string>} childs
+ * @prop {Array<string>} classes
+ * @prop {Array<string>} overId
+ * @prop {Array<string>} overTypes
+ * @prop {Array<string>} overClasses
+ * @prop {Array<YEvent>} events
  * @typedef {DElement&TBElement} TElement
 */
 
@@ -25,23 +28,37 @@ class SElement extends YJect {
 class DElement extends SElement {
 
     /**
+     * Обработчики событий.
+     * @type {Array<YEvent>}
+    */
+    events = [];
+
+};
+class IElement extends DElement {
+
+    /**
      * Привязанный элемент.
      * @type {HTMLElement}
     */
     element;
 
 };
-class FElement extends DElement {
+class MElement extends IElement {
+
+
+
+};
+class FElement extends MElement {
 
     /**
-     *
+     * Контсруктор класса `YElement`
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
      *  @param {TElement} t
     */
     constructor(t = {}) {
 
-        t = FElement.#before(...arguments);
+        t = FElement.#before(Object.values(arguments));
 
         FElement.#deceit(t);
 
@@ -51,13 +68,29 @@ class FElement extends DElement {
 
     };
 
-    /** @param {TElement} t @this {[]} */
+    /** @param {Array<any>} t */
     static #before(t) {
 
-        if (t.constructor === String) t = { string: t, };
-        if (!t) t = {};
+        if (t?.length === 1 && t[0]?.constructor === Object) {
 
-        return t;
+            return t[0];
+
+        } else if (t?.length) {
+
+            /** @type {TElement} */
+            const r = {};
+
+            switch (t.length) {
+
+                case 3:
+                case 2:
+                case 1: r.string = t[0];
+
+            };
+
+            return r;
+
+        } else return {};
 
     };
     /** @param {TElement} t @this {YElement} */
@@ -89,19 +122,7 @@ class FElement extends DElement {
     /** @param {TElement} t @this {YElement} */
     static #handle(t) {
 
-        let {
-
-
-
-        } = t;
-
         if (t.string) jectSupplement(t, elementStringDecompose(t.string));
-
-        t = {
-
-            ...t,
-
-        };
 
     };
     /** @param {TElement} t @this {YElement} */
@@ -134,13 +155,29 @@ class FElement extends DElement {
 };
 
 /**
+ * Класс `YElement`.
  *
- * - Тип `SDFY`
- * - Версия `0.0.0`
+ * Данный класс позволяет взаимодействовать с `html` элементами.
+ * - Тип `SDIMFY-1.1`
+ * - Версия `0.1.0`
  * - Цепочка `BDVHC`
 */
 export class YElement extends FElement {
 
+    /**
+     * Метод добавления обработчика событий указанного типа для элемента.
+     * - Версия `0.0.0`
+     * @param {keyof WindowEventMap} type Тип.
+     * @param {string} label Метка.
+     * @param {function(this: HTMLElement, MouseEvent|KeyboardEvent):void} func Функция.
+     * @param {HTMLElement} element Элемент.
+    */
+    appendEvent(type, label, func) {
 
+        this.events.push(new YEvent({ type, label, func, element: this.element, }));
+
+        return this;
+
+    };
 
 };

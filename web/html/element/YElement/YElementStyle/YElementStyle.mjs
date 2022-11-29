@@ -169,6 +169,26 @@ class FElementStyle extends DElementStyle {
 export class YElementStyle extends FElementStyle {
 
     /**
+     * Метод получения свойств стиля в виде объекта.
+     * - Версия `0.0.0`
+     * @param {string} label Метка.
+    */
+    get(label) {
+
+        let sl;
+
+        switch(label[0]) {
+
+            default: sl = this.commons; break;
+            case '.': sl = this.classes; break;
+            case '#': sl = this.identificators; break;
+
+        };
+
+        return sl.find(s => s.label === label).get();
+
+    };
+    /**
      * Метод добавления стилей.
      * @param {...[string, CSSStyleDeclaration, Array<string|YStyle>]} styles
     */

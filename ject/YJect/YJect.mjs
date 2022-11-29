@@ -60,9 +60,10 @@ class IJect extends DJect {
                     `Размер: ${this.log.list.reduce((p, c) => p + c.size, 0)}`,
                     `Записей: ${this.log.list.reduce((p, c) => p + c.list.length, 0)}`,
                     `Видимость: ${this.log.vis}`,
-                    ...this.log.getVisiable(),
 
                 )
+                .pasteTemplate('l')
+                .paste(...this.log.getVisiable())
                 .get()
 
         }, 'l', 'Журнал')

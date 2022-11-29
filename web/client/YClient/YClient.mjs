@@ -50,15 +50,15 @@ class IClient extends DClient {
 
     };
     /**
-     * Обработчик событий.
-     * @type {YEvent}
-    */
-    event = new YEvent();
-    /**
      * WebSocket соединение.
      * @type {WebSocket}
     */
     socket;
+    /**
+     * События.
+     * @type {Array<YEvent>}
+    */
+    events = [];
 
 };
 class MClient extends IClient {
@@ -228,6 +228,20 @@ class FClient extends MClient {
 */
 export class YClient extends FClient {
 
+    /**
+     * Метод добавления события.
+     * - Версия `0.0.0`
+     * @param {keyof WindowEventMap} type Тип.
+     * @param {string} label Метка.
+     * @param {function():void} func Функция.
+     * @param {HTMLElement} element Элемент.
+    */
+    appendEvent(type, label, func, element = window) {
 
+        this.events.push(new YEvent({ type, label, func, element }));
+
+        return this;
+
+    };
 
 };

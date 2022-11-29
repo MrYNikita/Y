@@ -1,4 +1,4 @@
-import { jectFill } from ""
+import { jectFill } from "../../../ject/ject.mjs";
 
 /**
  * @typedef TBEvent
@@ -156,7 +156,7 @@ export class YEvent extends FEvent {
     */
     on() {
 
-        this.element.addEventListener(this.type, this.func);
+        this.element.addEventListener(this.type, e => this.func.apply(this.element, [e]));
 
         return this;
 

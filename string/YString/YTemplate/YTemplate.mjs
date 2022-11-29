@@ -163,7 +163,7 @@ export class YTemplate extends MTemplate {
     */
     get(...inserts) {
 
-        const is = inserts.length ? [...inserts.map(i => new YInsert(...i))] : this.inserts;
+        const is = inserts.length ? [...inserts.map(i => i ? new YInsert(...i) : 0).filter(i => i)] : this.inserts;
 
         return stringReplace(this.value, ...is.map(i => [new RegExp(`${configString.insert.borderL}${i.key}${configString.insert.borderR}`, 'g'), i.value instanceof Function ? i.value() : i.value]));
 

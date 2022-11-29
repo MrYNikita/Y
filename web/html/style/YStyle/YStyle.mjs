@@ -179,6 +179,11 @@ class MStyle extends FStyle {
 */
 export class YStyle extends MStyle {
 
+    /**
+     * Метод получения стиля в виде объекта.
+     * - Версия `0.0.0`
+     * @returns {CSSStyleDeclaration}
+    */
     get() {
 
         const {
