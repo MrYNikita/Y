@@ -92,7 +92,7 @@ class FStyle extends IStyle {
 
             switch (t.length) {
 
-                default: r.projectors = t[3];
+                default: r.projectors = t.splice(3);
                 case 3: r.property = t[2];
                 case 2: r.label = t[1];
                 case 1: r.tabel = t[0];
@@ -158,7 +158,8 @@ class FStyle extends IStyle {
         this.tabel.element.innerText += `${this.label}{}`;
 
         this.change(t.property);
-        this.reflect(...this.projectors);
+
+        if (this.projectors.length) this.reflect(...this.projectors);
 
     };
 
@@ -212,7 +213,7 @@ export class YStyle extends MStyle {
 
         } = this;
 
-        const label = this.label === '*' ? '\\*' : this.label;
+        const label = this.label === '*' ? '\\*' : this.label[0] === '.' ? '\\.' + this.label.slice(1) : this.label;
 
         if (set) Object.entries(set).forEach(p => {
 
@@ -259,7 +260,6 @@ export class YStyle extends MStyle {
      * @param {...string|YStyle} styles Стили.
     */
     reflect(...styles) {
-
 
         if (this.projectors) this.projectors = styles.map(p => [...this.tabel.classes, ...this.tabel.identificators, ...this.tabel.commons, ...this.tabel.types].find(s => p.constructor === String ? p === s.label : p === s)).filter(p => p);
         else this.projectors = [];

@@ -1,19 +1,23 @@
+import { YString } from "../../../../string/YString/YString.mjs";
 import { YClient } from "../../../../web/client/YClient/YClient.mjs";
 import { YElement } from "../../../../web/html/element/YElement/YElement.mjs";
 import { YElementStyle } from "../../../../web/html/element/YElement/YElementStyle/YElementStyle.mjs";
 
-const styleLocal = new YElementStyle({ id: 'y_style_local' });
-const styleGlobal = new YElementStyle({ id: 'y_style_global' });
-const stylePrivate = new YElementStyle({ id: 'y_style_private' });
+const styleLocal = new YElementStyle({ id: 'local' });
+const styleGlobal = new YElementStyle({ id: 'global' });
+const stylePrivate = new YElementStyle({ id: 'private' });
 
 styleGlobal.append(
 
     ['*', {
 
+        width: 'inherit',
+        height: 'inherit',
         margin: '0',
         padding: '0',
         overflow: 'hidden',
         boxSizing: 'border-box',
+        fontFamily: '\'Courier New\', Courier, monospace',
 
     }],
     ['body', {
@@ -23,49 +27,94 @@ styleGlobal.append(
         position: 'absolute',
 
     }],
-    ['.y_element_div_layout', {
 
-        width: 'inherit',
-        height: 'inherit',
+    ['.size_over', {
+
+        width: '100%',
+        height: '100%',
+
+    }],
+
+    ['#panel', {
+
+        gridArea: 'p',
+
+    }],
+    ['#window', {
+
+        left: '10px',
+        top: '10px',
+        width: '550px',
+        height: '280px',
+
+    }],
+    ['#layout', {
+
+        gridTemplateAreas: new YString()
+
+            .changePrefix(`'`)
+            .changePostfix(`'`)
+            .paste(
+
+                'l',
+                'l',
+                'l',
+                'i',
+                'p',
+                '.',
+                '.',
+
+            )
+            .get()
+
+    }],
+    ['#backdrop', {
+
+
+
+    }],
+    ['#background', {
+
+        backgroundImage: 'radial-gradient(at center, #7eb0df, transparent 5%), radial-gradient(at center, #7eb0df, #1d5c96)',
+
+    }],
+
+    ['.panel', {
+
+        padding: `0.5em`,
+        display: 'flex',
+        alignItems: 'flex-start',
+
+    }, '.size_over'],
+    ['.panel_item', {
+
+        width: '25%',
+
+    }],
+    ['.layout', {
+
+        top: `50%`,
+        left: `50%`,
+        width: '98%',
+        height: '85%',
+        zIndex: 1,
+        display: `grid`,
+        position: 'absolute',
+        boxShadow: 'inset 0px 0px 0.5em #000',
+        transform: `translate(-50%, -43%)`,
+        borderRadius: `5px`,
+        backgroundColor: '#12293f',
+
+    }],
+    ['.window', {
+
+        position: 'absolute',
 
     }],
     ['.backdrop', {
 
-        width: 'inherit',
-        height: 'inherit',
-
-    }],
-    ['.y_style_position_grid', {
-
-        display: 'grid',
-
-    }],
-    ['.y_style_position_flex', {
-
-        display: 'flex',
-
-    }],
-    ['#y_div_background', {
-
-        backgroundImage: 'radial-gradient(at center, #7eb0df, transparent 10%), radial-gradient(at center, #7eb0df, #1d5c96)'
-
-    }],
-
-    ['#test', {
-
-        left: '350px',
-        top: '280px',
-        width: '200px',
-        height: '140px',
-
-    }],
-
-    ['.window', {
-
         position: 'absolute',
-        boxShadow: '0px 0px 10px',
-        borderRadius: '12px',
-        backgroundColor: '#fff',
+        backgroundColor: `#01315e`,
 
     }],
 
@@ -73,58 +122,80 @@ styleGlobal.append(
 
 const client = new YClient();
 
-const divWindowTest = new YElement(`
+new YElement(`
 
-    !div #test .window] ^!body] <
-
+    !div #background ^!body] <
+        !div #window .window] <
+            !div #backdrop .backdrop] /
+            !div #layout .layout] <
+                !div #panel .panel] <
+                    !button #button .button panel_item] :Кнопка: type=button /
+                > /
+            > /
+        > /
     > /
 
-`).appendEvent(
+`)
 
-    'mousedown',
-    'take',
-    function (e) {
+// const background = new YElement(`!div #background ^!body] /`);
+// const window = new YElement(`!div #window .window] ^#background] /`);
+// const backdrop = new YElement(`!div #backdrop .backdrop] ^#window] /`);
+// const layout = new YElement(`!div #layout .layout] ^#window] /`);
 
-        const femu = _ => {
+// const panel = new YElement(`!div #panel .panel] ^#layout] /`);
+// const button = new YElement(`!button #button .button panel_item] ^#panel] :Кнопка: type=button /`);
 
-            removeEventListener('mouseup', femu);
-            removeEventListener('mousemove', femm);
+// const divWindowTest = new YElement(`
 
-        };
-        const femm = _ => {
+//     !div #backdrop .backdrop] ^#background] <
+//         !div #test .window] /
+//     > /
 
-            const s = styleGlobal.get(`#${this.id}`);
+// // `).appendEvent(
 
-            const sizeX = s.width.match(/\d+/)[0] - 0;
-            const sizeY = s.height.match(/\d+/)[0] - 0;
+//     'mousedown',
+//     'take',
+//     function (e) {
 
-            const x = client.cursor.x;
-            const y = client.cursor.y;
+//         const femu = _ => {
 
-            styleGlobal.change('#test', {
+//             removeEventListener('mouseup', femu);
+//             removeEventListener('mousemove', femm);
 
-                top: `${y - sizeY / 2 >= 0 && y + sizeY / 2 <= window.innerHeight ? `${y}px` : s.top}`,
-                left: `${x - sizeX / 2 >= 0 && x + sizeX / 2 <= window.innerWidth ? `${x}px` : s.left}`,
-                transform: `translate(${(-sizeX / 2)}px, ${-sizeY / 2}px)`,
+//         };
+//         const femm = _ => {
 
-            });
+//             console.log(this);
 
-        };
+//             const s = styleGlobal.get(`#${this.id}`);
 
-        addEventListener('mouseup', femu);
-        addEventListener('mousemove', femm);
+//             const sizeX = s.width.match(/\d+/)[0] - 0;
+//             const sizeY = s.height.match(/\d+/)[0] - 0;
 
-    },
+//             const x = client.cursor.x;
+//             const y = client.cursor.y;
 
-);
+//             styleGlobal.change(`#${this.id}`, {
 
+//                 top: `${y - sizeY / 2 >= 0 && y + sizeY / 2 <= window.innerHeight ? `${y}px` : s.top}`,
+//                 left: `${x - sizeX / 2 >= 0 && x + sizeX / 2 <= window.innerWidth ? `${x}px` : s.left}`,
+//                 transform: `translate(${(-sizeX / 2)}px, ${-sizeY / 2}px)`,
 
-const divBackground = new YElement(`!div #y_div_background .y_element_div_layout] ^!body] /`);
+//             });
 
-setInterval(_ => {
+//         };
 
-    console.clear();
+//         addEventListener('mouseup', femu);
+//         addEventListener('mousemove', femm);
 
-    client.report();
+//     },
 
-}, 250);
+// );
+
+// setInterval(_ => {
+
+//     console.clear();
+
+//     client.report();
+
+// }, 250);

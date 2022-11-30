@@ -1,6 +1,7 @@
 import { arrayReplace } from "../../../array/array.mjs";
 import { config, configHtml, configHtmlElement } from "../../../config.mjs";
-import { stringFind } from "../../../string/string.mjs";
+import { jectChangeDeep, jectReplaceDeep, jectSupplement } from "../../../ject/ject.mjs";
+import { stringCastToJect, stringFind, stringReplace } from "../../../string/string.mjs";
 import { YString } from "../../../string/YString/YString.mjs";
 
 /**
@@ -46,9 +47,10 @@ export const elementREOverTypes = /(?:^| )\^\!(?<f>(\w+ ?)+)+\]/;
 export const elementREOverClasses = /(?:^| )\^\.(?<f>(\w+ ?)+)+\]/;
 /**
  * Регулярное выражение для поиска и проверки над классов в строке создания элементов.
+ * - Версия `0.0.1`
  * @type {RegExp}
 */
-export const elementREProperty = /(?:^| )(\w+=\d+(\.\d+)?([%]|px|[pe]m)?|\w+=\w+| \w+)/gm;
+export const elementREProperty = /(?:^| )(\w+=\d+(\.\d+)?([%]|px|([pe]|re)m|)?|\w+(=\w+)?)/gm;
 
 /**
  * @typedef TElements
@@ -230,6 +232,7 @@ function createComply(t) {
     if (text?.[0]) e.textContent = text;
     if (childs) e.append(...childs.map(e => elementCreateByString(e)));
     if (classes) classes.forEach(s => e.classList.add(s));
+    if (property) jectChangeDeep(e, property);
 
     if (overId?.length || overTypes?.length || overClasses?.length) {
 
@@ -258,6 +261,7 @@ function createComply(t) {
         });
 
     } else return e;
+
 
 };
 
@@ -449,7 +453,11 @@ function stringDecomposeComply(t) {
 
     const ystr = new YString(string.match(elementREString)[0]);
 
-    let childs = ystr.extract(/<.+>/gms)?.[0]?.match(elementREString) ?? [];
+    console.log(ystr.get());
+    let childs = ystr.extract(/<(?<f>.+)>/gms)?.[0]?.match(elementREString) ?? [];
+    console.log(ystr.get());
+
+
     let text = ystr.extract(elementREText);
     let classes = ystr.extract(elementREClasses)?.split(' ') ?? [];
     let overClasses = ystr.extract(elementREOverClasses)?.split(' ') ?? [];
@@ -458,6 +466,8 @@ function stringDecomposeComply(t) {
     let id = ystr.extract(elementREId);
     let type = ystr.extract(elementREType);
     let property = ystr.extract(elementREProperty);
+
+    if (property.length) property = stringCastToJect(stringReplace(property?.map(p => p.trim())?.join('\n'), [/=/g, ':']));
 
     return {
 
