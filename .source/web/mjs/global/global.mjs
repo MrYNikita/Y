@@ -3,139 +3,184 @@ import { YClient } from "../../../../web/client/YClient/YClient.mjs";
 import { YElement } from "../../../../web/html/element/YElement/YElement.mjs";
 import { YElementStyle } from "../../../../web/html/element/YElement/YElementStyle/YElementStyle.mjs";
 
-const styleLocal = new YElementStyle({ id: 'local' });
-const styleGlobal = new YElementStyle({ id: 'global' });
-const stylePrivate = new YElementStyle({ id: 'private' });
+// const str = `
 
-styleGlobal.append(
+//     !div #background ^!body] <
+//         !div #window .window] <
+//             !div #backdrop .backdrop] /
+//             !div #layout .layout] <
+//                 !div #panel .panel] <
+//                     !button #button .button panel_item] :Кнопка: /
+//                 > /
+//             > /
+//         > /
+//     > /
 
-    ['*', {
+// `;
 
-        width: 'inherit',
-        height: 'inherit',
-        margin: '0',
-        padding: '0',
-        overflow: 'hidden',
-        boxSizing: 'border-box',
-        fontFamily: '\'Courier New\', Courier, monospace',
+// const ystr = new YString(str)
 
-    }],
-    ['body', {
+//     .display();
 
-        width: '100%',
-        height: '100%',
-        position: 'absolute',
+// console.log(ystr.extract(/<(?<r>.+)>/smg)[0]);
 
-    }],
+// ystr.display();
 
-    ['.size_over', {
+// const styleLocal = new YElementStyle({ id: 'local' });
+// const styleGlobal = new YElementStyle({ id: 'global' });
+// const stylePrivate = new YElementStyle({ id: 'private' });
 
-        width: '100%',
-        height: '100%',
+// styleGlobal.append(
 
-    }],
+//     ['*', {
 
-    ['#panel', {
+//         width: 'inherit',
+//         height: 'inherit',
+//         margin: '0',
+//         padding: '0',
+//         overflow: 'hidden',
+//         boxSizing: 'border-box',
+//         fontFamily: '\'Courier New\', Courier, monospace',
 
-        gridArea: 'p',
+//     }],
+//     ['body', {
 
-    }],
-    ['#window', {
+//         width: '100%',
+//         height: '100%',
+//         position: 'absolute',
 
-        left: '10px',
-        top: '10px',
-        width: '550px',
-        height: '280px',
+//     }],
 
-    }],
-    ['#layout', {
+//     ['.size_over', {
 
-        gridTemplateAreas: new YString()
+//         width: '100%',
+//         height: '100%',
 
-            .changePrefix(`'`)
-            .changePostfix(`'`)
-            .paste(
+//     }],
 
-                'l',
-                'l',
-                'l',
-                'i',
-                'p',
-                '.',
-                '.',
+//     ['#panel', {
 
-            )
-            .get()
+//         gridArea: 'p',
 
-    }],
-    ['#backdrop', {
+//     }],
+//     ['#window', {
+
+//         left: '10px',
+//         top: '10px',
+//         width: '550px',
+//         height: '280px',
+
+//     }],
+//     ['#layout', {
+
+//         gridTemplateAreas: new YString()
+
+//             .changePrefix(`'`)
+//             .changePostfix(`'`)
+//             .paste(
+
+//                 'l',
+//                 'l',
+//                 'l',
+//                 'i',
+//                 'p',
+//                 '.',
+//                 '.',
+
+//             )
+//             .get()
+
+//     }],
+//     ['#backdrop', {
 
 
 
-    }],
-    ['#background', {
+//     }],
+//     ['#background', {
 
-        backgroundImage: 'radial-gradient(at center, #7eb0df, transparent 5%), radial-gradient(at center, #7eb0df, #1d5c96)',
+//         backgroundImage: 'radial-gradient(at center, #7eb0df, transparent 5%), radial-gradient(at center, #7eb0df, #1d5c96)',
 
-    }],
+//     }],
 
-    ['.panel', {
+//     ['.panel', {
 
-        padding: `0.5em`,
-        display: 'flex',
-        alignItems: 'flex-start',
+//         padding: `0.5em`,
+//         display: 'flex',
+//         alignItems: 'flex-start',
 
-    }, '.size_over'],
-    ['.panel_item', {
+//     }, '.size_over'],
+//     ['.panel_item', {
 
-        width: '25%',
+//         width: '25%',
 
-    }],
-    ['.layout', {
+//     }],
+//     ['.layout', {
 
-        top: `50%`,
-        left: `50%`,
-        width: '98%',
-        height: '85%',
-        zIndex: 1,
-        display: `grid`,
-        position: 'absolute',
-        boxShadow: 'inset 0px 0px 0.5em #000',
-        transform: `translate(-50%, -43%)`,
-        borderRadius: `5px`,
-        backgroundColor: '#12293f',
+//         top: `50%`,
+//         left: `50%`,
+//         width: '98%',
+//         height: '85%',
+//         zIndex: 1,
+//         display: `grid`,
+//         position: 'absolute',
+//         boxShadow: 'inset 0px 0px 0.5em #000',
+//         transform: `translate(-50%, -43%)`,
+//         borderRadius: `5px`,
+//         backgroundColor: '#12293f',
 
-    }],
-    ['.window', {
+//     }],
+//     ['.window', {
 
-        position: 'absolute',
+//         position: 'absolute',
 
-    }],
-    ['.backdrop', {
+//     }],
+//     ['.backdrop', {
 
-        position: 'absolute',
-        backgroundColor: `#01315e`,
+//         position: 'absolute',
+//         backgroundColor: `#01315e`,
 
-    }],
+//     }],
 
-);
+// );
 
-const client = new YClient();
+// const client = new YClient();
 
-new YElement(`
+// new YElement(new YString()
 
-    !div #background ^!body] <
-        !div #window .window] <
-            !div #backdrop .backdrop] /
-            !div #layout .layout] <
-                !div #panel .panel] <
-                    !button #button .button panel_item] :Кнопка: type=button /
-                > /
-            > /
-        > /
-    > /
+//     .paste(
 
-`)
+//         `!div #background ^!body] <`,
+//         `   !div #window .window] <> /`,
+//         `> /`,
+
+//     )
+//     .get()
+
+// );
+
+// `
+
+//     !div #background ^!body] <
+//         !div #window .window] <
+//             !div #backdrop .backdrop] /
+//             !div #layout .layout] <
+//                 !div #panel .panel] <
+//                     !button #button .button panel_item] :Кнопка: /
+//                 > /
+//             > /
+//         > /
+//     > /
+
+// `
+
+// !div #window .window] <
+//     !div #backdrop .backdrop] /
+//     !div #layout .layout] <
+//         !div #panel .panel] <
+//             !button #button .button panel_item] :Кнопка:
+//         > /
+//     > /
+// > /
 
 // const background = new YElement(`!div #background ^!body] /`);
 // const window = new YElement(`!div #window .window] ^#background] /`);

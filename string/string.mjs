@@ -1693,7 +1693,7 @@ function castToJectComply(t) {
 
     const r = {};
 
-    string.match(/[\w\d_]+:.+;?/g).forEach(m => {
+    string.match(/[\w\d_]+:.+;?/g)?.forEach(m => {
 
         const p = m.split(':');
 
