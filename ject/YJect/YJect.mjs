@@ -30,6 +30,11 @@ class IJect extends DJect {
     */
     log = new YLog();
     /**
+     * Дата.
+     * @type {Date}
+    */
+    date = new Date();
+    /**
      * Отчет.
      * @protected
      * @type {YRept}
@@ -66,13 +71,7 @@ class IJect extends DJect {
                 .paste(...this.log.getVisiable())
                 .get()
 
-        }, 'l', 'Журнал')
-
-    /**
-     * Дата.
-     * @type {Date}
-    */
-    date = new Date();
+        }, 'l', 'Журнал');
 
 };
 class FJect extends IJect {

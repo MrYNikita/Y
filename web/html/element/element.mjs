@@ -1,7 +1,7 @@
 import { arrayReplace } from "../../../array/array.mjs";
 import { config, configHtml, configHtmlElement } from "../../../config.mjs";
 import { jectChangeDeep, jectReplaceDeep, jectSupplement } from "../../../ject/ject.mjs";
-import { stringCastToJect, stringFind, stringReplace } from "../../../string/string.mjs";
+import { stringCastToJect, stringFind, stringFindAll, stringFindToJect, stringReplace } from "../../../string/string.mjs";
 import { YString } from "../../../string/YString/YString.mjs";
 
 /**
@@ -9,7 +9,7 @@ import { YString } from "../../../string/YString/YString.mjs";
  * - Версия `0.0.4`
  * @type {RegExp}
 */
-export const elementREString = /((^| )(([!#]\w+)|(.|\^[.!#])(\w+ ?)+\]|:.*?:|\w+=?([^ ]*)?|<.*>) ?)+\//gs;
+export const elementREString = /(?<f>((^| )(([!#]\w+)|(.|\^[.!#])(\w+ ?)+\]|:.*?:|\w+=?([^ ]*)?|<.*>) ?)+\/)/gs;
 /**
  * Регулярное выражение для поиска и проверки классов в строке создания элементов.
  * @type {RegExp}
@@ -451,37 +451,37 @@ function stringDecomposeComply(t) {
 
     } = t;
 
-    const ystr = new YString(string.match(elementREString)[0]);
+    const ystr = new YString(string.match(elementREString)?.[0] ?? '');
 
-    console.log(ystr.get());
-    let childs = ystr.extract(/<(?<f>.+)>/gms)?.[0]?.match(elementREString) ?? [];
-    console.log(ystr.get());
+    const r = {
 
-
-    let text = ystr.extract(elementREText);
-    let classes = ystr.extract(elementREClasses)?.split(' ') ?? [];
-    let overClasses = ystr.extract(elementREOverClasses)?.split(' ') ?? [];
-    let overTypes = ystr.extract(elementREOverTypes)?.split(' ') ?? [];
-    let overId = ystr.extract(elementREOverId)?.split(' ') ?? [];
-    let id = ystr.extract(elementREId);
-    let type = ystr.extract(elementREType);
-    let property = ystr.extract(elementREProperty);
-
-    if (property.length) property = stringCastToJect(stringReplace(property?.map(p => p.trim())?.join('\n'), [/=/g, ':']));
-
-    return {
-
-        id,
-        type,
-        text,
-        childs,
-        overId,
-        classes,
-        property,
-        overTypes,
-        overClasses,
+        childs: stringFindAll(ystr.extract(/<(?<r>.+)>/smg), elementREString) ?? [],
+        // text: ystr.extract(elementREText) ?? '',
+        // classes: ystr.extract(elementREClasses)?.split(' ') ?? [],
+        // overClasses: ystr.extract(elementREOverClasses)?.split(' ') ?? [],
+        // overTypes: ystr.extract(elementREOverTypes)?.split(' ') ?? [],
+        // overId: ystr.extract(elementREOverId)?.split(' ') ?? [],
+        // id: ystr.extract(elementREId),
+        // type: ystr.extract(elementREType),
+        // property: ystr.extract(elementREProperty),
 
     };
+
+    console.log(r);
+    // let childs = stringFind(ystr.extract(/<.+>/gms)?.[0], elementREString) ?? [];
+    // let text = ystr.extract(elementREText) ?? '';
+    // let classes = ystr.extract(elementREClasses)?.split(' ') ?? [];
+    // let overClasses = ystr.extract(elementREOverClasses)?.split(' ') ?? [];
+    // let overTypes = ystr.extract(elementREOverTypes)?.split(' ') ?? [];
+    // let overId = ystr.extract(elementREOverId)?.split(' ') ?? [];
+    // let id = ystr.extract(elementREId);
+    // let type = ystr.extract(elementREType);
+    // let property = ystr.extract(elementREProperty);
+
+
+    if (r.property.length) r.property = stringCastToJect(stringReplace(r.property?.map(p => p.trim())?.join('\n'), [/=/g, ':']));
+
+    return r;
 
 };
 

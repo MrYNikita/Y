@@ -7,11 +7,11 @@ import { YTemplate } from "./YTemplate/YTemplate.mjs";
 
 /**
  * @typedef TBString
- * @prop {boolean} loged
+ * @prop {any} _
  * @typedef {DString&TBString} TString
 */
 
-class SString extends YBasic {
+class SString {
 
 
 
@@ -23,6 +23,10 @@ class DString extends SString {
      * @type {string}
     */
     value = '';
+
+};
+class IString extends DString {
+
     /**
      * Цвет шрифта.
      * @type {string}
@@ -72,17 +76,22 @@ class DString extends SString {
     stringOver = null;
 
 };
-class FString extends DString {
+class MString extends IString {
+
+
+
+};
+class FString extends MString {
 
     /**
-     *
+     * Контсруктор класса `YString`
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
      *  @param {TString} t
     */
     constructor(t = {}) {
 
-        t = FString.#before(...arguments);
+        t = FString.#before(Object.values(arguments));
 
         FString.#deceit(t);
 
@@ -92,14 +101,29 @@ class FString extends DString {
 
     };
 
-    /** @param {TString} t @this {[]} */
+    /** @param {Array<any>} t */
     static #before(t) {
 
-        if (t?.constructor === String || t?.constructor === Number) return { value: t, };
+        if (t?.length === 1 && t[0]?.constructor === Object) {
 
-        if (!t) t = {};
+            return t[0];
 
-        return t;
+        } else if (t?.length) {
+
+            /** @type {TString} */
+            const r = {};
+
+            switch (t.length) {
+
+                case 3:
+                case 2:
+                case 1: r.value = t[0];
+
+            };
+
+            return r;
+
+        } else return {};
 
     };
     /** @param {TString} t @this {YString} */
@@ -131,17 +155,7 @@ class FString extends DString {
     /** @param {TString} t @this {YString} */
     static #handle(t) {
 
-        let {
 
-
-
-        } = t;
-
-        t = {
-
-            ...t,
-
-        };
 
     };
     /** @param {TString} t @this {YString} */
@@ -162,12 +176,11 @@ class FString extends DString {
 };
 
 /**
- * Класс строк.
+ * Класс `YString`.
  *
- * Данный класс позволяет работать со строками.
- * Экземпляры класса позволяют производить манипуляции над добавленными в неё значениями.
- * - Тип `SDFY-2.0`
- * - Версия `0.1.2`
+ * Класс для конструирования строк.
+ * - Тип `SDIMFY-1.1`
+ * - Версия `0.2.0`
  * - Цепочка `BDVHC`
 */
 export class YString extends FString {
@@ -216,12 +229,12 @@ export class YString extends FString {
     };
     /**
      * Метод для поиска вложенных подстрок в строке.
-     * - Версия `0.1.0`
+     * - Версия `0.2.1`
      * @param {...string|RegExp} fragments
     */
     find(...fragments) {
 
-        this.value = stringFind(this.value, ...fragments);
+        this.value = stringFind(this.value, ...fragments) ?? '';
 
         return this;
 
@@ -261,7 +274,7 @@ export class YString extends FString {
 
             };
 
-            sp = ((this.prefix instanceof YTemplate ? this.prefix.get() : this.prefix) + sp +(this.postfix instanceof YTemplate ? this.postfix.get() : this.postfix)
+            sp = ((this.prefix instanceof YTemplate ? this.prefix.get() : this.prefix) + sp + (this.postfix instanceof YTemplate ? this.postfix.get() : this.postfix)
             ).replace(/^.+/mg, (this.tabValue ?? this?.stringOver?.tabValue)?.repeat(this.tabIndex ?? this?.stringOver?.tabIndex ?? 0) + '$&');
 
             this.cursors.forEach(c => {
