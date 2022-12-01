@@ -229,14 +229,12 @@ export class YString extends FString {
     };
     /**
      * Метод для поиска вложенных подстрок в строке.
-     * - Версия `0.2.0`
+     * - Версия `0.2.1`
      * @param {...string|RegExp} fragments
     */
     find(...fragments) {
 
         this.value = stringFind(this.value, ...fragments) ?? '';
-
-        if (this.value.constructor === Array) this.value = this.value.join(',');
 
         return this;
 

@@ -1,28 +1,31 @@
+import { YRegExp } from "../../../../regexp/YRegExp/YRegExp.mjs";
+import { stringCastToDate, stringFind, stringFindAll } from "../../../../string/string.mjs";
 import { YString } from "../../../../string/YString/YString.mjs";
 import { YClient } from "../../../../web/client/YClient/YClient.mjs";
+import { elementREString } from "../../../../web/html/element/element.mjs";
 import { YElement } from "../../../../web/html/element/YElement/YElement.mjs";
 import { YElementStyle } from "../../../../web/html/element/YElement/YElementStyle/YElementStyle.mjs";
 
-// const str = `
+const str = `
 
-//     !div #background ^!body] <
-//         !div #window .window] <
-//             !div #backdrop .backdrop] /
-//             !div #layout .layout] <
-//                 !div #panel .panel] <
-//                     !button #button .button panel_item] :Кнопка: /
-//                 > /
-//             > /
-//         > /
-//     > /
+    !div #background ^!body] <
+        !div #window .window] <
+            !div #backdrop .backdrop] /
+            !div #layout .layout] <
+                !div #panel .panel] <
+                    !button #button .button panel_item] :Кнопка: /
+                > /
+            > /
+        > /
+    > /
 
-// `;
+`;
 
-// const ystr = new YString(str)
+const ystr = new YString(str)
 
-//     .display();
+    .display();
 
-// console.log(ystr.extract(/<(?<r>.+)>/smg)[0]);
+console.log(stringFindAll(str, /<(?<f>.+)>/ms)[0]);
 
 // ystr.display();
 
@@ -149,9 +152,7 @@ import { YElementStyle } from "../../../../web/html/element/YElement/YElementSty
 
 //     .paste(
 
-//         `!div #background ^!body] <`,
-//         `   !div #window .window] <> /`,
-//         `> /`,
+//         `!div #background .red blue] ^!body] /`,
 
 //     )
 //     .get()

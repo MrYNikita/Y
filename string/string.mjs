@@ -1,6 +1,7 @@
-import { arrayAppend, arrayGetRandomElement, arrayUnique } from "../array/array.mjs";
+import { arrayGetRandomElement, arrayReplace, } from "../array/array.mjs";
 import { config, configString } from "../config.mjs";
-import { numberBefore, numberDevide, numberGetFrac, numberGetRandomReal, numberGetReal, numberGetSequence } from "../number/number.mjs";
+import { numberGetFrac, numberGetRandomReal, numberGetReal, numberGetSequence } from "../number/number.mjs";
+import { YRegExp } from "../regexp/YRegExp/YRegExp.mjs";
 import { YString } from "./YString/YString.mjs";
 
 //#region pad 0.0.0
@@ -90,192 +91,6 @@ function padComply(t) {
 export function stringPad(string, pad, count, index = string.length) {
 
     return padDeceit({ string, pad, index, count });
-
-};
-
-//#endregion
-//#region find 0.0.1
-
-/**
- * @typedef TBfind
- * @prop {string} string
- * @prop {boolean} variated
- * @prop {typeof Object} cls
- * @prop {[string|RegExp]} fragments
- * @typedef {TBfind} Tfind
-*/
-
-/** @param {Tfind} t */
-function findDeceit(t) {
-
-    try {
-
-        return findVerify(t);
-
-    } catch (e) {
-
-        if (config.strict) throw e;
-
-        return undefined;
-
-    };
-
-};
-/** @param {Tfind} t */
-function findVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return findHandle(t);
-
-};
-/** @param {Tfind} t */
-function findHandle(t) {
-
-    let {
-
-        variated,
-
-    } = t;
-
-    if (variated) t.fragments.forEach((e, i, a) => {
-
-        if (e.constructor === String) a[i] = new RegExp(e, 'y');
-        else if (!e.flags.includes('y')) a[i] = new RegExp(e, e.flags + 'y');
-
-    }); else t.fragments = t.fragments.map(e => {
-
-        if (e.constructor === String) return new RegExp(e);
-        else return e;
-
-    });
-
-    t = {
-
-        ...t,
-
-    };
-
-    return findComply(t);
-
-};
-/** @param {Tfind} t */
-function findComply(t) {
-
-    const {
-
-        cls,
-        string,
-        variated,
-        fragments,
-
-    } = t;
-
-    /** @type {[]|{}} */
-    let results;
-
-    if (variated) {
-
-        results = [];
-
-        fragments.forEach(f => {
-
-            for (let i = 0; i < string.length; i++) {
-
-                f.lastIndex = i;
-                const m = string.match(f)?.[0];
-
-                if (m) results.push(m);
-
-            };
-
-        });
-
-    } else if (cls) {
-
-        results = new cls();
-
-        fragments.forEach(f => {
-
-            const d = string.match(f);
-
-            if (d) Object.keys(d.groups).forEach(k => (+d.groups[k]) ? results[k] = +d.groups[k] : results[k] = d.groups[k]);
-
-        });
-
-    } else {
-
-        results = [];
-
-        fragments.forEach(f => {
-
-            const m = (f.flags.includes('g')) ? Array.from(string.matchAll(f)) : [string.match(f)];
-
-            m.forEach(m => {
-
-                if (m?.groups?.f) results.push(m?.groups?.f);
-                else if (m) results.push(m[0]);
-
-            });
-
-        });
-
-    };
-
-    if (fragments.length === 1 && !fragments[0].flags.includes('g')) {
-
-        if (results.length === 1) return results[0];
-        else return null;
-
-    } else return results;
-
-};
-
-/**
- * Функция для поиска всех соответствий.
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * @param {string} string
- * @param {...string|RegExp} fragments
- * @return {[]}
-*/
-export function stringFind(string, ...fragments) {
-
-    return findDeceit({ string, fragments, });
-
-};
-/**
- * Функция для поиска фрагментов в исходной строке.
- * Данная функция поиска возвращает все совпадения объектом.
- * Свойства данного объекта - это указанные в регулярных выражениях поиска имена скобочных групп.
- *
- * Функция также может вернуть экземпляр класса. Для этого укажите необходимый класс вторым параметром.
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * @param {string} string
- * @param {typeof Object} cls
- * @param {...string|RegExp} fragments
- * @return {{}}
-*/
-export function stringFindToJect(string, cls = Object, ...fragments) {
-
-    return findDeceit({ string, cls, fragments, });
-
-};
-/**
- * Функция для поиска всех возможных совпадений в строке.
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * @param {string} string
- * @param {...string|RegExp} fragments
-*/
-export function stringFindVariation(string, ...fragments) {
-
-    return findDeceit({ string, fragments, variated: true, });
 
 };
 
@@ -489,7 +304,7 @@ export function stringPaste(string, paste, index, size) {
 };
 
 //#endregion
-//#region shield 0.0.0
+//#region shield 0.0.1
 
 /**
  * @typedef TBshield
@@ -556,15 +371,28 @@ function shieldComply(t) {
 
     return stringReplace(string,
 
-        [/\*/, '\\*'],
+        [/\\/g, '\\\\'],
+        [/\//g, '\\/'],
+        [/\*/g, '\\*'],
+        [/\./g, '\\.'],
+        [/\+/g, '\\+'],
+        [/\?/g, '\\?'],
+        [/\]/g, '\\]'],
+        [/\[/g, '\\['],
+        [/\)/g, '\\)'],
+        [/\(/g, '\\('],
+        [/\}/g, '\\}'],
+        [/\{/g, '\\{'],
+        [/\{/g, '\\>'],
+        [/\{/g, '\\<'],
 
     );
 
 };
 
 /**
- * Функция для экранирования символов строки.
- * - Версия `0.0.0`
+ * Функция для экранирования специальных символов строки.
+ * - Версия `0.0.1`
  * - Цепочка `DVHCa`
  * @param {string} string Исходная строка.
 */
@@ -687,11 +515,13 @@ export function stringAppendRight(string, ...appends) {
 };
 
 //#endregion
-//#region remove 0.0.0
+//#region remove 0.0.1
 
 /**
  * @typedef TBremove
- * @prop {number} index
+ * @prop {number} end
+ * @prop {number} start
+ * @prop {number} start
  * @prop {number} length
  * @prop {string} string
  * @typedef {TBremove} Tremove
@@ -728,19 +558,13 @@ function removeVerify(t) {
 /** @param {Tremove} t */
 function removeHandle(t) {
 
-    let {
+    if (t.start < 0) t.start = 0;
+    if (t.start >= t.string.length) t.start = t.string.length - 1;
 
-
-
-    } = t;
-
-
-
-    t = {
-
-        ...t,
-
-    };
+    if (t.end < 0 && t.end + t.start < 0) [t.start, t.end] = [null, t.start + 1];
+    else if (t.end > 0 && t.end + t.start >= t.string.length) [t.start, t.end] = [t.start, null];
+    else if (t.end > 0) [t.start, t.end] = [t.start, t.start + t.end];
+    else [t.start, t.end] = [t.start + t.end + 1, t.start + 1];
 
     return removeComply(t);
 
@@ -750,13 +574,15 @@ function removeComply(t) {
 
     const {
 
-        index,
-        length,
+        end,
+        start,
         string,
 
     } = t;
 
-    return string.slice(0, index) + string.slice(index + length);
+    if (!start && start !== 0) return string.slice(end);
+    else if (!end && end !== 0) return string.slice(0, start);
+    else return string.slice(0, start) + string.slice(end);
 
 };
 
@@ -771,7 +597,7 @@ function removeComply(t) {
 */
 export function stringRemove(string, index, length) {
 
-    return removeDeceit({ string, index, length });
+    return removeDeceit({ string, start: index, end: length });
 
 };
 /**
@@ -784,7 +610,7 @@ export function stringRemove(string, index, length) {
 */
 export function stringRemoveLeft(string, length) {
 
-    return removeDeceit({ string, index: 0, length });
+    return removeDeceit({ string, start: 0, end: length });
 
 };
 /**
@@ -797,7 +623,7 @@ export function stringRemoveLeft(string, length) {
 */
 export function stringRemoveRight(string, length) {
 
-    return removeDeceit({ string, index: string.length - length, length });
+    return removeDeceit({ string, start: string.length - length, end: length });
 
 };
 
@@ -1626,6 +1452,459 @@ export function stringGetColor(color, bright, background) {
 
 //#endregion
 
+//#region find 0.1.0
+
+/**
+ * @typedef TBfind
+ * @prop {string} string
+ * @prop {Array<string|RegExp>} fragments
+ * @typedef {TBfind} Tfind
+*/
+
+/** @param {Tfind} t */
+function findDeceit(t) {
+
+    try {
+
+        return findVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @param {Tfind} t */
+function findVerify(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return findHandle(t);
+
+};
+/** @param {Tfind} t */
+function findHandle(t) {
+
+    t.fragments.map(f => new YRegExp(f).removeFlags('g').get());
+
+    return findComply(t);
+
+};
+/** @param {Tfind} t */
+function findComply(t) {
+
+    const {
+
+        string,
+        fragments,
+
+    } = t;
+
+    let result = string;
+
+    for (const f of fragments) {
+
+        result = result.match(f);
+
+        if (!result) {
+
+            break;
+
+        } else if (result?.groups?.f) {
+
+            result = result.groups.f;
+
+        } else {
+
+            result = result[0];
+
+        };
+
+    };
+
+    return result ?? '';
+
+    // /** @type {[]|{}} */
+    // let results;
+
+    // if (variated) {
+
+    //     results = [];
+
+    //     fragments.forEach(f => {
+
+    //         for (let i = 0; i < string.length; i++) {
+
+    //             f.lastIndex = i;
+    //             const m = string.match(f)?.[0];
+
+    //             if (m) results.push(m);
+
+    //         };
+
+    //     });
+
+    // } else if (cls) {
+
+    //     results = new cls();
+
+    //     fragments.forEach(f => {
+
+    //         const d = string.match(f);
+
+    //         if (d) Object.keys(d.groups).forEach(k => (+d.groups[k]) ? results[k] = +d.groups[k] : results[k] = d.groups[k]);
+
+    //     });
+
+    // } else {
+
+    //     results = [];
+
+    //     fragments.forEach(f => {
+
+    //         const m = (f.flags.includes('g')) ? Array.from(string.matchAll(f)) : [string.match(f)];
+
+    //         m.forEach(m => {
+
+    //             if (m?.groups?.f) results.push(m?.groups?.f);
+    //             else if (m) results.push(m[0]);
+
+    //         });
+
+    //     });
+
+    // };
+
+    // if (fragments.length === 1 && !fragments[0].flags.includes('g')) {
+
+    //     if (results.length === 1) return results[0];
+    //     else return null;
+
+    // } else return results;
+
+};
+
+/**
+ * Функция для поиска совпадения в строке.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @param {string} string Исходная строка.
+ * @param {...string|RegExp} fragments Последовательность фрагментов поиска.
+ * Каждый следующий фрагмент поиска будет применяться к результатам поиска предыдущего фрагмента.
+ * Если результат поиска будет отрицательным, то исполнение послудующих фрагментов будет пропущено.
+ *
+ * Фрагменты учитывают при поиске группу `f`. Если такая группа будет указана, то фрагмент вернет её значение в качестве результата.
+*/
+export function stringFind(string, ...fragments) {
+
+    return findDeceit({ string, fragments });
+
+};
+
+//#endregion
+//#region findAll 0.0.0
+
+/**
+ * @typedef TBfindAll
+ * @prop {any} _
+ * @typedef {TBfindAll&Tfind} TfindAll
+*/
+
+/** @param {TfindAll} t */
+function findAllDeceit(t) {
+
+    try {
+
+        return findAllVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @param {TfindAll} t */
+function findAllVerify(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return findAllHandle(t);
+
+};
+/** @param {TfindAll} t */
+function findAllHandle(t) {
+
+    t.fragments = t.fragments.map(f => new YRegExp(f, 'g').get());
+
+    return findAllComply(t);
+
+};
+/** @param {TfindAll} t */
+function findAllComply(t) {
+
+    const {
+
+        string,
+        fragments,
+
+    } = t;
+
+    const result = [string];
+
+    for (const f of fragments) {
+
+        for (const r of result.slice()) {
+
+            arrayReplace(result, r, ...Array.from(r.matchAll(f)).map(m => m ? m.groups?.f ? m.groups?.f : m[0] : m).filter(m => m));
+
+        };
+
+    };
+
+    return result;
+
+};
+
+/**
+ * Функция для поиска всех возможных совпадений.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @param {string} string Исходная строка.
+ * @param {...string|RegExp} fragments Последовательность фрагментов поиска.
+ * Каждый следующий фрагмент поиска будет применяться к результатам поиска предыдущего фрагмента.
+ *
+ * Фрагменты учитывают при поиске группу `f`. Если такая группа будет указана, то фрагмент вернет её значение в качестве результата.
+*/
+export function stringFindAll(string, ...fragments) {
+
+    return findAllDeceit({ string, fragments, });
+
+};
+
+//#endregion
+//#region findToJect 0.1.0
+
+/**
+ * @typedef TBfindToJect
+ * @prop {any} _
+ * @typedef {TBfindToJect&TfindAll} TfindToJect
+*/
+
+/** @param {TfindToJect} t */
+function findToJectDeceit(t) {
+
+    try {
+
+        return findToJectVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @param {TfindToJect} t */
+function findToJectVerify(t) {
+
+
+
+    return findToJectHandle(t);
+
+};
+/** @param {TfindToJect} t */
+function findToJectHandle(t) {
+
+    t.fragments = t.fragments.map(f => new YRegExp(f, 'g').get());
+
+    return findToJectComply(t);
+
+};
+/** @param {TfindToJect} t */
+function findToJectComply(t) {
+
+    const {
+
+        string,
+        fragments,
+
+    } = t;
+
+    const result = {};
+    const strings = [string];
+
+    for (const f of fragments) {
+
+        for (const r of strings.slice()) {
+
+            arrayReplace(strings, r, ...Array.from(r.matchAll(f)).map(m => {
+
+                if (m) {
+
+                    if (m.groups) {
+
+                        Object.entries(m.groups).filter(p => p[1] !== undefined).forEach(p => {
+
+                            if (result[p[0]]) {
+
+                                if (result[p[0]] instanceof Array) result[p[0]].push(p[1]);
+                                else result[p[0]] = [result[p[0]], p[1]];
+
+                            } else result[p[0]] = p[1];
+
+                        });
+
+                        if (m.groups.f) return m.groups.f;
+
+                    } else return m[0];
+
+                };
+
+                return m;
+
+            }).filter(m => m));
+
+        };
+
+    };
+
+    delete result.f;
+
+    return result;
+
+};
+
+/**
+ * Функция для поиска совпадений в указанной строке и преобразование соотвествий в объект.
+ * Для определения свойств объекта, необходимо указать их в регулярном выражении в качестве именованных скобочных групп.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @param {string} string Исходная строка.
+ * @param {...string|RegExp} fragments Последовательность фрагментов поиска.
+ * Каждый следующий фрагмент поиска будет применяться к результатам поиска предыдущего фрагмента.
+*/
+export function stringFindToJect(string, ...fragments) {
+
+    return findToJectDeceit({ string, fragments, });
+
+};
+
+//#endregion
+//#region findVariate 0.1.0
+
+/**
+ * @typedef TBfindVariate
+ * @prop {any} _
+ * @typedef {TBfindVariate&TfindAll} TfindVariate
+*/
+
+/** @param {TfindVariate} t */
+function findVariateDeceit(t) {
+
+    try {
+
+        return findVariateVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @param {TfindVariate} t */
+function findVariateVerify(t) {
+
+
+
+    return findVariateHandle(t);
+
+};
+/** @param {TfindVariate} t */
+function findVariateHandle(t) {
+
+    t.fragments = t.fragments.map(f => new YRegExp(f, 'g').get());
+
+    return findVariateComply(t);
+
+};
+/** @param {TfindVariate} t */
+function findVariateComply(t) {
+
+    const {
+
+        string,
+        fragments,
+
+    } = t;
+
+    const result = [string];
+
+    for (const f of fragments) {
+
+        for (const r of result.slice()) {
+
+            const a = [];
+
+            do {
+
+                const i = f.lastIndex;
+                const m = f.exec(r);
+
+                if (m) a.push(m?.groups?.f ?? m[0]);
+
+                if (!f.lastIndex) break;
+                else if (Math.abs(f.lastIndex - i) > 1) f.lastIndex = i + 1;
+
+
+            } while(f.lastIndex);
+
+            arrayReplace(result, r, ...a);
+
+        };
+
+    };
+
+    return result;
+
+};
+
+/**
+ * Функция для поиска всех возможных вариаций совпадения по строке.
+ * - Версия `0.1.0`
+ * - Цепочка `DVHCa`
+ * @param {string} string Исходная строка.
+ * @param {...string|RegExp} fragments Последовательность фрагментов поиска.
+ * Каждый следующий фрагмент поиска будет применяться к результатам поиска предыдущего фрагмента.
+ *
+ * Фрагменты учитывают при поиске группу `f`. Если такая группа будет указана, то фрагмент вернет её значение в качестве результата.
+*/
+export function stringFindVariate(string, ...fragments) {
+
+    return findVariateDeceit({ string, fragments, });
+
+};
+
+//#endregion
+
 //#region castToJect 0.0.0
 
 /**
@@ -1789,16 +2068,16 @@ function castToDateComply(t) {
 
         case 'ru': {
 
-            return new YString(configString.castToDate.ru).replace(
+            return stringReplace(configString.castToDate.ru,
 
-                [/<d>/, date.getDay().toString().padStart(2, 0)],
-                [/<m>/, date.getMonth().toString().padStart(2, 0)],
+                [/<d>/, date.getDate().toString().padStart(2, 0)],
+                [/<m>/, (date.getMonth() + 1).toString().padStart(2, 0)],
                 [/<y>/, date.getFullYear()],
                 [/<hh>/, date.getHours().toString().padStart(2, 0)],
                 [/<mm>/, date.getMinutes().toString().padStart(2, 0)],
                 [/<ss>/, date.getSeconds().toString().padStart(2, 0)],
 
-            ).get();
+            );
 
         };
 
@@ -1808,29 +2087,31 @@ function castToDateComply(t) {
 
 /**
  * Функция для преобразования даты в строку текущей локали.
- * @param {Date} date
- * - Версия `0.0.0`
+ * - Версия `0.0.1`
  * - Цепочка `DVHCa`
+ * @param {Date} date Дата.
+ * - По умолчанию `new Date()`
 */
-export function stringCastToDate(date) {
+export function stringCastToDate(date = new Date()) {
 
     return castToDateDeceit({ date, local: config.local });
 
 };
 /**
  * Функция для преобразования даты в строку формата даты локального времени.
- * @param {Date} date
- * - Версия `0.0.0`
+ * - Версия `0.0.1`
  * - Цепочка `DVHCa`
+ * @param {Date} date Дата.
+ * - По умолчанию `new Date()`
 */
-export function stringCastToDateRu(date) {
+export function stringCastToDateRu(date = new Date()) {
 
     return castToDateDeceit({ date, local: 'ru' });
 
 };
 
 //#endregion
-//#region castToSample 0.0.0
+//#region castToSample 0.0.1
 
 /**
  * @typedef TBcastToSample
@@ -1899,7 +2180,7 @@ function castToSampleComply(t) {
 
         [/\n/g, '\\n'],
         [/\r/g, '\\r'],
-        [/\x1b/, '\\x1b'],
+        [/\x1b/g, '\\x1b'],
 
     ).get();
 
@@ -1907,7 +2188,7 @@ function castToSampleComply(t) {
 
 /**
  * Функция для преобразования строки в строку с отображением всех спициальных символов.
- * - Версия `0.0.0`
+ * - Версия `0.0.1`
  * - Цепочка `DVHCa`
  * @param {string} string Исходная строка.
 */

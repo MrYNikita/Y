@@ -1,7 +1,7 @@
 import { arrayReplace } from "../../../array/array.mjs";
 import { config, configHtml, configHtmlElement } from "../../../config.mjs";
 import { jectChangeDeep, jectReplaceDeep, jectSupplement } from "../../../ject/ject.mjs";
-import { stringCastToJect, stringFind, stringReplace } from "../../../string/string.mjs";
+import { stringCastToJect, stringFind, stringFindAll, stringFindToJect, stringReplace } from "../../../string/string.mjs";
 import { YString } from "../../../string/YString/YString.mjs";
 
 /**
@@ -451,24 +451,23 @@ function stringDecomposeComply(t) {
 
     } = t;
 
-    console.log(string);
-
     const ystr = new YString(string.match(elementREString)?.[0] ?? '');
 
     const r = {
 
-        childs: ystr.extract(/<(?<r>.+)>/smg) ?? [],
-        text: ystr.extract(elementREText) ?? '',
-        classes: ystr.extract(elementREClasses)?.split(' ') ?? [],
-        overClasses: ystr.extract(elementREOverClasses)?.split(' ') ?? [],
-        overTypes: ystr.extract(elementREOverTypes)?.split(' ') ?? [],
-        overId: ystr.extract(elementREOverId)?.split(' ') ?? [],
-        id: ystr.extract(elementREId),
-        type: ystr.extract(elementREType),
-        property: ystr.extract(elementREProperty),
+        childs: stringFindAll(ystr.extract(/<(?<r>.+)>/smg), elementREString) ?? [],
+        // text: ystr.extract(elementREText) ?? '',
+        // classes: ystr.extract(elementREClasses)?.split(' ') ?? [],
+        // overClasses: ystr.extract(elementREOverClasses)?.split(' ') ?? [],
+        // overTypes: ystr.extract(elementREOverTypes)?.split(' ') ?? [],
+        // overId: ystr.extract(elementREOverId)?.split(' ') ?? [],
+        // id: ystr.extract(elementREId),
+        // type: ystr.extract(elementREType),
+        // property: ystr.extract(elementREProperty),
 
     };
 
+    console.log(r);
     // let childs = stringFind(ystr.extract(/<.+>/gms)?.[0], elementREString) ?? [];
     // let text = ystr.extract(elementREText) ?? '';
     // let classes = ystr.extract(elementREClasses)?.split(' ') ?? [];
