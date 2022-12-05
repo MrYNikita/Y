@@ -1,5 +1,6 @@
 import { configString } from "../../../../config.mjs";
 import { jectFill } from "../../../../ject/ject.mjs";
+import { YRegExp } from "../../../../regexp/YRegExp/YRegExp.mjs";
 
 /**
  * @typedef TBInsert
@@ -25,6 +26,13 @@ class DInsert extends SInsert {
      * @type {string|number|function():string|number}
     */
     value;
+    /**
+     * Значение по умолчанию.
+     * Будет вставлено в тех случаях, если не было указано значение.
+     * - По умолчанию `''`
+     * @type {string|number|function():string|number}
+    */
+    default = '';
 
 };
 class IInsert extends DInsert {
@@ -32,7 +40,12 @@ class IInsert extends DInsert {
 
 
 };
-class FInsert extends IInsert {
+class MInsert extends IInsert {
+
+
+
+};
+class FInsert extends MInsert {
 
     /**
      * Контсруктор класса `YInsert`
@@ -66,7 +79,7 @@ class FInsert extends IInsert {
 
             switch (t.length) {
 
-                case 3:
+                case 3: r.default = t[2];
                 case 2: r.value = t[1];
                 case 1: r.key = t[0];
 
@@ -125,21 +138,43 @@ class FInsert extends IInsert {
     };
 
 };
-class MInsert extends FInsert {
-
-
-
-};
 
 /**
+ * Класс `YInsert`
  *
- * - Тип `SDIFMY-1.0`
- * - Версия `0.0.0`
+ * Класс предназначенный для создания вставок в шаблонах.
+ * Вставка замещает собой соответствия в строке шаблона, позволяя ему размещать внутри себя динамичные значения.
+ * - Тип `SDIFMY`
+ * - Версия `0.1.0`
  * - Цепочка `BDVHC`
  * - Пространство `YString`
 */
-export class YInsert extends MInsert {
+export class YInsert extends FInsert {
 
+    /**
+     * Метод получения регулярного выражения для поиска ключа.
+     * Данное регулярное выражение будет включать в себя скобки поиска.
+     * К нему также будут указаны флаги `gms`.
+     * - Версия `0.0.0`
+    */
+    getKey() {
 
+        return new YRegExp(`${configString.insert.borderL}${this.key}${configString.insert.borderR}`, 'gms');
+
+    };
+    /**
+     * Метод получения значения.
+     * Данный метод позволяет получить значение с учетом его типа.
+     * Так, если значение окажется функцией, то в качестве возврата будет выдан результат функции.
+     * В противном случае будет выдано само значение.
+     *
+     * Если значение для замены не было указано, то будет вставлено значение по умолчанию.
+     * - Версия `0.0.0`
+    */
+    getValue() {
+
+        return this.value ? this.value instanceof Function ? this.value() : this.value : this.default;
+
+    };
 
 };

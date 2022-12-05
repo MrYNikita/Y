@@ -1,6 +1,6 @@
 import { configString } from "../../../config.mjs";
 import { jectFill } from "../../../ject/ject.mjs";
-import { stringReplace } from "../../string.mjs";
+import { stringReplace, stringReplaceAllMore } from "../../string.mjs";
 import { YString } from "../YString.mjs";
 import { YInsert } from "./YInsert/YInsert.mjs";
 
@@ -144,7 +144,7 @@ class MTemplate extends FTemplate {
 };
 
 /**
- * Класс `YTemplate`.
+ * Класс `YTemplate`
  *
  * Шаблоны используются для размещения в `YString` заготовленных строк без применения правил добавления.
  * Также они позволяют формировать строку, заполняя поля шаблона пользовательскими данными.
@@ -158,14 +158,14 @@ export class YTemplate extends MTemplate {
 
     /**
      * Метод получения шаблона.
-     * - Версия `0.0.0`
+     * - Версия `0.1.0`
      * @param {...[string, string|number|function():number|string]} inserts
     */
     get(...inserts) {
 
-        const is = inserts.length ? [...inserts.map(i => i ? new YInsert(...i) : 0).filter(i => i)] : this.inserts;
+        const is = inserts.length ? [...inserts.filter(i => i).map(i => new YInsert(...i))] : this.inserts;
 
-        return stringReplace(this.value, ...is.map(i => [new RegExp(`${configString.insert.borderL}${i.key}${configString.insert.borderR}`, 'g'), i.value instanceof Function ? i.value() : i.value]));
+        return stringReplaceAllMore(this.value, ...is.map(i => [i.getValue(), i.getKey()]));
 
     };
 

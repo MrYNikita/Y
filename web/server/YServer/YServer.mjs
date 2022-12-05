@@ -1,19 +1,13 @@
-import http, { get } from "http";
+import http from "http";
 import crypto from "crypto";
-import { YLog } from "../../../log/YLog/YLog.mjs";
 import { YAPI } from "../api/YAPI/YAPI.mjs";
+import { YJect } from "../../../ject/YJect/YJect.mjs";
 import { Duplex } from "stream";
-import { Socket } from "net";
 import { osGetIP } from "../../../os/os.mjs";
 import { YString } from "../../../string/YString/YString.mjs";
 import { jectFill } from "../../../ject/ject.mjs";
-import { YTemplate } from "../../../string/YString/YTemplate/YTemplate.mjs";
 import { YDirectory } from "../../../os/file/YFile/directory/YDirectory/YDirectory.mjs";
-import { stringRepaint } from "../../../string/string.mjs";
 import { config, configServer, configWeb } from "../../../config.mjs";
-import { arrayRemoveByElement } from "../../../array/array.mjs";
-import { YBasic } from "../../../ject/YBasic/YBasic.mjs";
-import { YJect } from "../../../ject/YJect/YJect.mjs";
 
 /**
  * @typedef TBServer
@@ -85,17 +79,27 @@ class DServer extends SServer {
     pingIntervalTime = configServer.pingIntervalTime ?? 1000;
 
 };
-class FServer extends DServer {
+class IServer extends DServer {
+
+
+
+};
+class MServer extends IServer {
+
+
+
+};
+class FServer extends MServer {
 
     /**
-     *
+     * Контсруктор класса `YServer`
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
      *  @param {TServer} t
     */
     constructor(t = {}) {
 
-        t = FServer.#before(...arguments);
+        t = FServer.#before(Object.values(arguments));
 
         FServer.#deceit(t);
 
@@ -105,14 +109,29 @@ class FServer extends DServer {
 
     };
 
-    /** @param {TServer} t @this {[]} */
+    /** @param {Array<any>} t */
     static #before(t) {
 
+        if (t?.length === 1 && t[0]?.constructor === Object) {
 
+            return t[0];
 
-        if (!t) t = {};
+        } else if (t?.length) {
 
-        return t;
+            /** @type {TServer&DServer} */
+            const r = {};
+
+            switch (t.length) {
+
+                case 3:
+                case 2:
+                case 1:
+
+            };
+
+            return r;
+
+        } else return {};
 
     };
     /** @param {TServer} t @this {YServer} */
@@ -144,19 +163,7 @@ class FServer extends DServer {
     /** @param {TServer} t @this {YServer} */
     static #handle(t) {
 
-        let {
-
-
-
-        } = t;
-
-        if (t.dir.constructor === String || t.dir.constructor === RegExp) t.dir = new YDirectory(t.dir);
-
-        t = {
-
-            ...t,
-
-        };
+        if (t.dir && (t.dir.constructor === String || t.dir.constructor === RegExp)) t.dir = new YDirectory(t.dir);
 
     };
     /** @param {TServer} t @this {YServer} */
@@ -208,10 +215,14 @@ class FServer extends DServer {
 };
 
 /**
- * Класс `Сервера`.
- * - Тип `SDFY-2.0`
- * - Версия `0.1.0`
+ * Класс `YServer`
+ *
+ * Предназначен для взаимодействия клиентской и серверной частью.
+ * Предоставляет для работы `WebSocket` соединение и основные методы `REST`.
+ * - Тип `SDIMFY-1`
+ * - Версия `0.2.0`
  * - Цепочка `BDVHC`
+ * - Пространство `Web`
 */
 export class YServer extends FServer {
 

@@ -196,7 +196,7 @@ export class YStyle extends MStyle {
         return new YString(this.tabel.element.innerText)
 
             .find(label + ' ?{(?<f>.*?)}')
-            .replace([/;/g, '\n'])
+            .replaceAll(['\n', ';'])
             .remove(1)
             .castToJect()
 
@@ -230,12 +230,12 @@ export class YStyle extends MStyle {
 
             if (ystr.copy().find(property + ':.*?;').get()) {
 
-                if (!value) ystr.replace([property + `:.*?;`, ``]);
-                else ystr.replace([property + `:.*?;`, `${property}:${value};`]);
+                if (!value) ystr.replace([``, property + `:.*?;`]);
+                else ystr.replace([`${property}:${value};`, property + `:.*?;`]);
 
-            } else if (value) ystr.replace([/}/, `${property}:${value};}`]);
+            } else if (value) ystr.replace([`${property}:${value};}`, /}/]);
 
-            tabel.element.innerText = stringReplace(tabel.element.innerText, [label + ' ?{.*?}', ystr.get()]);
+            tabel.element.innerText = stringReplace(tabel.element.innerText,  ystr.get(), label + ' ?{.*?}');
 
             this.projections.forEach(s => s.change(set));
 

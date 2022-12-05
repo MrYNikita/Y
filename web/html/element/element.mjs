@@ -1,7 +1,7 @@
 import { arrayReplace } from "../../../array/array.mjs";
 import { config, configHtml, configHtmlElement } from "../../../config.mjs";
 import { jectChangeDeep, jectReplaceDeep, jectSupplement } from "../../../ject/ject.mjs";
-import { stringCastToJect, stringFind, stringFindAll, stringFindToJect, stringReplace } from "../../../string/string.mjs";
+import { stringCastToJect, stringFind, stringFindAll, stringFindToJect, stringReplace, stringReplaceAll } from "../../../string/string.mjs";
 import { YString } from "../../../string/YString/YString.mjs";
 
 /**
@@ -238,9 +238,9 @@ function createComply(t) {
 
         const ss = [
 
-            ...overId?.map(s => document.querySelector(`#${s}`)),
-            ...overTypes?.map(s => Array.from(document.querySelectorAll(s)))?.flat() ?? [],
-            ...overClasses?.map(s => Array.from(document.querySelectorAll(`.${s}`)))?.flat() ?? []
+            ...overId?.filter(s => s)?.map(s => document.querySelector(`#${s}`)),
+            ...overTypes?.filter(s => s)?.map(s => Array.from(document.querySelectorAll(s)))?.flat() ?? [],
+            ...overClasses?.filter(s => s)?.map(s => Array.from(document.querySelectorAll(`.${s}`)))?.flat() ?? []
 
         ];
 
@@ -455,31 +455,19 @@ function stringDecomposeComply(t) {
 
     const r = {
 
-        childs: stringFindAll(ystr.extract(/<(?<r>.+)>/smg), elementREString) ?? [],
-        // text: ystr.extract(elementREText) ?? '',
-        // classes: ystr.extract(elementREClasses)?.split(' ') ?? [],
-        // overClasses: ystr.extract(elementREOverClasses)?.split(' ') ?? [],
-        // overTypes: ystr.extract(elementREOverTypes)?.split(' ') ?? [],
-        // overId: ystr.extract(elementREOverId)?.split(' ') ?? [],
-        // id: ystr.extract(elementREId),
-        // type: ystr.extract(elementREType),
-        // property: ystr.extract(elementREProperty),
+        childs: stringFindAll(ystr.extract(/<(?<f>.+)>/ms), elementREString) ?? [],
+        text: ystr.extract(elementREText) ?? '',
+        classes: ystr.extract(elementREClasses)?.split(' ') ?? [],
+        overClasses: ystr.extract(elementREOverClasses)?.split(' ') ?? [],
+        overTypes: ystr.extract(elementREOverTypes)?.split(' ') ?? [],
+        overId: ystr.extract(elementREOverId)?.split(' ') ?? [],
+        id: ystr.extract(elementREId),
+        type: ystr.extract(elementREType),
+        property: ystr.extractAll(elementREProperty),
 
     };
 
-    console.log(r);
-    // let childs = stringFind(ystr.extract(/<.+>/gms)?.[0], elementREString) ?? [];
-    // let text = ystr.extract(elementREText) ?? '';
-    // let classes = ystr.extract(elementREClasses)?.split(' ') ?? [];
-    // let overClasses = ystr.extract(elementREOverClasses)?.split(' ') ?? [];
-    // let overTypes = ystr.extract(elementREOverTypes)?.split(' ') ?? [];
-    // let overId = ystr.extract(elementREOverId)?.split(' ') ?? [];
-    // let id = ystr.extract(elementREId);
-    // let type = ystr.extract(elementREType);
-    // let property = ystr.extract(elementREProperty);
-
-
-    if (r.property.length) r.property = stringCastToJect(stringReplace(r.property?.map(p => p.trim())?.join('\n'), [/=/g, ':']));
+    if (r.property) r.property = stringCastToJect(stringReplaceAll(r.property?.map(p => p.trim())?.join('\n'), ':', /=/));
 
     return r;
 

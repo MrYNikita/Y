@@ -20,7 +20,7 @@ class SRegExp extends YBasic {
     */
     static correctFlags(flags) {
 
-        return arrayUnique(flags.split('')).sort().filter(f => YRegExp.flags.includes(f)).join('');
+        return (flags) ? arrayUnique(flags.split('')).sort().filter(f => YRegExp.flags.includes(f)).join('') : '';
 
     };
 
@@ -124,8 +124,10 @@ class FRegExp extends MRegExp {
     /** @param {TRegExp} t @this {YRegExp} */
     static #handle(t) {
 
+        if (!t.flags) t.flags = '';
+
         if (t.value instanceof YRegExp) t.value = t.value.get();
-        if (t.value instanceof RegExp) t.flags += t.value.flags;
+        if (t.value instanceof RegExp) t.flags += t.value.flags ?? '';
 
         if (t.flags) t.flags = YRegExp.correctFlags(t.flags);
 

@@ -297,7 +297,7 @@ function pasteComply(t) {
  * @param {string} paste Строка вставки.
  * @param {string} string Исходная строка.
 */
-export function stringPaste(string, paste, index, size) {
+export function stringPaste(string, paste, index, size = 0) {
 
     return pasteDeceit({ string, paste, index, size, });
 
@@ -628,7 +628,7 @@ export function stringRemoveRight(string, length) {
 };
 
 //#endregion
-//#region filter 0.0.0
+//#region filter 0.0.1
 
 /**
  * @typedef TBfilter
@@ -668,20 +668,6 @@ function filterVerify(t) {
 /** @param {Tfilter} t */
 function filterHandle(t) {
 
-    let {
-
-
-
-    } = t;
-
-
-
-    t = {
-
-        ...t,
-
-    };
-
     return filterComply(t);
 
 };
@@ -695,13 +681,13 @@ function filterComply(t) {
 
     } = t;
 
-    return stringReplace(string, ...filters.map(f => [f, '']));
+    return stringReplaceAllMore(string, ...filters.map(f => ['', f]));
 
 };
 
 /**
  * Функция для удаления из строки указанных фрагментов.
- * - Версия `0.0.0`
+ * - Версия `0.0.1`
  * - Цепочка `DVHCa`
  * @param {string} string
  * @param {...string|RegExp} filters
@@ -815,131 +801,6 @@ function handleComply(t) {
 export function stringHandle(string, handle, ...fragments) {
 
     return handleDeceit({ string, handle, fragments });
-
-};
-
-//#endregion
-//#region replace 0.0.1
-
-/**
- * @typedef TBreplace
- * @prop {string} string
- * @prop {boolean} pointed
- * @prop {[[string|RegExp,string]]} replaces
- * @typedef {TBreplace} Treplace
-*/
-
-/** @param {Treplace} t */
-function replaceDeceit(t) {
-
-    try {
-
-        return replaceVerify(t);
-
-    } catch (e) {
-
-        if (config.strict) throw e;
-
-        return undefined;
-
-    };
-
-};
-/** @param {Treplace} t */
-function replaceVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return replaceHandle(t);
-
-};
-/** @param {Treplace} t */
-function replaceHandle(t) {
-
-    let {
-
-
-
-    } = t;
-
-    t.replaces = t.replaces.map(p => (p[0].constructor === RegExp) ? p : [new RegExp(p[0]), p[1]]);
-
-    t = {
-
-        ...t,
-
-    };
-
-    return replaceComply(t);
-
-};
-/** @param {Treplace} t */
-function replaceComply(t) {
-
-    const {
-
-        string,
-        replaces,
-
-    } = t;
-
-    let result = string;
-
-    replaces.forEach(p => {
-
-        if (p[0].flags.includes('g')) {
-
-            const m = Array.from(result.matchAll(p[0]));
-
-            if (m.length) {
-
-                result = result.split(p[0]);
-
-                if (m[0].groups?.r) {
-
-                    for (let i = 1, c = 0; i < result.length; i += 2, c++) result[i] = m[c][0].replace(m[c].groups.r, p[1]);
-
-                    result = result.join('');
-
-                } else result = result.join(p[1]);
-
-            };
-
-        } else {
-
-            const m = result.match(p[0]);
-
-            if (m) {
-
-                if (!m?.groups?.r) m.groups = { r: m[0] };
-
-                result = result.replace(m[0], m[0].replace(m.groups.r, p[1]));
-            };
-
-        };
-
-        result.replace('\x1b[39m\x1b[39m', '\x1b[39m');
-
-    });
-
-    return result;
-
-};
-
-/**
- * Функция для замены фрагментов исходной строки указанными подстроками.
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * @param {string} string Исходная строка.
- * @param {...[string|RegExp, string]} replaces Массив пар фрагментов и их заместителей.
-*/
-export function stringReplace(string, ...replaces) {
-
-    return replaceDeceit({ string, replaces, });
 
 };
 
@@ -1507,6 +1368,7 @@ function findComply(t) {
 
     } = t;
 
+    /** @type {string?} */
     let result = string;
 
     for (const f of fragments) {
@@ -1517,7 +1379,7 @@ function findComply(t) {
 
             break;
 
-        } else if (result?.groups?.f) {
+        } else if (result?.groups?.f || result?.groups?.f === '') {
 
             result = result.groups.f;
 
@@ -1529,65 +1391,7 @@ function findComply(t) {
 
     };
 
-    return result ?? '';
-
-    // /** @type {[]|{}} */
-    // let results;
-
-    // if (variated) {
-
-    //     results = [];
-
-    //     fragments.forEach(f => {
-
-    //         for (let i = 0; i < string.length; i++) {
-
-    //             f.lastIndex = i;
-    //             const m = string.match(f)?.[0];
-
-    //             if (m) results.push(m);
-
-    //         };
-
-    //     });
-
-    // } else if (cls) {
-
-    //     results = new cls();
-
-    //     fragments.forEach(f => {
-
-    //         const d = string.match(f);
-
-    //         if (d) Object.keys(d.groups).forEach(k => (+d.groups[k]) ? results[k] = +d.groups[k] : results[k] = d.groups[k]);
-
-    //     });
-
-    // } else {
-
-    //     results = [];
-
-    //     fragments.forEach(f => {
-
-    //         const m = (f.flags.includes('g')) ? Array.from(string.matchAll(f)) : [string.match(f)];
-
-    //         m.forEach(m => {
-
-    //             if (m?.groups?.f) results.push(m?.groups?.f);
-    //             else if (m) results.push(m[0]);
-
-    //         });
-
-    //     });
-
-    // };
-
-    // if (fragments.length === 1 && !fragments[0].flags.includes('g')) {
-
-    //     if (results.length === 1) return results[0];
-    //     else return null;
-
-    // } else return results;
+    return result;
 
 };
 
@@ -1663,13 +1467,13 @@ function findAllComply(t) {
 
     } = t;
 
-    const result = [string];
+    const result = string ? [string] : [];
 
     for (const f of fragments) {
 
         for (const r of result.slice()) {
 
-            arrayReplace(result, r, ...Array.from(r.matchAll(f)).map(m => m ? m.groups?.f ? m.groups?.f : m[0] : m).filter(m => m));
+            if (r) arrayReplace(result, r, ...Array.from(r?.matchAll(f)).map(m => m ? m.groups?.f ? m.groups?.f : m[0] : m).filter(m => m || m === ''));
 
         };
 
@@ -1905,6 +1709,202 @@ export function stringFindVariate(string, ...fragments) {
 
 //#endregion
 
+//#region replace 0.1.0
+
+/**
+ * @typedef TBreplace
+ * @prop {string} string
+ * @prop {string} replace
+ * @prop {string|RegExp} fragment
+ * @typedef {TBreplace} Treplace
+*/
+
+/** @param {Treplace} t */
+function replaceDeceit(t) {
+
+    try {
+
+        return replaceVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @param {Treplace} t */
+function replaceVerify(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return replaceHandle(t);
+
+};
+/** @param {Treplace} t */
+function replaceHandle(t) {
+
+    if (t.fragment) t.fragment = new YRegExp(t.fragment).removeFlags('g').get();
+
+    return replaceComply(t);
+
+};
+/** @param {Treplace} t */
+function replaceComply(t) {
+
+    const {
+
+        string,
+        replace,
+        fragment,
+
+    } = t;
+
+    const m = string.match(fragment);
+
+    if (m) {
+
+        if (m.groups?.r) return string.replace(m[0], m[0].replace(m.groups.r, replace));
+        else return string.replace(m[0], replace);
+
+    };
+
+};
+
+/**
+ * Функция для замены первого совпадения в исходной строке на указанное значение.
+ * - Версия `0.1.0`
+ * - Цепочка `DVHCa`
+ * @param {string} string Исходная строка.
+ * @param {string} replace Значение замены.
+ * @param {string|RegExp} fragment Фрагмент совпадения.
+ * - Флаг `g` не учитывается и будет исключен из регулярного выражения.
+ * - Скобочная группа `r` указывает точечное место в совпадении, которое необходимо заменить.
+*/
+export function stringReplace(string, replace, fragment) {
+
+    return replaceDeceit({ string, replace, fragment, });
+
+};
+/**
+ * Функция для многократного вызова функции замены.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @param {string} string Исходная строка.
+ * @param {...[string, string|RegExp]} replaces Замены.
+*/
+export function stringReplaceMore(string, ...replaces) {
+
+    replaces.forEach(r => string = stringReplace(string, ...r));
+
+    return string;
+
+};
+
+//#endregion
+//#region replaceAll 0.0.0
+
+/**
+ * @typedef TBreplaceAll
+ * @prop {string} string
+ * @prop {string} replace
+ * @prop {Array<string|RegExp>} fragment
+ * @typedef {TBreplaceAll} TreplaceAll
+*/
+
+/** @param {TreplaceAll} t */
+function replaceAllDeceit(t) {
+
+    try {
+
+        return replaceAllVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @param {TreplaceAll} t */
+function replaceAllVerify(t) {
+
+
+
+    return replaceAllHandle(t);
+
+};
+/** @param {TreplaceAll} t */
+function replaceAllHandle(t) {
+
+    if (t.fragment) t.fragment = new YRegExp(t.fragment, 'g').get();
+
+    return replaceAllComply(t);
+
+};
+/** @param {TreplaceAll} t */
+function replaceAllComply(t) {
+
+    const {
+
+        string,
+        replace,
+
+    } = t;
+
+    let result = string;
+
+    Array.from(string.matchAll(t.fragment)).reverse().forEach(m => {
+
+        if (m.groups?.r) result = stringPaste(stringRemove(result, m.index, m[0].length), m[0].replace(m.groups.r, replace), m.index);
+        else result = stringPaste(stringRemove(result, m.index, m[0].length), replace, m.index);
+
+    });
+
+    return result;
+
+};
+
+/**
+ * Функция для замены всех найденных совпадений в исходной строке на указанное значение.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @param {string} string Исходная строка.
+ * @param {string} replace Значение замены.
+ * @param {string|RegExp} fragment Фрагменты замены.
+ * - Флаг `g` не учитывается и будет исключен из регулярного выражения.
+ * - Скобочная группа `r` указывает точечное место в совпадении, которое необходимо заменить.
+*/
+export function stringReplaceAll(string, replace, fragment) {
+
+    return replaceAllDeceit({ string, replace, fragment, });
+
+};
+/**
+ * Функция для замены множества совпадений в исходной строке с индивидуально указанными значениями.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @param {string} string Исходная строка.
+ * @param {...[string, string|RegExp]} replaces Замещения.
+*/
+export function stringReplaceAllMore(string, ...replaces) {
+
+    replaces.forEach(r => string = stringReplaceAll(string, ...r));
+
+    return string;
+
+};
+
+//#endregion
+
 //#region castToJect 0.0.0
 
 /**
@@ -2068,14 +2068,14 @@ function castToDateComply(t) {
 
         case 'ru': {
 
-            return stringReplace(configString.castToDate.ru,
+            return stringReplaceAllMore(configString.castToDate.ru,
 
-                [/<d>/, date.getDate().toString().padStart(2, 0)],
-                [/<m>/, (date.getMonth() + 1).toString().padStart(2, 0)],
-                [/<y>/, date.getFullYear()],
-                [/<hh>/, date.getHours().toString().padStart(2, 0)],
-                [/<mm>/, date.getMinutes().toString().padStart(2, 0)],
-                [/<ss>/, date.getSeconds().toString().padStart(2, 0)],
+                [date.getDate().toString().padStart(2, 0), /<d>/],
+                [(date.getMonth() + 1).toString().padStart(2, 0), /<m>/],
+                [date.getFullYear(), /<y>/],
+                [date.getHours().toString().padStart(2, 0), /<hh>/],
+                [date.getMinutes().toString().padStart(2, 0), /<mm>/],
+                [date.getSeconds().toString().padStart(2, 0), /<ss>/],
 
             );
 
@@ -2176,11 +2176,11 @@ function castToSampleComply(t) {
 
     } = t;
 
-    return new YString(string).replace(
+    return new YString(string).replaceAll(
 
-        [/\n/g, '\\n'],
-        [/\r/g, '\\r'],
-        [/\x1b/g, '\\x1b'],
+        ['\\n', /\n/g],
+        ['\\r', /\r/g,],
+        ['\\x1b', /\x1b/g],
 
     ).get();
 
@@ -2374,10 +2374,8 @@ function castToYReportComply(t) {
     return new YString(string)
 
         .handle(s => stringRepaint(s, 'c'), /[.,:;~\-\[\]\/#]/g)
-        .handle(s => stringRepaint)
-        .replace([/true/g, '+'])
-        .replace([/false/g, '-'])
-        // .handle(s => stringReplace(s, [/:(\x1b\[\d+m)?(?<r>.*?)(\x1b\[\d+m)?;/, stringRepaint(stringFind(s, /:(\x1b\[\d+m)?(?<f>.*?)(\x1b\[\d+m)?;/), 'ye', 1)]), /:.*?;/g)
+        .replaceAll(['+', /true/g])
+        .replaceAll(['-', /false|undefined/g])
         .get()
 
 };

@@ -1,0 +1,22 @@
+{
+    "name": "YExtansion",
+    "description": "Расширение для взаимодейтсвия с браузером за счет инструментов YModules.",
+    "manifest_version": 3,
+    "version": "0.0.0",
+    "action": {
+      "default_popup": "./.source/html/index.html"
+    },
+    "permissions": [
+        "tabs",
+        "storage",
+        "activeTab",
+        "scripting"
+    ],
+    "background": {
+        "type": "module",
+        "service_worker": "./background.mjs"
+    },
+    "content_security_policy": {
+        "extension_pages": "default-src 'self'; script-src 'self' http://127.0.0.1:8000/"
+    }
+  }

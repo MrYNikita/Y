@@ -2,7 +2,7 @@ import { configString } from "../../config.mjs";
 import { jectFill } from "../../ject/ject.mjs";
 import { YBasic } from "../../ject/YBasic/YBasic.mjs";
 import { YCursor } from "../../ject/YCursor/YCursor.mjs";
-import { stringAppend, stringBring, stringCastToJect, stringCastToSample, stringCastToYReport, stringFilter, stringFind, stringFindToJect, stringHandle, stringPad, stringPaste, stringReflect, stringRemove, stringRepaint, stringReplace, stringReverse } from "../string.mjs";
+import { stringAppend, stringBring, stringCastToJect, stringCastToSample, stringCastToYReport, stringFilter, stringFind, stringFindAll, stringFindToJect, stringHandle, stringPad, stringPaste, stringReflect, stringRemove, stringRepaint, stringReplace, stringReplaceAllMore, stringReplaceMore, stringReverse } from "../string.mjs";
 import { YTemplate } from "./YTemplate/YTemplate.mjs";
 
 /**
@@ -214,6 +214,59 @@ export class YString extends FString {
         return r;
 
     };
+
+    /**
+     * Метод для выполнения функции в контексте указанной строки.
+     * В качестве значения необходимо передать функцию с указанным первым аргументом.
+     * Данный аргумент предоставит доступ к строке.
+     * - Версия `0.0.0`
+     * @param {function(YString):void} func Функция.
+    */
+    exec(func) {
+
+        if (func instanceof Function) func(this);
+
+        return this;
+
+    };
+
+    /**
+     * Метод для повторения указанного фрагмента строки.
+     * @param {number} count
+    */
+    repeat(count) {
+
+        this.value = this.value.repeat(count);
+
+        return this;
+
+    };
+
+    /**
+     * Метод для замены первых совпадений с глубоким поиском.
+     * - Версия `0.1.0`
+     * @param {...[string,string|RegExp]} replaces Замены.
+    */
+    replace(...replaces) {
+
+        if (this.value) this.value = stringReplaceMore(this.value, ...replaces);
+
+        return this;
+
+    };
+    /**
+     * Метод для замены всех совпадений.
+     * - Версия `0.0.0`
+     * @param {...[string, string|RegExp]} replaces Замены.
+    */
+    replaceAll(...replaces) {
+
+        if (this.value) this.value = stringReplaceAllMore(this.value, ...replaces);
+
+        return this;
+
+    };
+
     /**
      * Метод для дополнения строки.
      * @param {string} string Строка дополнения.
@@ -234,7 +287,13 @@ export class YString extends FString {
     */
     find(...fragments) {
 
-        this.value = stringFind(this.value, ...fragments) ?? '';
+        if (fragments.length) {
+
+            this.value = stringFind(this.value, ...fragments) ?? '';
+
+            this.changeCursorPositionTo(this.value.length);
+
+        };
 
         return this;
 
@@ -322,9 +381,9 @@ export class YString extends FString {
      * @param {number} length Длина обрезки.
      * @param {boolean} left Сторона обрезки.
     */
-    remove(length, index = this.value.length - length) {
+    remove(length) {
 
-        this.value = stringRemove(this.value, index, length);
+        this.value = stringRemove(this.value, this.cursors[0].index, length);
 
         return this;
 
@@ -336,17 +395,6 @@ export class YString extends FString {
     filter(...fragments) {
 
         this.value = stringFilter(this.value, ...fragments);
-
-        return this;
-
-    };
-    /**
-     * Метод для повторения указанного фрагмента строки.
-     * @param {number} count
-    */
-    repeat(count) {
-
-        this.value = this.value.repeat(count);
 
         return this;
 
@@ -414,17 +462,6 @@ export class YString extends FString {
 
     };
     /**
-     * Метод для замены совпадения значения строки.
-     * @param {...[string|RegExp, string]} replaces
-    */
-    replace(...replaces) {
-
-        if (this.value) this.value = stringReplace(this.value, ...replaces);
-
-        return this;
-
-    };
-    /**
      * Метод для перекраски текущей строки.
      * @param {string} color Цвет.
      * @param {boolean} bright Яркость.
@@ -451,24 +488,40 @@ export class YString extends FString {
 
     };
     /**
-     * Метод извлечения соответствия.
-     * - Версия `0.1.1`
-     * @param {...string|RegExp} fragments Фрагмент соотвествия.
+     * Метод извлечения единственного соответствия глубоким поиском.
+     * - Версия `0.2.0`
+     * @param {...string|RegExp} fragments Фрагменты соотвествия.
     */
     extract(...fragments) {
 
-        const results = fragments.map(f => {
+        if (fragments.length) {
 
-            const result = stringFind(this.value, f);
+            const r = stringFind(this.value, ...fragments);
 
-            if (result) this.value = stringFilter(this.value, f);
+            if (r) {
 
-            return result;
+                this.filter(...fragments);
+                return r;
 
-        });
+            }
 
-        if (results.length === 1) return results[0];
-        else return results;
+            return r;
+
+        } else return null;
+
+    };
+    /**
+     * Метод извлечения всех совпадений.
+     * - Версия `0.0.0`
+     * @param {...string|RegExp} fragments Фрагменты соотвествия.
+    */
+    extractAll(...fragments) {
+
+        const r = stringFindAll(this.value, ...fragments);
+
+        if (r.length) this.filter(...fragments);
+
+        return r;
 
     };
     /**
@@ -476,7 +529,7 @@ export class YString extends FString {
      * - Версия `0.0.0`
      * @param {number} size Область влияния курсоров.
     */
-    setCursorSize(size = 0) {
+    changeCursorSize(size = 0) {
 
         this.cursors.forEach(c => c.size = size);
 
@@ -488,7 +541,7 @@ export class YString extends FString {
      * - Версия `0.0.0`
      * @param {number} position Место установки для курсора.
     */
-    setCursorPositionTo(position) {
+    changeCursorPositionTo(position) {
 
         this.removeCursor().cursors[0].move(position - this.cursors[0].index);
 
@@ -525,7 +578,7 @@ export class YString extends FString {
      * @param {number} size
      * @param {number} index
     */
-    addCursor(index, size) {
+    appendCursor(index, size) {
 
         const c = new YCursor({ size, index, list: this, })
 
@@ -551,13 +604,14 @@ export class YString extends FString {
     };
     /**
      * Метод для добавления нового шаблона в перечень всех шаблонов.
-     * - Версия `0.0.0`
+     * - Версия `0.1.0`
      * @param {string} label Метка.
      * @param {string|YString|YTemplate} value Шаблон.
+     * @param {...[string, string|number|function():string|number]} inserts Вставки.
     */
-    addTemplate(label, value) {
+    appendTemplate(label, value, ...inserts) {
 
-        this.templates.push(new YTemplate(label, value));
+        if (label && value) this.templates.push(new YTemplate(label, value, ...inserts));
 
         return this;
 
@@ -594,31 +648,13 @@ export class YString extends FString {
      * Подробнее о вставках можно прочитать в классе шаблонов.
      * - Версия `0.2.0`
      * @param {string} label Метка.
-     * @param {string} value Значение.
      * @param {...[string, string|number|function():string|number]} inserts Вставки.
     */
-    pasteTemplate(label, value, ...inserts) {
+    pasteTemplate(label, ...inserts) {
 
-        let v;
         let yt = this.templates.find(t => t.label === label);
 
-        if (yt) {
-
-            v = yt.get(value, ...inserts);
-
-        } else {
-
-            yt = new YTemplate(label, value, ...inserts);
-
-            this.templates.push(yt);
-
-            v = yt.get();
-
-        };
-
-        this.value += v;
-
-        this.cursors[0].move(v.length);
+        if (yt) this.paste(yt.get(yt.value, ...inserts));
 
         return this;
 
@@ -731,12 +767,14 @@ export class YString extends FString {
 
     };
     /**
-     * Метод очистки префикса и постфикса.
-     * - Версия `0.0.0`
+     * Метод замены префикса и постфикса.
+     * - Версия `0.1.0`
+     * @param {string} prefix Префикс.
+     * @param {string} postfix Постфикс.
     */
-    clearPrePostfix() {
+    changePrePostfix(prefix, postfix) {
 
-        this.changePrefix().changePostfix();
+        this.changePrefix(prefix).changePostfix(postfix);
 
         return this;
 

@@ -1,7 +1,7 @@
-//#region split 0.0.0
-
-import { arrayAppend } from "../array/array.mjs";
 import { config } from "../config.mjs";
+import { arrayAppend } from "../array/array.mjs";
+
+//#region split 0.0.0
 
 /**
  * @typedef TBsplit

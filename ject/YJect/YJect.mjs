@@ -67,8 +67,18 @@ class IJect extends DJect {
                     `Видимость: ${this.log.vis}`,
 
                 )
-                .pasteTemplate('l')
-                .paste(...this.log.getVisiable())
+                .exec((y) => {
+
+                    const v = this.log.getVisiable();
+
+                    if (v.length) y
+
+                        .changePrePostfix()
+                        .pasteTemplate('l')
+                        .changePostfix(';\n')
+                        .paste(...this.log.getVisiable());
+
+                })
                 .get()
 
         }, 'l', 'Журнал');

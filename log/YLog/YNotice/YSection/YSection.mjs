@@ -1,7 +1,7 @@
 import { arrayAppend, arrayRemoveByElement } from "../../../../array/array.mjs";
 import { configLog } from "../../../../config.mjs";
 import { jectFill } from "../../../../ject/ject.mjs";
-import { stringCastToDate, stringCastToSample, stringReplace } from "../../../../string/string.mjs";
+import { stringCastToDate, stringCastToSample, stringReplace, stringReplaceAllMore } from "../../../../string/string.mjs";
 import { YNotice } from "../YNotice.mjs";
 
 /**
@@ -158,12 +158,12 @@ export class YSection extends FSection {
     */
     get() {
 
-        return this.list.map(n => stringReplace(
+        return this.list.map(n => stringReplaceAllMore(
 
             configLog.templates.section,
-            ['t', stringCastToDate(n.date)],
-            ['d', stringCastToSample(n.data)],
-            ['s', this.symbol ?? this.label]
+            [stringCastToDate(n.date), 't'],
+            [stringCastToSample(n.data), 'd'],
+            [this.symbol ?? this.label, 's']
 
         ));
 
@@ -219,12 +219,12 @@ export class YSection extends FSection {
 
             if (notice.constructor === Number) notice = this.list?.[notice];
 
-            return stringReplace(
+            return stringReplaceAllMore(
 
                 configLog.templates.section,
-                ['t', stringCastToDate(notice.date)],
-                ['d', stringCastToSample(notice.data)],
-                ['s', this.symbol ?? this.label]
+                [stringCastToDate(notice.date), 't'],
+                [stringCastToSample(notice.data), 'd'],
+                [this.symbol ?? this.label, 's']
 
             );
 

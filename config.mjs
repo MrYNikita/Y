@@ -300,9 +300,15 @@ export const configString = {
 
 
     },
+    /**
+     * Шаблоны по умолчанию.
+     * Указанные здесь, они будут созданы для каждой строки.
+     * @type {Array<[string, string, Array<[string, string, string]>]>}
+    */
     templates: [
 
         ['l', '---\n'],
+        ['pr', '<p>: <v>'],
         ['lh', '--- <h>\n', ['h', '']],
         ['bd', configRept.determinant],
 

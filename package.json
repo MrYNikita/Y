@@ -22,7 +22,8 @@
         ".source/",
         "README.md",
         "config.mjs",
-        "LICENSE.md"
+        "LICENSE.md",
+        ".extansion/"
 
     ],
     "author": "Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>",
