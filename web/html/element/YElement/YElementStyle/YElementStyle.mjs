@@ -111,20 +111,11 @@ class FElementStyle extends DElementStyle {
     /** @param {TElementStyle} t @this {YElementStyle} */
     static #handle(t) {
 
-        let {
-
-
-
-        } = t;
-
         t.type = 'style';
         t.overTypes = ['head'];
 
-        t = {
-
-            ...t,
-
-        };
+        if (t.classes) t.classes.push('style');
+        else t.classes = ['style'];
 
     };
     /** @param {TElementStyle} t @this {YElementStyle} */
@@ -214,7 +205,6 @@ export class YElementStyle extends FElementStyle {
     remove(...ys) {
 
         ys.forEach(s => {
-
 
             if (s.constructor === String) {};
 

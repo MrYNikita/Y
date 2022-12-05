@@ -2,6 +2,7 @@ import { arrayRemoveByElement, arrayRemoveByIndex } from "../../../array/array.m
 import { configRept } from "../../../config.mjs";
 import { YString } from "../../../string/YString/YString.mjs";
 import { jectFill } from "../../ject.mjs";
+import { YBasic } from "../../YBasic/YBasic.mjs";
 import { YReptBlock } from "./YReptBlock/YReptBlock.mjs";
 
 /**
@@ -10,7 +11,7 @@ import { YReptBlock } from "./YReptBlock/YReptBlock.mjs";
  * @typedef {DRept&TBRept} TRept
 */
 
-class SRept {
+class SRept extends YBasic {
 
 
 
@@ -32,7 +33,12 @@ class IRept extends DRept {
     blocks = [];
 
 };
-class FRept extends IRept {
+class MRept extends IRept {
+
+
+
+};
+class FRept extends MRept {
 
     /**
      * Контсруктор класса `YRept`
@@ -130,24 +136,20 @@ class FRept extends IRept {
     };
 
 };
-class MRept extends FRept {
-
-
-
-};
 
 /**
- * Класс `YRept`.
+ * Класс `YRept`
  *
  * `YRept` (отчет) представлен объектом, содержащим текстовую информацию о привязанном к нему объекте.
  * Привязанный к нему объект может осуществлять информирование о своём состоянии.
  * Для этого привязанный объект должен взаимодействовать с отчетом через его методы.
  *
- * - Тип `SDIFMY-1.0`
+ * - Тип `SDIMFY`
  * - Версия `0.0.0`
  * - Цепочка `BDVHC`
+ * - Пространство `ject`
 */
-export class YRept extends MRept {
+export class YRept extends FRept {
 
     /**
      * Метод добавления блока в отчет.

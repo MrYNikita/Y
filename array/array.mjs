@@ -100,7 +100,6 @@ function mixComply(t) {
  * - Цепочка `DVHCa`
  * @param {[any]} array Исходный массив.
  * @param {number} degree Степень перемешивания.
- * @returns {[any]}
 */
 export function arrayMix(array, degree = 1) {
 

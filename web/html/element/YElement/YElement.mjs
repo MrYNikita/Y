@@ -45,7 +45,17 @@ class IElement extends DElement {
 };
 class MElement extends IElement {
 
+    /**
+     * Метод добавления id элемента в таблицу.
+     * - Версия `0.0.0`
+     * @protected
+     *
+    */
+    appendIdIntoTable() {
 
+        const s = document.querySelector('.styleGlobal');
+
+    };
 
 };
 class FElement extends MElement {

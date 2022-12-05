@@ -6,6 +6,9 @@ import { YClient } from "../../../../web/client/YClient/YClient.mjs";
 import { elementREString } from "../../../../web/html/element/element.mjs";
 import { YElement } from "../../../../web/html/element/YElement/YElement.mjs";
 import { YElementStyle } from "../../../../web/html/element/YElement/YElementStyle/YElementStyle.mjs";
+import { styleApplyY } from "../../../../web/html/style/style.mjs";
+
+// styleApplyY();
 
 const styleLocal = new YElementStyle({ id: 'local' });
 const styleGlobal = new YElementStyle({ id: 'global' });
@@ -161,10 +164,3 @@ new YElement(new YString()
 );
 
 const client = new YClient();
-
-setInterval(_ => {
-
-    console.clear();
-    client.report();
-
-}, 500);

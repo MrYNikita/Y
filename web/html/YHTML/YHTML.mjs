@@ -4,6 +4,7 @@ import { configHtml, configWeb } from "../../../config.mjs";
 import { YElementStyle } from "../element/YElement/YElementStyle/YElementStyle.mjs";
 import { fileRead, fileReadJson, fileReadText } from "../../../os/file/file.mjs";
 import { pathGet } from "../../../os/path/path.mjs";
+import { YJect } from "../../../ject/YJect/YJect.mjs";
 
 /**
  * @typedef TBHTML
@@ -11,7 +12,7 @@ import { pathGet } from "../../../os/path/path.mjs";
  * @typedef {DHTML&TBHTML} THTML
 */
 
-class SHTML {
+class SHTML extends YJect {
 
 
 
@@ -44,20 +45,30 @@ class DHTML extends SHTML {
      * Функция инициализации.
      * @type {() => {}}
     */
-    initialization = () => {};
+    initialization = () => { };
 
 };
-class FHTML extends DHTML {
+class IHTML extends DHTML {
+
+
+
+};
+class MHTML extends IHTML {
+
+
+
+};
+class FHTML extends MHTML {
 
     /**
-     *
+     * Контсруктор класса `YHTML`
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
      *  @param {THTML} t
     */
     constructor(t = {}) {
 
-        t = FHTML.#before(arguments);
+        t = FHTML.#before(Object.values(arguments));
 
         FHTML.#deceit(t);
 
@@ -67,7 +78,7 @@ class FHTML extends DHTML {
 
     };
 
-    /** @param {THTML} t */
+    /** @param {Array<any>} t */
     static #before(t) {
 
         if (t?.length === 1 && t[0]?.constructor === Object) {
@@ -76,9 +87,16 @@ class FHTML extends DHTML {
 
         } else if (t?.length) {
 
+            /** @type {THTML&DHTML} */
             const r = {};
 
+            switch (t.length) {
 
+                case 3:
+                case 2:
+                case 1:
+
+            };
 
             return r;
 
@@ -114,17 +132,7 @@ class FHTML extends DHTML {
     /** @param {THTML} t @this {YHTML} */
     static #handle(t) {
 
-        let {
 
-
-
-        } = t;
-
-        t = {
-
-            ...t,
-
-        };
 
     };
     /** @param {THTML} t @this {YHTML} */
@@ -138,6 +146,8 @@ class FHTML extends DHTML {
 
         jectFill(this, t);
 
+
+
     };
 
 };
@@ -147,9 +157,10 @@ class FHTML extends DHTML {
  *
  * Данный класс предназначен для создания `html` документа.
  * Экземпляры данного класа позволяют дополнять заголовки в `head` и `body`.
- * - Тип `SDFY-2.0`
- * - Версия `0.0.0`
+ * - Тип `SDIMFY`
+ * - Версия `0.1.0`
  * - Цепочка `BDVHC`
+ * - Пространство `web`
 */
 export class YHTML extends FHTML {
 

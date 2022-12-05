@@ -2,7 +2,7 @@ import { configString } from "../../config.mjs";
 import { jectFill } from "../../ject/ject.mjs";
 import { YBasic } from "../../ject/YBasic/YBasic.mjs";
 import { YCursor } from "../../ject/YCursor/YCursor.mjs";
-import { stringAppend, stringBring, stringCastToJect, stringCastToSample, stringCastToYReport, stringFilter, stringFind, stringFindAll, stringFindToJect, stringHandle, stringPad, stringPaste, stringReflect, stringRemove, stringRepaint, stringReplace, stringReplaceAllMore, stringReplaceMore, stringReverse } from "../string.mjs";
+import { stringAppend, stringBring, stringCastToJect, stringCastToSample, stringCastToYReport, stringFilter, stringFind, stringFindAll, stringFindToJect, stringGetColor, stringHandle, stringPad, stringPaste, stringReflect, stringRemove, stringRepaint, stringReplace, stringReplaceAllMore, stringReplaceMore, stringReverse } from "../string.mjs";
 import { YTemplate } from "./YTemplate/YTemplate.mjs";
 
 /**
@@ -196,18 +196,9 @@ export class YString extends FString {
 
         if (style) {
 
-            if (this.colorF) {
 
-                r = stringReplace(r, [/\x1b\[39m/g, this.colorF]);
-                r = `${this.colorF}${r}` + '\x1b[39m';
-
-            };
-            if (this.colorB) {
-
-                r = stringReplace(r, [/\x1b\[49m/g, this.colorB]);
-                r = `${this.colorB}${r}` + '\x1b[49m'
-
-            };
+            if (this.colorF) r = `${this.colorF}${r}` + '\x1b[39m';
+            if (this.colorB) r = `${this.colorB}${r}` + '\x1b[49m';
 
         };
 
@@ -441,20 +432,7 @@ export class YString extends FString {
     */
     display() {
 
-        let r = this.get();
-
-        if (this.colorF) {
-
-            r = stringReplace(r, [/\x1b\[39m/g, this.colorF]);
-            r = `${this.colorF}${r}` + '\x1b[39m';
-
-        };
-        if (this.colorB) {
-
-            r = stringReplace(r, [/\x1b\[49m/g, this.colorB]);
-            r = `${this.colorB}${r}` + '\x1b[49m'
-
-        };
+        let r = this.get(true);
 
         console.log(r);
 
@@ -469,7 +447,7 @@ export class YString extends FString {
     */
     repaint(color, bright, background) {
 
-        const c = stringRepaint(this.value, color, bright, background).match(/\x1b\[.*?m/)[0];
+        const c = stringGetColor(color, bright, background);
 
         if (background) this.colorB = c;
         else this.colorF = c;
