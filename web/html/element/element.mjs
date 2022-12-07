@@ -9,48 +9,55 @@ import { YString } from "../../../string/YString/YString.mjs";
  * - Версия `0.0.4`
  * @type {RegExp}
 */
-export const elementREString = /(?<f>((^| )(([!#]\w+)|(.|\^[.!#])(\w+ ?)+\]|:.*?:|\w+=?([^ ]*)?|<.*>) ?)+\/)/gs;
+export const elementREString = /(((^| )(([!#]\w+)|(.|\^[.!#])(\w+ ?)+\]|:.*?:|\w+=?([^ ]*)?|<.*>)( |\n\r?)*)+\/)/ms;
 /**
  * Регулярное выражение для поиска и проверки классов в строке создания элементов.
+ * - Версия `0.0.1`
  * @type {RegExp}
 */
-export const elementREId = /(?:^| )#(?<f>\w+)/;
+export const elementREId = /(?:^| )#(?<f>\w+)/ms;
 /**
  * Регулярное выражение для поиска и проверки классов в строке создания элементов.
+ * - Версия `0.0.1`
  * @type {RegExp}
 */
-export const elementREType =/(?:^| )!(?<f>\w+)/;
+export const elementREType = /(?:^| )!(?<f>\w+)/ms;
 /**
  * Регулярное выражение для поиска и проверки классов в строке создания элементов.
+ * - Версия `0.0.1`
  * @type {RegExp}
 */
 export const elementREText = /(?:^| ):(?<f>.+?):/ms;
 /**
  * Регулярное выражение для поиска и проверки классов в строке создания элементов.
+ * - Версия `0.0.1`
  * @type {RegExp}
 */
-export const elementREClasses = /(?:^| )\.(?<f>(\w+ ?)+)+\]/;
+export const elementREClasses = /(?:^| )\.((\w+) ?)+\]/ms;
 /**
  * Регулярное выражение для поиска и проверки над ID в строке создания элементов.
+ * - Версия `0.0.1`
  * @type {RegExp}
 */
-export const elementREOverId = /(?:^| )\^\#(?<f>(\w+ ?)+)+\]/;
+export const elementREOverId = /(?:^| )\^\#(?<f>(\w+ ?)+)+\]/ms;
 /**
  * Регулярное выражение для поиска и проверки над типов в строке создания элементов.
+ * - Версия `0.0.1`
  * @type {RegExp}
 */
-export const elementREOverTypes = /(?:^| )\^\!(?<f>(\w+ ?)+)+\]/;
-/**
- * Регулярное выражение для поиска и проверки над классов в строке создания элементов.
- * @type {RegExp}
-*/
-export const elementREOverClasses = /(?:^| )\^\.(?<f>(\w+ ?)+)+\]/;
+export const elementREOverTypes = /(?:^| )\^\!(?<f>(\w+ ?)+)+\]/ms;
 /**
  * Регулярное выражение для поиска и проверки над классов в строке создания элементов.
  * - Версия `0.0.1`
  * @type {RegExp}
 */
-export const elementREProperty = /(?:^| )(\w+=\d+(\.\d+)?([%]|px|([pe]|re)m|)?|\w+(=\w+)?)/gm;
+export const elementREOverClasses = /(?:^| )\^\.(?<f>(\w+ ?)+)+\]/ms;
+/**
+ * Регулярное выражение для поиска и проверки над классов в строке создания элементов.
+ * - Версия `0.0.2`
+ * @type {RegExp}
+*/
+export const elementREProperty = /(?:^| )\w+(=(\d|\w)+)?/ms;
 
 /**
  * @typedef TElements
@@ -149,13 +156,12 @@ export function elementMove(over, ...elements) {
  * @prop {{}} property
  * @prop {string} id
  * @prop {string} type
- * @prop {string} text
  * @prop {string} string
- * @prop {[string]} childs
- * @prop {[string]} overId
- * @prop {[string]} classes
- * @prop {[string]} overTypes
- * @prop {[string]} overClasses
+ * @prop {Array<string>} attachments
+ * @prop {Array<string>} overId
+ * @prop {Array<string>} classes
+ * @prop {Array<string>} overTypes
+ * @prop {Array<string>} overClasses
  * @typedef {TBcreate} Tcreate
 */
 
@@ -196,7 +202,7 @@ function createHandle(t) {
 
     } = t;
 
-    if (t.string) t = { ...elementStringDecompose(t.string), ...t, };
+    if (t.string) t = { ...elementDecomposeString(t.string)[0], ...t, };
     if (!t.overId) t.overId = [];
     if (!t.overClasses) t.overClasses = [];
 
@@ -209,7 +215,7 @@ function createHandle(t) {
     return createComply(t);
 
 };
-/** @param {Tcreate} t @return {HTMLElement|[HTMLElement]} */
+/** @param {Tcreate} t @return {HTMLElement|Array<HTMLElement>} */
 function createComply(t) {
 
     const {
@@ -217,7 +223,7 @@ function createComply(t) {
         id,
         type,
         text,
-        childs,
+        attachments,
         overId,
         classes,
         property,
@@ -230,7 +236,7 @@ function createComply(t) {
 
     if (id?.[0]) e.id = id;
     if (text?.[0]) e.textContent = text;
-    if (childs) e.append(...childs.map(e => elementCreateByString(e)));
+    if (attachments) e.append(...attachments.map(e => elementCreateByString(e)));
     if (classes) classes.forEach(s => e.classList.add(s));
     if (property) jectChangeDeep(e, property);
 
@@ -267,21 +273,20 @@ function createComply(t) {
 
 /**
  * Функция для создания html элемента.
- * - Версия `0.0.0`
+ * - Версия `0.1.0`
  * - Цепочка `DVHCa`
  * @param {{}} property Свойства.
  * @param {string} id ID.
- * @param {string} text Текст.
  * @param {string} type Тип.
- * @param {[string]} childs Вложенные элементы.
- * @param {[string]} classes Классы.
- * @param {[string]} overId Над элементы.
- * @param {[string]} overTypes Над классы.
- * @param {[string]} OverClasses Над типы.
+ * @param {Array<string>} attachments Вложенные элементы.
+ * @param {Array<string>} classes Классы.
+ * @param {Array<string>} overId Над элементы.
+ * @param {Array<string>} overTypes Над классы.
+ * @param {Array<string>} OverClasses Над типы.
 */
-export function elementCreate(type = configHtml.element.create.defaultType, id, classes, overId, overTypes, overClasses, childs, text, property) {
+export function elementCreate(type = configHtml.element.create.defaultType, id, classes, overId, overTypes, overClasses, attachments, property) {
 
-    return createDeceit({ id, type, classes, overId, overTypes, overClasses, childs, text, property });
+    return createDeceit({ id, type, classes, overId, overTypes, overClasses, attachments, property });
 
 };
 /**
@@ -386,20 +391,20 @@ export function elementRemove(...elements) {
 };
 
 //#endregion
-//#region stringDecompose 0.0.0
+//#region decomposeString 0.1.0
 
 /**
- * @typedef TBstringDecompose
+ * @typedef TBdecomposeString
  * @prop {string} string
- * @typedef {TBstringDecompose} TstringDecompose
+ * @typedef {TBdecomposeString} TdecomposeString
 */
 
-/** @param {TstringDecompose} t */
-function stringDecomposeDeceit(t) {
+/** @param {TdecomposeString} t */
+function decomposeStringDeceit(t) {
 
     try {
 
-        return stringDecomposeVerify(t);
+        return decomposeStringVerify(t);
 
     } catch (e) {
 
@@ -410,78 +415,82 @@ function stringDecomposeDeceit(t) {
     };
 
 };
-/** @param {TstringDecompose} t */
-function stringDecomposeVerify(t) {
+/** @param {TdecomposeString} t */
+function decomposeStringVerify(t) {
+
+
+
+    return decomposeStringHandle(t);
+
+};
+/** @param {TdecomposeString} t */
+function decomposeStringHandle(t) {
+
+    t.string = t.string.trim();
+
+    return decomposeStringComply(t);
+
+};
+/** @param {TdecomposeString} t */
+function decomposeStringComply(t) {
 
     const {
 
-
-
-    } = t;
-
-    return stringDecomposeHandle(t);
-
-};
-/** @param {TstringDecompose} t */
-function stringDecomposeHandle(t) {
-
-    let {
-
-
+        string
 
     } = t;
 
+    /** @type {Array<TE>} */
+    const results = [''];
 
+    /** @type {number} */
+    let cc = 0;
 
-    t = {
+    for (const c of string) {
 
-        ...t,
+        if (c === '<') cc++;
+        else if (c === '>') cc--;
+
+        if (!cc && c === '/') results[results.length] = '';
+        else results[results.length - 1] += c;
 
     };
 
-    return stringDecomposeComply(t);
+    return results.filter(r => r).map(r => {
 
-};
-/** @param {TstringDecompose} t */
-function stringDecomposeComply(t) {
+        const ystr = new YString(r);
 
-    const {
+        r = {
 
-        string,
+            attachments: stringFindAll(ystr.extract(/<(?<f>.*)>/ms), elementREString),
+            id: ystr.extract(elementREId),
+            type: ystr.extract(elementREType),
+            overId: ystr.extractAll(elementREOverId),
+            overTypes: ystr.extractAll(elementREOverTypes),
+            overClasses: ystr.extractAll(elementREOverClasses),
+            classes: stringFindAll(ystr.get(), /\..*?\]/ms, /\w+/),
+            property: ystr.extractAll(elementREProperty),
 
-    } = t;
+        };
 
-    const ystr = new YString(string.match(elementREString)?.[0] ?? '');
+        if (r.property) r.property = stringCastToJect(stringReplaceAll(r.property?.map(p => p.trim())?.join('\n'), ':', /=/));
 
-    const r = {
+        return r;
 
-        childs: stringFindAll(ystr.extract(/<(?<f>.+)>/ms), elementREString) ?? [],
-        text: ystr.extract(elementREText) ?? '',
-        classes: ystr.extract(elementREClasses)?.split(' ') ?? [],
-        overClasses: ystr.extract(elementREOverClasses)?.split(' ') ?? [],
-        overTypes: ystr.extract(elementREOverTypes)?.split(' ') ?? [],
-        overId: ystr.extract(elementREOverId)?.split(' ') ?? [],
-        id: ystr.extract(elementREId),
-        type: ystr.extract(elementREType),
-        property: ystr.extractAll(elementREProperty),
-
-    };
-
-    if (r.property) r.property = stringCastToJect(stringReplaceAll(r.property?.map(p => p.trim())?.join('\n'), ':', /=/));
-
-    return r;
+    });
 
 };
 
 /**
- * Функция для разбиения строки создания элементов на части.
+ * Функция для распознования `YElement` и `YStructure` строк.
+ * Находит `id`, `тип`, `классы`, `вложенные элементы`, `параметры`, `внутренний текст` для указанного элемента.
+ * @param {string} string Исходная строка.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {string} string
 */
-export function elementStringDecompose(string) {
+export function elementDecomposeString(string) {
 
-    return stringDecomposeDeceit({ string });
+    return decomposeStringDeceit({ string });
 
 };
 

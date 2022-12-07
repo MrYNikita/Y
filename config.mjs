@@ -1,3 +1,5 @@
+import { YSection } from "./log/YLog/YNotice/YSection/YSection.mjs";
+
 export const config = {
 
     /**

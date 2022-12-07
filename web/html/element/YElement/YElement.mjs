@@ -2,7 +2,7 @@ import { jectFill, jectSupplement } from "../../../../ject/ject.mjs";
 import { YBasic } from "../../../../ject/YBasic/YBasic.mjs";
 import { YJect } from "../../../../ject/YJect/YJect.mjs";
 import { YEvent } from "../../../event/YEvent/YEvent.mjs";
-import { elementCreate, elementCreateByString, elementStringDecompose } from "../element.mjs";
+import { elementCreate, elementDecomposeString } from "../element.mjs";
 
 /**
  * @typedef TBElement
@@ -11,7 +11,7 @@ import { elementCreate, elementCreateByString, elementStringDecompose } from "..
  * @prop {string} type
  * @prop {string} text
  * @prop {string} string
- * @prop {Array<string>} childs
+ * @prop {Array<string>} attachments
  * @prop {Array<string>} classes
  * @prop {Array<string>} overId
  * @prop {Array<string>} overTypes
@@ -94,7 +94,12 @@ class FElement extends MElement {
 
                 case 3:
                 case 2:
-                case 1: r.string = t[0];
+                case 1: {
+
+                    if (t[0].constructor === String) r.string = t[0];
+                    else if (t[0] instanceof HTMLElement) r.element = t[0];
+
+                };
 
             };
 
@@ -132,7 +137,7 @@ class FElement extends MElement {
     /** @param {TElement} t @this {YElement} */
     static #handle(t) {
 
-        if (t.string) jectSupplement(t, elementStringDecompose(t.string));
+        if (t.string) jectSupplement(t, elementDecomposeString(t.string)[0]);
 
     };
     /** @param {TElement} t @this {YElement} */
@@ -154,8 +159,7 @@ class FElement extends MElement {
             t.overId,
             t.overTypes,
             t.overClasses,
-            t.childs,
-            t.text,
+            t.attachments,
             t.property,
 
         );

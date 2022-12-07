@@ -207,6 +207,25 @@ export class YString extends FString {
     };
 
     /**
+     * Метод для поиска вложенных подстрок в строке.
+     * - Версия `0.2.1`
+     * @param {...string|RegExp} fragments
+    */
+    find(...fragments) {
+
+        if (fragments.length) {
+
+            this.value = stringFind(this.value, ...fragments) ?? '';
+
+            this.changeCursorPositionTo(this.value.length);
+
+        };
+
+        return this;
+
+    };
+
+    /**
      * Метод для выполнения функции в контексте указанной строки.
      * В качестве значения необходимо передать функцию с указанным первым аргументом.
      * Данный аргумент предоставит доступ к строке.
@@ -267,24 +286,6 @@ export class YString extends FString {
     pad(string, count, index = this.value.length) {
 
         this.value = stringPad(this.value, string, count, index);
-
-        return this;
-
-    };
-    /**
-     * Метод для поиска вложенных подстрок в строке.
-     * - Версия `0.2.1`
-     * @param {...string|RegExp} fragments
-    */
-    find(...fragments) {
-
-        if (fragments.length) {
-
-            this.value = stringFind(this.value, ...fragments) ?? '';
-
-            this.changeCursorPositionTo(this.value.length);
-
-        };
 
         return this;
 
@@ -490,7 +491,7 @@ export class YString extends FString {
     };
     /**
      * Метод извлечения всех совпадений.
-     * - Версия `0.0.0`
+     * - Версия `0.0.1`
      * @param {...string|RegExp} fragments Фрагменты соотвествия.
     */
     extractAll(...fragments) {

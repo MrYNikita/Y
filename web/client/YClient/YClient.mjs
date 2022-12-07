@@ -79,16 +79,12 @@ class MClient extends IClient {
             this.key.ctrl = ev.ctrlKey;
             this.key.shift = ev.shiftKey;
 
-            this.record('*', `Прослушено нажатие клавиши`);
-
         });
         /** @param {MouseEvent} em */
         addEventListener('mousemove', (em) => {
 
             this.cursor.x = em.clientX;
             this.cursor.y = em.clientY;
-
-            this.record('*', `Произошло смещение курсора на координаты ${this.cursor.x}:${this.cursor.y}`);
 
         });
 

@@ -1,23 +1,12 @@
-import { numberGetRandomFrac } from "../../../../number/number.mjs";
-import { YRegExp } from "../../../../regexp/YRegExp/YRegExp.mjs";
-import { stringCastToDate, stringFind, stringFindAll, stringPaste, stringRemove, stringReplace, stringReplaceAll } from "../../../../string/string.mjs";
-import { YString } from "../../../../string/YString/YString.mjs";
-import { YClient } from "../../../../web/client/YClient/YClient.mjs";
-import { elementREString } from "../../../../web/html/element/element.mjs";
-import { YElement } from "../../../../web/html/element/YElement/YElement.mjs";
-import { YElementStyle } from "../../../../web/html/element/YElement/YElementStyle/YElementStyle.mjs";
-import { styleApplyY } from "../../../../web/html/style/style.mjs";
+import { YString } from "../../../string/YString/YString.mjs";
+import { YElement } from "../../../web/html/element/YElement/YElement.mjs";
+import { YElementStyle } from "../../../web/html/element/YElement/YElementStyle/YElementStyle.mjs";
 
-// styleApplyY();
-
-const styleLocal = new YElementStyle({ id: 'local' });
-const styleGlobal = new YElementStyle({ id: 'global' });
-const stylePrivate = new YElementStyle({ id: 'private' });
-
-styleGlobal.append(
+const styleGlobal = new YElementStyle().append(
 
     ['*', {
 
+        color: '#fff',
         width: 'inherit',
         border: 'none',
         height: 'inherit',
@@ -36,6 +25,12 @@ styleGlobal.append(
         position: 'absolute',
 
     }],
+    ['html', {
+
+        width: '24rem',
+        height: '36rem',
+
+    }],
 
     ['.size_over', {
 
@@ -51,14 +46,16 @@ styleGlobal.append(
     }],
     ['#window', {
 
-        left: '10px',
-        top: '10px',
-        width: '550px',
-        height: '280px',
+        width: '98%',
+        height: '98%',
 
     }],
     ['#layout', {
 
+        top: `-55%`,
+        left: `50%`,
+        width: '98%',
+        height: '85%',
         gridTemplateAreas: new YString()
 
             .changePrefix(`'`)
@@ -77,6 +74,18 @@ styleGlobal.append(
             .get()
 
     }],
+    ['#header', {
+
+        width: '5rem',
+        height: '2rem',
+        zIndex: 1,
+        position: 'absolute',
+        textAlign: 'center',
+        borderRadius: '5px',
+        backgroundColor: '#12293f',
+
+
+    }],
     ['#backdrop', {
 
 
@@ -84,6 +93,9 @@ styleGlobal.append(
     }],
     ['#background', {
 
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
         backgroundImage: 'radial-gradient(at center, #7eb0df, transparent 5%), radial-gradient(at center, #7eb0df, #1d5c96)',
 
     }],
@@ -106,13 +118,10 @@ styleGlobal.append(
     }],
     ['.layout', {
 
-        top: `50%`,
-        left: `50%`,
-        width: '98%',
-        height: '85%',
+
         zIndex: 1,
         display: `grid`,
-        position: 'absolute',
+        position: 'relative',
         boxShadow: 'inset 0px 0px 0.5em #000',
         transform: `translate(-50%, -43%)`,
         borderRadius: `5px`,
@@ -127,7 +136,9 @@ styleGlobal.append(
     }],
     ['.backdrop', {
 
-        position: 'absolute',
+        width: '100%',
+        height: '100%',
+        position: 'relative',
         backgroundColor: `#01315e`,
 
     }],
@@ -146,13 +157,13 @@ new YElement(new YString()
 
         !div #background ^!body] <
             !div #window .window] <
+                !div #header <
+                    !h3 :Заголовок: /
+                > /
                 !div #backdrop .backdrop] /
                 !div #layout .layout] <
                     !div #panel .panel] <
-                        !button #report .button panel_item] :Отчет: type=button /
-                        !button #log .button panel_item] :Журнал: type=button /
-                        !button #test .button panel_item] :Тестирование: type=button /
-                        !button #setting .button panel_item] :Настройки: type=button /
+
                     > /
                 > /
             > /
@@ -162,5 +173,3 @@ new YElement(new YString()
     .get()
 
 );
-
-const client = new YClient();

@@ -1,6 +1,5 @@
 import { arrayRemoveByElement, arrayUnique } from "../../array/array.mjs";
 import { jectFill } from "../../ject/ject.mjs";
-import { YBasic } from "../../ject/YBasic/YBasic.mjs";
 
 /**
  * @typedef TBRegExp
@@ -8,7 +7,7 @@ import { YBasic } from "../../ject/YBasic/YBasic.mjs";
  * @typedef {DRegExp&TBRegExp} TRegExp
 */
 
-class SRegExp extends YBasic {
+class SRegExp {
 
     static flags = 'gimsuy';
 

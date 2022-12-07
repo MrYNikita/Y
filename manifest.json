@@ -4,7 +4,7 @@
     "manifest_version": 3,
     "version": "0.0.0",
     "action": {
-      "default_popup": "./.source/html/index.html"
+        "default_popup": "./YSource/web/html/extension.html"
     },
     "permissions": [
         "tabs",
@@ -14,9 +14,9 @@
     ],
     "background": {
         "type": "module",
-        "service_worker": "./background.mjs"
+        "service_worker": "./YSource/web/mjs/extansionInternal.mjs"
     },
     "content_security_policy": {
-        "extension_pages": "default-src 'self'; script-src 'self' http://127.0.0.1:8000/"
+        "extension_pages": "default-src 'self'; script-src 'self' http://127.0.0.1:8000/; style-src 'self' 'unsafe-inline';"
     }
   }
