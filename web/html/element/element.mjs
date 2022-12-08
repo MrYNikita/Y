@@ -5,12 +5,6 @@ import { stringCastToJect, stringFind, stringFindAll, stringFindToJect, stringRe
 import { YString } from "../../../string/YString/YString.mjs";
 
 /**
- * Регулярное выражение для поиска строк создания элементов.
- * - Версия `0.0.4`
- * @type {RegExp}
-*/
-export const elementREString = /(((^| )(([!#]\w+)|(.|\^[.!#])(\w+ ?)+\]|:.*?:|\w+=?([^ ]*)?|<.*>)( |\n\r?)*)+\/)/ms;
-/**
  * Регулярное выражение для поиска и проверки классов в строке создания элементов.
  * - Версия `0.0.1`
  * @type {RegExp}
@@ -27,7 +21,19 @@ export const elementREType = /(?:^| )!(?<f>\w+)/ms;
  * - Версия `0.0.1`
  * @type {RegExp}
 */
-export const elementREText = /(?:^| ):(?<f>.+?):/ms;
+export const elementREText = /(?:^| ):(?<f>.+?):/msu;
+/**
+ * Регулярное выражение для поиска строк создания элементов.
+ * - Версия `0.0.4`
+ * @type {RegExp}
+*/
+export const elementREString = /(((^| )(([!#]\w+)|(.|\^[.!#])(\w+ ?)+\]|:.*?:|\w+=?([^ ]*)?|<.*>)( |\n\r?)*)+\/)/ms;
+/**
+ * Регулярное выражение для поиска и проверки над ID в строке создания элементов.
+ * - Версия `0.0.1`
+ * @type {RegExp}
+*/
+export const elementREOverId = /(?:^| )\^\#(?<f>(\w+ ?)+)+\]/ms;
 /**
  * Регулярное выражение для поиска и проверки классов в строке создания элементов.
  * - Версия `0.0.1`
@@ -35,11 +41,11 @@ export const elementREText = /(?:^| ):(?<f>.+?):/ms;
 */
 export const elementREClasses = /(?:^| )\.((\w+) ?)+\]/ms;
 /**
- * Регулярное выражение для поиска и проверки над ID в строке создания элементов.
- * - Версия `0.0.1`
+ * Регулярное выражение для поиска и проверки над классов в строке создания элементов.
+ * - Версия `0.0.2`
  * @type {RegExp}
 */
-export const elementREOverId = /(?:^| )\^\#(?<f>(\w+ ?)+)+\]/ms;
+export const elementREProperty = /(?:^| )\w+(=(\d|\w|[а-яА-Я])+)?/ms;
 /**
  * Регулярное выражение для поиска и проверки над типов в строке создания элементов.
  * - Версия `0.0.1`
@@ -52,12 +58,6 @@ export const elementREOverTypes = /(?:^| )\^\!(?<f>(\w+ ?)+)+\]/ms;
  * @type {RegExp}
 */
 export const elementREOverClasses = /(?:^| )\^\.(?<f>(\w+ ?)+)+\]/ms;
-/**
- * Регулярное выражение для поиска и проверки над классов в строке создания элементов.
- * - Версия `0.0.2`
- * @type {RegExp}
-*/
-export const elementREProperty = /(?:^| )\w+(=(\d|\w)+)?/ms;
 
 /**
  * @typedef TElements
@@ -149,159 +149,6 @@ export function elementMove(over, ...elements) {
 
 };
 //#endregion
-//#region create 0.0.0
-
-/**
- * @typedef TBcreate
- * @prop {{}} property
- * @prop {string} id
- * @prop {string} type
- * @prop {string} string
- * @prop {Array<string>} attachments
- * @prop {Array<string>} overId
- * @prop {Array<string>} classes
- * @prop {Array<string>} overTypes
- * @prop {Array<string>} overClasses
- * @typedef {TBcreate} Tcreate
-*/
-
-/** @param {Tcreate} t */
-function createDeceit(t) {
-
-    try {
-
-        return createVerify(t);
-
-    } catch (e) {
-
-        if (config.strict) throw e;
-
-        return undefined;
-
-    };
-
-};
-/** @param {Tcreate} t */
-function createVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return createHandle(t);
-
-};
-/** @param {Tcreate} t */
-function createHandle(t) {
-
-    let {
-
-        string,
-
-    } = t;
-
-    if (t.string) t = { ...elementDecomposeString(t.string)[0], ...t, };
-    if (!t.overId) t.overId = [];
-    if (!t.overClasses) t.overClasses = [];
-
-    t = {
-
-        ...t,
-
-    };
-
-    return createComply(t);
-
-};
-/** @param {Tcreate} t @return {HTMLElement|Array<HTMLElement>} */
-function createComply(t) {
-
-    const {
-
-        id,
-        type,
-        text,
-        attachments,
-        overId,
-        classes,
-        property,
-        overTypes,
-        overClasses,
-
-    } = t;
-
-    const e = document.createElement(type);
-
-    if (id?.[0]) e.id = id;
-    if (text?.[0]) e.textContent = text;
-    if (attachments) e.append(...attachments.map(e => elementCreateByString(e)));
-    if (classes) classes.forEach(s => e.classList.add(s));
-    if (property) jectChangeDeep(e, property);
-
-    if (overId?.length || overTypes?.length || overClasses?.length) {
-
-        const ss = [
-
-            ...overId?.filter(s => s)?.map(s => document.querySelector(`#${s}`)),
-            ...overTypes?.filter(s => s)?.map(s => Array.from(document.querySelectorAll(s)))?.flat() ?? [],
-            ...overClasses?.filter(s => s)?.map(s => Array.from(document.querySelectorAll(`.${s}`)))?.flat() ?? []
-
-        ];
-
-        if (ss.length === 1) {
-
-            ss[0].append(e);
-
-            return e;
-
-        } else return ss.map((oe, i, a) => {
-
-            const en = e.cloneNode(true);
-
-            en.id += i;
-
-            oe.append(en);
-
-        });
-
-    } else return e;
-
-
-};
-
-/**
- * Функция для создания html элемента.
- * - Версия `0.1.0`
- * - Цепочка `DVHCa`
- * @param {{}} property Свойства.
- * @param {string} id ID.
- * @param {string} type Тип.
- * @param {Array<string>} attachments Вложенные элементы.
- * @param {Array<string>} classes Классы.
- * @param {Array<string>} overId Над элементы.
- * @param {Array<string>} overTypes Над классы.
- * @param {Array<string>} OverClasses Над типы.
-*/
-export function elementCreate(type = configHtml.element.create.defaultType, id, classes, overId, overTypes, overClasses, attachments, property) {
-
-    return createDeceit({ id, type, classes, overId, overTypes, overClasses, attachments, property });
-
-};
-/**
- * Функция создания элемента с помощью строки.
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * @param {string} string
-*/
-export function elementCreateByString(string) {
-
-    return createDeceit({ string });
-
-};
-
-//#endregion
 //#region remove 0.0.0
 
 /**
@@ -391,6 +238,316 @@ export function elementRemove(...elements) {
 };
 
 //#endregion
+
+//#region create 0.1.0
+
+/**
+ * @typedef TBcreate
+ * @prop {string} id
+ * @prop {string} type
+ * @prop {string} string
+ * @prop {string[]} attachments
+ * @prop {string[]} classes
+ * @prop {string[]} selectors
+ * @prop {CSSStyleDeclaration&import("./YElement/YElement.mjs").TElementProperty} property
+ * @typedef {TBcreate} Tcreate
+*/
+
+/** @param {Tcreate} t */
+function createDeceit(t) {
+
+    try {
+
+        return createVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @param {Tcreate} t */
+function createVerify(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return createHandle(t);
+
+};
+/** @param {Tcreate} t */
+function createHandle(t) {
+
+    let {
+
+        string,
+
+    } = t;
+
+    if (t.string) t = { ...elementDecomposeString(t.string)[0], ...t, };
+    if (!t.overId) t.overId = [];
+    if (!t.overTypes) t.overTypes = [];
+    if (!t.overClasses) t.overClasses = [];
+
+    t = {
+
+        ...t,
+
+    };
+
+    return createComply(t);
+
+};
+/** @param {Tcreate} t @return {HTMLElement|HTMLElement[]} */
+function createComply(t) {
+
+    const {
+
+        id,
+        type,
+        classes,
+        property,
+        selectors,
+        attachments,
+
+    } = t;
+
+    const e = document.createElement(type);
+
+    if (id?.[0]) e.id = id;
+    if (attachments) e.append(...attachments.map(e => elementCreateByString(e)));
+    if (classes) classes.forEach(s => e.classList.add(s));
+    if (selectors) elementAppend(e, ...selectors);
+
+    if (property) {
+
+        jectChangeDeep(e, property);
+
+        if (property.text) e.textContent = property.text;
+
+    };
+
+    return e;
+
+};
+
+/**
+ * Функция для создания html элемента.
+ * - Версия `0.2.0`
+ * - Цепочка `DVHCa`
+ * @param {Tcreate} t Параметры.
+*/
+export function elementCreate(t = {}) {
+
+    return createDeceit(t);
+
+};
+/**
+ * Функция создания элемента с помощью строки.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @param {string} string
+*/
+export function elementCreateByString(string) {
+
+    return createDeceit({ string });
+
+};
+
+//#endregion
+//#region createMore 0.0.0
+
+/**
+ * @typedef TBcreateMore
+ * @prop {any} _
+ * @typedef {TBcreateMore&Tcreate} TcreateMore
+*/
+
+/** @param {TcreateMore} t */
+function createMoreDeceit(t) {
+
+    try {
+
+        return createMoreVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @param {TcreateMore} t */
+function createMoreVerify(t) {
+
+
+
+    return createMoreHandle(t);
+
+};
+/** @param {TcreateMore} t */
+function createMoreHandle(t) {
+
+
+
+    return createMoreComply(t);
+
+};
+/** @param {TcreateMore} t */
+function createMoreComply(t) {
+
+    const {
+
+
+
+    } = t;
+
+
+
+};
+
+/**
+ * Функция создания `html` элементов.
+ * Элементы будут созданы по указанным параметрам и размещены в указанные над-элементы.
+ * ID будут пронумерованы.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @param {Tcreate} t Параметры.
+*/
+export function elementCreateMore(t = {}) {
+
+    return createMoreDeceit(t);
+
+};
+/**
+ * Функция создания `html` элементов по строке формирования элемента.
+ * Элементы будут созданы по указанным параметрам и размещены в указанные над-элементы.
+ * ID будут пронумерованы.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @param {string} string
+*/
+export function elementCreateMoreByString(string) {
+
+    return createMoreDeceit({ string });
+
+};
+
+//#endregion
+
+//#region append 0.0.0
+
+/**
+ * @typedef TBappend
+ * @prop {string[]} selectors
+ * @prop {HTMLElement} element
+ * @typedef {TBappend} Tappend
+*/
+
+/** @param {Tappend} t */
+function appendDeceit(t) {
+
+    try {
+
+        return appendVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @param {Tappend} t */
+function appendVerify(t) {
+
+
+
+    return appendHandle(t);
+
+};
+/** @param {Tappend} t */
+function appendHandle(t) {
+
+
+
+    return appendComply(t);
+
+};
+/** @param {Tappend} t */
+function appendComply(t) {
+
+    const {
+
+        element,
+        selectors,
+
+    } = t;
+
+    const a = selectors.filter(s => s).map(s => Array.from(document.querySelectorAll(s))).flat().filter(s => s);
+
+    if (a.length === 1) {
+
+        a[0].append(element);
+
+    } else if (a.length > 1) {
+
+        let i = 0;
+
+        for (const s of a) {
+
+            const e = element.cloneNode(true);
+
+            if (e.id) {
+
+                while (document.querySelector(`#${e.id}_${i}`)) i++;
+
+                e.id = `${e.id}_${i}`;
+
+            };
+
+            s.append(e);
+
+        };
+
+    };
+
+};
+
+/**
+ * Функция для добавления элемента в указанные элементы.
+ * В качестве указания для элементов, куда следует разместить элемент, указываются их селекторы.
+ * В случае, если кол-во элементов размещения больше одного, элемент будет клонирован, id будут пронумерованы, копии будут размещены.
+ * Иначе элемент будет размещен в единственном экземпляре.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @param {HTMLElement} element Элемент. Будет размещен в указанные элементы, определенные селекторами.
+ * @param {...string} selectors Селекторы.
+ * Селекторы указываются с указанием их принадлежности:
+ * - ` ` - `type`  Тип. Размещает элемент в указанный тип. Указывается пустой строкой.
+ * - `.` - `class` Класс. Размещает элемент в указанный класс.
+ * - `#` - `id`    ID. Размещает элемент в указанный элемент.
+ *
+ * Может быть указано более одного селектора.
+*/
+export function elementAppend(element, ...selectors) {
+
+    appendDeceit({ element, selectors, });
+
+};
+
+//#endregion
+
 //#region decomposeString 0.1.0
 
 /**
@@ -470,10 +627,15 @@ function decomposeStringComply(t) {
             overClasses: ystr.extractAll(elementREOverClasses),
             classes: stringFindAll(ystr.get(), /\..*?\]/ms, /\w+/),
             property: ystr.extractAll(elementREProperty),
+            selectors: [],
 
         };
 
         if (r.property) r.property = stringCastToJect(stringReplaceAll(r.property?.map(p => p.trim())?.join('\n'), ':', /=/));
+
+        if (r.overId) r.selectors.push(...r.overId.map(e => `#${e}`));
+        if (r.overTypes) r.selectors.push(...r.overTypes);
+        if (r.overClasses) r.selectors.push(...r.overClasses.map(e => `.${e}`));
 
         return r;
 

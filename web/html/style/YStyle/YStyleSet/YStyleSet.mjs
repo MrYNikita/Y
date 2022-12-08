@@ -60,16 +60,8 @@ class FStyleSet extends DStyleSet {
 
             switch (t.length) {
 
-                case 2: {
-
-                    r.value = t[1];
-
-                };
-                case 1: {
-
-                    r.property = t[0];
-
-                };
+                case 2: r.value = t[1];
+                case 1: r.property = t[0];
 
             };
 

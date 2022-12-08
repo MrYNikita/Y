@@ -1,28 +1,58 @@
 import { jectFill, jectSupplement } from "../../../../ject/ject.mjs";
-import { YBasic } from "../../../../ject/YBasic/YBasic.mjs";
 import { YJect } from "../../../../ject/YJect/YJect.mjs";
 import { YEvent } from "../../../event/YEvent/YEvent.mjs";
 import { elementCreate, elementDecomposeString } from "../element.mjs";
 
 /**
+ * @typedef TElementProperty
+ * @prop {string} text
+ * @prop {string} type
  * @typedef TBElement
- * @prop {{}} property
  * @prop {string} id
  * @prop {string} type
- * @prop {string} text
  * @prop {string} string
- * @prop {Array<string>} attachments
- * @prop {Array<string>} classes
- * @prop {Array<string>} overId
- * @prop {Array<string>} overTypes
- * @prop {Array<string>} overClasses
- * @prop {Array<YEvent>} events
+ * @prop {string[]} attachments
+ * @prop {string[]} classes
+ * @prop {HTMLElement} element
+ * @prop {TElementProperty} property
  * @typedef {DElement&TBElement} TElement
 */
 
 class SElement extends YJect {
 
+    /**
+     * Метод поиска элемента по `id`.
+     * - Версия `0.0.0`
+     * @param {string} id Идентификатор поиска.
+    */
+    static findById(id) {
 
+        const e = document.querySelector('#' + id);
+
+        if (e) return new YElement(e);
+        else return null;
+
+    };
+    /**
+     * Метод поиска элементов по `id` и оборачивания их в `YElement`.
+     * - Версия `0.0.0`
+     * @param {...string} id Идентификаторы поиска.
+    */
+    static findAllById(...id) {
+
+        if (id.length) {
+
+            const es = [];
+
+            id.filter(f => f).forEach(i => es.push(SElement.findById(i)));
+
+            return es;
+
+        };
+
+        return null;
+
+    };
 
 };
 class DElement extends SElement {
@@ -137,7 +167,8 @@ class FElement extends MElement {
     /** @param {TElement} t @this {YElement} */
     static #handle(t) {
 
-        if (t.string) jectSupplement(t, elementDecomposeString(t.string)[0]);
+        if (!t.element && t.string) t.element = elementCreate(elementDecomposeString(t.string)[0]);
+        else if (!t.element && !t.string) t.element = elementCreate(t);
 
     };
     /** @param {TElement} t @this {YElement} */
@@ -151,19 +182,6 @@ class FElement extends MElement {
 
         jectFill(this, t);
 
-        this.element = elementCreate(
-
-            t.type,
-            t.id,
-            t.classes,
-            t.overId,
-            t.overTypes,
-            t.overClasses,
-            t.attachments,
-            t.property,
-
-        );
-
     };
 
 };
@@ -173,25 +191,11 @@ class FElement extends MElement {
  *
  * Данный класс позволяет взаимодействовать с `html` элементами.
  * - Тип `SDIMFY-1.1`
- * - Версия `0.1.0`
+ * - Версия `0.2.0`
  * - Цепочка `BDVHC`
 */
 export class YElement extends FElement {
 
-    /**
-     * Метод добавления обработчика событий указанного типа для элемента.
-     * - Версия `0.0.0`
-     * @param {keyof WindowEventMap} type Тип.
-     * @param {string} label Метка.
-     * @param {function(this: HTMLElement, MouseEvent|KeyboardEvent):void} func Функция.
-     * @param {HTMLElement} element Элемент.
-    */
-    appendEvent(type, label, func) {
 
-        this.events.push(new YEvent({ type, label, func, element: this.element, }));
-
-        return this;
-
-    };
 
 };

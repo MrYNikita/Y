@@ -30,7 +30,7 @@ class DStyle extends SStyle {
     tabel;
     /**
      * Размещение.
-     * @type {[]}
+     * @type {YStyle[]}
     */
     location;
     /**
@@ -48,6 +48,7 @@ class DStyle extends SStyle {
 };
 class IStyle extends DStyle {
 
+
     /**
      * Проекции.
      *
@@ -56,7 +57,6 @@ class IStyle extends DStyle {
      * @type {Array<YStyle>}
     */
     projections = [];
-
 };
 class FStyle extends IStyle {
 
@@ -138,6 +138,7 @@ class FStyle extends IStyle {
             default: t.location = t.tabel.commons; break;
             case '.': t.location = t.tabel.classes; break;
             case '#': t.location = t.tabel.identificators; break;
+            case '~': t.location = t.tabel.animations; t.label = '@keyframes ' + t.label.slice(1); break;
 
         };
 
@@ -235,7 +236,7 @@ export class YStyle extends MStyle {
 
             } else if (value) ystr.replace([`${property}:${value};}`, /}/]);
 
-            tabel.element.innerText = stringReplace(tabel.element.innerText,  ystr.get(), label + ' ?{.*?}');
+            tabel.element.innerText = stringReplace(tabel.element.innerText, ystr.get(), label + ' ?{.*?}');
 
             this.projections.forEach(s => s.change(set));
 

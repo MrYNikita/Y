@@ -3,10 +3,11 @@ import { YRegExp } from "../../../regexp/YRegExp/YRegExp.mjs";
 import { stringCastToDate, stringFind, stringFindAll, stringPaste, stringRemove, stringReplace, stringReplaceAll } from "../../../string/string.mjs";
 import { YString } from "../../../string/YString/YString.mjs";
 import { YClient } from "../../../web/client/YClient/YClient.mjs";
-import { elementREProperty, elementREString } from "../../../web/html/element/element.mjs";
+import { elementAppend, elementREProperty, elementREString } from "../../../web/html/element/element.mjs";
 import { YElement } from "../../../web/html/element/YElement/YElement.mjs";
 import { YElementStyle } from "../../../web/html/element/YElement/YElementStyle/YElementStyle.mjs";
 import { styleApplyY } from "../../../web/html/style/style.mjs";
+import { YStyleAnimation } from "../../../web/html/style/YStyle/YStyleAnimation/YStyleAnimation.mjs";
 
 // styleApplyY();
 
@@ -138,6 +139,12 @@ styleGlobal.append(
 
     }],
 
+    ['~animation', {
+
+
+
+    }],
+
 );
 
 new YElement(new YString()
@@ -150,7 +157,7 @@ new YElement(new YString()
                     !h3 #header /
                     !div #layout .layout] <
                         !div #panel .panel] <
-                            !button #report .button panel_item] text=Hi! type=button xer=213 /
+                            !button #button .button panel_item] text=Кнопка type=button xer=213 /
                         > /
                     > /
                 > /
@@ -161,3 +168,31 @@ new YElement(new YString()
     .get()
 
 );
+// console.log(`
+
+//     @keyframes recolor {
+
+//         from {
+
+//         }
+//         to {
+
+//         }
+
+//     }
+//     @keyframes rotate {
+
+//         10% {
+
+//         }
+//         from {
+
+//         }
+//         to {
+
+//         }
+
+//     }
+
+
+// `.match(/@keyframes \w+ {[^@]*/gms));

@@ -5,6 +5,7 @@ import { arrayRemoveByElement } from "../../../../../array/array.mjs";
 import { YStyle } from "../../../style/YStyle/YStyle.mjs";
 import { YRept } from "../../../../../ject/YJect/YRept/YRept.mjs";
 import { YString } from "../../../../../string/YString/YString.mjs";
+import { YStyleAnimation } from "../../../style/YStyle/YStyleAnimation/YStyleAnimation.mjs";
 
 /**
  * @typedef TBElementStyle
@@ -14,29 +15,66 @@ import { YString } from "../../../../../string/YString/YString.mjs";
 
 class SElementStyle extends YElement {
 
+    /**
+     * Метод поиска элемента по `id`.
+     * - Версия `0.0.0`
+     * @param {string} id Идентификатор поиска.
+    */
+    static findById(id) {
 
+        const e = document.querySelector('#' + id);
+
+        if (e) return new YElement(e);
+        else return null;
+
+    };
+    /**
+     * Метод поиска элементов по `id` и оборачивания их в `YElementStyle`.
+     * - Версия `0.0.0`
+     * @param {...string} id Идентификаторы поиска.
+    */
+    static findAllById(...id) {
+
+        if (id.length) {
+
+            const es = [];
+
+            id.filter(f => f).forEach(i => es.push(SElementStyle.findById(i)));
+
+            return es;
+
+        };
+
+        return null;
+
+    };
 
 };
 class DElementStyle extends SElementStyle {
 
     /**
      * Стили для типов.
-     * @type {Array<YStyle>}
+     * @type {YStyle[]}
     */
     types = [];
     /**
      * Стили для классов.
-     * @type {Array<YStyle>}
+     * @type {YStyle[]}
     */
     classes = [];
     /**
      * Стили для классов.
-     * @type {Array<YStyle>}
+     * @type {YStyle[]}
     */
     commons = [];
     /**
+     * Стили анимаций.
+     * @type {YStyleAnimations[]}
+    */
+    animations = [];
+    /**
      * Стили для элементов.
-     * @type {Array<YStyle>}
+     * @type {YStyle[]}
     */
     identificators = [];
 
@@ -44,17 +82,27 @@ class DElementStyle extends SElementStyle {
     element = this.element;
 
 };
-class FElementStyle extends DElementStyle {
+class IElementStyle extends DElementStyle {
+
+
+
+};
+class MElementStyle extends IElementStyle {
+
+
+
+};
+class FElementStyle extends MElementStyle {
 
     /**
-     *
+     * Контсруктор класса `YElementStyle`
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
      *  @param {TElementStyle} t
     */
     constructor(t = {}) {
 
-        t = FElementStyle.#before(arguments);
+        t = FElementStyle.#before(Object.values(arguments));
 
         FElementStyle.#deceit(t);
 
@@ -64,7 +112,7 @@ class FElementStyle extends DElementStyle {
 
     };
 
-    /** @param {TElementStyle} t @this {[]} */
+    /** @param {Array<any>} t */
     static #before(t) {
 
         if (t?.length === 1 && t[0]?.constructor === Object) {
@@ -73,9 +121,16 @@ class FElementStyle extends DElementStyle {
 
         } else if (t?.length) {
 
+            /** @type {TElementStyle&DElementStyle} */
             const r = {};
 
+            switch (t.length) {
 
+                case 3:
+                case 2:
+                case 1:
+
+            };
 
             return r;
 
@@ -112,7 +167,7 @@ class FElementStyle extends DElementStyle {
     static #handle(t) {
 
         t.type = 'style';
-        t.overTypes = ['head'];
+        t.selectors = ['head'];
 
         if (t.classes) t.classes.push('style');
         else t.classes = ['style'];
@@ -139,7 +194,7 @@ class FElementStyle extends DElementStyle {
             )
             .get()
 
-        , 'f', 'Сведения');
+            , 'f', 'Сведения');
 
     };
 
@@ -153,8 +208,8 @@ class FElementStyle extends DElementStyle {
  *
  * Селекторы размещенные в данном элементе сохранены для того, чтобы быстро ссылаться на их значения.
  * Все селекторы хранятся, как экземпляры `YStyle`, что позволяет изменять стили страницы через свойства данных экземпляров.
- * - Тип `SDFY-2.0`
- * - Версия `0.0.0`
+ * - Тип `SDIMFY`
+ * - Версия `0.3.0`
  * - Цепочка `BDVHC`
 */
 export class YElementStyle extends FElementStyle {
@@ -168,15 +223,16 @@ export class YElementStyle extends FElementStyle {
 
         let sl;
 
-        switch(label[0]) {
+        switch (label[0]) {
 
             default: sl = this.commons; break;
             case '.': sl = this.classes; break;
             case '#': sl = this.identificators; break;
+            case '~': sl = this.animations; label = stringReplace(label, '@keyframes ', '~'); break;
 
         };
 
-        return sl.find(s => s.label === label).get();
+        return sl.find(s => s.label === label)?.get() ?? null;
 
     };
     /**
@@ -189,7 +245,12 @@ export class YElementStyle extends FElementStyle {
 
             switch (s.constructor) {
 
-                case Array: s = new YStyle(this, ...s); break;
+                case Array: {
+
+                    if (s[0][0] === `~`) s = new YStyleAnimation(this, ...s);
+                    else s = new YStyle(this, ...s);
+
+                } break;
 
             };
 
@@ -206,7 +267,7 @@ export class YElementStyle extends FElementStyle {
 
         ys.forEach(s => {
 
-            if (s.constructor === String) {};
+            if (s.constructor === String) { };
 
             this.element.innerText = stringReplace(this.element.innerText, [s.label + ' ?{.*?}', '']);
 
