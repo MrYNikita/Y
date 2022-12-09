@@ -141,7 +141,11 @@ styleGlobal.append(
 
     ['~animation', {
 
+        to: {
 
+
+
+        },
 
     }],
 
@@ -157,7 +161,7 @@ new YElement(new YString()
                     !h3 #header /
                     !div #layout .layout] <
                         !div #panel .panel] <
-                            !button #button .button panel_item] text=Кнопка type=button xer=213 /
+                            !button #button .button panel_item] text=Кнопка type=button /
                         > /
                     > /
                 > /
@@ -168,6 +172,9 @@ new YElement(new YString()
     .get()
 
 );
+
+console.log(styleGlobal.get(`~animation`));
+
 // console.log(`
 
 //     @keyframes recolor {

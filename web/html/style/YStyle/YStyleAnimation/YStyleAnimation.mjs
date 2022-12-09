@@ -1,6 +1,8 @@
 import { YStyle } from "../YStyle.mjs";
-import { jectFill } from "../../../../../ject/ject.mjs";
 import { YString } from "../../../../../string/YString/YString.mjs";
+import { jectFill } from "../../../../../ject/ject.mjs";
+import { YStyleSet } from "../YStyleSet/YStyleSet.mjs";
+import { stringFind, stringReplace } from "../../../../../string/string.mjs";
 
 /**
  * @typedef TBStyleAnimation
@@ -154,6 +156,50 @@ export class YStyleAnimation extends FStyleAnimation {
             .replaceAll(['\n', ';'])
             .remove(1)
             .castToJect()
+
+    };
+    /**
+     * Метод изменения свойства стиля.
+     * - Версия `0.0.0`
+     * @param {CSSStyleDeclaration} set Набор `YSet`'ов или объект с описанием свойств.
+    */
+    change(set) {
+
+        const {
+
+            tabel,
+
+        } = this;
+
+        const label = this.label === '*' ? '\\*' : this.label[0] === '.' ? '\\.' + this.label.slice(1) : this.label;
+
+        if (set) Object.entries(set).forEach(p => {
+
+            const s = new YStyleSet(...p);
+
+            const {
+
+                value,
+                property,
+
+            } = s;
+
+            const ystr = new YString(stringFind(tabel.element.innerText, `${label} ?{.*?}`));
+
+            if (ystr.copy().find(property + ':.*?;').get()) {
+
+                if (!value) ystr.replace([``, property + `:.*?;`]);
+                else ystr.replace([`${property}:${value};`, property + `:.*?;`]);
+
+            } else if (value) ystr.replace([`${property}:${value};}`, /}/]);
+
+            tabel.element.innerText = stringReplace(tabel.element.innerText, ystr.get(), label + ' ?{.*?}');
+
+            this.projections.forEach(s => s.change(set));
+
+        });
+
+        return this;
 
     };
 
