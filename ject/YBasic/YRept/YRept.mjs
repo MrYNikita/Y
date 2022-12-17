@@ -1,7 +1,7 @@
-import { arrayRemoveByElement, arrayRemoveByIndex } from "../../../array/array.mjs";
-import { configRept } from "../../../config1.mjs";
+import { configYRept } from "../../../config.mjs";
+import { stringFind, stringReplaceAll } from "../../../string/string.mjs";
 import { YString } from "../../../string/YString/YString.mjs";
-import { jectFill } from "../../ject.mjs";
+import { jectFill, jectGetByPath } from "../../ject.mjs";
 import { YBasic } from "../../YBasic/YBasic.mjs";
 import { YReptBlock } from "./YReptBlock/YReptBlock.mjs";
 
@@ -18,7 +18,11 @@ class SRept extends YBasic {
 };
 class DRept extends SRept {
 
-
+    /**
+     * Цель отчета.
+     * @type {{}?}
+    */
+    target = null;
 
 };
 class IRept extends DRept {
@@ -44,7 +48,7 @@ class FRept extends MRept {
      * Контсруктор класса `YRept`
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
-     *  @param {TRept} t
+     *  @arg {TRept} t
     */
     constructor(t = {}) {
 
@@ -58,25 +62,32 @@ class FRept extends MRept {
 
     };
 
-    /** @param {Array<any>} t */
+    /** @arg {any[]} t */
     static #before(t) {
 
-        if (t?.length === 1 && t[0]?.constructor === Object) {
+        if (t?.length === 1 && [Object, YRept].includes(t[0]?.constructor)) {
 
             return t[0];
 
         } else if (t?.length) {
 
+            /** @type {TRept&DRept} */
             const r = {};
 
+            switch (t.length) {
 
+                case 3:
+                case 2:
+                case 1: r.target = t[0];
+
+            };
 
             return r;
 
         } else return {};
 
     };
-    /** @param {TRept} t @this {YRept} */
+    /** @arg {TRept} t @this {YRept} */
     static #deceit(t) {
 
         try {
@@ -90,7 +101,7 @@ class FRept extends MRept {
         };
 
     };
-    /** @param {TRept} t @this {YRept} */
+    /** @arg {TRept} t @this {YRept} */
     static #verify(t) {
 
         const {
@@ -102,25 +113,13 @@ class FRept extends MRept {
         FRept.#handle(t);
 
     };
-    /** @param {TRept} t @this {YRept} */
+    /** @arg {TRept} t @this {YRept} */
     static #handle(t) {
 
-        let {
 
-
-
-        } = t;
-
-
-
-        t = {
-
-            ...t,
-
-        };
 
     };
-    /** @param {TRept} t @this {YRept} */
+    /** @arg {TRept} t @this {YRept} */
     static #create(t) {
 
         const {
@@ -143,30 +142,42 @@ class FRept extends MRept {
  * `YRept` (отчет) представлен объектом, содержащим текстовую информацию о привязанном к нему объекте.
  * Привязанный к нему объект может осуществлять информирование о своём состоянии.
  * Для этого привязанный объект должен взаимодействовать с отчетом через его методы.
- *
  * - Тип `SDIMFY`
  * - Версия `0.0.0`
+ * - Модуль `ject`
  * - Цепочка `BDVHC`
- * - Пространство `ject`
 */
 export class YRept extends FRept {
 
+    /**
+     * Метод для сцепления отчетов.
+     * Сцепление позволяет объединять уникальные блоки указанных отчетов с данным для получения единого общего отчета.
+     * - Версия `0.0.0`
+     * @param {...YRept} reports Отчеты.
+    */
+    chain(...reports) {
+
+        reports.forEach(r => r.blocks.forEach(b => this.append(b.text, b.priority, b.label, ...b.tags)));
+
+        return this;
+
+    };
     /**
      * Метод добавления блока в отчет.
      *
      * Для добавления блока достаточно указать только текст, который он будет содержать.
      * При необходимости можно указать и оставшиеся параметры.
      * - Версия `0.0.0`
-     * @param {string|function():string} text Текст.
+     * @arg {string|function():string} text Текст.
      * Может принимать в качестве значения строку или функцию, её возвращающую.
-     * @param {string} label Метка.
+     * @arg {string} label Метка.
      * Если будет указано уже существующая ранее метка, то блок добавлен не будет.
-     * @param {number|'l'|'f'} priority Приоритет.
+     * @arg {number|'l'|'f'} priority Приоритет.
      * Может принимать в качестве аргумента числа или строки `l` или `f`.
      * `l` - в полной форме `last` сделает данный блок последним среди всех указанных, указав ему минимальный приоритет.
      * `f` - в полной форме `first` сделает данный блок первым среди всех указанных, указав ему максимальный приоритет.
      * - По умолчанию `0`
-     * @param {...string} tags Теги.
+     * @arg {...string} tags Теги.
     */
     append(text, priority = 0, label, ...tags) {
 
@@ -192,16 +203,16 @@ export class YRept extends FRept {
     /**
      * Метод изменения блока в отчете.
      * - Версия `0.0.0`
-     * @param {string|function():string} text Текст.
+     * @arg {string|function():string} text Текст.
      * Может принимать в качестве значения строку или функцию, её возвращающую.
      * Если не будет указан, то сохранит изначальное значение.
-     * @param {string} label Метка.
+     * @arg {string} label Метка.
      * Если не будет указана, то сохранит изначальное значение.
-     * @param {number} priority Приоритет.
+     * @arg {number} priority Приоритет.
      * Может принимать в качестве аргумента числа или строки `l` или `f`.
      * `l` - в полной форме `last` сделает данный блок последним среди всех указанных, указав ему минимальный приоритет.
      * `f` - в полной форме `first` сделает данный блок первым среди всех указанных, указав ему максимальный приоритет.
-     * @param {string|number} position Метка или индекс блока.
+     * @arg {string|number} position Метка или индекс блока.
      * Если параметр указан, как число, то блок будет заменен по индексу.
      * Если параметр указан, как строка, то блок будет заменен по метке.
      *
@@ -249,20 +260,29 @@ export class YRept extends FRept {
 
         new YString()
 
-            .paste(configRept.start)
-            .changePostfix(configRept.postfix)
+            .paste(configYRept.start)
+            .changePostfix(configYRept.postfix)
             .paste(
 
                 ...this.blocks.map(b => new YString()
 
                     .pasteTemplate('lh', ['h', b.label])
-                    .paste(b.text instanceof Function ? b.text() : b.text)
+                    .exec(y => {
+
+                        b.text = b.text instanceof Function ? b.text() : b.text;
+
+                        const f = stringFind(b.text, /yt\.(?<f>(\w|_|\.)+)/);
+
+                        if (f) y.paste(stringReplaceAll(b.text, jectGetByPath(this.target, f) ?? `!YX`, `yt.${f}`));
+                        else y.paste(b.text);
+
+                    })
 
                 )
 
             )
             .changePostfix()
-            .paste(configRept.end)
+            .paste(configYRept.end)
             .castToYReport()
             .display()
 
@@ -272,7 +292,7 @@ export class YRept extends FRept {
     /**
      * Метод для удаления блоков отчета по тегам.
      * - Версия `0.0.0`
-     * @param {...string} tags Теги.
+     * @arg {...string} tags Теги.
     */
     removeByTag(...tags) {
 
@@ -284,7 +304,7 @@ export class YRept extends FRept {
     /**
      * Метод для удаления блоков из отчета по индексу.
      * - Версия `0.0.0`
-     * @param {...number} indexs Индекс.
+     * @arg {...number} indexs Индекс.
     */
     removeByIndex(...indexs) {
 
@@ -296,7 +316,7 @@ export class YRept extends FRept {
     /**
      * Метод удлания блоков из отчета по меткам.
      * - Версия `0.0.0`
-     * @param {...string} labels Метки.
+     * @arg {...string} labels Метки.
     */
     removeByLables(...labels) {
 

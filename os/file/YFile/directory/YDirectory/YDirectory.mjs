@@ -33,7 +33,7 @@ class FDirectory extends DDirectory {
      *
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
-     *  @param {TDirectory} t
+     *  @arg {TDirectory} t
     */
     constructor(t = {}) {
 
@@ -47,7 +47,7 @@ class FDirectory extends DDirectory {
 
     };
 
-    /** @param {TDirectory} t @this {[]} */
+    /** @arg {TDirectory} t @this {[]} */
     static #before(t) {
 
         if (t?.length === 1 && t[0]?.constructor === Object) {
@@ -77,7 +77,7 @@ class FDirectory extends DDirectory {
         } else return {};
 
     };
-    /** @param {TDirectory} t @this {YDirectory} */
+    /** @arg {TDirectory} t @this {YDirectory} */
     static #deceit(t) {
 
         try {
@@ -91,7 +91,7 @@ class FDirectory extends DDirectory {
         };
 
     };
-    /** @param {TDirectory} t @this {YDirectory} */
+    /** @arg {TDirectory} t @this {YDirectory} */
     static #verify(t) {
 
         const {
@@ -103,7 +103,7 @@ class FDirectory extends DDirectory {
         FDirectory.#handle(t);
 
     };
-    /** @param {TDirectory} t @this {YDirectory} */
+    /** @arg {TDirectory} t @this {YDirectory} */
     static #handle(t) {
 
         let {
@@ -121,7 +121,7 @@ class FDirectory extends DDirectory {
         };
 
     };
-    /** @param {TDirectory} t @this {YDirectory} */
+    /** @arg {TDirectory} t @this {YDirectory} */
     static #create(t) {
 
         const {

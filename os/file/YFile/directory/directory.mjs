@@ -11,7 +11,7 @@ import { pathGet, pathGetAll, pathGetIn } from "../../../path/path.mjs";
  * @typedef {TBgetFile} TgetFile
 */
 
-/** @param {TgetFile} t */
+/** @arg {TgetFile} t */
 function getFileDeceit(t) {
 
     try {
@@ -27,7 +27,7 @@ function getFileDeceit(t) {
     };
 
 };
-/** @param {TgetFile} t */
+/** @arg {TgetFile} t */
 function getFileVerify(t) {
 
     const {
@@ -39,7 +39,7 @@ function getFileVerify(t) {
     return getFileHandle(t);
 
 };
-/** @param {TgetFile} t */
+/** @arg {TgetFile} t */
 function getFileHandle(t) {
 
     let {
@@ -60,7 +60,7 @@ function getFileHandle(t) {
     return getFileComply(t);
 
 };
-/** @param {TgetFile} t */
+/** @arg {TgetFile} t */
 function getFileComply(t) {
 
     const {
@@ -78,8 +78,8 @@ function getFileComply(t) {
  * Функция для получения указанной папки из данной директории по фрагменту пути.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {string|RegExp} fragment Фрагмент поиска.
- * @param {[string]|string} paths Пути папки.
+ * @arg {string|RegExp} fragment Фрагмент поиска.
+ * @arg {[string]|string} paths Пути папки.
 */
 export function directoryGetDir(paths, fragment) {
 
@@ -90,8 +90,8 @@ export function directoryGetDir(paths, fragment) {
  * Функция для получения файла из данной директории по указанному фрагменту пути.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {string|RegExp} fragment Фрагмент поиска.
- * @param {[string]|string} paths Пути папки.
+ * @arg {string|RegExp} fragment Фрагмент поиска.
+ * @arg {[string]|string} paths Пути папки.
  */
 export function directoryGetFile(paths, fragment) {
 
@@ -108,7 +108,7 @@ export function directoryGetFile(paths, fragment) {
  * @typedef {TBgetCount} TgetCount
 */
 
-/** @param {TgetCount} t */
+/** @arg {TgetCount} t */
 function getCountDeceit(t) {
 
     try {
@@ -124,7 +124,7 @@ function getCountDeceit(t) {
     };
 
 };
-/** @param {TgetCount} t */
+/** @arg {TgetCount} t */
 function getCountVerify(t) {
 
     const {
@@ -136,7 +136,7 @@ function getCountVerify(t) {
     return getCountHandle(t);
 
 };
-/** @param {TgetCount} t */
+/** @arg {TgetCount} t */
 function getCountHandle(t) {
 
     let {
@@ -156,7 +156,7 @@ function getCountHandle(t) {
     return getCountComply(t);
 
 };
-/** @param {TgetCount} t */
+/** @arg {TgetCount} t */
 function getCountComply(t) {
 
     const {

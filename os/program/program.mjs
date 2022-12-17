@@ -10,7 +10,7 @@ import { exec, fork, spawn } from 'child_process';
  * @typedef {TBlaunch} Tlaunch
 */
 
-/** @param {Tlaunch} t */
+/** @arg {Tlaunch} t */
 function launchDeceit(t) {
 
     try {
@@ -26,7 +26,7 @@ function launchDeceit(t) {
     };
 
 };
-/** @param {Tlaunch} t */
+/** @arg {Tlaunch} t */
 function launchVerify(t) {
 
     const {
@@ -38,7 +38,7 @@ function launchVerify(t) {
     return launchHandle(t);
 
 };
-/** @param {Tlaunch} t */
+/** @arg {Tlaunch} t */
 function launchHandle(t) {
 
     let {
@@ -58,7 +58,7 @@ function launchHandle(t) {
     return launchComply(t);
 
 };
-/** @param {Tlaunch} t */
+/** @arg {Tlaunch} t */
 function launchComply(t) {
 
     const {
@@ -78,8 +78,8 @@ function launchComply(t) {
  * Функция для запуска программы по указанному пути.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {...any} args Аргументы.
- * @param {string|RegExp} fragment Фрагмент пути до файла программы.
+ * @arg {...any} args Аргументы.
+ * @arg {string|RegExp} fragment Фрагмент пути до файла программы.
 */
 export function programLaunch(fragment, ...args) {
 
@@ -96,7 +96,7 @@ export function programLaunch(fragment, ...args) {
  * @typedef {TBexecuteCmd} TexecuteCmd
 */
 
-/** @param {TexecuteCmd} t */
+/** @arg {TexecuteCmd} t */
 function executeCmdDeceit(t) {
 
     try {
@@ -112,7 +112,7 @@ function executeCmdDeceit(t) {
     };
 
 };
-/** @param {TexecuteCmd} t */
+/** @arg {TexecuteCmd} t */
 function executeCmdVerify(t) {
 
     const {
@@ -124,7 +124,7 @@ function executeCmdVerify(t) {
     return executeCmdHandle(t);
 
 };
-/** @param {TexecuteCmd} t */
+/** @arg {TexecuteCmd} t */
 function executeCmdHandle(t) {
 
     let {
@@ -142,7 +142,7 @@ function executeCmdHandle(t) {
     return executeCmdComply(t);
 
 };
-/** @param {TexecuteCmd} t */
+/** @arg {TexecuteCmd} t */
 function executeCmdComply(t) {
 
     const {
@@ -159,7 +159,7 @@ function executeCmdComply(t) {
  * Функция для выполнения команд в windows cmd.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {...string} commands
+ * @arg {...string} commands
 */
 export function programExecuteCmd(...commands) {
 

@@ -38,7 +38,7 @@ class FDate extends MDate {
      * Контсруктор класса `YDate`
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
-     *  @param {TDate} t
+     *  @arg {TDate} t
     */
     constructor(t = {}) {
 
@@ -52,7 +52,7 @@ class FDate extends MDate {
 
     };
 
-    /** @param {Array<any>} t */
+    /** @arg {Array<any>} t */
     static #before(t) {
 
         if (t?.length === 1 && t[0]?.constructor === Object) {
@@ -77,7 +77,7 @@ class FDate extends MDate {
         } else return {};
 
     };
-    /** @param {TDate} t @this {YDate} */
+    /** @arg {TDate} t @this {YDate} */
     static #deceit(t) {
 
         try {
@@ -91,7 +91,7 @@ class FDate extends MDate {
         };
 
     };
-    /** @param {TDate} t @this {YDate} */
+    /** @arg {TDate} t @this {YDate} */
     static #verify(t) {
 
         const {
@@ -103,13 +103,13 @@ class FDate extends MDate {
         FDate.#handle(t);
 
     };
-    /** @param {TDate} t @this {YDate} */
+    /** @arg {TDate} t @this {YDate} */
     static #handle(t) {
 
 
 
     };
-    /** @param {TDate} t @this {YDate} */
+    /** @arg {TDate} t @this {YDate} */
     static #create(t) {
 
         const {

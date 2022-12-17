@@ -6,7 +6,7 @@
  * @typedef {TBsigmoid} Tsigmoid
 */
 
-/** @param {Tsigmoid} t */
+/** @arg {Tsigmoid} t */
 function sigmoidDeceit(t) {
 
     try {
@@ -22,7 +22,7 @@ function sigmoidDeceit(t) {
     };
 
 };
-/** @param {Tsigmoid} t */
+/** @arg {Tsigmoid} t */
 function sigmoidVerify(t) {
 
 
@@ -30,7 +30,7 @@ function sigmoidVerify(t) {
     return sigmoidHandle(t);
 
 };
-/** @param {Tsigmoid} t */
+/** @arg {Tsigmoid} t */
 function sigmoidHandle(t) {
 
 
@@ -38,7 +38,7 @@ function sigmoidHandle(t) {
     return sigmoidComply(t);
 
 };
-/** @param {Tsigmoid} t */
+/** @arg {Tsigmoid} t */
 function sigmoidComply(t) {
 
     const {
@@ -55,7 +55,7 @@ function sigmoidComply(t) {
  * Математическая функция для вычисления сигмоиды по значению.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {number} number Значение.
+ * @arg {number} number Значение.
 */
 export function mathSigmoid(number) {
 
@@ -72,7 +72,7 @@ export function mathSigmoid(number) {
  * @typedef {TBsigmoidDirevative} TsigmoidDirevative
 */
 
-/** @param {TsigmoidDirevative} t */
+/** @arg {TsigmoidDirevative} t */
 function sigmoidDirevativeDeceit(t) {
 
     try {
@@ -88,7 +88,7 @@ function sigmoidDirevativeDeceit(t) {
     };
 
 };
-/** @param {TsigmoidDirevative} t */
+/** @arg {TsigmoidDirevative} t */
 function sigmoidDirevativeVerify(t) {
 
 
@@ -96,7 +96,7 @@ function sigmoidDirevativeVerify(t) {
     return sigmoidDirevativeHandle(t);
 
 };
-/** @param {TsigmoidDirevative} t */
+/** @arg {TsigmoidDirevative} t */
 function sigmoidDirevativeHandle(t) {
 
 
@@ -104,7 +104,7 @@ function sigmoidDirevativeHandle(t) {
     return sigmoidDirevativeComply(t);
 
 };
-/** @param {TsigmoidDirevative} t */
+/** @arg {TsigmoidDirevative} t */
 function sigmoidDirevativeComply(t) {
 
     const {
@@ -121,7 +121,7 @@ function sigmoidDirevativeComply(t) {
  * Функция производной для сигмоиды.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {number} number Значение.
+ * @arg {number} number Значение.
 */
 export function mathSigmoidDirevative(number) {
 

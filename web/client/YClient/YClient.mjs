@@ -70,7 +70,7 @@ class MClient extends IClient {
     */
     track() {
 
-        /** @param {KeyboardEvent} ev */
+        /** @arg {KeyboardEvent} ev */
         addEventListener('keydown', (ev) => {
 
             this.key.value = ev.key;
@@ -80,7 +80,7 @@ class MClient extends IClient {
             this.key.shift = ev.shiftKey;
 
         });
-        /** @param {MouseEvent} em */
+        /** @arg {MouseEvent} em */
         addEventListener('mousemove', (em) => {
 
             this.cursor.x = em.clientX;
@@ -97,7 +97,7 @@ class FClient extends MClient {
      * Контсруктор класса `YClient`
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
-     *  @param {TClient} t
+     *  @arg {TClient} t
     */
     constructor(t = {}) {
 
@@ -111,7 +111,7 @@ class FClient extends MClient {
 
     };
 
-    /** @param {Array<any>} t */
+    /** @arg {Array<any>} t */
     static #before(t) {
 
         if (t?.length === 1 && t[0]?.constructor === Object) {
@@ -136,7 +136,7 @@ class FClient extends MClient {
         } else return {};
 
     };
-    /** @param {TClient} t @this {YClient} */
+    /** @arg {TClient} t @this {YClient} */
     static #deceit(t) {
 
         try {
@@ -150,7 +150,7 @@ class FClient extends MClient {
         };
 
     };
-    /** @param {TClient} t @this {YClient} */
+    /** @arg {TClient} t @this {YClient} */
     static #verify(t) {
 
         const {
@@ -162,13 +162,13 @@ class FClient extends MClient {
         FClient.#handle(t);
 
     };
-    /** @param {TClient} t @this {YClient} */
+    /** @arg {TClient} t @this {YClient} */
     static #handle(t) {
 
 
 
     };
-    /** @param {TClient} t @this {YClient} */
+    /** @arg {TClient} t @this {YClient} */
     static #create(t) {
 
         const {
@@ -227,10 +227,10 @@ export class YClient extends FClient {
     /**
      * Метод добавления события.
      * - Версия `0.0.0`
-     * @param {keyof WindowEventMap} type Тип.
-     * @param {string} label Метка.
-     * @param {function():void} func Функция.
-     * @param {HTMLElement} element Элемент.
+     * @arg {keyof WindowEventMap} type Тип.
+     * @arg {string} label Метка.
+     * @arg {function():void} func Функция.
+     * @arg {HTMLElement} element Элемент.
     */
     appendEvent(type, label, func, element = window) {
 

@@ -61,7 +61,7 @@ class FNeuralNetwork extends MNeuralNetwork {
      * Контсруктор класса `YNeuralNetwork`
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
-     *  @param {TNeuralNetwork} t
+     *  @arg {TNeuralNetwork} t
     */
     constructor(t = {}) {
 
@@ -75,7 +75,7 @@ class FNeuralNetwork extends MNeuralNetwork {
 
     };
 
-    /** @param {Array<any>} t */
+    /** @arg {Array<any>} t */
     static #before(t) {
 
         if (t?.length === 1 && t[0]?.constructor === Object) {
@@ -100,7 +100,7 @@ class FNeuralNetwork extends MNeuralNetwork {
         } else return {};
 
     };
-    /** @param {TNeuralNetwork} t @this {YNeuralNetwork} */
+    /** @arg {TNeuralNetwork} t @this {YNeuralNetwork} */
     static #deceit(t) {
 
         try {
@@ -114,7 +114,7 @@ class FNeuralNetwork extends MNeuralNetwork {
         };
 
     };
-    /** @param {TNeuralNetwork} t @this {YNeuralNetwork} */
+    /** @arg {TNeuralNetwork} t @this {YNeuralNetwork} */
     static #verify(t) {
 
         const {
@@ -126,13 +126,13 @@ class FNeuralNetwork extends MNeuralNetwork {
         FNeuralNetwork.#handle(t);
 
     };
-    /** @param {TNeuralNetwork} t @this {YNeuralNetwork} */
+    /** @arg {TNeuralNetwork} t @this {YNeuralNetwork} */
     static #handle(t) {
 
 
 
     };
-    /** @param {TNeuralNetwork} t @this {YNeuralNetwork} */
+    /** @arg {TNeuralNetwork} t @this {YNeuralNetwork} */
     static #create(t) {
 
         const {
@@ -193,7 +193,7 @@ export class YNeuralNetwork extends FNeuralNetwork {
     /**
      * Метод получения данных.
      * - Версия `0.0.0`
-     * @param {...number} numbers Данные.
+     * @arg {...number} numbers Данные.
     */
     feed(...numbers) {
 
@@ -207,7 +207,7 @@ export class YNeuralNetwork extends FNeuralNetwork {
      *
      * Для обучения необходимо передать учебный набор данных, элементы которого будут `YData` (Данными).
      * - Версия `0.0.0`
-     * @param {...YData} data Данные.
+     * @arg {...YData} data Данные.
     */
     learn(...data) {
 
@@ -235,8 +235,8 @@ export class YNeuralNetwork extends FNeuralNetwork {
     /**
      * Метод добавления слоя.
      * - Версия `0.0.0`
-     * @param {function} activation Функция активации слоя.
-     * @param {...[number, ...number]} neurons Нейроны.
+     * @arg {function} activation Функция активации слоя.
+     * @arg {...[number, ...number]} neurons Нейроны.
     */
     appendLayer(activation, ...neurons) {
 

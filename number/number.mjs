@@ -7,7 +7,7 @@
  * @typedef {TBdevide} Tdevide
 */
 
-/** @param {Tdevide} t */
+/** @arg {Tdevide} t */
 function devideDeceit(t) {
 
     try {
@@ -23,7 +23,7 @@ function devideDeceit(t) {
     };
 
 };
-/** @param {Tdevide} t */
+/** @arg {Tdevide} t */
 function devideVerify(t) {
 
     const {
@@ -35,7 +35,7 @@ function devideVerify(t) {
     return devideHandle(t);
 
 };
-/** @param {Tdevide} t */
+/** @arg {Tdevide} t */
 function devideHandle(t) {
 
     let {
@@ -53,7 +53,7 @@ function devideHandle(t) {
     return devideComply(t);
 
 };
-/** @param {Tdevide} t */
+/** @arg {Tdevide} t */
 function devideComply(t) {
 
     const {
@@ -90,7 +90,7 @@ export function numberDevide(number, count) {
  * @typedef {TBbefore} Tbefore
 */
 
-/** @param {Tbefore} t */
+/** @arg {Tbefore} t */
 function beforeDeceit(t) {
 
     try {
@@ -106,7 +106,7 @@ function beforeDeceit(t) {
     };
 
 };
-/** @param {Tbefore} t */
+/** @arg {Tbefore} t */
 function beforeVerify(t) {
 
     const {
@@ -118,7 +118,7 @@ function beforeVerify(t) {
     return beforeHandle(t);
 
 };
-/** @param {Tbefore} t */
+/** @arg {Tbefore} t */
 function beforeHandle(t) {
 
     let {
@@ -136,7 +136,7 @@ function beforeHandle(t) {
     return beforeComply(t);
 
 };
-/** @param {Tbefore} t */
+/** @arg {Tbefore} t */
 function beforeComply(t) {
 
     const {
@@ -170,7 +170,7 @@ export function numberBefore(number, to) {
  * @typedef {TBgetReal} TgetReal
 */
 
-/** @param {TgetReal} t */
+/** @arg {TgetReal} t */
 function getRealDeceit(t) {
 
     try {
@@ -190,7 +190,7 @@ function getRealDeceit(t) {
     };
 
 };
-/** @param {TgetReal} t */
+/** @arg {TgetReal} t */
 function getRealVerify(t) {
 
     const {
@@ -202,7 +202,7 @@ function getRealVerify(t) {
     return getRealHandle(t);
 
 };
-/** @param {TgetReal} t */
+/** @arg {TgetReal} t */
 function getRealHandle(t) {
 
     let {
@@ -220,7 +220,7 @@ function getRealHandle(t) {
     return getRealComply(t);
 
 };
-/** @param {TgetReal} t */
+/** @arg {TgetReal} t */
 function getRealComply(t) {
 
     const {
@@ -237,7 +237,7 @@ function getRealComply(t) {
  * Функция для получения целой части числа без учета его знака.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {number} number
+ * @arg {number} number
 */
 export function numberGetReal(number) {
 
@@ -255,7 +255,7 @@ export function numberGetReal(number) {
  * @typedef {TBgetFrac} TgetFrac
 */
 
-/** @param {TgetFrac} t */
+/** @arg {TgetFrac} t */
 function getFracDeceit(t) {
 
     try {
@@ -271,7 +271,7 @@ function getFracDeceit(t) {
     };
 
 };
-/** @param {TgetFrac} t */
+/** @arg {TgetFrac} t */
 function getFracVerify(t) {
 
     const {
@@ -283,7 +283,7 @@ function getFracVerify(t) {
     return getFracHandle(t);
 
 };
-/** @param {TgetFrac} t */
+/** @arg {TgetFrac} t */
 function getFracHandle(t) {
 
     let {
@@ -301,7 +301,7 @@ function getFracHandle(t) {
     return getFracComply(t);
 
 };
-/** @param {TgetFrac} t */
+/** @arg {TgetFrac} t */
 function getFracComply(t) {
 
     const {
@@ -319,8 +319,8 @@ function getFracComply(t) {
  * Функция для получения дробной части числа как целого значения.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {number} number
- * @param {number} fracLength
+ * @arg {number} number
+ * @arg {number} fracLength
 */
 export function numberGetFrac(number, fracLength = 3) {
 
@@ -342,7 +342,7 @@ export function numberGetFrac(number, fracLength = 3) {
  * @typedef {TBgetRandom} TgetRandom
 */
 
-/** @param {TgetRandom} t */
+/** @arg {TgetRandom} t */
 function getRandomDeceit(t) {
 
     try {
@@ -358,7 +358,7 @@ function getRandomDeceit(t) {
     };
 
 };
-/** @param {TgetRandom} t */
+/** @arg {TgetRandom} t */
 function getRandomVerify(t) {
 
     const {
@@ -370,7 +370,7 @@ function getRandomVerify(t) {
     return getRandomHandle(t);
 
 };
-/** @param {TgetRandom} t */
+/** @arg {TgetRandom} t */
 function getRandomHandle(t) {
 
     let {
@@ -388,7 +388,7 @@ function getRandomHandle(t) {
     return getRandomComply(t);
 
 };
-/** @param {TgetRandom} t */
+/** @arg {TgetRandom} t */
 function getRandomComply(t) {
 
     const {
@@ -446,9 +446,9 @@ function getRandomComply(t) {
  * Функция для получения случайного целого числа в заданном диапазоне.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {number} min Минимальное значение диапазона.
+ * @arg {number} min Минимальное значение диапазона.
  * - По умолчанию `0`
- * @param {number} max Максимальное значение диапазона.
+ * @arg {number} max Максимальное значение диапазона.
  * - По умолчанию `100`
  * @returns {number}
 */
@@ -461,9 +461,9 @@ export function numberGetRandomReal(min = 0, max = 100) {
  * Функция для получения дробного числа в заданном диапазоне.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {number} min Минимальное значение диапазона.
+ * @arg {number} min Минимальное значение диапазона.
  * - По умолчанию `0`
- * @param {number} max Максимальное значение диапазона.
+ * @arg {number} max Максимальное значение диапазона.
  * - По умолчанию `100`
  * @return {number}
 */
@@ -476,11 +476,11 @@ export function numberGetRandomFrac(min = 0, max = 100) {
  * Функция для получения массива целых случайных чисел.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {number} min Минимальное значение диапазона.
+ * @arg {number} min Минимальное значение диапазона.
  * - По умолчанию `0`
- * @param {number} max Максимальное значение диапазона.
+ * @arg {number} max Максимальное значение диапазона.
  * - По умолчанию `100`
- * @param {number} count Кол-во создаваемой последовательности.
+ * @arg {number} count Кол-во создаваемой последовательности.
  * - По умолчанию `2`
 */
 export function numberGetRandomRealMany(count = 2, min = 0, max = 100) {
@@ -492,11 +492,11 @@ export function numberGetRandomRealMany(count = 2, min = 0, max = 100) {
  * Функция для получения массива целых случайных уникальных чисел.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {number} min Минимальное значение диапазона.
+ * @arg {number} min Минимальное значение диапазона.
  * - По умолчанию `0`
- * @param {number} max Максимальное значение диапазона.
+ * @arg {number} max Максимальное значение диапазона.
  * - По умолчанию `100`
- * @param {number} count Кол-во создаваемой последовательности.
+ * @arg {number} count Кол-во создаваемой последовательности.
  * - По умолчанию `2`
 */
 export function numberGetRandomFracMany(count = 2, min = 0, max = 100) {
@@ -508,11 +508,11 @@ export function numberGetRandomFracMany(count = 2, min = 0, max = 100) {
  * Функция для получения массива дробных случайных уникальных чисел.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {number} min Минимальное значение диапазона.
+ * @arg {number} min Минимальное значение диапазона.
  * - По умолчанию `0`
- * @param {number} max Максимальное значение диапазона.
+ * @arg {number} max Максимальное значение диапазона.
  * - По умолчанию `100`
- * @param {number} count Кол-во создаваемой последовательности.
+ * @arg {number} count Кол-во создаваемой последовательности.
  * - По умолчанию `2`
 */
 export function numberGetRandomRealManyUnique(count = 2, min = 0, max = 100) {
@@ -524,11 +524,11 @@ export function numberGetRandomRealManyUnique(count = 2, min = 0, max = 100) {
  * Функция для получения массива дробных случайных чисел.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {number} min Минимальное значение диапазона.
+ * @arg {number} min Минимальное значение диапазона.
  * - По умолчанию `0`
- * @param {number} max Максимальное значение диапазона.
+ * @arg {number} max Максимальное значение диапазона.
  * - По умолчанию `100`
- * @param {number} count Кол-во создаваемой последовательности.
+ * @arg {number} count Кол-во создаваемой последовательности.
  * - По умолчанию `2`
 */
 export function numberGetRandomFracManyUnique(count = 2, min = 0, max = 100) {
@@ -548,7 +548,7 @@ export function numberGetRandomFracManyUnique(count = 2, min = 0, max = 100) {
  * @typedef {TBgetSequence} TgetSequence
 */
 
-/** @param {TgetSequence} t */
+/** @arg {TgetSequence} t */
 function getSequenceDeceit(t) {
 
     try {
@@ -564,7 +564,7 @@ function getSequenceDeceit(t) {
     };
 
 };
-/** @param {TgetSequence} t */
+/** @arg {TgetSequence} t */
 function getSequenceVerify(t) {
 
     const {
@@ -576,7 +576,7 @@ function getSequenceVerify(t) {
     return getSequenceHandle(t);
 
 };
-/** @param {TgetSequence} t */
+/** @arg {TgetSequence} t */
 function getSequenceHandle(t) {
 
     let {
@@ -594,7 +594,7 @@ function getSequenceHandle(t) {
     return getSequenceComply(t);
 
 };
-/** @param {TgetSequence} t */
+/** @arg {TgetSequence} t */
 function getSequenceComply(t) {
 
     const {
@@ -628,10 +628,10 @@ function getSequenceComply(t) {
  * Функция для получения последовательности чисел в виде массива.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {number} step Шаг разницы между следюущим и предыдущим значением последовательности.
- * @param {number} count Кол-во чисел в последовательности.
- * @param {number} begin Начальное занчение последовательности.
- * @param {...function} handlers Обработчики элементов последовательности.
+ * @arg {number} step Шаг разницы между следюущим и предыдущим значением последовательности.
+ * @arg {number} count Кол-во чисел в последовательности.
+ * @arg {number} begin Начальное занчение последовательности.
+ * @arg {...function} handlers Обработчики элементов последовательности.
 */
 export function numberGetSequence(count = 2, begin = 1, step = 1, ...handlers) {
 
@@ -649,7 +649,7 @@ export function numberGetSequence(count = 2, begin = 1, step = 1, ...handlers) {
  * @typedef {TBgetNearstIndex} TgetNearstIndex
 */
 
-/** @param {TgetNearstIndex} t */
+/** @arg {TgetNearstIndex} t */
 function getNearstIndexDeceit(t) {
 
     try {
@@ -665,7 +665,7 @@ function getNearstIndexDeceit(t) {
     };
 
 };
-/** @param {TgetNearstIndex} t */
+/** @arg {TgetNearstIndex} t */
 function getNearstIndexVerify(t) {
 
     const {
@@ -677,7 +677,7 @@ function getNearstIndexVerify(t) {
     return getNearstIndexHandle(t);
 
 };
-/** @param {TgetNearstIndex} t */
+/** @arg {TgetNearstIndex} t */
 function getNearstIndexHandle(t) {
 
     let {
@@ -697,7 +697,7 @@ function getNearstIndexHandle(t) {
     return getNearstIndexComply(t);
 
 };
-/** @param {TgetNearstIndex} t */
+/** @arg {TgetNearstIndex} t */
 function getNearstIndexComply(t) {
 
     const {
@@ -730,8 +730,8 @@ function getNearstIndexComply(t) {
  * Если один из индексов не существует, то он равен null.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {number} number Число.
- * @param {[number]} array Массив чисел.
+ * @arg {number} number Число.
+ * @arg {[number]} array Массив чисел.
 */
 export function numberGetNearstIndex(number, array) {
 
@@ -750,7 +750,7 @@ export function numberGetNearstIndex(number, array) {
  * @typedef {TBcheckEntryRange} TcheckEntryRange
 */
 
-/** @param {TcheckEntryRange} t */
+/** @arg {TcheckEntryRange} t */
 function checkEntryRangeDeceit(t) {
 
     try {
@@ -766,7 +766,7 @@ function checkEntryRangeDeceit(t) {
     };
 
 };
-/** @param {TcheckEntryRange} t */
+/** @arg {TcheckEntryRange} t */
 function checkEntryRangeVerify(t) {
 
     const {
@@ -778,7 +778,7 @@ function checkEntryRangeVerify(t) {
     return checkEntryRangeHandle(t);
 
 };
-/** @param {TcheckEntryRange} t */
+/** @arg {TcheckEntryRange} t */
 function checkEntryRangeHandle(t) {
 
     let {
@@ -798,7 +798,7 @@ function checkEntryRangeHandle(t) {
     return checkEntryRangeComply(t);
 
 };
-/** @param {TcheckEntryRange} t */
+/** @arg {TcheckEntryRange} t */
 function checkEntryRangeComply(t) {
 
     const {
@@ -819,9 +819,9 @@ function checkEntryRangeComply(t) {
  * Иначе `false`.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {number} min Минимальное значение диапазона.
- * @param {number} max Максимальное значение диапазона.
- * @param {...number} numbers Числа, которые проверяются на принадлежность к диапазону.
+ * @arg {number} min Минимальное значение диапазона.
+ * @arg {number} max Максимальное значение диапазона.
+ * @arg {...number} numbers Числа, которые проверяются на принадлежность к диапазону.
 */
 export function numberCheckEntryRange(min, max, ...numbers) {
 
@@ -838,7 +838,7 @@ export function numberCheckEntryRange(min, max, ...numbers) {
  * @typedef {TBcheckIntersectionRange} TcheckIntersectionRange
 */
 
-/** @param {TcheckIntersectionRange} t */
+/** @arg {TcheckIntersectionRange} t */
 function checkIntersectionRangeDeceit(t) {
 
     try {
@@ -854,7 +854,7 @@ function checkIntersectionRangeDeceit(t) {
     };
 
 };
-/** @param {TcheckIntersectionRange} t */
+/** @arg {TcheckIntersectionRange} t */
 function checkIntersectionRangeVerify(t) {
 
     const {
@@ -866,7 +866,7 @@ function checkIntersectionRangeVerify(t) {
     return checkIntersectionRangeHandle(t);
 
 };
-/** @param {TcheckIntersectionRange} t */
+/** @arg {TcheckIntersectionRange} t */
 function checkIntersectionRangeHandle(t) {
 
     let {
@@ -886,7 +886,7 @@ function checkIntersectionRangeHandle(t) {
     return checkIntersectionRangeComply(t);
 
 };
-/** @param {TcheckIntersectionRange} t */
+/** @arg {TcheckIntersectionRange} t */
 function checkIntersectionRangeComply(t) {
 
     const {
@@ -903,7 +903,7 @@ function checkIntersectionRangeComply(t) {
  * Функция для проверки пересечения диапазонов.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {...[number,number]} ranges Диапазоны.
+ * @arg {...[number,number]} ranges Диапазоны.
 */
 export function numberCheckIntersectionRange(...ranges) {
 

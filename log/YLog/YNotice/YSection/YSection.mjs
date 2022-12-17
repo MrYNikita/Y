@@ -1,5 +1,5 @@
 import { arrayAppend, arrayRemoveByElement } from "../../../../array/array.mjs";
-import { configLog } from "../../../../config1.mjs";
+import { configYLog } from "../../../../config.mjs";
 import { jectFill } from "../../../../ject/ject.mjs";
 import { stringCastToDate, stringCastToSample, stringReplace, stringReplaceAllMore, stringReplaceMore } from "../../../../string/string.mjs";
 import { YNotice } from "../YNotice.mjs";
@@ -20,12 +20,12 @@ class DSection extends SSection {
      * Область видимости логов.
      * @type {number}
     */
-    vis = configLog.visiable;
+    vis = configYLog.visiable;
     /**
      * Лимит уведомлений.
      * @type {number}
     */
-    size = configLog.size;
+    size = configYLog.size;
     /**
      * Список уведомлений.
      * @type {[YNotice]}
@@ -59,7 +59,7 @@ class FSection extends DSection {
      *
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
-     *  @param {TSection} t
+     *  @arg {TSection} t
     */
     constructor(t = {}) {
 
@@ -73,7 +73,7 @@ class FSection extends DSection {
 
     };
 
-    /** @param {TSection} t @this {[]} */
+    /** @arg {TSection} t @this {[]} */
     static #before(t) {
 
 
@@ -83,7 +83,7 @@ class FSection extends DSection {
         return t;
 
     };
-    /** @param {TSection} t @this {YSection} */
+    /** @arg {TSection} t @this {YSection} */
     static #deceit(t) {
 
         try {
@@ -97,7 +97,7 @@ class FSection extends DSection {
         };
 
     };
-    /** @param {TSection} t @this {YSection} */
+    /** @arg {TSection} t @this {YSection} */
     static #verify(t) {
 
         const {
@@ -109,7 +109,7 @@ class FSection extends DSection {
         FSection.#handle(t);
 
     };
-    /** @param {TSection} t @this {YSection} */
+    /** @arg {TSection} t @this {YSection} */
     static #handle(t) {
 
         let {
@@ -127,7 +127,7 @@ class FSection extends DSection {
         };
 
     };
-    /** @param {TSection} t @this {YSection} */
+    /** @arg {TSection} t @this {YSection} */
     static #create(t) {
 
         const {
@@ -160,7 +160,7 @@ export class YSection extends FSection {
 
         return this.list.map(n => stringReplaceAllMore(
 
-            configLog.templates.section,
+            configYLog.templates.section,
             [stringCastToDate(n.date), 't'],
             [stringCastToSample(n.data), 'd'],
             [this.symbol ?? this.label, 's']
@@ -171,7 +171,7 @@ export class YSection extends FSection {
     /**
      * Метод для добавления новых уведомлений в секцию.
      * Версия `0.0.0`
-     * @param {...string|YNotice} notices - Остаточный набор строк или уведомлений, предназначенных для размещения в секцию.
+     * @arg {...string|YNotice} notices - Остаточный набор строк или уведомлений, предназначенных для размещения в секцию.
     */
     append(...notices) {
 
@@ -211,7 +211,7 @@ export class YSection extends FSection {
     /**
      * Метод для преобразования указанного уведомления из списка в заданный формат.
      * - Версия `0.0.0`
-     * @param {number|YNotice} notice Индекс уведомления в списке или само уведомление.
+     * @arg {number|YNotice} notice Индекс уведомления в списке или само уведомление.
     */
     getNotice(notice) {
 
@@ -221,7 +221,7 @@ export class YSection extends FSection {
 
             return stringReplaceMore(
 
-                configLog.templates.section,
+                configYLog.templates.section,
                 [stringCastToDate(notice.date), 't'],
                 [stringCastToSample(notice.data), 'd'],
                 [this.symbol ?? this.label, 's']

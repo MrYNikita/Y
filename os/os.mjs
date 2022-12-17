@@ -9,7 +9,7 @@ import { config } from "../config.mjs";
  * @typedef {TBgetIP} TgetIP
 */
 
-/** @param {TgetIP} t */
+/** @arg {TgetIP} t */
 function getIPDeceit(t) {
 
     try {
@@ -25,7 +25,7 @@ function getIPDeceit(t) {
     };
 
 };
-/** @param {TgetIP} t */
+/** @arg {TgetIP} t */
 function getIPVerify(t) {
 
     const {
@@ -37,7 +37,7 @@ function getIPVerify(t) {
     return getIPHandle(t);
 
 };
-/** @param {TgetIP} t */
+/** @arg {TgetIP} t */
 function getIPHandle(t) {
 
     let {
@@ -57,7 +57,7 @@ function getIPHandle(t) {
     return getIPComply(t);
 
 };
-/** @param {TgetIP} t */
+/** @arg {TgetIP} t */
 function getIPComply(t) {
 
     const {
@@ -89,8 +89,8 @@ function getIPComply(t) {
  * Функция для получения IP устройства по беспроводной сети.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {string} type Тип сети.
- * @param {string} local Локаль.
+ * @arg {string} type Тип сети.
+ * @arg {string} local Локаль.
 */
 export function osGetIP(local, type) {
 

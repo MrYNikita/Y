@@ -1,9 +1,9 @@
-import { YBasic } from "../YBasic/YBasic.mjs";
-import { jectFill } from "../ject.mjs";
+import { configJect, configYJect, configYLog, configYRept } from "../../config.mjs";
+import { YDate } from "../../date/YDate/YDate.mjs";
 import { YLog } from "../../log/YLog/YLog.mjs";
-import { YRept } from "./YRept/YRept.mjs";
-import { YString } from "../../string/YString/YString.mjs";
-import { stringCastToDate } from "../../string/string.mjs";
+import { jectFill } from "../ject.mjs";
+import { YBasic } from "../YBasic/YBasic.mjs";
+import { YRept } from "../YBasic/YRept/YRept.mjs";
 
 /**
  * @typedef TBJect
@@ -13,7 +13,13 @@ import { stringCastToDate } from "../../string/string.mjs";
 
 class SJect extends YBasic {
 
+    /**
+     * Общедоступный отчет.
+     * @type {YRept}
+    */
+    static rept = new YRept()
 
+        .append(`Класс: <cl>`, 'f', 'Метаданные');
 
 };
 class DJect extends SJect {
@@ -26,71 +32,35 @@ class IJect extends DJect {
     /**
      * Журнал.
      * @protected
-     * @type {YLog}
+     * @type {YLog?}
     */
-    log = new YLog();
+    log = (configYJect.log) ? new YLog() : null;
     /**
      * Дата.
-     * @type {Date}
+     * @protected
+     * @type {YDate?}
     */
-    date = new Date();
+    date = (configYJect.date) ? new YDate() : null;
     /**
      * Отчет.
      * @protected
-     * @type {YRept}
+     * @type {YRept?}
     */
-    rept = new YRept()
-
-        .append(_ => {
-
-            return new YString()
-
-                .changePostfix(';\n')
-                .paste(
-
-                    `Класс: ${this.constructor.name}`,
-                    `Дата: ${stringCastToDate(this.date)}`,
-
-                )
-                .get()
-
-        }, 'l', 'Заголовок')
-        .append(_ => {
-
-            return new YString()
-
-                .changePostfix(';\n')
-                .paste(
-
-                    `Размер: ${this.log.list.reduce((p, c) => p + c.size, 0)}`,
-                    `Записей: ${this.log.list.reduce((p, c) => p + c.list.length, 0)}`,
-                    `Видимость: ${this.log.vis}`,
-
-                )
-                .exec((y) => {
-
-                    const v = this.log.getVisiable();
-
-                    if (v.length) y
-
-                        .changePrePostfix()
-                        .pasteTemplate('l')
-                        .changePostfix(';\n')
-                        .paste(...this.log.getVisiable());
-
-                })
-                .get()
-
-        }, 'l', 'Журнал');
+    rept = (configYJect.report) ? new YRept(this) : null;
 
 };
-class FJect extends IJect {
+class MJect extends IJect {
+
+
+
+};
+class FJect extends MJect {
 
     /**
      * Контсруктор класса `YJect`
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
-     *  @param {TJect} t
+     *  @arg {TJect} t
     */
     constructor(t = {}) {
 
@@ -104,25 +74,32 @@ class FJect extends IJect {
 
     };
 
-    /** @param {Array<any>} t */
+    /** @arg {Array<any>} t */
     static #before(t) {
 
-        if (t?.length === 1 && t[0]?.constructor === Object) {
+        if (t?.length === 1 && [Object, YJect].includes(t[0]?.constructor)) {
 
             return t[0];
 
         } else if (t?.length) {
 
+            /** @type {TJect&DJect} */
             const r = {};
 
+            switch (t.length) {
 
+                case 3:
+                case 2:
+                case 1:
+
+            };
 
             return r;
 
         } else return {};
 
     };
-    /** @param {TJect} t @this {YJect} */
+    /** @arg {TJect} t @this {YJect} */
     static #deceit(t) {
 
         try {
@@ -136,7 +113,7 @@ class FJect extends IJect {
         };
 
     };
-    /** @param {TJect} t @this {YJect} */
+    /** @arg {TJect} t @this {YJect} */
     static #verify(t) {
 
         const {
@@ -148,25 +125,13 @@ class FJect extends IJect {
         FJect.#handle(t);
 
     };
-    /** @param {TJect} t @this {YJect} */
+    /** @arg {TJect} t @this {YJect} */
     static #handle(t) {
 
-        let {
 
-
-
-        } = t;
-
-
-
-        t = {
-
-            ...t,
-
-        };
 
     };
-    /** @param {TJect} t @this {YJect} */
+    /** @arg {TJect} t @this {YJect} */
     static #create(t) {
 
         const {
@@ -182,19 +147,16 @@ class FJect extends IJect {
     };
 
 };
-class MJect extends FJect {
-
-
-
-};
 
 /**
+ * Класс `YJect`
  *
- * - Тип `SDIFMY-1.0`
+ * Базовый класс `YModules`, наследуемый прочими классами модулей.
+ * - Тип `SDIMFY`
  * - Версия `0.0.0`
  * - Цепочка `BDVHC`
 */
-export class YJect extends MJect {
+export class YJect extends FJect {
 
     /**
      * Метод для создания записи в журнал.

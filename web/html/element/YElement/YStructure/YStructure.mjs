@@ -33,7 +33,7 @@ class FStructure extends MStructure {
      * Контсруктор класса `YStructure`
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
-     *  @param {TStructure} t
+     *  @arg {TStructure} t
     */
     constructor(t = {}) {
 
@@ -47,7 +47,7 @@ class FStructure extends MStructure {
 
     };
 
-    /** @param {Array<any>} t */
+    /** @arg {Array<any>} t */
     static #before(t) {
 
         if (t?.length === 1 && t[0]?.constructor === Object) {
@@ -72,7 +72,7 @@ class FStructure extends MStructure {
         } else return {};
 
     };
-    /** @param {TStructure} t @this {YStructure} */
+    /** @arg {TStructure} t @this {YStructure} */
     static #deceit(t) {
 
         try {
@@ -86,7 +86,7 @@ class FStructure extends MStructure {
         };
 
     };
-    /** @param {TStructure} t @this {YStructure} */
+    /** @arg {TStructure} t @this {YStructure} */
     static #verify(t) {
 
         const {
@@ -98,13 +98,13 @@ class FStructure extends MStructure {
         FStructure.#handle(t);
 
     };
-    /** @param {TStructure} t @this {YStructure} */
+    /** @arg {TStructure} t @this {YStructure} */
     static #handle(t) {
 
 
 
     };
-    /** @param {TStructure} t @this {YStructure} */
+    /** @arg {TStructure} t @this {YStructure} */
     static #create(t) {
 
         const {

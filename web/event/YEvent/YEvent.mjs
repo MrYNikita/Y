@@ -51,7 +51,7 @@ class FEvent extends MEvent {
      * Контсруктор класса `YEvent`
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
-     *  @param {TEvent} t
+     *  @arg {TEvent} t
     */
     constructor(t = {}) {
 
@@ -65,7 +65,7 @@ class FEvent extends MEvent {
 
     };
 
-    /** @param {Array<any>} t */
+    /** @arg {Array<any>} t */
     static #before(t) {
 
         if (t?.length === 1 && t[0]?.constructor === Object) {
@@ -90,7 +90,7 @@ class FEvent extends MEvent {
         } else return {};
 
     };
-    /** @param {TEvent} t @this {YEvent} */
+    /** @arg {TEvent} t @this {YEvent} */
     static #deceit(t) {
 
         try {
@@ -104,7 +104,7 @@ class FEvent extends MEvent {
         };
 
     };
-    /** @param {TEvent} t @this {YEvent} */
+    /** @arg {TEvent} t @this {YEvent} */
     static #verify(t) {
 
         const {
@@ -116,13 +116,13 @@ class FEvent extends MEvent {
         FEvent.#handle(t);
 
     };
-    /** @param {TEvent} t @this {YEvent} */
+    /** @arg {TEvent} t @this {YEvent} */
     static #handle(t) {
 
 
 
     };
-    /** @param {TEvent} t @this {YEvent} */
+    /** @arg {TEvent} t @this {YEvent} */
     static #create(t) {
 
         const {

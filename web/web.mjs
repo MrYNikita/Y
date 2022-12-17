@@ -8,7 +8,7 @@ import { YString } from "../string/YString/YString.mjs";
  * @typedef {TBgetScripts} TgetScripts
 */
 
-/** @param {TgetScripts} t */
+/** @arg {TgetScripts} t */
 function getScriptsDeceit(t) {
 
     try {
@@ -24,7 +24,7 @@ function getScriptsDeceit(t) {
     };
 
 };
-/** @param {TgetScripts} t */
+/** @arg {TgetScripts} t */
 function getScriptsVerify(t) {
 
 
@@ -32,7 +32,7 @@ function getScriptsVerify(t) {
     return getScriptsHandle(t);
 
 };
-/** @param {TgetScripts} t */
+/** @arg {TgetScripts} t */
 function getScriptsHandle(t) {
 
 
@@ -40,7 +40,7 @@ function getScriptsHandle(t) {
     return getScriptsComply(t);
 
 };
-/** @param {TgetScripts} t */
+/** @arg {TgetScripts} t */
 function getScriptsComply(t) {
 
     const {

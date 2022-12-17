@@ -3,7 +3,6 @@ import { jectFill } from "../../../../../ject/ject.mjs";
 import { stringReplace } from "../../../../../string/string.mjs";
 import { arrayRemoveByElement } from "../../../../../array/array.mjs";
 import { YStyle } from "../../../style/YStyle/YStyle.mjs";
-import { YRept } from "../../../../../ject/YJect/YRept/YRept.mjs";
 import { YString } from "../../../../../string/YString/YString.mjs";
 import { YStyleAnimation } from "../../../style/YStyle/YStyleAnimation/YStyleAnimation.mjs";
 
@@ -18,7 +17,7 @@ class SElementStyle extends YElement {
     /**
      * Метод поиска элемента по `id`.
      * - Версия `0.0.0`
-     * @param {string} id Идентификатор поиска.
+     * @arg {string} id Идентификатор поиска.
     */
     static findById(id) {
 
@@ -33,7 +32,7 @@ class SElementStyle extends YElement {
     /**
      * Метод поиска элементов по `id` и оборачивания их в `YElementStyle`.
      * - Версия `0.0.0`
-     * @param {...string} id Идентификаторы поиска.
+     * @arg {...string} id Идентификаторы поиска.
     */
     static findAllById(...id) {
 
@@ -100,7 +99,7 @@ class FElementStyle extends MElementStyle {
      * Контсруктор класса `YElementStyle`
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
-     *  @param {TElementStyle} t
+     *  @arg {TElementStyle} t
     */
     constructor(t = {}) {
 
@@ -114,7 +113,7 @@ class FElementStyle extends MElementStyle {
 
     };
 
-    /** @param {Array<any>} t */
+    /** @arg {Array<any>} t */
     static #before(t) {
 
         if (t?.length === 1 && t[0]?.constructor === Object) {
@@ -139,7 +138,7 @@ class FElementStyle extends MElementStyle {
         } else return {};
 
     };
-    /** @param {TElementStyle} t @this {YElementStyle} */
+    /** @arg {TElementStyle} t @this {YElementStyle} */
     static #deceit(t) {
 
         try {
@@ -153,7 +152,7 @@ class FElementStyle extends MElementStyle {
         };
 
     };
-    /** @param {TElementStyle} t @this {YElementStyle} */
+    /** @arg {TElementStyle} t @this {YElementStyle} */
     static #verify(t) {
 
         const {
@@ -165,7 +164,7 @@ class FElementStyle extends MElementStyle {
         FElementStyle.#handle(t);
 
     };
-    /** @param {TElementStyle} t @this {YElementStyle} */
+    /** @arg {TElementStyle} t @this {YElementStyle} */
     static #handle(t) {
 
         t.type = 'style';
@@ -175,7 +174,7 @@ class FElementStyle extends MElementStyle {
         else t.classes = ['style'];
 
     };
-    /** @param {TElementStyle} t @this {YElementStyle} */
+    /** @arg {TElementStyle} t @this {YElementStyle} */
     static #create(t) {
 
         const {
@@ -219,7 +218,7 @@ export class YElementStyle extends FElementStyle {
     /**
      * Метод получения свойств стиля в виде объекта.
      * - Версия `0.0.0`
-     * @param {string} label Метка.
+     * @arg {string} label Метка.
     */
     get(label) {
 
@@ -239,7 +238,7 @@ export class YElementStyle extends FElementStyle {
     };
     /**
      * Метод добавления стилей.
-     * @param {...[string, CSSStyleDeclaration, Array<string|YStyle>]} styles
+     * @arg {...[string, CSSStyleDeclaration, Array<string|YStyle>]} styles
     */
     append(...styles) {
 
@@ -263,7 +262,7 @@ export class YElementStyle extends FElementStyle {
     };
     /**
      * Метод для отката стилей.
-     * @param {...YStyle|string} ys
+     * @arg {...YStyle|string} ys
     */
     remove(...ys) {
 
@@ -283,8 +282,8 @@ export class YElementStyle extends FElementStyle {
     /**
      * Метод для изменения стиля по его метке.
      * - Версия `0.0.0`
-     * @param {string} label Метка.
-     * @param {CSSStyleDeclaration} property Стиль.
+     * @arg {string} label Метка.
+     * @arg {CSSStyleDeclaration} property Стиль.
     */
     change(label, property) {
 

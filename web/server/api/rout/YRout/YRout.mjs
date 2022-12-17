@@ -49,7 +49,7 @@ class FRout extends DRout {
      *
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
-     *  @param {TRout} t
+     *  @arg {TRout} t
     */
     constructor(t = {}) {
 
@@ -63,7 +63,7 @@ class FRout extends DRout {
 
     };
 
-    /** @param {TRout} t @this {[]} */
+    /** @arg {TRout} t @this {[]} */
     static #before(t) {
 
 
@@ -73,7 +73,7 @@ class FRout extends DRout {
         return t;
 
     };
-    /** @param {TRout} t @this {YRout} */
+    /** @arg {TRout} t @this {YRout} */
     static #deceit(t) {
 
         try {
@@ -87,7 +87,7 @@ class FRout extends DRout {
         };
 
     };
-    /** @param {TRout} t @this {YRout} */
+    /** @arg {TRout} t @this {YRout} */
     static #verify(t) {
 
         const {
@@ -99,7 +99,7 @@ class FRout extends DRout {
         FRout.#handle(t);
 
     };
-    /** @param {TRout} t @this {YRout} */
+    /** @arg {TRout} t @this {YRout} */
     static #handle(t) {
 
         let {
@@ -117,7 +117,7 @@ class FRout extends DRout {
         };
 
     };
-    /** @param {TRout} t @this {YRout} */
+    /** @arg {TRout} t @this {YRout} */
     static #create(t) {
 
         const {
@@ -143,8 +143,8 @@ class FRout extends DRout {
 export class YRout extends FRout {
 
     /**
-     * @param {http.ServerResponse} res
-     * @param {http.IncomingMessage} req
+     * @arg {http.ServerResponse} res
+     * @arg {http.IncomingMessage} req
     */
     exec(req, res) {
 

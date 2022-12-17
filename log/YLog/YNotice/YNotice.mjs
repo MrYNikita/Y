@@ -1,5 +1,5 @@
 import { jectFill } from "../../../ject/ject.mjs";
-import { configLog } from "../../../config1.mjs";
+import { configYLog } from "../../../config.mjs";
 import { stringCastToDate, stringCastToSample, stringReplace, stringReplaceAllMore, stringReplaceMore } from "../../../string/string.mjs";
 import { YSection } from "./YSection/YSection.mjs";
 
@@ -44,7 +44,7 @@ class FNotice extends DNotice {
      *
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
-     *  @param {TNotice} t
+     *  @arg {TNotice} t
     */
     constructor(t = {}) {
 
@@ -58,7 +58,7 @@ class FNotice extends DNotice {
 
     };
 
-    /** @param {TNotice} t @this {[]} */
+    /** @arg {TNotice} t @this {[]} */
     static #before(t) {
 
         if (t.constructor === String) t = { data: t, };
@@ -68,7 +68,7 @@ class FNotice extends DNotice {
         return t;
 
     };
-    /** @param {TNotice} t @this {YNotice} */
+    /** @arg {TNotice} t @this {YNotice} */
     static #deceit(t) {
 
         try {
@@ -82,7 +82,7 @@ class FNotice extends DNotice {
         };
 
     };
-    /** @param {TNotice} t @this {YNotice} */
+    /** @arg {TNotice} t @this {YNotice} */
     static #verify(t) {
 
         const {
@@ -94,7 +94,7 @@ class FNotice extends DNotice {
         FNotice.#handle(t);
 
     };
-    /** @param {TNotice} t @this {YNotice} */
+    /** @arg {TNotice} t @this {YNotice} */
     static #handle(t) {
 
         let {
@@ -112,7 +112,7 @@ class FNotice extends DNotice {
         };
 
     };
-    /** @param {TNotice} t @this {YNotice} */
+    /** @arg {TNotice} t @this {YNotice} */
     static #create(t) {
 
         const {
@@ -148,7 +148,7 @@ export class YNotice extends FNotice {
         if (this.section) return this.section.getNotice(this);
         else return stringReplaceMore(
 
-            configLog.templates.notice,
+            configYLog.templates.notice,
             [stringCastToDate(this.date), 't'],
             [stringCastToSample(this.data), 'd']
 

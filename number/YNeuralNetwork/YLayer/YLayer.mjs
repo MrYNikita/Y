@@ -46,7 +46,7 @@ class FLayer extends MLayer {
      * Контсруктор класса `YLayer`
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
-     *  @param {TLayer} t
+     *  @arg {TLayer} t
     */
     constructor(t = {}) {
 
@@ -60,7 +60,7 @@ class FLayer extends MLayer {
 
     };
 
-    /** @param {Array<any>} t */
+    /** @arg {Array<any>} t */
     static #before(t) {
 
         if (t?.length === 1 && t[0]?.constructor === Object) {
@@ -84,7 +84,7 @@ class FLayer extends MLayer {
         } else return {};
 
     };
-    /** @param {TLayer} t @this {YLayer} */
+    /** @arg {TLayer} t @this {YLayer} */
     static #deceit(t) {
 
         try {
@@ -98,7 +98,7 @@ class FLayer extends MLayer {
         };
 
     };
-    /** @param {TLayer} t @this {YLayer} */
+    /** @arg {TLayer} t @this {YLayer} */
     static #verify(t) {
 
         const {
@@ -110,7 +110,7 @@ class FLayer extends MLayer {
         FLayer.#handle(t);
 
     };
-    /** @param {TLayer} t @this {YLayer} */
+    /** @arg {TLayer} t @this {YLayer} */
     static #handle(t) {
 
         console.log(t);
@@ -118,7 +118,7 @@ class FLayer extends MLayer {
         if (t.neurons.length) t.neurons = t.neurons.map(n => new YNeuron(t.activation, ...n));
 
     };
-    /** @param {TLayer} t @this {YLayer} */
+    /** @arg {TLayer} t @this {YLayer} */
     static #create(t) {
 
         const {
@@ -146,7 +146,7 @@ export class YLayer extends FLayer {
     /**
      * Метод получения данных.
      * - Версия `0.0.0`
-     * @param {...number} numbers Входные данные.
+     * @arg {...number} numbers Входные данные.
      * Кол-во числовых данных должно соответствовать кол-ву входов в нейронах.
     */
     feed(...numbers) {

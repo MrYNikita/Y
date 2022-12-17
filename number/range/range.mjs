@@ -15,7 +15,7 @@ import { YRange } from "./YRange/YRange.mjs";
  * @typedef {TBcast} Tcast
 */
 
-/** @param {Tcast} t */
+/** @arg {Tcast} t */
 function castDeceit(t) {
 
     try {
@@ -31,7 +31,7 @@ function castDeceit(t) {
     };
 
 };
-/** @param {Tcast} t */
+/** @arg {Tcast} t */
 function castVerify(t) {
 
     const {
@@ -43,7 +43,7 @@ function castVerify(t) {
     return castHandle(t);
 
 };
-/** @param {Tcast} t */
+/** @arg {Tcast} t */
 function castHandle(t) {
 
     let {
@@ -66,7 +66,7 @@ function castHandle(t) {
     return castComply(t);
 
 };
-/** @param {Tcast} t */
+/** @arg {Tcast} t */
 function castComply(t) {
 
     const {
@@ -115,9 +115,9 @@ function castComply(t) {
  * Функция сведения к диапазону.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {number} step Шаг.
+ * @arg {number} step Шаг.
  * - По умолчанию `1`
- * @param {...number} numbers Числа.
+ * @arg {...number} numbers Числа.
 */
 export function rangeCast(step = 1, ...numbers) {
 
@@ -135,7 +135,7 @@ export function rangeCast(step = 1, ...numbers) {
  * @typedef {TBcheck} Tcheck
 */
 
-/** @param {Tcheck} t */
+/** @arg {Tcheck} t */
 function checkDeceit(t) {
 
     try {
@@ -151,7 +151,7 @@ function checkDeceit(t) {
     };
 
 };
-/** @param {Tcheck} t */
+/** @arg {Tcheck} t */
 function checkVerify(t) {
 
     const {
@@ -163,7 +163,7 @@ function checkVerify(t) {
     return checkHandle(t);
 
 };
-/** @param {Tcheck} t */
+/** @arg {Tcheck} t */
 function checkHandle(t) {
 
     let {
@@ -183,7 +183,7 @@ function checkHandle(t) {
     return checkComply(t);
 
 };
-/** @param {Tcheck} t */
+/** @arg {Tcheck} t */
 function checkComply(t) {
 
     const {

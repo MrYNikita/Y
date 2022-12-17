@@ -1,4 +1,4 @@
-import { config } from "../config1.mjs";
+import { config } from "../config.mjs";
 import { numberGetRandomReal } from "../number/number.mjs";
 
 //#region mix 0.1.0
@@ -10,7 +10,7 @@ import { numberGetRandomReal } from "../number/number.mjs";
  * @typedef {TBmix} Tmix
 */
 
-/** @param {Tmix} t */
+/** @arg {Tmix} t */
 function mixDeceit(t) {
 
     try {
@@ -26,7 +26,7 @@ function mixDeceit(t) {
     };
 
 };
-/** @param {Tmix} t */
+/** @arg {Tmix} t */
 function mixVerify(t) {
 
     const {
@@ -38,7 +38,7 @@ function mixVerify(t) {
     return mixHandle(t);
 
 };
-/** @param {Tmix} t */
+/** @arg {Tmix} t */
 function mixHandle(t) {
 
     let {
@@ -56,7 +56,7 @@ function mixHandle(t) {
     return mixComply(t);
 
 };
-/** @param {Tmix} t */
+/** @arg {Tmix} t */
 function mixComply(t) {
 
     const {
@@ -98,12 +98,205 @@ function mixComply(t) {
  * Функция создания массива с произвольным размещением элементов исходного массива.
  * - Версия `0.1.0`
  * - Цепочка `DVHCa`
- * @param {[any]} array Исходный массив.
- * @param {number} degree Степень перемешивания.
+ * @arg {[any]} array Исходный массив.
+ * @arg {number} degree Степень перемешивания.
 */
 export function arrayMix(array, degree = 1) {
 
     return mixDeceit({ array, degree, });
+
+};
+
+//#endregion
+//#region bulk 0.0.0
+
+/**
+ * @typedef TBbulk
+ * @prop {any[]} array
+ * @prop {number[]} dimension
+ * @typedef {TBbulk} Tbulk
+*/
+
+/** @arg {Tbulk} t */
+function bulkDeceit(t) {
+
+    try {
+
+        return bulkVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @arg {Tbulk} t */
+function bulkVerify(t) {
+
+
+
+    return bulkHandle(t);
+
+};
+/** @arg {Tbulk} t */
+function bulkHandle(t) {
+
+
+
+    return bulkComply(t);
+
+};
+/** @arg {Tbulk} t */
+function bulkComply(t) {
+
+    const {
+
+        array,
+        dimension,
+
+    } = t;
+
+    if (dimension.length > 1) for (let i = 0; i < array.length; i++) {
+
+        array[i] = dimension[i] ? arraySupplement(new Array(dimension[i]).fill(undefined), array[i]) : array[i];
+
+    } else for (let i = 0; i < array.length; i++) {
+
+        array[i] = arraySupplement(new Array(dimension[0]).fill(undefined), array[i]);
+
+    };
+
+    return array;
+
+};
+
+/**
+ * Функция для создания нового измерения массива.
+ * Измерение может быть `равным` или `разным`.
+ *
+ * Если в качестве `dimension` (размерности) будет указанно единственное значение,
+ * то созданное измерение будет `равным`: каждый элемент указанного массива
+ * будет заменен массивом с размером равным `dimension`.
+ *
+ * Если в качестве `dimension` (размерности) будет указано множество значений,
+ * то созданное измерение будет `разным`: для каждого элемента массива будет
+ * применен соответсвующий его порядку размер.
+ *
+ * Если до применения функции заменяемый элемент был равен какому-либо значению,
+ * отличному от `undefined`, то данное значение будет перенесено в следующее измерение.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @arg {any[]} array Исходный массив.
+ * @arg {...number} dimension Размерности.
+*/
+export function arrayBulk(array, ...dimension) {
+
+    return bulkDeceit({ array, dimension, });
+
+};
+
+//#endregion
+//#region level 0.0.0
+
+/**
+ * @typedef TBlevel
+ * @prop {any[]} array
+ * @prop {number[]} levels
+ * @typedef {TBlevel} Tlevel
+*/
+
+/** @arg {Tlevel} t */
+function levelDeceit(t) {
+
+    try {
+
+        return levelVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @arg {Tlevel} t */
+function levelVerify(t) {
+
+
+
+    return levelHandle(t);
+
+};
+/** @arg {Tlevel} t */
+function levelHandle(t) {
+
+
+
+    return levelComply(t);
+
+};
+/** @arg {Tlevel} t */
+function levelComply(t) {
+
+    const {
+
+        array,
+        levels,
+
+    } = t;
+
+    for (const level of levels) {
+
+        const arrays = [array];
+
+        while (arrays.length) {
+
+            const a = arrays.pop();
+
+            for (let i = 0; i < a.length; i++) {
+
+                if (a[i] instanceof Array) arrays.push(a[i]);
+                else {
+
+                    const e = a[i];
+                    a[i] = arrayAppend(new Array(level - 1).fill(undefined));
+
+                    a[i].splice(0, 0, e);
+
+                };
+
+            };
+
+        };
+
+    };
+
+    return array;
+
+};
+
+/**
+ * Функция изменения размерности массива.
+ *
+ * Делает исходный массив более размерным, заменяя каждый элемент
+ * новым массивом указанного размера.
+ *
+ * Если целью функции (которой изначально являются элементы исходного массива),
+ * оказываются другие массивы, то функция будет применена к их элементам и так до тех пор,
+ * пока не будут найдены элементы отличные от массивов.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @arg {any[]} array Исходный массив.
+ * @arg {...number} levels Размерности.
+*/
+export function arrayLevel(array, ...levels) {
+
+    return levelDeceit({ array, levels, });
 
 };
 
@@ -118,7 +311,7 @@ export function arrayMix(array, degree = 1) {
  * @typedef {TBpaste} Tpaste
 */
 
-/** @param {Tpaste} t */
+/** @arg {Tpaste} t */
 function pasteDeceit(t) {
 
     try {
@@ -134,7 +327,7 @@ function pasteDeceit(t) {
     };
 
 };
-/** @param {Tpaste} t */
+/** @arg {Tpaste} t */
 function pasteVerify(t) {
 
     const {
@@ -146,7 +339,7 @@ function pasteVerify(t) {
     return pasteHandle(t);
 
 };
-/** @param {Tpaste} t */
+/** @arg {Tpaste} t */
 function pasteHandle(t) {
 
     let {
@@ -166,7 +359,7 @@ function pasteHandle(t) {
     return pasteComply(t);
 
 };
-/** @param {Tpaste} t */
+/** @arg {Tpaste} t */
 function pasteComply(t) {
 
     const {
@@ -188,9 +381,9 @@ function pasteComply(t) {
  * Функция вставки в массив элемента со сдвигом.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {[]} array Исходный массив.
- * @param {number} index Индекс сдвига.
- * @param {...any} elements Элементы вставки.
+ * @arg {[]} array Исходный массив.
+ * @arg {number} index Индекс сдвига.
+ * @arg {...any} elements Элементы вставки.
 */
 export function arrayPaste(array, index, ...elements) {
 
@@ -209,7 +402,7 @@ export function arrayPaste(array, index, ...elements) {
  * @typedef {TBremove} Tremove
 */
 
-/** @param {Tremove} t */
+/** @arg {Tremove} t */
 function removeDeceit(t) {
 
     try {
@@ -225,7 +418,7 @@ function removeDeceit(t) {
     };
 
 };
-/** @param {Tremove} t */
+/** @arg {Tremove} t */
 function removeVerify(t) {
 
     const {
@@ -237,7 +430,7 @@ function removeVerify(t) {
     return removeHandle(t);
 
 };
-/** @param {Tremove} t */
+/** @arg {Tremove} t */
 function removeHandle(t) {
 
     let {
@@ -257,7 +450,7 @@ function removeHandle(t) {
     return removeComply(t);
 
 };
-/** @param {Tremove} t */
+/** @arg {Tremove} t */
 function removeComply(t) {
 
     const {
@@ -296,11 +489,22 @@ function removeComply(t) {
 };
 
 /**
+ * Функция для очистки массивов.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @arg {any[]} array Исходный массив.
+*/
+export function arrayRemove(array) {
+
+    return removeDeceit({ array, });
+
+};
+/**
  * Функция для удаления элементов из массива по индексам.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {Array<any>} array Исходный массив.
- * @param {...number} indexs Индексы удаления.
+ * @arg {Array<any>} array Исходный массив.
+ * @arg {...number} indexs Индексы удаления.
 */
 export function arrayRemoveByIndex(array, ...indexs) {
 
@@ -313,8 +517,8 @@ export function arrayRemoveByIndex(array, ...indexs) {
  * Удалены будут все вхождения данных элементов.
  * - Версия `0.2.0`
  * - Цепочка `DVHCa`
- * @param {Array<any>} array Исходный массив.
- * @param {...any} elements Элементы для удаления.
+ * @arg {Array<any>} array Исходный массив.
+ * @arg {...any} elements Элементы для удаления.
 */
 export function arrayRemoveByElement(array, ...elements) {
 
@@ -331,7 +535,7 @@ export function arrayRemoveByElement(array, ...elements) {
  * @typedef {TBunique} Tunique
 */
 
-/** @param {Tunique} t */
+/** @arg {Tunique} t */
 function uniqueDeceit(t) {
 
     try {
@@ -347,7 +551,7 @@ function uniqueDeceit(t) {
     };
 
 };
-/** @param {Tunique} t */
+/** @arg {Tunique} t */
 function uniqueVerify(t) {
 
     const {
@@ -359,7 +563,7 @@ function uniqueVerify(t) {
     return uniqueHandle(t);
 
 };
-/** @param {Tunique} t */
+/** @arg {Tunique} t */
 function uniqueHandle(t) {
 
     let {
@@ -377,7 +581,7 @@ function uniqueHandle(t) {
     return uniqueComply(t);
 
 };
-/** @param {Tunique} t */
+/** @arg {Tunique} t */
 function uniqueComply(t) {
 
     const {
@@ -400,97 +604,11 @@ function uniqueComply(t) {
  * Функция для фильтрации элементов массива по критерию уникальности.
  * - Версия `0.1.0`
  * - Цепочка `DVHCa`
- * @param {Array<any>} array Исходный массив.
+ * @arg {Array<any>} array Исходный массив.
 */
 export function arrayUnique(array) {
 
     return uniqueDeceit({ array });
-
-};
-
-//#endregion
-//#region append 0.0.1
-
-/**
- * @typedef TBappend
- * @prop {[any]} array
- * @prop {[any]} elements
- * @typedef {TBappend} Tappend
-*/
-
-/** @param {Tappend} t */
-function appendDeceit(t) {
-
-    try {
-
-        return appendVerify(t);
-
-    } catch (e) {
-
-        if (config.strict) throw e;
-
-        return undefined;
-
-    };
-
-};
-/** @param {Tappend} t */
-function appendVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return appendHandle(t);
-
-};
-/** @param {Tappend} t */
-function appendHandle(t) {
-
-    let {
-
-
-
-    } = t;
-
-    t = {
-
-        ...t,
-
-    };
-
-    return appendComply(t);
-
-};
-/** @param {Tappend} t */
-function appendComply(t) {
-
-    const {
-
-        array,
-        elements,
-
-    } = t;
-
-    elements.forEach(e => array.push(e));
-
-    return array;
-
-};
-
-/**
- * Функция для дополнения исходного массива указанными элементами.
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * @param {[any]} array Исходный массив.
- * @param {...any} elements Элементы для добавления.
- * - `ОА`
-*/
-export function arrayAppend(array, ...elements) {
-
-    return appendDeceit({ array, elements, });
 
 };
 
@@ -505,7 +623,7 @@ export function arrayAppend(array, ...elements) {
  * @typedef {TBreplace} Treplace
 */
 
-/** @param {Treplace} t */
+/** @arg {Treplace} t */
 function replaceDeceit(t) {
 
     try {
@@ -521,7 +639,7 @@ function replaceDeceit(t) {
     };
 
 };
-/** @param {Treplace} t */
+/** @arg {Treplace} t */
 function replaceVerify(t) {
 
     const {
@@ -533,7 +651,7 @@ function replaceVerify(t) {
     return replaceHandle(t);
 
 };
-/** @param {Treplace} t */
+/** @arg {Treplace} t */
 function replaceHandle(t) {
 
     let {
@@ -553,7 +671,7 @@ function replaceHandle(t) {
     return replaceComply(t);
 
 };
-/** @param {Treplace} t */
+/** @arg {Treplace} t */
 function replaceComply(t) {
 
     const {
@@ -574,9 +692,9 @@ function replaceComply(t) {
  * Функция для замещения значения массива указанными значениями.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {[]} array Исходный массив.
- * @param {any} value Объект замещения.
- * @param {...any} replaces Замещения.
+ * @arg {[]} array Исходный массив.
+ * @arg {any} value Объект замещения.
+ * @arg {...any} replaces Замещения.
 */
 export function arrayReplace(array, value, ...replaces) {
 
@@ -597,7 +715,7 @@ export function arrayReplace(array, value, ...replaces) {
  * @typedef {TBrearrange} Trearrange
 */
 
-/** @param {Trearrange} t */
+/** @arg {Trearrange} t */
 function rearrangeDeceit(t) {
 
     try {
@@ -613,7 +731,7 @@ function rearrangeDeceit(t) {
     };
 
 };
-/** @param {Trearrange} t */
+/** @arg {Trearrange} t */
 function rearrangeVerify(t) {
 
     const {
@@ -625,7 +743,7 @@ function rearrangeVerify(t) {
     return rearrangeHandle(t);
 
 };
-/** @param {Trearrange} t */
+/** @arg {Trearrange} t */
 function rearrangeHandle(t) {
 
     let {
@@ -649,7 +767,7 @@ function rearrangeHandle(t) {
     return rearrangeComply(t);
 
 };
-/** @param {Trearrange} t */
+/** @arg {Trearrange} t */
 function rearrangeComply(t) {
 
     const {
@@ -672,9 +790,9 @@ function rearrangeComply(t) {
  * Функция для перестановки элементов массива по индексам.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {Array<any>} array Исходный массив.
- * @param {number} indexOne Индекс первого элемента.
- * @param {number} indexTwo Индекс второго элемента.
+ * @arg {Array<any>} array Исходный массив.
+ * @arg {number} indexOne Индекс первого элемента.
+ * @arg {number} indexTwo Индекс второго элемента.
 */
 export function arrayRearrangeByIndex(array, indexOne, indexTwo) {
 
@@ -687,13 +805,103 @@ export function arrayRearrangeByIndex(array, indexOne, indexTwo) {
  * В противном случае следует использовать функцию перестановки по индексу.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {Array<any>} array Исходный массив.
- * @param {any} elementOne Первый элемент.
- * @param {any} elementTwo Второй элемент.
+ * @arg {Array<any>} array Исходный массив.
+ * @arg {any} elementOne Первый элемент.
+ * @arg {any} elementTwo Второй элемент.
 */
 export function arrayRearrangeByElement(array, elementOne, elementTwo) {
 
     return rearrangeDeceit({ array, elementOne, elementTwo, });
+
+};
+
+//#endregion
+//#region supplement 0.0.0
+
+/**
+ * @typedef TBsupplement
+ * @prop {any[]} array
+ * @prop {any[]} supplements
+ * @typedef {TBsupplement} Tsupplement
+*/
+
+/** @arg {Tsupplement} t */
+function supplementDeceit(t) {
+
+    try {
+
+        return supplementVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @arg {Tsupplement} t */
+function supplementVerify(t) {
+
+
+
+    return supplementHandle(t);
+
+};
+/** @arg {Tsupplement} t */
+function supplementHandle(t) {
+
+    if (t.supplements.length) t.supplements = t.supplements.filter(f => f !== undefined);
+
+    return supplementComply(t);
+
+};
+/** @arg {Tsupplement} t */
+function supplementComply(t) {
+
+    const {
+
+        array,
+        supplements,
+
+    } = t;
+
+    let ia = 0;
+
+    for (const s of supplements) {
+
+        if (ia === array.length - 1) break;
+
+        while (ia < array.length) {
+
+            if (array[ia] === undefined) {
+
+                array[ia++] = s;
+                break;
+
+            };
+
+            ia++;
+
+        };
+
+    };
+
+    return array;
+
+};
+
+/**
+ * Функция для дополнения свободных значений массива.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @arg {any[]} array Исходный массив.
+ * @arg {...any} supplements Элементы дополнения.
+*/
+export function arraySupplement(array, ...supplements) {
+
+    return supplementDeceit({ array, supplements, });
 
 };
 
@@ -706,7 +914,7 @@ export function arrayRearrangeByElement(array, elementOne, elementTwo) {
  * @typedef {TBcountSignificant} TcountSignificant
 */
 
-/** @param {TcountSignificant} t */
+/** @arg {TcountSignificant} t */
 function countSignificantDeceit(t) {
 
     try {
@@ -722,7 +930,7 @@ function countSignificantDeceit(t) {
     };
 
 };
-/** @param {TcountSignificant} t */
+/** @arg {TcountSignificant} t */
 function countSignificantVerify(t) {
 
     const {
@@ -734,7 +942,7 @@ function countSignificantVerify(t) {
     return countSignificantHandle(t);
 
 };
-/** @param {TcountSignificant} t */
+/** @arg {TcountSignificant} t */
 function countSignificantHandle(t) {
 
     let {
@@ -754,7 +962,7 @@ function countSignificantHandle(t) {
     return countSignificantComply(t);
 
 };
-/** @param {TcountSignificant} t */
+/** @arg {TcountSignificant} t */
 function countSignificantComply(t) {
 
     const {
@@ -772,7 +980,7 @@ function countSignificantComply(t) {
  * Вернет число, соотвествующую кол-ву элементов, не являющихся пустыми.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {[]} array
+ * @arg {[]} array
 */
 export function arrayCountSignificant(array) {
 
@@ -789,7 +997,7 @@ export function arrayCountSignificant(array) {
  * @typedef {TBgetRandomElement} TgetRandomElement
 */
 
-/** @param {TgetRandomElement} t */
+/** @arg {TgetRandomElement} t */
 function getRandomElementDeceit(t) {
 
     try {
@@ -805,7 +1013,7 @@ function getRandomElementDeceit(t) {
     };
 
 };
-/** @param {TgetRandomElement} t */
+/** @arg {TgetRandomElement} t */
 function getRandomElementVerify(t) {
 
     const {
@@ -817,7 +1025,7 @@ function getRandomElementVerify(t) {
     return getRandomElementHandle(t);
 
 };
-/** @param {TgetRandomElement} t */
+/** @arg {TgetRandomElement} t */
 function getRandomElementHandle(t) {
 
     let {
@@ -835,7 +1043,7 @@ function getRandomElementHandle(t) {
     return getRandomElementComply(t);
 
 };
-/** @param {TgetRandomElement} t */
+/** @arg {TgetRandomElement} t */
 function getRandomElementComply(t) {
 
     const {
@@ -852,12 +1060,186 @@ function getRandomElementComply(t) {
  * Функция для получения случайного элемента массива.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {[any]} array Исходный массив.
+ * @arg {[any]} array Исходный массив.
  * @returns {any}
 */
 export function arrayGetRandomElement(array) {
 
     return getRandomElementDeceit({ array });
+
+};
+
+//#endregion
+
+//#region append 0.0.1
+
+/**
+ * @typedef TBappend
+ * @prop {[any]} array
+ * @prop {[any]} elements
+ * @typedef {TBappend} Tappend
+*/
+
+/** @arg {Tappend} t */
+function appendDeceit(t) {
+
+    try {
+
+        return appendVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @arg {Tappend} t */
+function appendVerify(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return appendHandle(t);
+
+};
+/** @arg {Tappend} t */
+function appendHandle(t) {
+
+    let {
+
+
+
+    } = t;
+
+    t = {
+
+        ...t,
+
+    };
+
+    return appendComply(t);
+
+};
+/** @arg {Tappend} t */
+function appendComply(t) {
+
+    const {
+
+        array,
+        elements,
+
+    } = t;
+
+    array.push(...elements);
+
+    return array;
+
+};
+
+/**
+ * Функция для дополнения исходного массива указанными элементами.
+ * Ключевым отличием от добавления через метод `push` является возвращение исходного массива.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @arg {[any]} array Исходный массив.
+ * @arg {...any} elements Элементы для добавления.
+*/
+export function arrayAppend(array, ...elements) {
+
+    return appendDeceit({ array, elements, });
+
+};
+
+//#endregion
+//#region appendMiss 0.0.0
+
+/**
+ * @typedef TBappendMiss
+ * @prop {any[]} array
+ * @prop {any[]} elements
+ * @typedef {TBappendMiss} TappendMiss
+*/
+
+/** @arg {TappendMiss} t */
+function appendMissDeceit(t) {
+
+    try {
+
+        return appendMissVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @arg {TappendMiss} t */
+function appendMissVerify(t) {
+
+
+
+    return appendMissHandle(t);
+
+};
+/** @arg {TappendMiss} t */
+function appendMissHandle(t) {
+
+
+
+    return appendMissComply(t);
+
+};
+/** @arg {TappendMiss} t */
+function appendMissComply(t) {
+
+    const {
+
+        array,
+        elements,
+
+    } = t;
+
+    if (array.length > elements.length) {
+
+        array.splice(0, elements.length);
+        array.push(...elements);
+
+    } else if (array.length === elements.length) {
+
+        arrayRemove(array);
+        array.push(...elements);
+
+    } else {
+
+        const e = elements.splice(-array.length);
+
+        arrayRemove(array).push(...e);
+
+    };
+
+    return array;
+
+};
+
+/**
+ * Функция добавления элементов с пропуском.
+ * Пропуск подразумевает, что каждый добавленный элемент вытесняет первый элемент массива.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @arg
+*/
+export function arrayAppendMiss(array, ...elements) {
+
+    return appendMissDeceit({ array, elements, });
 
 };
 
@@ -872,7 +1254,7 @@ export function arrayGetRandomElement(array) {
  * @typedef {TBdevideByLimit} TdevideByLimit
 */
 
-/** @param {TdevideByLimit} t */
+/** @arg {TdevideByLimit} t */
 function devideByLimitDeceit(t) {
 
     try {
@@ -888,7 +1270,7 @@ function devideByLimitDeceit(t) {
     };
 
 };
-/** @param {TdevideByLimit} t */
+/** @arg {TdevideByLimit} t */
 function devideByLimitVerify(t) {
 
 
@@ -896,7 +1278,7 @@ function devideByLimitVerify(t) {
     return devideByLimitHandle(t);
 
 };
-/** @param {TdevideByLimit} t */
+/** @arg {TdevideByLimit} t */
 function devideByLimitHandle(t) {
 
     if (t.array.constructor === String) t.array = t.array.split('');
@@ -904,7 +1286,7 @@ function devideByLimitHandle(t) {
     return devideByLimitComply(t);
 
 };
-/** @param {TdevideByLimit} t */
+/** @arg {TdevideByLimit} t */
 function devideByLimitComply(t) {
 
     const {
@@ -927,8 +1309,8 @@ function devideByLimitComply(t) {
  * Делит указанный массив на под-массивы по `limit` (лимиту) элементов.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {any[]} array Исходный массив.
- * @param {number} limit Лимит разделения.
+ * @arg {any[]} array Исходный массив.
+ * @arg {number} limit Лимит разделения.
 */
 export function arrayDevideByLimit(array, limit) {
 

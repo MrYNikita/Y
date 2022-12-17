@@ -9,7 +9,7 @@ import { config } from "../../config.mjs";
  * @typedef {TBorder} Torder
 */
 
-/** @param {Torder} t */
+/** @arg {Torder} t */
 function orderDeceit(t) {
 
     try {
@@ -25,7 +25,7 @@ function orderDeceit(t) {
     };
 
 };
-/** @param {Torder} t */
+/** @arg {Torder} t */
 function orderVerify(t) {
 
     const {
@@ -37,7 +37,7 @@ function orderVerify(t) {
     return orderHandle(t);
 
 };
-/** @param {Torder} t */
+/** @arg {Torder} t */
 function orderHandle(t) {
 
     let {
@@ -57,7 +57,7 @@ function orderHandle(t) {
     return orderComply(t);
 
 };
-/** @param {Torder} t */
+/** @arg {Torder} t */
 function orderComply(t) {
 
     const r = [];
@@ -103,9 +103,9 @@ function orderComply(t) {
  * Функция для упорядочивания значений последовательности.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {boolean} desc Порядок по убывнию.
+ * @arg {boolean} desc Порядок по убывнию.
  * - По умолчанию `false`
- * @param {Array<Array<number>|number>} sequence Последовательность для упорядочивания.
+ * @arg {Array<Array<number>|number>} sequence Последовательность для упорядочивания.
 */
 export function sequenceOrder(sequence, desc = false) {
 
@@ -122,7 +122,7 @@ export function sequenceOrder(sequence, desc = false) {
  * @typedef {TBgetNearst} TgetNearst
 */
 
-/** @param {TgetNearst} t */
+/** @arg {TgetNearst} t */
 function getNearstDeceit(t) {
 
     try {
@@ -138,7 +138,7 @@ function getNearstDeceit(t) {
     };
 
 };
-/** @param {TgetNearst} t */
+/** @arg {TgetNearst} t */
 function getNearstVerify(t) {
 
     const {
@@ -150,7 +150,7 @@ function getNearstVerify(t) {
     return getNearstHandle(t);
 
 };
-/** @param {TgetNearst} t */
+/** @arg {TgetNearst} t */
 function getNearstHandle(t) {
 
     let {
@@ -170,7 +170,7 @@ function getNearstHandle(t) {
     return getNearstComply(t);
 
 };
-/** @param {TgetNearst} t */
+/** @arg {TgetNearst} t */
 function getNearstComply(t) {
 
     const {
@@ -187,8 +187,8 @@ function getNearstComply(t) {
  * Функция для получения соседних значений из последовательности
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {number} number Число, которое
- * @param {Array<number>} sequence
+ * @arg {number} number Число, которое
+ * @arg {Array<number>} sequence
 */
 export function sequenceGetNearst(sequence, number) {
 
@@ -206,7 +206,7 @@ export function sequenceGetNearst(sequence, number) {
  * @typedef {TBcheckEntry} TcheckEntry
 */
 
-/** @param {TcheckEntry} t */
+/** @arg {TcheckEntry} t */
 function checkEntryDeceit(t) {
 
     try {
@@ -222,7 +222,7 @@ function checkEntryDeceit(t) {
     };
 
 };
-/** @param {TcheckEntry} t */
+/** @arg {TcheckEntry} t */
 function checkEntryVerify(t) {
 
     const {
@@ -234,7 +234,7 @@ function checkEntryVerify(t) {
     return checkEntryHandle(t);
 
 };
-/** @param {TcheckEntry} t */
+/** @arg {TcheckEntry} t */
 function checkEntryHandle(t) {
 
     let {
@@ -254,7 +254,7 @@ function checkEntryHandle(t) {
     return checkEntryComply(t);
 
 };
-/** @param {TcheckEntry} t */
+/** @arg {TcheckEntry} t */
 function checkEntryComply(t) {
 
     const {
@@ -287,8 +287,8 @@ function checkEntryComply(t) {
  * Функция для проверки вхождения одной последовательности в другую.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {Array<number>} sequence Последовательность, с которой будут сопоставляться вхождения.
- * @param {...Array<number>|number} inners Последовательности или числа, которые будут проверяться на принадлежность указанной последовательности.
+ * @arg {Array<number>} sequence Последовательность, с которой будут сопоставляться вхождения.
+ * @arg {...Array<number>|number} inners Последовательности или числа, которые будут проверяться на принадлежность указанной последовательности.
 */
 export function sequenceCheckEntry(sequence, ...inners) {
 

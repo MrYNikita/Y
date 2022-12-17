@@ -1,5 +1,6 @@
-import { configLog } from "../../config1.mjs";
+import { configYLog } from "../../config.mjs";
 import { jectFill } from "../../ject/ject.mjs";
+import { YBasic } from "../../ject/YBasic/YBasic.mjs";
 import { YNotice } from "./YNotice/YNotice.mjs";
 import { YSection } from "./YNotice/YSection/YSection.mjs";
 
@@ -9,7 +10,7 @@ import { YSection } from "./YNotice/YSection/YSection.mjs";
  * @typedef {DLog&TBLog} TLog
 */
 
-class SLog {
+class SLog extends YBasic {
 
 
 
@@ -20,30 +21,42 @@ class DLog extends SLog {
      * Видимость.
      * @type {number}
     */
-    vis = configLog.visiable;
+    vis = configYLog.vis;
     /**
      * Секции.
      * @type {[YSection]}
     */
-    list = configLog.section.map(s => new YSection(s));
+    list = configYLog.section.map(s => new YSection(s));
     /**
-     * Активация логирования.
+     * Журналирование.
+     *
+     * При значении `true`, журнал будет включать в себя новые записи.
      * @type {boolean}
     */
     loged = true;
 
 };
-class FLog extends DLog {
+class ILog extends DLog {
+
+
+
+};
+class MLog extends ILog {
+
+
+
+};
+class FLog extends MLog {
 
     /**
-     *
+     * Контсруктор класса `YLog`
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
-     *  @param {TLog} t
+     *  @arg {TLog} t
     */
     constructor(t = {}) {
 
-        t = FLog.#before(...arguments);
+        t = FLog.#before(Object.values(arguments));
 
         FLog.#deceit(t);
 
@@ -53,17 +66,32 @@ class FLog extends DLog {
 
     };
 
-    /** @param {TLog} t @this {[]} */
+    /** @arg {any[]} t */
     static #before(t) {
 
+        if (t?.length === 1 && [Object, YLog].includes(t[0]?.constructor)) {
 
+            return t[0];
 
-        if (!t) t = {};
+        } else if (t?.length) {
 
-        return t;
+            /** @type {TLog&DLog} */
+            const r = {};
+
+            switch (t.length) {
+
+                case 3:
+                case 2:
+                case 1:
+
+            };
+
+            return r;
+
+        } else return {};
 
     };
-    /** @param {TLog} t @this {YLog} */
+    /** @arg {TLog} t @this {YLog} */
     static #deceit(t) {
 
         try {
@@ -77,7 +105,7 @@ class FLog extends DLog {
         };
 
     };
-    /** @param {TLog} t @this {YLog} */
+    /** @arg {TLog} t @this {YLog} */
     static #verify(t) {
 
         const {
@@ -89,25 +117,13 @@ class FLog extends DLog {
         FLog.#handle(t);
 
     };
-    /** @param {TLog} t @this {YLog} */
+    /** @arg {TLog} t @this {YLog} */
     static #handle(t) {
 
-        let {
 
-
-
-        } = t;
-
-
-
-        t = {
-
-            ...t,
-
-        };
 
     };
-    /** @param {TLog} t @this {YLog} */
+    /** @arg {TLog} t @this {YLog} */
     static #create(t) {
 
         const {
@@ -125,9 +141,14 @@ class FLog extends DLog {
 };
 
 /**
+ * Класс `YLog`
  *
- * - Тип `SDFY-2.0`
+ * Класс журналов.
+ * Журналы позволяют размещать внутри себя записи.
+ * Записи размещаются в секциях при этом размещение записи в определенную секцию зависит от метки записи.
+ * - Тип `SDIMFY`
  * - Версия `0.0.0`
+ * - Модуль `log`
  * - Цепочка `BDVHC`
 */
 export class YLog extends FLog {
@@ -140,10 +161,10 @@ export class YLog extends FLog {
     /**
      * Метод добавления запиcи в журнал.
      * - Версия `0.0.0`
-     * @param {string} label Метка, по которой определяется тип записи.
+     * @arg {string} label Метка, по которой определяется тип записи.
      * Вместо метки может быть указан символ.
      * - По умолчанию `this.list[0].label`
-     * @param {...string} records Записи для журнала.
+     * @arg {...string} records Записи для журнала.
     */
     write(label, ...records) {
 
@@ -155,7 +176,7 @@ export class YLog extends FLog {
     /**
      * Метод получения сообщений в области видимости.
      * - Версия `0.0.0`
-     * @param {number} vis Область видимости.
+     * @arg {number} vis Область видимости.
      * - По умолчанию `this.vis`
     */
     getVisiable(vis = this.vis) {
@@ -166,7 +187,7 @@ export class YLog extends FLog {
     /**
      * Метод назначения секции по умолчанию.
      * - Версия `0.0.0`
-     * @param {number|string} determinant Определитель.
+     * @arg {number|string} determinant Определитель.
      * По данному параметру осуществляется выбор секции по умолчанию.
      * Если указана `строка`, то определителем выступает метка или символ секции.
      *
@@ -203,7 +224,7 @@ export class YLog extends FLog {
     /**
      * Метод для добавления новых уведомлений.
      * - Версия `0.0.0`
-     * @param {...[string]} notices Массив вида: `метка, ..уведомления`.
+     * @arg {...[string]} notices Массив вида: `метка, ..уведомления`.
     */
     appendNotice(...notices) {
 
@@ -243,7 +264,7 @@ export class YLog extends FLog {
     /**
      * Метод для добавления новых секций.
      * - Версия `0.0.0`
-     * @param {...YSection} j
+     * @arg {...YSection} j
     */
     appendSection(...j) {
 
@@ -255,7 +276,7 @@ export class YLog extends FLog {
     /**
      * Метод очистки указанной секции.
      * - Версия `0.0.0`
-     * @param {string} label Метка или символ.
+     * @arg {string} label Метка или символ.
     */
     clearSection(label) {
 

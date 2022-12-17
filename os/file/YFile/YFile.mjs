@@ -47,7 +47,7 @@ class FFile extends DFile {
      *
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
-     *  @param {TFile} t
+     *  @arg {TFile} t
     */
     constructor(t = {}) {
 
@@ -61,7 +61,7 @@ class FFile extends DFile {
 
     };
 
-    /** @param {TFile} t @this {[]} */
+    /** @arg {TFile} t @this {[]} */
     static #before(t) {
 
         if (t?.constructor === String) {
@@ -84,7 +84,7 @@ class FFile extends DFile {
         } else return {};
 
     };
-    /** @param {TFile} t @this {YFile} */
+    /** @arg {TFile} t @this {YFile} */
     static #deceit(t) {
 
         try {
@@ -98,7 +98,7 @@ class FFile extends DFile {
         };
 
     };
-    /** @param {TFile} t @this {YFile} */
+    /** @arg {TFile} t @this {YFile} */
     static #verify(t) {
 
         const {
@@ -110,7 +110,7 @@ class FFile extends DFile {
         FFile.#handle(t);
 
     };
-    /** @param {TFile} t @this {YFile} */
+    /** @arg {TFile} t @this {YFile} */
     static #handle(t) {
 
         let {
@@ -128,7 +128,7 @@ class FFile extends DFile {
         };
 
     };
-    /** @param {TFile} t @this {YFile} */
+    /** @arg {TFile} t @this {YFile} */
     static #create(t) {
 
         const {
@@ -153,7 +153,7 @@ export class YBFile extends FFile {
 
     /**
      * Метод для изменения местоположения файла.
-     * @param {string|RegExp} location
+     * @arg {string|RegExp} location
     */
     move(location) {
 
@@ -186,7 +186,7 @@ export class YBFile extends FFile {
     };
     /**
      * Метод для переименования файла.
-     * @param {string} name
+     * @arg {string} name
     */
     rename(name) {
 
@@ -286,7 +286,7 @@ export class YFile extends YBFile {
     };
     /**
      * Метод записи данных в файл.
-     * @param {...string} data
+     * @arg {...string} data
     */
     write(...data) {
 
@@ -297,7 +297,7 @@ export class YFile extends YBFile {
     };
     /**
      * Метод дополнения файла новыми данными.
-     * @param {string} data
+     * @arg {string} data
     */
     append(...data) {
 

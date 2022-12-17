@@ -1,15 +1,7 @@
 {
-    "web": {
-
-        "html": {
-
-            "files": {
-
-
-
-            }
-
+    "os": {
+        "path": {
+            "projectPath": null
         }
-
     }
 }

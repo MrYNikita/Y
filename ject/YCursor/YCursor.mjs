@@ -1,9 +1,6 @@
-import { YString } from "../../string/YString/YString.mjs";
 import { arrayRemoveByElement } from "../../array/array.mjs";
-import { configJect, configYString } from "../../config1.mjs";
 import { jectFill } from "../ject.mjs";
-import { numberGetNearstIndex } from "../../number/number.mjs";
-import { YList } from "../YList/YList.mjs";
+import { YList } from "../YBasic/YList/YList.mjs";
 import { YBasic } from "../YBasic/YBasic.mjs";
 
 /**
@@ -19,11 +16,6 @@ class SCursor extends YBasic {
 };
 class DCursor extends SCursor {
 
-
-
-};
-class ICursor extends DCursor {
-
     /**
      * Область курсора.
      * @type {number}
@@ -38,13 +30,12 @@ class ICursor extends DCursor {
      * Индекс размещения.
      * @type {number}
     */
-    index = 0;
-    /**
-     * Смещение.
-     * Если `true`, то индекс будет смещаться на кол-во добавленных символов.
-     * @type {boolean}
-    */
-    fixed = configJect?.fixed ?? true;
+    index;
+
+};
+class ICursor extends DCursor {
+
+
 
 };
 class MCursor extends ICursor {
@@ -58,7 +49,7 @@ class FCursor extends MCursor {
      * Контсруктор класса `YCursor`
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
-     *  @param {TCursor} t
+     *  @arg {TCursor} t
     */
     constructor(t = {}) {
 
@@ -72,7 +63,7 @@ class FCursor extends MCursor {
 
     };
 
-    /** @param {Array<any>} t */
+    /** @arg {Array<any>} t */
     static #before(t) {
 
         if (t?.length === 1 && t[0]?.constructor === Object) {
@@ -97,7 +88,7 @@ class FCursor extends MCursor {
         } else return {};
 
     };
-    /** @param {TCursor} t @this {YCursor} */
+    /** @arg {TCursor} t @this {YCursor} */
     static #deceit(t) {
 
         try {
@@ -111,7 +102,7 @@ class FCursor extends MCursor {
         };
 
     };
-    /** @param {TCursor} t @this {YCursor} */
+    /** @arg {TCursor} t @this {YCursor} */
     static #verify(t) {
 
         const {
@@ -123,13 +114,13 @@ class FCursor extends MCursor {
         FCursor.#handle(t);
 
     };
-    /** @param {TCursor} t @this {YCursor} */
+    /** @arg {TCursor} t @this {YCursor} */
     static #handle(t) {
 
-        if ((!t.index && t.index !== 0) && t.list) t.index = t.list.value.length;
+        if ((!t.index && t.index !== 0) && t.list) t.index = t.list.values.length;
 
     };
-    /** @param {TCursor} t @this {YCursor} */
+    /** @arg {TCursor} t @this {YCursor} */
     static #create(t) {
 
         const {
@@ -161,36 +152,15 @@ export class YCursor extends FCursor {
      * Метод смещения курсора.
      * Работает только при истином значении сдвига.
      * - Версия `0.0.0`
-     * @param {number} number Значение смещения курсора.
+     * @arg {number} bias Значение смещения курсора.
     */
-    move(number) {
+    move(bias) {
 
-        const bias = this.index + number;
+        bias = this.index + bias;
 
         if (bias < 0) this.index = 0;
-        else if (bias >= this.list.value.length) this.index = this.list.value.length;
+        else if (bias >= this.list.values.length) this.index = this.list.values.length;
         else this.index = bias;
-
-        return this;
-
-    };
-    /**
-     * Метод для отображения информации.
-     * - Версия `0.1.0`
-    */
-    report() {
-
-        new YString()
-
-            .changePostfix(';\n')
-            .paste(
-
-                `index: ${this.index}`,
-                `size: ${this.size}`,
-                `shift: ${this.fixed}`,
-
-            )
-            .display()
 
         return this;
 
@@ -198,12 +168,12 @@ export class YCursor extends FCursor {
     /**
      * Метод для увеличения размера курсора.
      * - Версия `0.0.0`
-     * @param {number} number Значение изменения курсора.
+     * @arg {number} bias Значение изменения размера курсора.
      * - По умолчанию `1`
     */
-    resize(number = 1) {
+    resize(bias = 1) {
 
-        this.size += number;
+        this.size += bias;
 
         return this;
 
@@ -217,17 +187,35 @@ export class YCursor extends FCursor {
         arrayRemoveByElement(this.list.cursors, this);
 
         this.size = undefined;
-        this.index = undefined;
         this.list = undefined;
+        this.index = undefined;
 
     };
     /**
-     * Метод поглощения курсорами других курсоров.
+     * Метод для установки значения размера курсора.
      * - Версия `0.0.0`
+     * @arg {number} size Значение размера курсора.
     */
-    absorb() {
+    changeSize(size) {
 
+        this.size = size;
 
+        return this;
+
+    };
+    /**
+     * Метод утсановки позиции курсора.
+     * - Версия `0.0.0`
+     * @arg {number} index Индекс.
+    */
+    changeIndex(index) {
+
+        if (index < 0) this.index = 0;
+        else if (index > this.list.values.length) this.index = this.list.values.length;
+
+        this.index = index;
+
+        return this;
 
     };
     /**

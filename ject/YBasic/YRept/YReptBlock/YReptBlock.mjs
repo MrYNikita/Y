@@ -60,7 +60,7 @@ class FReptBlock extends IReptBlock {
      * Контсруктор класса `YReptBlock`
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
-     *  @param {TReptBlock} t
+     *  @arg {TReptBlock} t
     */
     constructor(t = {}) {
 
@@ -74,7 +74,7 @@ class FReptBlock extends IReptBlock {
 
     };
 
-    /** @param {Array<any>} t */
+    /** @arg {Array<any>} t */
     static #before(t) {
 
         if (t?.length === 1 && t[0]?.constructor === Object) {
@@ -100,7 +100,7 @@ class FReptBlock extends IReptBlock {
         } else return {};
 
     };
-    /** @param {TReptBlock} t @this {YReptBlock} */
+    /** @arg {TReptBlock} t @this {YReptBlock} */
     static #deceit(t) {
 
         try {
@@ -114,7 +114,7 @@ class FReptBlock extends IReptBlock {
         };
 
     };
-    /** @param {TReptBlock} t @this {YReptBlock} */
+    /** @arg {TReptBlock} t @this {YReptBlock} */
     static #verify(t) {
 
         const {
@@ -126,7 +126,7 @@ class FReptBlock extends IReptBlock {
         FReptBlock.#handle(t);
 
     };
-    /** @param {TReptBlock} t @this {YReptBlock} */
+    /** @arg {TReptBlock} t @this {YReptBlock} */
     static #handle(t) {
 
         let {
@@ -144,7 +144,7 @@ class FReptBlock extends IReptBlock {
         };
 
     };
-    /** @param {TReptBlock} t @this {YReptBlock} */
+    /** @arg {TReptBlock} t @this {YReptBlock} */
     static #create(t) {
 
         const {

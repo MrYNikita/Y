@@ -40,7 +40,7 @@ class FAPI extends DAPI {
      *
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
-     *  @param {TAPI} t
+     *  @arg {TAPI} t
     */
     constructor(t = {}) {
 
@@ -54,7 +54,7 @@ class FAPI extends DAPI {
 
     };
 
-    /** @param {TAPI} t @this {[]} */
+    /** @arg {TAPI} t @this {[]} */
     static #before(t) {
 
 
@@ -64,7 +64,7 @@ class FAPI extends DAPI {
         return t;
 
     };
-    /** @param {TAPI} t @this {YAPI} */
+    /** @arg {TAPI} t @this {YAPI} */
     static #deceit(t) {
 
         try {
@@ -78,7 +78,7 @@ class FAPI extends DAPI {
         };
 
     };
-    /** @param {TAPI} t @this {YAPI} */
+    /** @arg {TAPI} t @this {YAPI} */
     static #verify(t) {
 
         const {
@@ -90,7 +90,7 @@ class FAPI extends DAPI {
         FAPI.#handle(t);
 
     };
-    /** @param {TAPI} t @this {YAPI} */
+    /** @arg {TAPI} t @this {YAPI} */
     static #handle(t) {
 
         let {
@@ -108,7 +108,7 @@ class FAPI extends DAPI {
         };
 
     };
-    /** @param {TAPI} t @this {YAPI} */
+    /** @arg {TAPI} t @this {YAPI} */
     static #create(t) {
 
         const {
@@ -138,8 +138,8 @@ export class YAPI extends FAPI {
 
     /**
      * Добавление обработки `get` запроса.
-     * @param {string} url
-     * @param {function} procedure
+     * @arg {string} url
+     * @arg {function} procedure
     */
     get(url, type, procedure) {
 
@@ -148,8 +148,8 @@ export class YAPI extends FAPI {
     };
     /**
      * Добавление обработки `get` запроса.
-     * @param {string} url
-     * @param {function} procedure
+     * @arg {string} url
+     * @arg {function} procedure
     */
     post(url, type, procedure) {
 
@@ -158,9 +158,9 @@ export class YAPI extends FAPI {
     };
     /**
      * Исполнение api.
-     * @param {string} url
-     * @param {http.ClientRequest} res
-     * @param {http.IncomingMessage} req
+     * @arg {string} url
+     * @arg {http.ClientRequest} res
+     * @arg {http.IncomingMessage} req
     */
     exec(req, res) {
 

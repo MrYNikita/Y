@@ -70,7 +70,7 @@ class FFunc extends DFunc {
      *
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
-     *  @param {TFunc} t
+     *  @arg {TFunc} t
     */
     constructor(t = {}) {
 
@@ -84,7 +84,7 @@ class FFunc extends DFunc {
 
     };
 
-    /** @param {TFunc} t @this {[]} */
+    /** @arg {TFunc} t @this {[]} */
     static #before(t) {
 
         if (t?.constructor instanceof Array) {
@@ -102,7 +102,7 @@ class FFunc extends DFunc {
         } else return {};
 
     };
-    /** @param {TFunc} t @this {YFunc} */
+    /** @arg {TFunc} t @this {YFunc} */
     static #deceit(t) {
 
         try {
@@ -116,7 +116,7 @@ class FFunc extends DFunc {
         };
 
     };
-    /** @param {TFunc} t @this {YFunc} */
+    /** @arg {TFunc} t @this {YFunc} */
     static #verify(t) {
 
         const {
@@ -128,7 +128,7 @@ class FFunc extends DFunc {
         FFunc.#handle(t);
 
     };
-    /** @param {TFunc} t @this {YFunc} */
+    /** @arg {TFunc} t @this {YFunc} */
     static #handle(t) {
 
         let {
@@ -146,7 +146,7 @@ class FFunc extends DFunc {
         };
 
     };
-    /** @param {TFunc} t @this {YFunc} */
+    /** @arg {TFunc} t @this {YFunc} */
     static #create(t) {
 
         const {
@@ -244,7 +244,7 @@ export class YFunc extends FFunc {
     /**
      * Метод для исключения процедур последовательности по указанным категориям.
      * - Версия `0.0.0`
-     * @param {...string} categories Категории исключения.
+     * @arg {...string} categories Категории исключения.
     */
     excludeByCategory(...categories) {
 
@@ -278,7 +278,7 @@ export class YFunc extends FFunc {
     /**
      * Метод изменения карты.
      * - Версия `0.0.0`
-     * @param {{}} card Новая карта.
+     * @arg {{}} card Новая карта.
      * - По умолчанию `{}`
     */
     changeCard(card = {}) {
@@ -291,7 +291,7 @@ export class YFunc extends FFunc {
     /**
      * Метод для указания объекта-носителя аргументов.
      * - Версия `0.0.0`
-     * @param {{}} transmit
+     * @arg {{}} transmit
     */
     setTransmit(transmit) {
 
@@ -330,7 +330,7 @@ export class YFunc extends FFunc {
     /**
      * Метод добавления процедуры.
      * - Версия `0.0.0`
-     * @param {...YProc|[string,import("./YProc/YProc.mjs").TProcInstruction,string]} procs Метка процедуры или новая процедура.
+     * @arg {...YProc|[string,import("./YProc/YProc.mjs").TProcInstruction,string]} procs Метка процедуры или новая процедура.
     */
     appendProcedure(...procs) {
 
@@ -353,7 +353,7 @@ export class YFunc extends FFunc {
     /**
      * Метод для перемещения индекса с помощью псевдонима позиции.
      * - Версия `0.0.0`
-     * @param {string} alias
+     * @arg {string} alias
     */
     moveIndexByAlias(alias) {
 
@@ -375,7 +375,7 @@ export class YFunc extends FFunc {
     /**
      * Метод для установки значений фильтрации по категориям.
      * - Версия `0.0.0`
-     * @param {...string} categories Категории процедур, исключенные из последовательности исполнения.
+     * @arg {...string} categories Категории процедур, исключенные из последовательности исполнения.
     */
     setFilterCategory(...categories) {
 

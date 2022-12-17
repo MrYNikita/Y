@@ -1,5 +1,5 @@
-import { jectFill } from "../../ject/ject.mjs";
-import { YJect } from "../../ject/YJect/YJect.mjs";
+import { jectFill } from "../ject.mjs";
+import { YJect } from "../YJect/YJect.mjs";
 import { emitKeypressEvents, createInterface } from "readline";
 import { YString } from "../../string/YString/YString.mjs";
 import { stringAppend, stringCastToSample, stringPaste, stringRemove, stringRepaint } from "../../string/string.mjs";
@@ -65,7 +65,7 @@ class FCLI extends MCLI {
      * Контсруктор класса `YCLI`
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
-     *  @param {TCLI} t
+     *  @arg {TCLI} t
     */
     constructor(t = {}) {
 
@@ -79,7 +79,7 @@ class FCLI extends MCLI {
 
     };
 
-    /** @param {Array<any>} t */
+    /** @arg {Array<any>} t */
     static #before(t) {
 
         if (t?.length === 1 && t[0]?.constructor === Object) {
@@ -104,7 +104,7 @@ class FCLI extends MCLI {
         } else return {};
 
     };
-    /** @param {TCLI} t @this {YCLI} */
+    /** @arg {TCLI} t @this {YCLI} */
     static #deceit(t) {
 
         try {
@@ -118,7 +118,7 @@ class FCLI extends MCLI {
         };
 
     };
-    /** @param {TCLI} t @this {YCLI} */
+    /** @arg {TCLI} t @this {YCLI} */
     static #verify(t) {
 
         const {
@@ -130,13 +130,13 @@ class FCLI extends MCLI {
         FCLI.#handle(t);
 
     };
-    /** @param {TCLI} t @this {YCLI} */
+    /** @arg {TCLI} t @this {YCLI} */
     static #handle(t) {
 
 
 
     };
-    /** @param {TCLI} t @this {YCLI} */
+    /** @arg {TCLI} t @this {YCLI} */
     static #create(t) {
 
         const {
@@ -173,8 +173,8 @@ export class YCLI extends FCLI {
         process.stdin.on('keypress',
 
             /**
-             * @param {string} c Символ.
-             * @param {import("readline").Key} k Данные клавиши.
+             * @arg {string} c Символ.
+             * @arg {import("readline").Key} k Данные клавиши.
             */
             (c, k) => {
 
@@ -280,7 +280,7 @@ export class YCLI extends FCLI {
      * Метод исполнения команды.
      * Находит команду в перечне по её ключу и приводит в исполнение.
      * - Версия `0.0.0`
-     * @param {string} command Ключ команды.
+     * @arg {string} command Ключ команды.
     */
     exec(command) {
 

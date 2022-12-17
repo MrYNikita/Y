@@ -1,5 +1,5 @@
 import { arrayReplace } from "../../../array/array.mjs";
-import { config, configHtml, configHtmlElement } from "../../../config.mjs";
+import { config, configWebYHTML, configWebYHTMLElement } from "../../../config.mjs";
 import { jectChangeDeep, jectReplaceDeep, jectSupplement } from "../../../ject/ject.mjs";
 import { stringCastToJect, stringFind, stringFindAll, stringFindToJect, stringReplace, stringReplaceAll } from "../../../string/string.mjs";
 import { YString } from "../../../string/YString/YString.mjs";
@@ -72,7 +72,7 @@ export const elementREOverClasses = /(?:^| )\^\.(?<f>(\w+ ?)+)+\]/ms;
  * @typedef {TBmove&TElements} Tmove
 */
 
-/** @param {Tmove} t */
+/** @arg {Tmove} t */
 function moveDeceit(t) {
 
     try {
@@ -88,7 +88,7 @@ function moveDeceit(t) {
     };
 
 };
-/** @param {Tmove} t */
+/** @arg {Tmove} t */
 function moveVerify(t) {
 
     const {
@@ -100,7 +100,7 @@ function moveVerify(t) {
     return moveHandle(t);
 
 };
-/** @param {Tmove} t */
+/** @arg {Tmove} t */
 function moveHandle(t) {
 
     let {
@@ -120,7 +120,7 @@ function moveHandle(t) {
     return moveComply(t);
 
 };
-/** @param {Tmove} t */
+/** @arg {Tmove} t */
 function moveComply(t) {
 
     const {
@@ -140,8 +140,8 @@ function moveComply(t) {
  * Функция для перемещения элементов.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {HTMLElement} over
- * @param {...HTMLElement|string} elements
+ * @arg {HTMLElement} over
+ * @arg {...HTMLElement|string} elements
 */
 export function elementMove(over, ...elements) {
 
@@ -157,7 +157,7 @@ export function elementMove(over, ...elements) {
  * @typedef {TBremove} Tremove
 */
 
-/** @param {Tremove} t */
+/** @arg {Tremove} t */
 function removeDeceit(t) {
 
     try {
@@ -173,7 +173,7 @@ function removeDeceit(t) {
     };
 
 };
-/** @param {Tremove} t */
+/** @arg {Tremove} t */
 function removeVerify(t) {
 
     const {
@@ -185,7 +185,7 @@ function removeVerify(t) {
     return removeHandle(t);
 
 };
-/** @param {Tremove} t */
+/** @arg {Tremove} t */
 function removeHandle(t) {
 
     let {
@@ -205,7 +205,7 @@ function removeHandle(t) {
     return removeComply(t);
 
 };
-/** @param {Tremove} t */
+/** @arg {Tremove} t */
 function removeComply(t) {
 
     const {
@@ -229,7 +229,7 @@ function removeComply(t) {
  * Функция для извлечения элементов.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {...HTMLElement|string} elements
+ * @arg {...HTMLElement|string} elements
 */
 export function elementRemove(...elements) {
 
@@ -253,7 +253,7 @@ export function elementRemove(...elements) {
  * @typedef {TBcreate} Tcreate
 */
 
-/** @param {Tcreate} t */
+/** @arg {Tcreate} t */
 function createDeceit(t) {
 
     try {
@@ -269,7 +269,7 @@ function createDeceit(t) {
     };
 
 };
-/** @param {Tcreate} t */
+/** @arg {Tcreate} t */
 function createVerify(t) {
 
     const {
@@ -281,7 +281,7 @@ function createVerify(t) {
     return createHandle(t);
 
 };
-/** @param {Tcreate} t */
+/** @arg {Tcreate} t */
 function createHandle(t) {
 
     let {
@@ -304,7 +304,7 @@ function createHandle(t) {
     return createComply(t);
 
 };
-/** @param {Tcreate} t @return {HTMLElement|HTMLElement[]} */
+/** @arg {Tcreate} t @return {HTMLElement|HTMLElement[]} */
 function createComply(t) {
 
     const {
@@ -341,7 +341,7 @@ function createComply(t) {
  * Функция для создания html элемента.
  * - Версия `0.2.0`
  * - Цепочка `DVHCa`
- * @param {Tcreate} t Параметры.
+ * @arg {Tcreate} t Параметры.
 */
 export function elementCreate(t = {}) {
 
@@ -352,7 +352,7 @@ export function elementCreate(t = {}) {
  * Функция создания элемента с помощью строки.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {string} string
+ * @arg {string} string
 */
 export function elementCreateByString(string) {
 
@@ -369,7 +369,7 @@ export function elementCreateByString(string) {
  * @typedef {TBcreateMore&Tcreate} TcreateMore
 */
 
-/** @param {TcreateMore} t */
+/** @arg {TcreateMore} t */
 function createMoreDeceit(t) {
 
     try {
@@ -385,7 +385,7 @@ function createMoreDeceit(t) {
     };
 
 };
-/** @param {TcreateMore} t */
+/** @arg {TcreateMore} t */
 function createMoreVerify(t) {
 
 
@@ -393,7 +393,7 @@ function createMoreVerify(t) {
     return createMoreHandle(t);
 
 };
-/** @param {TcreateMore} t */
+/** @arg {TcreateMore} t */
 function createMoreHandle(t) {
 
 
@@ -401,7 +401,7 @@ function createMoreHandle(t) {
     return createMoreComply(t);
 
 };
-/** @param {TcreateMore} t */
+/** @arg {TcreateMore} t */
 function createMoreComply(t) {
 
     const {
@@ -420,7 +420,7 @@ function createMoreComply(t) {
  * ID будут пронумерованы.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {Tcreate} t Параметры.
+ * @arg {Tcreate} t Параметры.
 */
 export function elementCreateMore(t = {}) {
 
@@ -433,7 +433,7 @@ export function elementCreateMore(t = {}) {
  * ID будут пронумерованы.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {string} string
+ * @arg {string} string
 */
 export function elementCreateMoreByString(string) {
 
@@ -452,7 +452,7 @@ export function elementCreateMoreByString(string) {
  * @typedef {TBappend} Tappend
 */
 
-/** @param {Tappend} t */
+/** @arg {Tappend} t */
 function appendDeceit(t) {
 
     try {
@@ -468,7 +468,7 @@ function appendDeceit(t) {
     };
 
 };
-/** @param {Tappend} t */
+/** @arg {Tappend} t */
 function appendVerify(t) {
 
 
@@ -476,7 +476,7 @@ function appendVerify(t) {
     return appendHandle(t);
 
 };
-/** @param {Tappend} t */
+/** @arg {Tappend} t */
 function appendHandle(t) {
 
 
@@ -484,7 +484,7 @@ function appendHandle(t) {
     return appendComply(t);
 
 };
-/** @param {Tappend} t */
+/** @arg {Tappend} t */
 function appendComply(t) {
 
     const {
@@ -531,8 +531,8 @@ function appendComply(t) {
  * Иначе элемент будет размещен в единственном экземпляре.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {HTMLElement} element Элемент. Будет размещен в указанные элементы, определенные селекторами.
- * @param {...string} selectors Селекторы.
+ * @arg {HTMLElement} element Элемент. Будет размещен в указанные элементы, определенные селекторами.
+ * @arg {...string} selectors Селекторы.
  * Селекторы указываются с указанием их принадлежности:
  * - ` ` - `type`  Тип. Размещает элемент в указанный тип. Указывается пустой строкой.
  * - `.` - `class` Класс. Размещает элемент в указанный класс.
@@ -556,7 +556,7 @@ export function elementAppend(element, ...selectors) {
  * @typedef {TBdecomposeString} TdecomposeString
 */
 
-/** @param {TdecomposeString} t */
+/** @arg {TdecomposeString} t */
 function decomposeStringDeceit(t) {
 
     try {
@@ -572,7 +572,7 @@ function decomposeStringDeceit(t) {
     };
 
 };
-/** @param {TdecomposeString} t */
+/** @arg {TdecomposeString} t */
 function decomposeStringVerify(t) {
 
 
@@ -580,7 +580,7 @@ function decomposeStringVerify(t) {
     return decomposeStringHandle(t);
 
 };
-/** @param {TdecomposeString} t */
+/** @arg {TdecomposeString} t */
 function decomposeStringHandle(t) {
 
     t.string = t.string.trim();
@@ -588,7 +588,7 @@ function decomposeStringHandle(t) {
     return decomposeStringComply(t);
 
 };
-/** @param {TdecomposeString} t */
+/** @arg {TdecomposeString} t */
 function decomposeStringComply(t) {
 
     const {
@@ -646,7 +646,7 @@ function decomposeStringComply(t) {
 /**
  * Функция для распознования `YElement` и `YStructure` строк.
  * Находит `id`, `тип`, `классы`, `вложенные элементы`, `параметры`, `внутренний текст` для указанного элемента.
- * @param {string} string Исходная строка.
+ * @arg {string} string Исходная строка.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
 */

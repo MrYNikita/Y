@@ -51,7 +51,7 @@ class FRegExpSymbol extends DRegExpSymbol {
      *
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
-     *  @param {TRegExpSymbol} t
+     *  @arg {TRegExpSymbol} t
     */
     constructor(t = {}) {
 
@@ -63,7 +63,7 @@ class FRegExpSymbol extends DRegExpSymbol {
 
     };
 
-    /** @param {TRegExpSymbol} t @this {[]} */
+    /** @arg {TRegExpSymbol} t @this {[]} */
     static #before(t) {
 
 
@@ -73,7 +73,7 @@ class FRegExpSymbol extends DRegExpSymbol {
         return t;
 
     };
-    /** @param {TRegExpSymbol} t @this {YRegExpSymbol} */
+    /** @arg {TRegExpSymbol} t @this {YRegExpSymbol} */
     static #deceit(t) {
 
         try {
@@ -87,7 +87,7 @@ class FRegExpSymbol extends DRegExpSymbol {
         };
 
     };
-    /** @param {TRegExpSymbol} t @this {YRegExpSymbol} */
+    /** @arg {TRegExpSymbol} t @this {YRegExpSymbol} */
     static #verify(t) {
 
         const {
@@ -99,7 +99,7 @@ class FRegExpSymbol extends DRegExpSymbol {
         FRegExpSymbol.#handle.apply(this, arguments);
 
     };
-    /** @param {TRegExpSymbol} t @this {YRegExpSymbol} */
+    /** @arg {TRegExpSymbol} t @this {YRegExpSymbol} */
     static #handle(t) {
 
         let {
@@ -129,7 +129,7 @@ class FRegExpSymbol extends DRegExpSymbol {
         FRegExpSymbol.#create.apply(this, [t]);
 
     };
-    /** @param {TRegExpSymbol} t @this {YRegExpSymbol} */
+    /** @arg {TRegExpSymbol} t @this {YRegExpSymbol} */
     static #create(t) {
 
         const {

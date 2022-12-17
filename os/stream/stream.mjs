@@ -11,7 +11,7 @@ import { createReadStream, createWriteStream } from 'fs';
  * @typedef {TBbind} Tbind
 */
 
-/** @param {Tbind} t */
+/** @arg {Tbind} t */
 function bindDeceit(t) {
 
     try {
@@ -27,7 +27,7 @@ function bindDeceit(t) {
     };
 
 };
-/** @param {Tbind} t */
+/** @arg {Tbind} t */
 function bindVerify(t) {
 
     const {
@@ -39,7 +39,7 @@ function bindVerify(t) {
     return bindHandle(t);
 
 };
-/** @param {Tbind} t */
+/** @arg {Tbind} t */
 function bindHandle(t) {
 
     let {
@@ -59,7 +59,7 @@ function bindHandle(t) {
     return bindComply(t);
 
 };
-/** @param {Tbind} t */
+/** @arg {Tbind} t */
 function bindComply(t) {
 
     const {
@@ -77,8 +77,8 @@ function bindComply(t) {
  * Функция для связывания потока считывания со многими потоками записи.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {Readable} sr
- * @param {...Writable} sw
+ * @arg {Readable} sr
+ * @arg {...Writable} sw
 */
 export function streamBind(sr, ...sw) {
 

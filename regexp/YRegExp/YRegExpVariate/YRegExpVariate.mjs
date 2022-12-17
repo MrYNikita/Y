@@ -28,7 +28,7 @@ class FRegExpVariate extends DRegExpVariate {
      *
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
-     *  @param {TRegExpVariate} t
+     *  @arg {TRegExpVariate} t
     */
     constructor(t = {}) {
 
@@ -40,7 +40,7 @@ class FRegExpVariate extends DRegExpVariate {
 
     };
 
-    /** @param {TRegExpVariate} t @this {[]} */
+    /** @arg {TRegExpVariate} t @this {[]} */
     static #before(t) {
 
 
@@ -50,7 +50,7 @@ class FRegExpVariate extends DRegExpVariate {
         return t;
 
     };
-    /** @param {TRegExpVariate} t @this {YRegExpVariate} */
+    /** @arg {TRegExpVariate} t @this {YRegExpVariate} */
     static #deceit(t) {
 
         try {
@@ -64,7 +64,7 @@ class FRegExpVariate extends DRegExpVariate {
         };
 
     };
-    /** @param {TRegExpVariate} t @this {YRegExpVariate} */
+    /** @arg {TRegExpVariate} t @this {YRegExpVariate} */
     static #verify(t) {
 
         const {
@@ -76,7 +76,7 @@ class FRegExpVariate extends DRegExpVariate {
         FRegExpVariate.#handle.apply(this, arguments);
 
     };
-    /** @param {TRegExpVariate} t @this {YRegExpVariate} */
+    /** @arg {TRegExpVariate} t @this {YRegExpVariate} */
     static #handle(t) {
 
         let {
@@ -96,7 +96,7 @@ class FRegExpVariate extends DRegExpVariate {
         FRegExpVariate.#create.apply(this, [t]);
 
     };
-    /** @param {TRegExpVariate} t @this {YRegExpVariate} */
+    /** @arg {TRegExpVariate} t @this {YRegExpVariate} */
     static #create(t) {
 
         const {

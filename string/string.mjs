@@ -1,5 +1,5 @@
 import { arrayGetRandomElement, arrayReplace, } from "../array/array.mjs";
-import { config, configString } from "../config1.mjs";
+import { config, configString } from "../config.mjs";
 import { numberGetFrac, numberGetRandomReal, numberGetReal, numberGetSequence } from "../number/number.mjs";
 import { YRegExp } from "../regexp/YRegExp/YRegExp.mjs";
 import { YString } from "./YString/YString.mjs";
@@ -15,7 +15,7 @@ import { YString } from "./YString/YString.mjs";
  * @typedef {TBpad} Tpad
 */
 
-/** @param {Tpad} t */
+/** @arg {Tpad} t */
 function padDeceit(t) {
 
     try {
@@ -31,7 +31,7 @@ function padDeceit(t) {
     };
 
 };
-/** @param {Tpad} t */
+/** @arg {Tpad} t */
 function padVerify(t) {
 
     const {
@@ -43,7 +43,7 @@ function padVerify(t) {
     return padHandle(t);
 
 };
-/** @param {Tpad} t */
+/** @arg {Tpad} t */
 function padHandle(t) {
 
     let {
@@ -63,7 +63,7 @@ function padHandle(t) {
     return padComply(t);
 
 };
-/** @param {Tpad} t */
+/** @arg {Tpad} t */
 function padComply(t) {
 
     const {
@@ -83,10 +83,10 @@ function padComply(t) {
  * Функция для дополнения строки.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {string} pad Строка дополнения.
- * @param {string} string Исходная строка.
- * @param {number} count Кол-во повторений строки дополнения.
- * @param {boolean} left Место стыка.
+ * @arg {string} pad Строка дополнения.
+ * @arg {string} string Исходная строка.
+ * @arg {number} count Кол-во повторений строки дополнения.
+ * @arg {boolean} left Место стыка.
 */
 export function stringPad(string, pad, count, index = string.length) {
 
@@ -106,7 +106,7 @@ export function stringPad(string, pad, count, index = string.length) {
  * @typedef {TBbring} Tbring
 */
 
-/** @param {Tbring} t */
+/** @arg {Tbring} t */
 function bringDeceit(t) {
 
     try {
@@ -122,7 +122,7 @@ function bringDeceit(t) {
     };
 
 };
-/** @param {Tbring} t */
+/** @arg {Tbring} t */
 function bringVerify(t) {
 
     const {
@@ -134,7 +134,7 @@ function bringVerify(t) {
     return bringHandle(t);
 
 };
-/** @param {Tbring} t */
+/** @arg {Tbring} t */
 function bringHandle(t) {
 
     let {
@@ -154,7 +154,7 @@ function bringHandle(t) {
     return bringComply(t);
 
 };
-/** @param {Tbring} t */
+/** @arg {Tbring} t */
 function bringComply(t) {
 
     const {
@@ -175,10 +175,10 @@ function bringComply(t) {
  * Функция дополнения строки до указнной длины указанными символами.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {string} bring Дополнения.
- * @param {string} string Исходная строка.
- * @param {number} index Индекс дополнения.
- * @param {number} length Требуемая длина новой строки.
+ * @arg {string} bring Дополнения.
+ * @arg {string} string Исходная строка.
+ * @arg {number} index Индекс дополнения.
+ * @arg {number} length Требуемая длина новой строки.
 */
 export function stringBring(string, index, length, bring) {
 
@@ -189,9 +189,9 @@ export function stringBring(string, index, length, bring) {
  * Функция дополнения строки с её начала до указанной длины указанными символами.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {string} bring Дополнения.
- * @param {string} string Исходная строка.
- * @param {number} length Требуемая длина новой строки.
+ * @arg {string} bring Дополнения.
+ * @arg {string} string Исходная строка.
+ * @arg {number} length Требуемая длина новой строки.
 */
 export function stringBringLeft(string, length, bring) {
 
@@ -202,9 +202,9 @@ export function stringBringLeft(string, length, bring) {
  * Функция дополнения строки с её конца до указанной длины указанными символами.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {string} bring Дополнения.
- * @param {string} string Исходная строка.
- * @param {number} length Требуемая длина новой строки.
+ * @arg {string} bring Дополнения.
+ * @arg {string} string Исходная строка.
+ * @arg {number} length Требуемая длина новой строки.
 */
 export function stringBringRight(string, length, bring) {
 
@@ -224,7 +224,7 @@ export function stringBringRight(string, length, bring) {
  * @typedef {TBpaste} Tpaste
 */
 
-/** @param {Tpaste} t */
+/** @arg {Tpaste} t */
 function pasteDeceit(t) {
 
     try {
@@ -240,7 +240,7 @@ function pasteDeceit(t) {
     };
 
 };
-/** @param {Tpaste} t */
+/** @arg {Tpaste} t */
 function pasteVerify(t) {
 
     const {
@@ -252,13 +252,13 @@ function pasteVerify(t) {
     return pasteHandle(t);
 
 };
-/** @param {Tpaste} t */
+/** @arg {Tpaste} t */
 function pasteHandle(t) {
 
     return pasteComply(t);
 
 };
-/** @param {Tpaste} t */
+/** @arg {Tpaste} t */
 function pasteComply(t) {
 
     const {
@@ -278,10 +278,10 @@ function pasteComply(t) {
  * Функция вставки с замещением указанной индексом и размером области в строку.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {number} size Размер вставки.
- * @param {number} index Индекс вставки.
- * @param {string} paste Строка вставки.
- * @param {string} string Исходная строка.
+ * @arg {number} size Размер вставки.
+ * @arg {number} index Индекс вставки.
+ * @arg {string} paste Строка вставки.
+ * @arg {string} string Исходная строка.
 */
 export function stringPaste(string, paste, index, size = 0) {
 
@@ -298,7 +298,7 @@ export function stringPaste(string, paste, index, size = 0) {
  * @typedef {TBshield} Tshield
 */
 
-/** @param {Tshield} t */
+/** @arg {Tshield} t */
 function shieldDeceit(t) {
 
     try {
@@ -314,7 +314,7 @@ function shieldDeceit(t) {
     };
 
 };
-/** @param {Tshield} t */
+/** @arg {Tshield} t */
 function shieldVerify(t) {
 
     const {
@@ -326,7 +326,7 @@ function shieldVerify(t) {
     return shieldHandle(t);
 
 };
-/** @param {Tshield} t */
+/** @arg {Tshield} t */
 function shieldHandle(t) {
 
     let {
@@ -346,7 +346,7 @@ function shieldHandle(t) {
     return shieldComply(t);
 
 };
-/** @param {Tshield} t */
+/** @arg {Tshield} t */
 function shieldComply(t) {
 
     const {
@@ -380,7 +380,7 @@ function shieldComply(t) {
  * Функция для экранирования специальных символов строки.
  * - Версия `0.0.1`
  * - Цепочка `DVHCa`
- * @param {string} string Исходная строка.
+ * @arg {string} string Исходная строка.
 */
 export function stringShield(string) {
 
@@ -399,7 +399,7 @@ export function stringShield(string) {
  * @typedef {TBappend} Tappend
 */
 
-/** @param {Tappend} t */
+/** @arg {Tappend} t */
 function appendDeceit(t) {
 
     try {
@@ -415,7 +415,7 @@ function appendDeceit(t) {
     };
 
 };
-/** @param {Tappend} t */
+/** @arg {Tappend} t */
 function appendVerify(t) {
 
     const {
@@ -427,7 +427,7 @@ function appendVerify(t) {
     return appendHandle(t);
 
 };
-/** @param {Tappend} t */
+/** @arg {Tappend} t */
 function appendHandle(t) {
 
     let {
@@ -447,7 +447,7 @@ function appendHandle(t) {
     return appendComply(t);
 
 };
-/** @param {Tappend} t */
+/** @arg {Tappend} t */
 function appendComply(t) {
 
     const {
@@ -466,9 +466,9 @@ function appendComply(t) {
  * Функция для добавления текста с указанного индекса к указанной строке.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {number} index Индекс добавления текста.
- * @param {string} string исходная строка.
- * @param {...string|number} appends Строки добавления.
+ * @arg {number} index Индекс добавления текста.
+ * @arg {string} string исходная строка.
+ * @arg {...string|number} appends Строки добавления.
 */
 export function stringAppend(string, index, ...appends) {
 
@@ -479,8 +479,8 @@ export function stringAppend(string, index, ...appends) {
  * Функция для добавления текста к началу указанной строки.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {string} string исходная строка.
- * @param {...string|number} appends Строки добавления.
+ * @arg {string} string исходная строка.
+ * @arg {...string|number} appends Строки добавления.
 */
 export function stringAppendLeft(string, ...appends) {
 
@@ -491,8 +491,8 @@ export function stringAppendLeft(string, ...appends) {
  * Функция для добавления текста к концу указанной строки.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {string} string исходная строка.
- * @param {...string|number} appends Строки добавления.
+ * @arg {string} string исходная строка.
+ * @arg {...string|number} appends Строки добавления.
 */
 export function stringAppendRight(string, ...appends) {
 
@@ -513,7 +513,7 @@ export function stringAppendRight(string, ...appends) {
  * @typedef {TBremove} Tremove
 */
 
-/** @param {Tremove} t */
+/** @arg {Tremove} t */
 function removeDeceit(t) {
 
     try {
@@ -529,7 +529,7 @@ function removeDeceit(t) {
     };
 
 };
-/** @param {Tremove} t */
+/** @arg {Tremove} t */
 function removeVerify(t) {
 
     const {
@@ -541,7 +541,7 @@ function removeVerify(t) {
     return removeHandle(t);
 
 };
-/** @param {Tremove} t */
+/** @arg {Tremove} t */
 function removeHandle(t) {
 
     if (t.start < 0) t.start = 0;
@@ -555,7 +555,7 @@ function removeHandle(t) {
     return removeComply(t);
 
 };
-/** @param {Tremove} t */
+/** @arg {Tremove} t */
 function removeComply(t) {
 
     const {
@@ -576,9 +576,9 @@ function removeComply(t) {
  * Функция для удаления фрагмента строки начиная с указанного индекса.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {number} index Индекс.
- * @param {number} length Длина удаления.
- * @param {string} string Исходная строка.
+ * @arg {number} index Индекс.
+ * @arg {number} length Длина удаления.
+ * @arg {string} string Исходная строка.
  * @return {string}
 */
 export function stringRemove(string, index, length) {
@@ -590,8 +590,8 @@ export function stringRemove(string, index, length) {
  * Функция для удаления фрагмента строки начиная с указанного индекса.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {number} length Длина удаления.
- * @param {string} string Исходная строка.
+ * @arg {number} length Длина удаления.
+ * @arg {string} string Исходная строка.
  * @return {string}
 */
 export function stringRemoveLeft(string, length) {
@@ -603,8 +603,8 @@ export function stringRemoveLeft(string, length) {
  * Функция для удаления фрагмента строки начиная с указанного индекса.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {number} length Длина удаления.
- * @param {string} string Исходная строка.
+ * @arg {number} length Длина удаления.
+ * @arg {string} string Исходная строка.
  * @return {string}
 */
 export function stringRemoveRight(string, length) {
@@ -623,7 +623,7 @@ export function stringRemoveRight(string, length) {
  * @typedef {TBfilter} Tfilter
 */
 
-/** @param {Tfilter} t */
+/** @arg {Tfilter} t */
 function filterDeceit(t) {
 
     try {
@@ -639,7 +639,7 @@ function filterDeceit(t) {
     };
 
 };
-/** @param {Tfilter} t */
+/** @arg {Tfilter} t */
 function filterVerify(t) {
 
     const {
@@ -651,13 +651,13 @@ function filterVerify(t) {
     return filterHandle(t);
 
 };
-/** @param {Tfilter} t */
+/** @arg {Tfilter} t */
 function filterHandle(t) {
 
     return filterComply(t);
 
 };
-/** @param {Tfilter} t */
+/** @arg {Tfilter} t */
 function filterComply(t) {
 
     const {
@@ -675,8 +675,8 @@ function filterComply(t) {
  * Функция для удаления из строки указанных фрагментов.
  * - Версия `0.0.1`
  * - Цепочка `DVHCa`
- * @param {string} string
- * @param {...string|RegExp} filters
+ * @arg {string} string
+ * @arg {...string|RegExp} filters
 */
 export function stringFilter(string, ...filters) {
 
@@ -695,7 +695,7 @@ export function stringFilter(string, ...filters) {
  * @typedef {TBhandle} Thandle
 */
 
-/** @param {Thandle} t */
+/** @arg {Thandle} t */
 function handleDeceit(t) {
 
     try {
@@ -711,7 +711,7 @@ function handleDeceit(t) {
     };
 
 };
-/** @param {Thandle} t */
+/** @arg {Thandle} t */
 function handleVerify(t) {
 
     const {
@@ -723,7 +723,7 @@ function handleVerify(t) {
     return handleHandle(t);
 
 };
-/** @param {Thandle} t */
+/** @arg {Thandle} t */
 function handleHandle(t) {
 
     let {
@@ -748,7 +748,7 @@ function handleHandle(t) {
     return handleComply(t);
 
 };
-/** @param {Thandle} t */
+/** @arg {Thandle} t */
 function handleComply(t) {
 
     const {
@@ -780,9 +780,9 @@ function handleComply(t) {
  * Функция для обработки совпадений.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {string} string
- * @param {function} handle
- * @param {...string|RegExp} fragments
+ * @arg {string} string
+ * @arg {function} handle
+ * @arg {...string|RegExp} fragments
 */
 export function stringHandle(string, handle, ...fragments) {
 
@@ -800,7 +800,7 @@ export function stringHandle(string, handle, ...fragments) {
  * @typedef {TBrepaint} Trepaint
 */
 
-/** @param {Trepaint} t */
+/** @arg {Trepaint} t */
 function repaintDeceit(t) {
 
     try {
@@ -816,7 +816,7 @@ function repaintDeceit(t) {
     };
 
 };
-/** @param {Trepaint} t */
+/** @arg {Trepaint} t */
 function repaintVerify(t) {
 
     const {
@@ -828,7 +828,7 @@ function repaintVerify(t) {
     return repaintHandle(t);
 
 };
-/** @param {Trepaint} t */
+/** @arg {Trepaint} t */
 function repaintHandle(t) {
 
     let {
@@ -846,7 +846,7 @@ function repaintHandle(t) {
     return repaintComply(t);
 
 };
-/** @param {Trepaint} t */
+/** @arg {Trepaint} t */
 function repaintComply(t) {
 
     const {
@@ -866,10 +866,10 @@ function repaintComply(t) {
  * Функция для перекрашивания строки.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {string} color
- * @param {string} string
- * @param {boolean} bright
- * @param {boolean} background
+ * @arg {string} color
+ * @arg {string} string
+ * @arg {boolean} bright
+ * @arg {boolean} background
 */
 export function stringRepaint(string, color, bright, background) {
 
@@ -886,7 +886,7 @@ export function stringRepaint(string, color, bright, background) {
  * @typedef {TBreverse} Treverse
 */
 
-/** @param {Treverse} t */
+/** @arg {Treverse} t */
 function reverseDeceit(t) {
 
     try {
@@ -902,7 +902,7 @@ function reverseDeceit(t) {
     };
 
 };
-/** @param {Treverse} t */
+/** @arg {Treverse} t */
 function reverseVerify(t) {
 
     const {
@@ -914,7 +914,7 @@ function reverseVerify(t) {
     return reverseHandle(t);
 
 };
-/** @param {Treverse} t */
+/** @arg {Treverse} t */
 function reverseHandle(t) {
 
     let {
@@ -934,7 +934,7 @@ function reverseHandle(t) {
     return reverseComply(t);
 
 };
-/** @param {Treverse} t */
+/** @arg {Treverse} t */
 function reverseComply(t) {
 
     const {
@@ -951,7 +951,7 @@ function reverseComply(t) {
  * Функция для реверса строки.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {string} string
+ * @arg {string} string
 */
 export function stringReverse(string) {
 
@@ -970,7 +970,7 @@ export function stringReverse(string) {
  * @typedef {TBreflect} Treflect
 */
 
-/** @param {Treflect} t */
+/** @arg {Treflect} t */
 function reflectDeceit(t) {
 
     try {
@@ -986,7 +986,7 @@ function reflectDeceit(t) {
     };
 
 };
-/** @param {Treflect} t */
+/** @arg {Treflect} t */
 function reflectVerify(t) {
 
     const {
@@ -998,7 +998,7 @@ function reflectVerify(t) {
     return reflectHandle(t);
 
 };
-/** @param {Treflect} t */
+/** @arg {Treflect} t */
 function reflectHandle(t) {
 
     let {
@@ -1018,7 +1018,7 @@ function reflectHandle(t) {
     return reflectComply(t);
 
 };
-/** @param {Treflect} t */
+/** @arg {Treflect} t */
 function reflectComply(t) {
 
     const {
@@ -1037,12 +1037,12 @@ function reflectComply(t) {
  * Функция для добавления к строке её зеркального отражения.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {string} string Исходная строка.
- * @param {boolean} every Логическое значение, которое определяет, как следует проводить отражение.
+ * @arg {string} string Исходная строка.
+ * @arg {boolean} every Логическое значение, которое определяет, как следует проводить отражение.
  * Значение `true` означает, что необходимо зеркально отразить каждую строку с переносом по отдельности.
  * Значение `false` же прибавит инвертированную копию текущей строки на конец исходной.
  * - По умоланию `false`
- * @param {...[string,string]} mirrors Зеркальные символы. Представлен парой ключ-значение.
+ * @arg {...[string,string]} mirrors Зеркальные символы. Представлен парой ключ-значение.
  * По ключу осуществляется поиск символа исходной строки.
  * Найденное совпадение в отражении заменяется значением, если соответсвующий ключ существует.
  * - По умолчанию `[]`
@@ -1067,7 +1067,7 @@ export function stringReflect(string, every = false, ...mirrors) {
  * @typedef {TBgenerateWord} TgenerateWord
 */
 
-/** @param {TgenerateWord} t */
+/** @arg {TgenerateWord} t */
 function generateWordDeceit(t) {
 
     try {
@@ -1083,7 +1083,7 @@ function generateWordDeceit(t) {
     };
 
 };
-/** @param {TgenerateWord} t */
+/** @arg {TgenerateWord} t */
 function generateWordVerify(t) {
 
     const {
@@ -1095,7 +1095,7 @@ function generateWordVerify(t) {
     return generateWordHandle(t);
 
 };
-/** @param {TgenerateWord} t */
+/** @arg {TgenerateWord} t */
 function generateWordHandle(t) {
 
     let {
@@ -1113,7 +1113,7 @@ function generateWordHandle(t) {
     return generateWordComply(t);
 
 };
-/** @param {TgenerateWord} t */
+/** @arg {TgenerateWord} t */
 function generateWordComply(t) {
 
     const {
@@ -1177,12 +1177,12 @@ function generateWordComply(t) {
  * Функция для генерации произвольного слова.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {string} end Окончание слова. Данная часть будет вставлена в конец слова.
- * @param {string} begin Начало слова. Данная часть будет вставлена в начало слова.
- * @param {number} syllable Кол-во слогов.
- * @param {string} delimetr Разделители. Разделяют слоги.
- * @param {boolean} cutLast Обрезка последнего символа.
- * @param {boolean} camelCase Каждый слог с большой буквы.
+ * @arg {string} end Окончание слова. Данная часть будет вставлена в конец слова.
+ * @arg {string} begin Начало слова. Данная часть будет вставлена в начало слова.
+ * @arg {number} syllable Кол-во слогов.
+ * @arg {string} delimetr Разделители. Разделяют слоги.
+ * @arg {boolean} cutLast Обрезка последнего символа.
+ * @arg {boolean} camelCase Каждый слог с большой буквы.
  * @returns {string}
 */
 export function stringGenerateWord(syllable = numberGetRandomReal(1, 3), begin = '', end = '', delimetr = '', camelCase = false, cutLast = true) {
@@ -1203,7 +1203,7 @@ export function stringGenerateWord(syllable = numberGetRandomReal(1, 3), begin =
  * @typedef {TBgetColor} TgetColor
 */
 
-/** @param {TgetColor} t */
+/** @arg {TgetColor} t */
 function getColorDeceit(t) {
 
     try {
@@ -1219,7 +1219,7 @@ function getColorDeceit(t) {
     };
 
 };
-/** @param {TgetColor} t */
+/** @arg {TgetColor} t */
 function getColorVerify(t) {
 
     const {
@@ -1231,7 +1231,7 @@ function getColorVerify(t) {
     return getColorHandle(t);
 
 };
-/** @param {TgetColor} t */
+/** @arg {TgetColor} t */
 function getColorHandle(t) {
 
     let {
@@ -1251,7 +1251,7 @@ function getColorHandle(t) {
     return getColorComply(t);
 
 };
-/** @param {TgetColor} t */
+/** @arg {TgetColor} t */
 function getColorComply(t) {
 
     const {
@@ -1287,9 +1287,9 @@ function getColorComply(t) {
  * Функция для определения цвета.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {string} color
- * @param {boolean} bright
- * @param {boolean} background
+ * @arg {string} color
+ * @arg {boolean} bright
+ * @arg {boolean} background
 */
 export function stringGetColor(color, bright, background) {
 
@@ -1308,7 +1308,7 @@ export function stringGetColor(color, bright, background) {
  * @typedef {TBfind} Tfind
 */
 
-/** @param {Tfind} t */
+/** @arg {Tfind} t */
 function findDeceit(t) {
 
     try {
@@ -1324,7 +1324,7 @@ function findDeceit(t) {
     };
 
 };
-/** @param {Tfind} t */
+/** @arg {Tfind} t */
 function findVerify(t) {
 
     const {
@@ -1336,7 +1336,7 @@ function findVerify(t) {
     return findHandle(t);
 
 };
-/** @param {Tfind} t */
+/** @arg {Tfind} t */
 function findHandle(t) {
 
     t.fragments.map(f => new YRegExp(f).removeFlags('g').get());
@@ -1344,7 +1344,7 @@ function findHandle(t) {
     return findComply(t);
 
 };
-/** @param {Tfind} t */
+/** @arg {Tfind} t */
 function findComply(t) {
 
     const {
@@ -1385,8 +1385,8 @@ function findComply(t) {
  * Функция для поиска совпадения в строке.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {string} string Исходная строка.
- * @param {...string|RegExp} fragments Последовательность фрагментов поиска.
+ * @arg {string} string Исходная строка.
+ * @arg {...string|RegExp} fragments Последовательность фрагментов поиска.
  * Каждый следующий фрагмент поиска будет применяться к результатам поиска предыдущего фрагмента.
  * Если результат поиска будет отрицательным, то исполнение послудующих фрагментов будет пропущено.
  *
@@ -1407,7 +1407,7 @@ export function stringFind(string, ...fragments) {
  * @typedef {TBfindAll&Tfind} TfindAll
 */
 
-/** @param {TfindAll} t */
+/** @arg {TfindAll} t */
 function findAllDeceit(t) {
 
     try {
@@ -1423,7 +1423,7 @@ function findAllDeceit(t) {
     };
 
 };
-/** @param {TfindAll} t */
+/** @arg {TfindAll} t */
 function findAllVerify(t) {
 
     const {
@@ -1435,7 +1435,7 @@ function findAllVerify(t) {
     return findAllHandle(t);
 
 };
-/** @param {TfindAll} t */
+/** @arg {TfindAll} t */
 function findAllHandle(t) {
 
     t.fragments = t.fragments.map(f => new YRegExp(f, 'g').get());
@@ -1443,7 +1443,7 @@ function findAllHandle(t) {
     return findAllComply(t);
 
 };
-/** @param {TfindAll} t */
+/** @arg {TfindAll} t */
 function findAllComply(t) {
 
     const {
@@ -1473,8 +1473,8 @@ function findAllComply(t) {
  * Функция для поиска всех возможных совпадений.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {string} string Исходная строка.
- * @param {...string|RegExp} fragments Последовательность фрагментов поиска.
+ * @arg {string} string Исходная строка.
+ * @arg {...string|RegExp} fragments Последовательность фрагментов поиска.
  * Каждый следующий фрагмент поиска будет применяться к результатам поиска предыдущего фрагмента.
  *
  * Фрагменты учитывают при поиске группу `f`. Если такая группа будет указана, то фрагмент вернет её значение в качестве результата.
@@ -1497,7 +1497,7 @@ export function stringFindAll(string, ...fragments) {
  * @typedef {TBfindLevel} TfindLevel
 */
 
-/** @param {TfindLevel} t */
+/** @arg {TfindLevel} t */
 function findLevelDeceit(t) {
 
     try {
@@ -1513,7 +1513,7 @@ function findLevelDeceit(t) {
     };
 
 };
-/** @param {TfindLevel} t */
+/** @arg {TfindLevel} t */
 function findLevelVerify(t) {
 
 
@@ -1521,7 +1521,7 @@ function findLevelVerify(t) {
     return findLevelHandle(t);
 
 };
-/** @param {TfindLevel} t */
+/** @arg {TfindLevel} t */
 function findLevelHandle(t) {
 
 
@@ -1529,7 +1529,7 @@ function findLevelHandle(t) {
     return findLevelComply(t);
 
 };
-/** @param {TfindLevel} t */
+/** @arg {TfindLevel} t */
 function findLevelComply(t) {
 
     const {
@@ -1591,7 +1591,7 @@ export function stringFindLevel(string, levelUpper, levelLower) {
  * @typedef {TBfindToJect&TfindAll} TfindToJect
 */
 
-/** @param {TfindToJect} t */
+/** @arg {TfindToJect} t */
 function findToJectDeceit(t) {
 
     try {
@@ -1607,7 +1607,7 @@ function findToJectDeceit(t) {
     };
 
 };
-/** @param {TfindToJect} t */
+/** @arg {TfindToJect} t */
 function findToJectVerify(t) {
 
 
@@ -1615,7 +1615,7 @@ function findToJectVerify(t) {
     return findToJectHandle(t);
 
 };
-/** @param {TfindToJect} t */
+/** @arg {TfindToJect} t */
 function findToJectHandle(t) {
 
     t.fragments = t.fragments.map(f => new YRegExp(f, 'g').get());
@@ -1623,7 +1623,7 @@ function findToJectHandle(t) {
     return findToJectComply(t);
 
 };
-/** @param {TfindToJect} t */
+/** @arg {TfindToJect} t */
 function findToJectComply(t) {
 
     const {
@@ -1682,8 +1682,8 @@ function findToJectComply(t) {
  * Для определения свойств объекта, необходимо указать их в регулярном выражении в качестве именованных скобочных групп.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {string} string Исходная строка.
- * @param {...string|RegExp} fragments Последовательность фрагментов поиска.
+ * @arg {string} string Исходная строка.
+ * @arg {...string|RegExp} fragments Последовательность фрагментов поиска.
  * Каждый следующий фрагмент поиска будет применяться к результатам поиска предыдущего фрагмента.
 */
 export function stringFindToJect(string, ...fragments) {
@@ -1701,7 +1701,7 @@ export function stringFindToJect(string, ...fragments) {
  * @typedef {TBfindVariate&TfindAll} TfindVariate
 */
 
-/** @param {TfindVariate} t */
+/** @arg {TfindVariate} t */
 function findVariateDeceit(t) {
 
     try {
@@ -1717,7 +1717,7 @@ function findVariateDeceit(t) {
     };
 
 };
-/** @param {TfindVariate} t */
+/** @arg {TfindVariate} t */
 function findVariateVerify(t) {
 
 
@@ -1725,7 +1725,7 @@ function findVariateVerify(t) {
     return findVariateHandle(t);
 
 };
-/** @param {TfindVariate} t */
+/** @arg {TfindVariate} t */
 function findVariateHandle(t) {
 
     t.fragments = t.fragments.map(f => new YRegExp(f, 'g').get());
@@ -1733,7 +1733,7 @@ function findVariateHandle(t) {
     return findVariateComply(t);
 
 };
-/** @param {TfindVariate} t */
+/** @arg {TfindVariate} t */
 function findVariateComply(t) {
 
     const {
@@ -1778,8 +1778,8 @@ function findVariateComply(t) {
  * Функция для поиска всех возможных вариаций совпадения по строке.
  * - Версия `0.1.0`
  * - Цепочка `DVHCa`
- * @param {string} string Исходная строка.
- * @param {...string|RegExp} fragments Последовательность фрагментов поиска.
+ * @arg {string} string Исходная строка.
+ * @arg {...string|RegExp} fragments Последовательность фрагментов поиска.
  * Каждый следующий фрагмент поиска будет применяться к результатам поиска предыдущего фрагмента.
  *
  * Фрагменты учитывают при поиске группу `f`. Если такая группа будет указана, то фрагмент вернет её значение в качестве результата.
@@ -1802,7 +1802,7 @@ export function stringFindVariate(string, ...fragments) {
  * @typedef {TBreplace} Treplace
 */
 
-/** @param {Treplace} t */
+/** @arg {Treplace} t */
 function replaceDeceit(t) {
 
     try {
@@ -1818,7 +1818,7 @@ function replaceDeceit(t) {
     };
 
 };
-/** @param {Treplace} t */
+/** @arg {Treplace} t */
 function replaceVerify(t) {
 
     const {
@@ -1830,7 +1830,7 @@ function replaceVerify(t) {
     return replaceHandle(t);
 
 };
-/** @param {Treplace} t */
+/** @arg {Treplace} t */
 function replaceHandle(t) {
 
     if (t.fragment) t.fragment = new YRegExp(t.fragment).removeFlags('g').get();
@@ -1838,7 +1838,7 @@ function replaceHandle(t) {
     return replaceComply(t);
 
 };
-/** @param {Treplace} t */
+/** @arg {Treplace} t */
 function replaceComply(t) {
 
     const {
@@ -1864,9 +1864,9 @@ function replaceComply(t) {
  * Функция для замены первого совпадения в исходной строке на указанное значение.
  * - Версия `0.1.0`
  * - Цепочка `DVHCa`
- * @param {string} string Исходная строка.
- * @param {string} replace Значение замены.
- * @param {string|RegExp} fragment Фрагмент совпадения.
+ * @arg {string} string Исходная строка.
+ * @arg {string} replace Значение замены.
+ * @arg {string|RegExp} fragment Фрагмент совпадения.
  * - Флаг `g` не учитывается и будет исключен из регулярного выражения.
  * - Скобочная группа `r` указывает точечное место в совпадении, которое необходимо заменить.
 */
@@ -1879,8 +1879,8 @@ export function stringReplace(string, replace, fragment) {
  * Функция для многократного вызова функции замены.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {string} string Исходная строка.
- * @param {...[string, string|RegExp]} replaces Замены.
+ * @arg {string} string Исходная строка.
+ * @arg {...[string, string|RegExp]} replaces Замены.
 */
 export function stringReplaceMore(string, ...replaces) {
 
@@ -1901,7 +1901,7 @@ export function stringReplaceMore(string, ...replaces) {
  * @typedef {TBreplaceAll} TreplaceAll
 */
 
-/** @param {TreplaceAll} t */
+/** @arg {TreplaceAll} t */
 function replaceAllDeceit(t) {
 
     try {
@@ -1917,7 +1917,7 @@ function replaceAllDeceit(t) {
     };
 
 };
-/** @param {TreplaceAll} t */
+/** @arg {TreplaceAll} t */
 function replaceAllVerify(t) {
 
 
@@ -1925,7 +1925,7 @@ function replaceAllVerify(t) {
     return replaceAllHandle(t);
 
 };
-/** @param {TreplaceAll} t */
+/** @arg {TreplaceAll} t */
 function replaceAllHandle(t) {
 
     if (t.fragment) t.fragment = new YRegExp(t.fragment, 'g').get();
@@ -1933,7 +1933,7 @@ function replaceAllHandle(t) {
     return replaceAllComply(t);
 
 };
-/** @param {TreplaceAll} t */
+/** @arg {TreplaceAll} t */
 function replaceAllComply(t) {
 
     const {
@@ -1960,9 +1960,9 @@ function replaceAllComply(t) {
  * Функция для замены всех найденных совпадений в исходной строке на указанное значение.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {string} string Исходная строка.
- * @param {string} replace Значение замены.
- * @param {string|RegExp} fragment Фрагменты замены.
+ * @arg {string} string Исходная строка.
+ * @arg {string} replace Значение замены.
+ * @arg {string|RegExp} fragment Фрагменты замены.
  * - Флаг `g` не учитывается и будет исключен из регулярного выражения.
  * - Скобочная группа `r` указывает точечное место в совпадении, которое необходимо заменить.
 */
@@ -1975,8 +1975,8 @@ export function stringReplaceAll(string, replace, fragment) {
  * Функция для замены множества совпадений в исходной строке с индивидуально указанными значениями.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {string} string Исходная строка.
- * @param {...[string, string|RegExp]} replaces Замещения.
+ * @arg {string} string Исходная строка.
+ * @arg {...[string, string|RegExp]} replaces Замещения.
 */
 export function stringReplaceAllMore(string, ...replaces) {
 
@@ -1996,7 +1996,7 @@ export function stringReplaceAllMore(string, ...replaces) {
  * @typedef {TBcastToJect} TcastToJect
 */
 
-/** @param {TcastToJect} t */
+/** @arg {TcastToJect} t */
 function castToJectDeceit(t) {
 
     try {
@@ -2012,7 +2012,7 @@ function castToJectDeceit(t) {
     };
 
 };
-/** @param {TcastToJect} t */
+/** @arg {TcastToJect} t */
 function castToJectVerify(t) {
 
     const {
@@ -2024,7 +2024,7 @@ function castToJectVerify(t) {
     return castToJectHandle(t);
 
 };
-/** @param {TcastToJect} t */
+/** @arg {TcastToJect} t */
 function castToJectHandle(t) {
 
     let {
@@ -2044,7 +2044,7 @@ function castToJectHandle(t) {
     return castToJectComply(t);
 
 };
-/** @param {TcastToJect} t */
+/** @arg {TcastToJect} t */
 function castToJectComply(t) {
 
     const {
@@ -2071,7 +2071,7 @@ function castToJectComply(t) {
  * Функция для превращения строки в объект.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {string} string исходная строка.
+ * @arg {string} string исходная строка.
 */
 export function stringCastToJect(string) {
 
@@ -2089,7 +2089,7 @@ export function stringCastToJect(string) {
  * @typedef {TBcastToDate} TcastToDate
 */
 
-/** @param {TcastToDate} t */
+/** @arg {TcastToDate} t */
 function castToDateDeceit(t) {
 
     try {
@@ -2105,7 +2105,7 @@ function castToDateDeceit(t) {
     };
 
 };
-/** @param {TcastToDate} t */
+/** @arg {TcastToDate} t */
 function castToDateVerify(t) {
 
     const {
@@ -2117,7 +2117,7 @@ function castToDateVerify(t) {
     return castToDateHandle(t);
 
 };
-/** @param {TcastToDate} t */
+/** @arg {TcastToDate} t */
 function castToDateHandle(t) {
 
     let {
@@ -2137,7 +2137,7 @@ function castToDateHandle(t) {
     return castToDateComply(t);
 
 };
-/** @param {TcastToDate} t */
+/** @arg {TcastToDate} t */
 function castToDateComply(t) {
 
     const {
@@ -2172,7 +2172,7 @@ function castToDateComply(t) {
  * Функция для преобразования даты в строку текущей локали.
  * - Версия `0.0.1`
  * - Цепочка `DVHCa`
- * @param {Date} date Дата.
+ * @arg {Date} date Дата.
  * - По умолчанию `new Date()`
 */
 export function stringCastToDate(date = new Date()) {
@@ -2184,7 +2184,7 @@ export function stringCastToDate(date = new Date()) {
  * Функция для преобразования даты в строку формата даты локального времени.
  * - Версия `0.0.1`
  * - Цепочка `DVHCa`
- * @param {Date} date Дата.
+ * @arg {Date} date Дата.
  * - По умолчанию `new Date()`
 */
 export function stringCastToDateRu(date = new Date()) {
@@ -2202,7 +2202,7 @@ export function stringCastToDateRu(date = new Date()) {
  * @typedef {TBcastToSample} TcastToSample
 */
 
-/** @param {TcastToSample} t */
+/** @arg {TcastToSample} t */
 function castToSampleDeceit(t) {
 
     try {
@@ -2218,7 +2218,7 @@ function castToSampleDeceit(t) {
     };
 
 };
-/** @param {TcastToSample} t */
+/** @arg {TcastToSample} t */
 function castToSampleVerify(t) {
 
     const {
@@ -2230,7 +2230,7 @@ function castToSampleVerify(t) {
     return castToSampleHandle(t);
 
 };
-/** @param {TcastToSample} t */
+/** @arg {TcastToSample} t */
 function castToSampleHandle(t) {
 
     let {
@@ -2250,7 +2250,7 @@ function castToSampleHandle(t) {
     return castToSampleComply(t);
 
 };
-/** @param {TcastToSample} t */
+/** @arg {TcastToSample} t */
 function castToSampleComply(t) {
 
     const {
@@ -2273,7 +2273,7 @@ function castToSampleComply(t) {
  * Функция для преобразования строки в строку с отображением всех спициальных символов.
  * - Версия `0.0.1`
  * - Цепочка `DVHCa`
- * @param {string} string Исходная строка.
+ * @arg {string} string Исходная строка.
 */
 export function stringCastToSample(string) {
 
@@ -2291,7 +2291,7 @@ export function stringCastToSample(string) {
  * @typedef {TBcastToNumber} TcastToNumber
 */
 
-/** @param {TcastToNumber} t */
+/** @arg {TcastToNumber} t */
 function castToNumberDeceit(t) {
 
     try {
@@ -2307,7 +2307,7 @@ function castToNumberDeceit(t) {
     };
 
 };
-/** @param {TcastToNumber} t */
+/** @arg {TcastToNumber} t */
 function castToNumberVerify(t) {
 
     const {
@@ -2319,7 +2319,7 @@ function castToNumberVerify(t) {
     return castToNumberHandle(t);
 
 };
-/** @param {TcastToNumber} t */
+/** @arg {TcastToNumber} t */
 function castToNumberHandle(t) {
 
     let {
@@ -2337,7 +2337,7 @@ function castToNumberHandle(t) {
     return castToNumberComply(t);
 
 };
-/** @param {TcastToNumber} t */
+/** @arg {TcastToNumber} t */
 function castToNumberComply(t) {
 
     const {
@@ -2380,7 +2380,7 @@ function castToNumberComply(t) {
  * Функция для преобразования числа к заданному виду.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {number} number Число, которое необходимо привести к определенной форме.
+ * @arg {number} number Число, которое необходимо привести к определенной форме.
 */
 export function stringCastToNumber(number, part = true) {
 
@@ -2397,7 +2397,7 @@ export function stringCastToNumber(number, part = true) {
  * @typedef {TBcastToYReport} TcastToYReport
 */
 
-/** @param {TcastToYReport} t */
+/** @arg {TcastToYReport} t */
 function castToYReportDeceit(t) {
 
     try {
@@ -2413,7 +2413,7 @@ function castToYReportDeceit(t) {
     };
 
 };
-/** @param {TcastToYReport} t */
+/** @arg {TcastToYReport} t */
 function castToYReportVerify(t) {
 
     const {
@@ -2425,7 +2425,7 @@ function castToYReportVerify(t) {
     return castToYReportHandle(t);
 
 };
-/** @param {TcastToYReport} t */
+/** @arg {TcastToYReport} t */
 function castToYReportHandle(t) {
 
     let {
@@ -2445,7 +2445,7 @@ function castToYReportHandle(t) {
     return castToYReportComply(t);
 
 };
-/** @param {TcastToYReport} t */
+/** @arg {TcastToYReport} t */
 function castToYReportComply(t) {
 
     const {
@@ -2467,7 +2467,7 @@ function castToYReportComply(t) {
  * Преобразование строки в оформленную строку отчета для Y элементов.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {string} string Исходная строка.
+ * @arg {string} string Исходная строка.
 */
 export function stringCastToYReport(string) {
 
@@ -2485,7 +2485,7 @@ export function stringCastToYReport(string) {
  * @typedef {TBcastToNumberPhone} TcastToNumberPhone
 */
 
-/** @param {TcastToNumberPhone} t */
+/** @arg {TcastToNumberPhone} t */
 function castToNumberPhoneDeceit(t) {
 
     try {
@@ -2501,7 +2501,7 @@ function castToNumberPhoneDeceit(t) {
     };
 
 };
-/** @param {TcastToNumberPhone} t */
+/** @arg {TcastToNumberPhone} t */
 function castToNumberPhoneVerify(t) {
 
     const {
@@ -2513,7 +2513,7 @@ function castToNumberPhoneVerify(t) {
     return castToNumberPhoneHandle(t);
 
 };
-/** @param {TcastToNumberPhone} t */
+/** @arg {TcastToNumberPhone} t */
 function castToNumberPhoneHandle(t) {
 
     let {
@@ -2534,7 +2534,7 @@ function castToNumberPhoneHandle(t) {
     return castToNumberPhoneComply(t);
 
 };
-/** @param {TcastToNumberPhone} t */
+/** @arg {TcastToNumberPhone} t */
 function castToNumberPhoneComply(t) {
 
     const {
@@ -2583,7 +2583,7 @@ function castToNumberPhoneComply(t) {
  * Функция для приведения строки к телефонному номеру России.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {string} number
+ * @arg {string} number
 */
 export function stringCastToPhoneNumberRu(number) {
 
@@ -2594,7 +2594,7 @@ export function stringCastToPhoneNumberRu(number) {
  * Функция для приведения строки к телефонному номеру Украины.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {string} number
+ * @arg {string} number
 */
 export function stringCastToPhoneNumberUa(number) {
 
@@ -2605,7 +2605,7 @@ export function stringCastToPhoneNumberUa(number) {
  * Функция для приведения строки к телефонному номеру Казахстана.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {string} number
+ * @arg {string} number
 */
 export function stringCastToPhoneNumberKz(number) {
 
@@ -2616,7 +2616,7 @@ export function stringCastToPhoneNumberKz(number) {
  * Функция для приведения строки к телефонному номеру Беларуссии.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {string} number
+ * @arg {string} number
 */
 export function stringCastToPhoneNumberBlr(number) {
 
@@ -2636,7 +2636,7 @@ export function stringCastToPhoneNumberBlr(number) {
  * @typedef {TBconvertCamelCaseToDelimetr} TconvertCamelCaseToDelimetr
 */
 
-/** @param {TconvertCamelCaseToDelimetr} t */
+/** @arg {TconvertCamelCaseToDelimetr} t */
 function convertCamelCaseToDelimetrDeceit(t) {
 
     try {
@@ -2652,7 +2652,7 @@ function convertCamelCaseToDelimetrDeceit(t) {
     };
 
 };
-/** @param {TconvertCamelCaseToDelimetr} t */
+/** @arg {TconvertCamelCaseToDelimetr} t */
 function convertCamelCaseToDelimetrVerify(t) {
 
     const {
@@ -2664,7 +2664,7 @@ function convertCamelCaseToDelimetrVerify(t) {
     return convertCamelCaseToDelimetrHandle(t);
 
 };
-/** @param {TconvertCamelCaseToDelimetr} t */
+/** @arg {TconvertCamelCaseToDelimetr} t */
 function convertCamelCaseToDelimetrHandle(t) {
 
     let {
@@ -2684,7 +2684,7 @@ function convertCamelCaseToDelimetrHandle(t) {
     return convertCamelCaseToDelimetrComply(t);
 
 };
-/** @param {TconvertCamelCaseToDelimetr} t */
+/** @arg {TconvertCamelCaseToDelimetr} t */
 function convertCamelCaseToDelimetrComply(t) {
 
     const {
@@ -2703,10 +2703,10 @@ function convertCamelCaseToDelimetrComply(t) {
  * Функция для трансофрмации строки `CamelCase` в строку с разделителем.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {string} string Исходная строка.
- * @param {string} delimetr Разделитель.
+ * @arg {string} string Исходная строка.
+ * @arg {string} delimetr Разделитель.
  * - По умолчанию `-`
- * @param {boolean} lower Логическое значение, определяющее стиль `CamelCase` строки, как `lower`.
+ * @arg {boolean} lower Логическое значение, определяющее стиль `CamelCase` строки, как `lower`.
  * - По умолчанию `true`
 */
 export function stringConvertCamelCaseToDelimetr(string, delimetr = '-', lower = true) {
@@ -2726,7 +2726,7 @@ export function stringConvertCamelCaseToDelimetr(string, delimetr = '-', lower =
  * @typedef {TBconvertDelimetrToCamelCase} TconvertDelimetrToCamelCase
 */
 
-/** @param {TconvertDelimetrToCamelCase} t */
+/** @arg {TconvertDelimetrToCamelCase} t */
 function convertDelimetrToCamelCaseDeceit(t) {
 
     try {
@@ -2742,7 +2742,7 @@ function convertDelimetrToCamelCaseDeceit(t) {
     };
 
 };
-/** @param {TconvertDelimetrToCamelCase} t */
+/** @arg {TconvertDelimetrToCamelCase} t */
 function convertDelimetrToCamelCaseVerify(t) {
 
     const {
@@ -2754,7 +2754,7 @@ function convertDelimetrToCamelCaseVerify(t) {
     return convertDelimetrToCamelCaseHandle(t);
 
 };
-/** @param {TconvertDelimetrToCamelCase} t */
+/** @arg {TconvertDelimetrToCamelCase} t */
 function convertDelimetrToCamelCaseHandle(t) {
 
     let {
@@ -2774,7 +2774,7 @@ function convertDelimetrToCamelCaseHandle(t) {
     return convertDelimetrToCamelCaseComply(t);
 
 };
-/** @param {TconvertDelimetrToCamelCase} t */
+/** @arg {TconvertDelimetrToCamelCase} t */
 function convertDelimetrToCamelCaseComply(t) {
 
     const {
@@ -2793,10 +2793,10 @@ function convertDelimetrToCamelCaseComply(t) {
  * Функция конвертирования delimetr строки в `CamelCase`.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {string} string Исходная строка.
- * @param {string} delimetr Разделитель строки.
+ * @arg {string} string Исходная строка.
+ * @arg {string} delimetr Разделитель строки.
  * - По умолчанию `false`
- * @param {boolean} lower Логическо значение определяющее стиль `CamelCase` как `lower`.
+ * @arg {boolean} lower Логическо значение определяющее стиль `CamelCase` как `lower`.
  * - По умолчанию `true`
 */
 export function stringConverDelimetrToCamelCase(string, delimetr = '-', lower = true) {

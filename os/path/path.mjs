@@ -1,13 +1,8 @@
 import { arrayAppend } from "../../array/array.mjs";
-import { existsSync, lstatSync, readdirSync } from "fs";
-import { config, configOS, configPath, } from "../../config1.mjs";
+import { lstatSync, readdirSync } from "fs";
+import { config, configOSPath, } from "../../config.mjs";
 import { fileREName, fileREPart } from "../file/file.mjs";
 import { stringFind } from "../../string/string.mjs";
-import { YFunc } from "../../func/YFunc/YFunc.mjs";
-import { YProc } from "../../func/YFunc/YProc/YProc.mjs";
-import { jectReplaceDeep, jectSetDeep } from "../../ject/ject.mjs";
-import { YString } from "../../string/YString/YString.mjs";
-import { YCMD } from "../program/YCMD/YCMD.mjs";
 
 /** @type {regexp} */
 export const pathREFileInfo = /(\d+\.){2}\d{4,} *?\d{2}:\d{2} *?(<DIR>)? *?(\d+?)? *?(\w|\.)+/mg;
@@ -22,7 +17,7 @@ export const pathREFileInfo = /(\d+\.){2}\d{4,} *?\d{2}:\d{2} *?(<DIR>)? *?(\d+?
  * @typedef {TBget} Tget
 */
 
-/** @param {Tget} t */
+/** @arg {Tget} t */
 function getDeceit(t) {
 
     try {
@@ -38,7 +33,7 @@ function getDeceit(t) {
     };
 
 };
-/** @param {Tget} t */
+/** @arg {Tget} t */
 function getVerify(t) {
 
     const {
@@ -50,7 +45,7 @@ function getVerify(t) {
     return getHandle(t);
 
 };
-/** @param {Tget} t */
+/** @arg {Tget} t */
 function getHandle(t) {
 
     let {
@@ -60,25 +55,25 @@ function getHandle(t) {
     } = t;
 
     if (!t.fragment) t.fragment = new RegExp();
-    if (!configPath.pathProject) configPath.pathProject = pathGetProject();
+    if (!configOSPath.pathProject) configOSPath.pathProject = pathGetProject();
 
     return getComply(t);
 
 };
-/** @param {Tget} t */
+/** @arg {Tget} t */
 function getComply(t) {
 
     const {
 
         limit,
-        paths = readdirSync(configPath.pathProject),
+        paths = readdirSync(configOSPath.pathProject),
         fragment,
 
     } = t, {
 
         pathProject,
 
-    } = configPath;
+    } = configOSPath;
 
     const func0 = path => lstatSync(pathProject + '/' + path).isDirectory() ? arrayAppend(paths, ...readdirSync(pathProject + '/' + path).map(e => `${path}/${e}`)) : 0;
     /** @type {Array<string>} */
@@ -159,7 +154,7 @@ function getComply(t) {
  * Функция для получения первого по соответствию фрагменту пути.
  * - Версия `0.1.1`
  * - Цепочка `DVHCa`
- * @param {string|RegExp} fragment Фрагмент искомого пути.
+ * @arg {string|RegExp} fragment Фрагмент искомого пути.
  * @returns {string}
 */
 export function pathGet(fragment) {
@@ -171,8 +166,8 @@ export function pathGet(fragment) {
  * Функция для получения первого по соответствию фрагменту пути в указанном массиве.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {[string]} paths Пути.
- * @param {string|RegExp} fragment Фрагмент искомого пути.
+ * @arg {[string]} paths Пути.
+ * @arg {string|RegExp} fragment Фрагмент искомого пути.
  * @returns {string}
 */
 export function pathGetIn(paths, fragment) {
@@ -184,7 +179,7 @@ export function pathGetIn(paths, fragment) {
  * Функция для получения путей к файлам проекта.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {string} fragment Фрагмент искомого пути.
+ * @arg {string} fragment Фрагмент искомого пути.
  * @returns {[string]}
 */
 export function pathGetAll(fragment = '.', limit) {
@@ -202,7 +197,7 @@ export function pathGetAll(fragment = '.', limit) {
  * @typedef {TBgetDisk} TgetDisk
 */
 
-/** @param {TgetDisk} t */
+/** @arg {TgetDisk} t */
 function getDiskDeceit(t) {
 
     try {
@@ -218,7 +213,7 @@ function getDiskDeceit(t) {
     };
 
 };
-/** @param {TgetDisk} t */
+/** @arg {TgetDisk} t */
 function getDiskVerify(t) {
 
     const {
@@ -230,7 +225,7 @@ function getDiskVerify(t) {
     return getDiskHandle(t);
 
 };
-/** @param {TgetDisk} t */
+/** @arg {TgetDisk} t */
 function getDiskHandle(t) {
 
     let {
@@ -250,7 +245,7 @@ function getDiskHandle(t) {
     return getDiskComply(t);
 
 };
-/** @param {TgetDisk} t */
+/** @arg {TgetDisk} t */
 function getDiskComply(t) {
 
     const {
@@ -283,7 +278,7 @@ export function pathGetDisk() {
  * @typedef {TBgetProject} TgetProject
 */
 
-/** @param {TgetProject} t */
+/** @arg {TgetProject} t */
 function getProjectDeceit(t) {
 
     try {
@@ -299,7 +294,7 @@ function getProjectDeceit(t) {
     };
 
 };
-/** @param {TgetProject} t */
+/** @arg {TgetProject} t */
 function getProjectVerify(t) {
 
     const {
@@ -311,7 +306,7 @@ function getProjectVerify(t) {
     return getProjectHandle(t);
 
 };
-/** @param {TgetProject} t */
+/** @arg {TgetProject} t */
 function getProjectHandle(t) {
 
     let {
@@ -331,7 +326,7 @@ function getProjectHandle(t) {
     return getProjectComply(t);
 
 };
-/** @param {TgetProject} t */
+/** @arg {TgetProject} t */
 function getProjectComply(t) {
 
     const {
@@ -365,7 +360,7 @@ export function pathGetProject() {
  * @typedef {TBdecompose} Tdecompose
 */
 
-/** @param {Tdecompose} t */
+/** @arg {Tdecompose} t */
 function decomposeDeceit(t) {
 
     try {
@@ -381,7 +376,7 @@ function decomposeDeceit(t) {
     };
 
 };
-/** @param {Tdecompose} t */
+/** @arg {Tdecompose} t */
 function decomposeVerify(t) {
 
     const {
@@ -393,7 +388,7 @@ function decomposeVerify(t) {
     return decomposeHandle(t);
 
 };
-/** @param {Tdecompose} t */
+/** @arg {Tdecompose} t */
 function decomposeHandle(t) {
 
     let {
@@ -413,7 +408,7 @@ function decomposeHandle(t) {
     return decomposeComply(t);
 
 };
-/** @param {Tdecompose} t */
+/** @arg {Tdecompose} t */
 function decomposeComply(t) {
 
     const {
@@ -434,7 +429,7 @@ function decomposeComply(t) {
  * Функция для разложения пути на составные части.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {string|RegExp} fragment
+ * @arg {string|RegExp} fragment
  * @returns {[string]}
 */
 export function pathDecompose(fragment) {

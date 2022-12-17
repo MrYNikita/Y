@@ -1,6 +1,6 @@
 import { YString } from "../../../string/YString/YString.mjs";
 import { jectFill } from "../../../ject/ject.mjs";
-import { configHtml, configWeb } from "../../../config.mjs";
+import { configWebYHTML, configWeb } from "../../../config.mjs";
 import { YElementStyle } from "../element/YElement/YElementStyle/YElementStyle.mjs";
 import { fileRead, fileReadJson, fileReadText } from "../../../os/file/file.mjs";
 import { pathGet } from "../../../os/path/path.mjs";
@@ -64,7 +64,7 @@ class FHTML extends MHTML {
      * Контсруктор класса `YHTML`
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
-     *  @param {THTML} t
+     *  @arg {THTML} t
     */
     constructor(t = {}) {
 
@@ -78,7 +78,7 @@ class FHTML extends MHTML {
 
     };
 
-    /** @param {Array<any>} t */
+    /** @arg {Array<any>} t */
     static #before(t) {
 
         if (t?.length === 1 && t[0]?.constructor === Object) {
@@ -103,7 +103,7 @@ class FHTML extends MHTML {
         } else return {};
 
     };
-    /** @param {THTML} t @this {YHTML} */
+    /** @arg {THTML} t @this {YHTML} */
     static #deceit(t) {
 
         try {
@@ -117,7 +117,7 @@ class FHTML extends MHTML {
         };
 
     };
-    /** @param {THTML} t @this {YHTML} */
+    /** @arg {THTML} t @this {YHTML} */
     static #verify(t) {
 
         const {
@@ -129,13 +129,13 @@ class FHTML extends MHTML {
         FHTML.#handle(t);
 
     };
-    /** @param {THTML} t @this {YHTML} */
+    /** @arg {THTML} t @this {YHTML} */
     static #handle(t) {
 
 
 
     };
-    /** @param {THTML} t @this {YHTML} */
+    /** @arg {THTML} t @this {YHTML} */
     static #create(t) {
 
         const {

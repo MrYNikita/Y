@@ -8,7 +8,7 @@ import { config } from "process";
  * @typedef {TBdescrypt} Tdescrypt
 */
 
-/** @param {Tdescrypt} t */
+/** @arg {Tdescrypt} t */
 function descryptDeceit(t) {
 
     try {
@@ -24,7 +24,7 @@ function descryptDeceit(t) {
     };
 
 };
-/** @param {Tdescrypt} t */
+/** @arg {Tdescrypt} t */
 function descryptVerify(t) {
 
     const {
@@ -36,7 +36,7 @@ function descryptVerify(t) {
     return descryptHandle(t);
 
 };
-/** @param {Tdescrypt} t */
+/** @arg {Tdescrypt} t */
 function descryptHandle(t) {
 
     let {
@@ -56,7 +56,7 @@ function descryptHandle(t) {
     return descryptComply(t);
 
 };
-/** @param {Tdescrypt} t */
+/** @arg {Tdescrypt} t */
 function descryptComply(t) {
 
     const {
@@ -84,7 +84,7 @@ function descryptComply(t) {
  * Функция для расшифровки сообщений клиентов.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {Buffer} data Данные.
+ * @arg {Buffer} data Данные.
 */
 export function serverDescrypt(data) {
 
@@ -102,7 +102,7 @@ export function serverDescrypt(data) {
  * @typedef {TBdefineContentType} TdefineContentType
 */
 
-/** @param {TdefineContentType} t */
+/** @arg {TdefineContentType} t */
 function defineContentTypeDeceit(t) {
 
     try {
@@ -118,7 +118,7 @@ function defineContentTypeDeceit(t) {
     };
 
 };
-/** @param {TdefineContentType} t */
+/** @arg {TdefineContentType} t */
 function defineContentTypeVerify(t) {
 
     const {
@@ -130,7 +130,7 @@ function defineContentTypeVerify(t) {
     return defineContentTypeHandle(t);
 
 };
-/** @param {TdefineContentType} t */
+/** @arg {TdefineContentType} t */
 function defineContentTypeHandle(t) {
 
     let {
@@ -150,7 +150,7 @@ function defineContentTypeHandle(t) {
     return defineContentTypeComply(t);
 
 };
-/** @param {TdefineContentType} t */
+/** @arg {TdefineContentType} t */
 function defineContentTypeComply(t) {
 
     let {
@@ -192,7 +192,7 @@ function defineContentTypeComply(t) {
  * Функция для определения типа отправляемых данных по указанному строковому значению.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {string} type
+ * @arg {string} type
  * - По умолчанию `text`
 */
 export function serverDefineContentType(type = 'text') {
@@ -204,7 +204,7 @@ export function serverDefineContentType(type = 'text') {
  * Функция для определения типа отправляемых данных.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {any} data Данные, по которым будет определен тип.
+ * @arg {any} data Данные, по которым будет определен тип.
 */
 export function serverDefineContentTypeByData(data) {
 

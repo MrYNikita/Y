@@ -51,7 +51,7 @@ class FData extends MData {
      * Контсруктор класса `YData`
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
-     *  @param {TData} t
+     *  @arg {TData} t
     */
     constructor(t = {}) {
 
@@ -65,7 +65,7 @@ class FData extends MData {
 
     };
 
-    /** @param {Array<any>} t */
+    /** @arg {Array<any>} t */
     static #before(t) {
 
         if (t?.length === 1 && t[0]?.constructor === Object) {
@@ -89,7 +89,7 @@ class FData extends MData {
         } else return {};
 
     };
-    /** @param {TData} t @this {YData} */
+    /** @arg {TData} t @this {YData} */
     static #deceit(t) {
 
         try {
@@ -103,7 +103,7 @@ class FData extends MData {
         };
 
     };
-    /** @param {TData} t @this {YData} */
+    /** @arg {TData} t @this {YData} */
     static #verify(t) {
 
         const {
@@ -115,7 +115,7 @@ class FData extends MData {
         FData.#handle(t);
 
     };
-    /** @param {TData} t @this {YData} */
+    /** @arg {TData} t @this {YData} */
     static #handle(t) {
 
         if (t.value || t.value === 0) {
@@ -128,7 +128,7 @@ class FData extends MData {
         };
 
     };
-    /** @param {TData} t @this {YData} */
+    /** @arg {TData} t @this {YData} */
     static #create(t) {
 
         const {

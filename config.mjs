@@ -1,232 +1,77 @@
-const config = {
+export const config = {
 
     /**
-     * `Локаль` программы.
-     * @type {string}
+     * Локаль.
+     * - Доступные значения:
+     * `ru`,
+     * `en`
+     * @type {keyof [
+     * "ru",
+     * "en",
+     * ]}
     */
     local: 'ru',
     /**
-     * Логическое значение отладки.
-     * Значение `true` запускает полную отладку.
-     * Значение `false` игнорирует полную отладку.
-     * Полная отладка - процесс для комплексной проверки работы нескольких ФЦ или классов.
-     * В ходе полной отладки все ФЦ построенные на `YFunc` будут выполняться с уведомлениями о своих действиях.
-     * Отсутствие данного режима уберет все процедуры категории `debug`.
-     *
-     * Для каждого модуля можно назначить его индивидуальный `debug` параметр, чтобы проверить исключительно единственный модуль.
+     * Режим отладки.
+     * @type {boolean}
     */
     debug: false,
     /**
-     * `Состояние` строгого режима YModule.
+     * Режим строгости.
+     *
+     * При значении `true` и возникновении ошибок в работе ФЦ и КЦ,
+     * завершет работу программы соответсвующей ошибкой.
+     *
+     * При значении `false` и возникновении ошибок в работе ФЦ и КЦ,
+     * `не являющихся критическими`, продолжает исполнение, пытаясь избежать ошибок.
      * @type {boolean}
     */
     strict: true,
 
 };
 
-const configOS = {
-
-    path: {
-
-        /**
-         * Логическое значение проведения отладки для данного модуля.
-         * Подробнее о `debug` можно прочитать в корневом свойстве.
-        */
-        debug: false,
-        /**
-         * Параметр возврата полного пути до искомых файлов.
-         * @type {boolean}
-        */
-        full: true,
-        /**
-         * `Пути` проекта.
-         *
-         * При кэшировании поиска путей, сохраняет найденные пути. Используется для оптимизации.
-        */
-        paths: [
+export const configJect = {
 
 
 
-        ],
-        /**
-         * `Переключатель` кэширования путей.
-         *
-         * При включенном состоянии `кэширует` и `запоминает` найденные `пути`.
-        */
-        doCache: true,
-        /**
-         * Расположение проекта.
-         * Хранится для оптимизации.
-         * @type {string?}
-        */
-        pathProject: null,
+};
+export const configYJect = {
 
-    },
-    file: {
-
-        /**
-         * `Массив` защищенных `путей`.
-         *
-         * С такими `путями` нельзя проводить какие-либо операции `перемещения`, `переименования`, `удаления` и `записи`.
-        */
-        protects: [
-
-
-
-        ],
-        /**
-         * `Разрешение` на чтение файла.
-         * @type {boolean}
-        */
-        permissionRead: true,
-        /**
-         * `Разрешение` на перемещение файла.
-         * @type {boolean}
-        */
-        permissionMove: true,
-        /**
-         * `Разрешение` на перезаписывание файла.
-         * @type {boolean}
-        */
-        permissionWrite: true,
-        /**
-         * `Разрешение` на дополнение файла.
-         * @type {boolean}
-        */
-        permissionAppend: true,
-        /**
-         * `Разрешение` на переименование файла.
-         * @type {boolean}
-        */
-        permissionRename: true,
-        /**
-         * `Разрешение` на удаление файла.
-         * @type {boolean}
-        */
-        permissionDelete: true,
-
-    },
-    stream: {
-
-        label: 'ystream',
-
-    },
+    /**
+     * Режим журналирования.
+     *
+     * При значении `true` создает для экземпляров класса `YJect`
+     * объекты протоколирования автоматически.
+     * @type {boolean}
+    */
+    log: true,
+    /**
+     * Датирование.
+     *
+     * При значении `true` автоматически будет отмечаться дата создания экземпляра.
+     *
+     * При значении `false` дата не будет отмечаться автоматически.
+     * @type {boolean}
+    */
+    date: true,
+    /**
+     * Отчетность.
+     *
+     * При значении `true` автоматически создает отчеты для экземпляров класса.
+     *
+     * При значении `false` отчеты не будут создаваться атоматически.
+     * @type {boolean}
+    */
+    report: true,
 
 };
 
-const configPath = configOS.path;
-const configFile = configOS.file;
-const configStream = configOS.stream;
-
-const configWeb = {
-
-    html: {
-
-        style: {
-
-            template: {
+export const configYCLI = {
 
 
-
-            },
-
-        },
-        element: {
-
-            create: {
-
-                symbolId: '#',
-                symbolType: '!',
-                symbolClass: '.',
-                defaultType: 'div',
-
-            },
-
-        },
-        scriptsBody: [
-
-            'global',
-
-        ].map(s => s + '.mjs'),
-
-    },
-    server: {
-
-        port: '8000',
-        name: 'yserver',
-        host: '127.0.0.1',
-        /**
-         * Время проверки соединений в милисекундах по умолчанию.
-         * @type {number}
-        */
-        pingIntervalTime: 1000,
-
-    },
 
 };
-
-const configServer = configWeb.server;
-const configHtml = configWeb.html;
-const configHtmlStyle = configHtml.style;
-const configHtmlElement = configHtml.element;
-
-const configLog = {
-
-    size: 100,
-    visiable: 10,
-
-    section: [
-
-        { label: 'info', symbol: '*' },
-        { label: 'error', symbol: 'x' },
-        { label: 'warner', symbol: '!' },
-
-    ],
-    templates: {
-
-        notice: `t - d`,
-        section: `t - s - d`,
-
-    },
-
-};
-
-const configNotice = configLog.notice;
-
-const configFunc = {
-
-    verify: {
-
-        is: {
-
-            notNumber: 'значение не является числом.',
-            notString: 'значение не является строкой.',
-            notObject: 'значения не является объектом.',
-            notBoolean: 'значение не является логическим.',
-            notSpecified: 'значение не соответсвует указанному.',
-
-        },
-
-    },
-
-};
-
-const configJect = {
-
-    basic: {
-
-
-
-    },
-    cursor: {
-
-        fixed: true,
-
-    },
-
-};
-
-const configRept = {
+export const configYRept = {
 
     /**
      * Строка конца отчета.
@@ -240,87 +85,254 @@ const configRept = {
      * @type {string?}
     */
     start: `###\n`,
+
     prefix: `l`,
     postfix: ``,
+
+};
+export const configYList = {
+
+
+
+};
+export const configYCache = {
+
+};
+export const configYCursor = {
+
+
+
+};
+export const configYInsert = {
+
     /**
-     * Строка разделитель блоков.
-     * Данная строка позволяет `YRept` разделить текст на группы блоков.
-     * @type {string?}
+     * Левый ограничитель строчной вставки.
+     * @type {string}
     */
-    determinant: `#y-<d-b>#`,
-
-};
-
-const configError = {
-
-    template: {
-
-
-
-    },
-    chain: {
-
-        incident: 'ошибка в функциональной цепочке.'
-
-    },
-    verify: {
-
-        incident: 'провал проверки.',
-
-    },
-
-};
-
-const configArray = {
-
-
-
-};
-
-const configString = {
-
-    loged: false,
-    tabValue: ' '.repeat(4),
-    insert: {
-
-        /**
-         * Левый ограничитель вставки.
-         * @type {string}
-        */
-        borderL: `<`,
-        /**
-         * Правый ограничитель вставки.
-         * @type {string}
-        */
-        borderR: `>`,
-
-    },
-    template: {
-
-
-
-    },
+    borderL: `<`,
     /**
-     * Шаблоны по умолчанию.
-     * Указанные здесь, они будут созданы для каждой строки.
-     * @type {Array<[string, string, Array<[string, string, string]>]>}
+     * Правый ограничитель строчной вставки.
+     * @type {string}
     */
-    templates: [
+    borderR: `>`,
 
-        ['l', '---\n'],
-        ['pr', '<p>: <v>'],
-        ['lh', '--- <h>\n', ['h', '']],
-        ['bd', configRept.determinant],
+};
+
+export const configYLog = {
+
+    /**
+     * Видимость.
+     *
+     * Определяет количество первых записей в журнале доступных для отображения.
+     * @type {number}
+    */
+    vis: 10,
+    /**
+     * Секции по умолчанию.
+     *
+     * Данные секции будут определены для каждого экземпляра журнала.
+    */
+    section: [
+
+        { label: 'info', symbol: '*' },
+        { label: 'error', symbol: 'x' },
+        { label: 'warner', symbol: '!' },
 
     ],
+
+};
+export const configYNotice = {
+
+    /**
+     * Шаблон записи уведомления по умолчанию.
+     * @type {string}
+    */
+    template: `${configYInsert.borderL}t${configYInsert.borderR} - ${configYInsert.borderL}d${configYInsert.borderR}`,
+
+};
+export const configYSection = {
+
+    /**
+     * Шаблон записей секции по умолчанию.
+     * @type {string}
+    */
+    template: `${configYInsert.borderL}t${configYInsert.borderR} - ${configYInsert.borderL}s${configYInsert.borderR} - ${configYInsert.borderL}d${configYInsert.borderR}`,
+
+};
+
+export const configDate = {
+
+};
+export const configYDate = {
+
+};
+
+export const configOS = {
+
+};
+export const configOSDir = {
+
+
+
+};
+export const configOSPath = {
+
+    /**
+     * Режим поиска полного пути.
+     *
+     * При значении `true`, будет возвращать полный путь до искомого файла.
+     * @type {boolean}
+    */
+    full: true,
+    /**
+     * Режим частной отладки.
+     *
+     * Активирует режим отладки для указанного модуля.
+     * @type {boolean}
+    */
+    debug: false,
+    /**
+     * Кеширование.
+     *
+     * При значении `true`, кеширует все найденные пути в файл `cache.json`,
+     * ускоряя поиск файлов в проекте.
+     * @type {boolean}
+    */
+    cache: true,
+    /**
+     * Режим проверки кэша после действия.
+     *
+     * При значении `true` кэш будет проверяться только после действий,
+     * связанных с файлами и инициированных пользователем. Также будет отменена
+     * интервальная проверка.
+     *
+     * Если будет обнаружено несоответствие, то кэш будет обновлен.
+     * @type {boolean}
+    */
+    cacheCheckAction: true,
+    /**
+     * Интервал проверки кэша.
+     *
+     * При активации кэширования, проверяет достоверность кэша
+     * каждые указанные в значении интервалы.
+     *
+     * Если будет обнаружено несоответствие, то кэш будет обнавлен.
+     *
+     * - Мера: `ms`
+    */
+    cacheCheckInterval: 1000,
+
+};
+export const configOSFile = {
+
+    /**
+     * Режим частной отладки.
+     *
+     * Активирует режим отладки для указанного модуля.
+     * @type {boolean}
+    */
+    debug: false,
+    /**
+     * Массив защищенных путей.
+     *
+     * Данные пути являются защищенными.
+     * Это означает, что файлы по данным путям нельзя удалять, перемещать, переименовывать и изменять.
+     * @type {string[]}
+    */
+    protects: [
+
+
+
+    ],
+
+    /**
+     * Режим чтения.
+     *
+     * При значении `true` разрешает считывание файлов.
+     * @type {boolean}
+    */
+    permissionRead: true,
+    /**
+     * Режим перемещения.
+     *
+     * При значении `true` разрешает перемещать файлы.
+     * @type {boolean}
+    */
+    permissionMove: true,
+    /**
+     * Режим изменения.
+     *
+     * При значении `true` разрешает имзенять файлы.
+     * @type {boolean}
+    */
+    permissionChange: true,
+    /**
+     * Режим переименования.
+     *
+     * При значении `true` разрешает изменять имена файлов.
+     * @type {boolean}
+    */
+    permissionRename: true,
+    /**
+     * Режим удаления.
+     *
+     * При значении `true` разрешает удаление файлов.
+     * @type {boolean}
+    */
+    permissionDelete: true,
+
+};
+export const configOSYDir = {
+
+};
+export const configOSYFile = {
+
+};
+
+export const configError = {
+
+
+
+};
+
+export const configArray = {
+
+};
+export const configYArray = {
+
+
+
+};
+
+export const configNumber = {
+
+
+
+};
+export const configYNumber = {
+
+
+
+};
+
+export const configString = {
+
+    /**
+     * Строка табуляции.
+     *
+     * Определяет строку табуляции.
+     * @type {string}
+    */
+    tabValue: ' '.repeat(4),
+
     castToDate: {
 
-        ru: '<d>.<m>.<y>-<hh>:<mm>:<ss>'
+        ru: '<d>.<m>.<y>-<hh>:<mm>:<ss>',
 
     },
     castToNumber: {
 
-        spliter: '.',
+        spliterEN: '.',
         spliterRF: ',',
 
     },
@@ -334,11 +346,111 @@ const configString = {
     },
 
 };
+export const configYString = {
 
-const configYString = configString.ystring;
+    /**
+     * Режим частного журналирования.
+     * @type {boolean}
+    */
+    log: true,
+    /**
+     * Режим частной отчетности.
+     * @type {boolean}
+    */
+    report: true,
+    /**
+     * Шаблоны по умолчанию.
+     *
+     * Указанные здесь шаблоны будут размещены в общедоступных шаблонах.
+     * @type {Array<[string, string, Array<[string, string, string]>]>}
+    */
+    templates: [
 
-/**
- * @file config.mjs
- * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
- * @copyright Yakhin Nikita Artemovich 2022
-*/
+        ['pr', `${configYInsert.borderL}p${configYInsert.borderR}: ${configYInsert.borderL}r${configYInsert.borderR}`],
+        ['lh', `--- ${configYInsert.borderL}h${configYInsert.borderR}\n`, ['h', '']],
+
+    ],
+
+};
+
+export const configRegExp = {
+
+
+
+};
+export const configYRegExp = {
+
+
+
+};
+
+export const configWeb = {
+
+
+
+};
+export const configWebFetch = {
+
+};
+export const configWebClient = {
+
+};
+export const configWebYClient = {
+
+};
+export const configWebServer = {
+
+
+
+};
+export const configWebYServer = {
+
+    /**
+     * Время проверки соединений в милисекундах по умолчанию.
+     * @type {number}
+    */
+    pingIntervalTime: 1000,
+
+};
+
+export const configWebHTML = {
+
+
+
+};
+export const configWebYHTML = {
+
+    /**
+     * Массив скриптов, подключаемых к телу `html` документа.
+     * @type {string[]}
+    */
+    bodyScripts: [
+
+        'global',
+
+    ],
+
+};
+export const configWebYHTMLStyle = {
+
+};
+export const configWebYHTMLYStyle = {
+
+};
+export const configWebYHTMLElement = {
+
+    type: 'div',
+
+    symbol: {
+
+        id: '#',
+        type: '!',
+        class: '.',
+        animation: '~',
+
+    },
+
+};
+export const configWebYHTMLYElement = {
+
+};

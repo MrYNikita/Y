@@ -60,7 +60,7 @@ class FNeuron extends MNeuron {
      * Контсруктор класса `YNeuron`
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
-     *  @param {TNeuron} t
+     *  @arg {TNeuron} t
     */
     constructor(t = {}) {
 
@@ -74,7 +74,7 @@ class FNeuron extends MNeuron {
 
     };
 
-    /** @param {Array<any>} t */
+    /** @arg {Array<any>} t */
     static #before(t) {
 
         if (t?.length === 1 && t[0]?.constructor === Object) {
@@ -99,7 +99,7 @@ class FNeuron extends MNeuron {
         } else return {};
 
     };
-    /** @param {TNeuron} t @this {YNeuron} */
+    /** @arg {TNeuron} t @this {YNeuron} */
     static #deceit(t) {
 
         try {
@@ -113,7 +113,7 @@ class FNeuron extends MNeuron {
         };
 
     };
-    /** @param {TNeuron} t @this {YNeuron} */
+    /** @arg {TNeuron} t @this {YNeuron} */
     static #verify(t) {
 
         const {
@@ -125,13 +125,13 @@ class FNeuron extends MNeuron {
         FNeuron.#handle(t);
 
     };
-    /** @param {TNeuron} t @this {YNeuron} */
+    /** @arg {TNeuron} t @this {YNeuron} */
     static #handle(t) {
 
 
 
     };
-    /** @param {TNeuron} t @this {YNeuron} */
+    /** @arg {TNeuron} t @this {YNeuron} */
     static #create(t) {
 
         const {
@@ -162,7 +162,7 @@ export class YNeuron extends FNeuron {
     /**
      * Метод получения данных.
      * - Версия `0.0.0`
-     * @param {...number} numbers
+     * @arg {...number} numbers
     */
     feed(...numbers) {
 

@@ -1,4 +1,4 @@
-import { configString } from "../../../../config1.mjs";
+import { configString, configYInsert } from "../../../../config.mjs";
 import { jectFill } from "../../../../ject/ject.mjs";
 import { YRegExp } from "../../../../regexp/YRegExp/YRegExp.mjs";
 
@@ -51,7 +51,7 @@ class FInsert extends MInsert {
      * Контсруктор класса `YInsert`
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
-     *  @param {TInsert} t
+     *  @arg {TInsert} t
     */
     constructor(t = {}) {
 
@@ -65,7 +65,7 @@ class FInsert extends MInsert {
 
     };
 
-    /** @param {Array<any>} t */
+    /** @arg {Array<any>} t */
     static #before(t) {
 
         if (t?.length === 1 && t[0]?.constructor === Object) {
@@ -90,7 +90,7 @@ class FInsert extends MInsert {
         } else return {};
 
     };
-    /** @param {TInsert} t @this {YInsert} */
+    /** @arg {TInsert} t @this {YInsert} */
     static #deceit(t) {
 
         try {
@@ -104,7 +104,7 @@ class FInsert extends MInsert {
         };
 
     };
-    /** @param {TInsert} t @this {YInsert} */
+    /** @arg {TInsert} t @this {YInsert} */
     static #verify(t) {
 
         const {
@@ -116,13 +116,13 @@ class FInsert extends MInsert {
         FInsert.#handle(t);
 
     };
-    /** @param {TInsert} t @this {YInsert} */
+    /** @arg {TInsert} t @this {YInsert} */
     static #handle(t) {
 
 
 
     };
-    /** @param {TInsert} t @this {YInsert} */
+    /** @arg {TInsert} t @this {YInsert} */
     static #create(t) {
 
         const {
@@ -159,7 +159,7 @@ export class YInsert extends FInsert {
     */
     getKey() {
 
-        return new YRegExp(`${configString.insert.borderL}${this.key}${configString.insert.borderR}`, 'gms');
+        return new YRegExp(`${configYInsert.borderL}${this.key}${configYInsert.borderR}`, 'gms');
 
     };
     /**

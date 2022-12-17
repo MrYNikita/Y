@@ -44,7 +44,7 @@ class FSequence extends DSequence {
      *
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
-     *  @param {TSequence} t
+     *  @arg {TSequence} t
     */
     constructor(t = {}) {
 
@@ -58,7 +58,7 @@ class FSequence extends DSequence {
 
     };
 
-    /** @param {[]} t */
+    /** @arg {[]} t */
     static #before(t) {
 
         if (t?.length === 1 && t[0]?.constructor === Object) {
@@ -91,7 +91,7 @@ class FSequence extends DSequence {
         } else return {};
 
     };
-    /** @param {TSequence} t @this {YSequence} */
+    /** @arg {TSequence} t @this {YSequence} */
     static #deceit(t) {
 
         try {
@@ -105,7 +105,7 @@ class FSequence extends DSequence {
         };
 
     };
-    /** @param {TSequence} t @this {YSequence} */
+    /** @arg {TSequence} t @this {YSequence} */
     static #verify(t) {
 
         const {
@@ -117,7 +117,7 @@ class FSequence extends DSequence {
         FSequence.#handle(t);
 
     };
-    /** @param {TSequence} t @this {YSequence} */
+    /** @arg {TSequence} t @this {YSequence} */
     static #handle(t) {
 
         let {
@@ -165,7 +165,7 @@ class FSequence extends DSequence {
         };
 
     };
-    /** @param {TSequence} t @this {YSequence} */
+    /** @arg {TSequence} t @this {YSequence} */
     static #create(t) {
 
         const {
@@ -217,7 +217,7 @@ export class YSequence extends FSequence {
     /**
      * Метод добавления значений в последовательность.
      * - Версия `0.0.0`
-     * @param {...number} numbers Числа.
+     * @arg {...number} numbers Числа.
     */
     append(...numbers) {
 
@@ -296,7 +296,7 @@ export class YSequence extends FSequence {
     /**
      * Метод проверки указанного диапазона на принадлежнсоть данному.
      * - Версия `0.0.0`
-     * @param {...YSequence|Array<number>|number} sequence Диапазон, который будет проверен на принадлежность вышестоящему диапазону.
+     * @arg {...YSequence|Array<number>|number} sequence Диапазон, который будет проверен на принадлежность вышестоящему диапазону.
     */
     checkEntry(...sequence) {
 

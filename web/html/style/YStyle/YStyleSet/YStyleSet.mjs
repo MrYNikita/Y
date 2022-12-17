@@ -33,7 +33,7 @@ class FStyleSet extends DStyleSet {
      *
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
-     *  @param {TStyleSet|TStyleProperties} t
+     *  @arg {TStyleSet|TStyleProperties} t
     */
     constructor(t = {}) {
 
@@ -47,7 +47,7 @@ class FStyleSet extends DStyleSet {
 
     };
 
-    /** @param {TStyleSet} t */
+    /** @arg {TStyleSet} t */
     static #before(t) {
 
         if (t?.length === 1 && t[0]?.constructor === Object) {
@@ -70,7 +70,7 @@ class FStyleSet extends DStyleSet {
         } else return {};
 
     };
-    /** @param {TStyleSet} t @this {YStyleSet} */
+    /** @arg {TStyleSet} t @this {YStyleSet} */
     static #deceit(t) {
 
         try {
@@ -84,7 +84,7 @@ class FStyleSet extends DStyleSet {
         };
 
     };
-    /** @param {TStyleSet} t @this {YStyleSet} */
+    /** @arg {TStyleSet} t @this {YStyleSet} */
     static #verify(t) {
 
         const {
@@ -96,13 +96,13 @@ class FStyleSet extends DStyleSet {
         FStyleSet.#handle(t);
 
     };
-    /** @param {TStyleSet} t @this {YStyleSet} */
+    /** @arg {TStyleSet} t @this {YStyleSet} */
     static #handle(t) {
 
         if (t.property) t.property = stringConvertCamelCaseToDelimetr(t.property);
 
     };
-    /** @param {TStyleSet} t @this {YStyleSet} */
+    /** @arg {TStyleSet} t @this {YStyleSet} */
     static #create(t) {
 
         const {

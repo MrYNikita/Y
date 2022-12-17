@@ -24,7 +24,7 @@ class FRegExpBracket extends DRegExpBracket {
      *
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
-     *  @param {TRegExpBracket} t
+     *  @arg {TRegExpBracket} t
     */
     constructor(t = {}) {
 
@@ -36,7 +36,7 @@ class FRegExpBracket extends DRegExpBracket {
 
     };
 
-    /** @param {TRegExpBracket} t @this {[]} */
+    /** @arg {TRegExpBracket} t @this {[]} */
     static #before(t) {
 
 
@@ -46,7 +46,7 @@ class FRegExpBracket extends DRegExpBracket {
         return t;
 
     };
-    /** @param {TRegExpBracket} t @this {YRegExpBracket} */
+    /** @arg {TRegExpBracket} t @this {YRegExpBracket} */
     static #deceit(t) {
 
         try {
@@ -60,7 +60,7 @@ class FRegExpBracket extends DRegExpBracket {
         };
 
     };
-    /** @param {TRegExpBracket} t @this {YRegExpBracket} */
+    /** @arg {TRegExpBracket} t @this {YRegExpBracket} */
     static #verify(t) {
 
         const {
@@ -72,7 +72,7 @@ class FRegExpBracket extends DRegExpBracket {
         FRegExpBracket.#handle.apply(this, arguments);
 
     };
-    /** @param {TRegExpBracket} t @this {YRegExpBracket} */
+    /** @arg {TRegExpBracket} t @this {YRegExpBracket} */
     static #handle(t) {
 
         let {
@@ -92,7 +92,7 @@ class FRegExpBracket extends DRegExpBracket {
         FRegExpBracket.#create.apply(this, [t]);
 
     };
-    /** @param {TRegExpBracket} t @this {YRegExpBracket} */
+    /** @arg {TRegExpBracket} t @this {YRegExpBracket} */
     static #create(t) {
 
         const {

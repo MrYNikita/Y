@@ -1,6 +1,6 @@
 import { exec, fork, spawn } from "child_process";
 import { config } from "process";
-import { configPath } from "../../../config1.mjs";
+import { configOSPath } from "../../../config.mjs";
 import { jectFill } from "../../../ject/ject.mjs";
 import { YLog } from "../../../log/YLog/YLog.mjs";
 import { stringRepaint } from "../../../string/string.mjs";
@@ -45,7 +45,7 @@ class DCMD extends SCMD {
     pathNow;
     /**
      * Путь до места, где будет запущен терминал.
-     * - По умолчанию `configPath.pathProject` - равен пути до проекта.
+     * - По умолчанию `configOSPath.pathProject` - равен пути до проекта.
      * @type {string}
     */
     pathBegin;
@@ -65,7 +65,7 @@ class FCMD extends DCMD {
      *
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
-     *  @param {TCMD} t
+     *  @arg {TCMD} t
     */
     constructor(t = {}) {
 
@@ -79,7 +79,7 @@ class FCMD extends DCMD {
 
     };
 
-    /** @param {TCMD} t @this {[]} */
+    /** @arg {TCMD} t @this {[]} */
     static #before(t) {
 
 
@@ -89,7 +89,7 @@ class FCMD extends DCMD {
         return t;
 
     };
-    /** @param {TCMD} t @this {YCMD} */
+    /** @arg {TCMD} t @this {YCMD} */
     static #deceit(t) {
 
         try {
@@ -103,7 +103,7 @@ class FCMD extends DCMD {
         };
 
     };
-    /** @param {TCMD} t @this {YCMD} */
+    /** @arg {TCMD} t @this {YCMD} */
     static #verify(t) {
 
         const {
@@ -115,7 +115,7 @@ class FCMD extends DCMD {
         FCMD.#handle(t);
 
     };
-    /** @param {TCMD} t @this {YCMD} */
+    /** @arg {TCMD} t @this {YCMD} */
     static #handle(t) {
 
         let {
@@ -124,7 +124,7 @@ class FCMD extends DCMD {
 
         } = t;
 
-        if (!t.pathBegin) t.pathBegin = configPath.pathProject ?? pathGetProject();
+        if (!t.pathBegin) t.pathBegin = configOSPath.pathProject ?? pathGetProject();
         if (!t.pathNow) t.pathNow = t.pathBegin;
 
         t = {
@@ -134,7 +134,7 @@ class FCMD extends DCMD {
         };
 
     };
-    /** @param {TCMD} t @this {YCMD} */
+    /** @arg {TCMD} t @this {YCMD} */
     static #create(t) {
 
         const {
@@ -174,7 +174,7 @@ export class YCMD extends FCMD {
     /**
      * Метод выполнения команд.
      * - Версия `0.0.0`
-     * @param {...string} commands Набор команд, переданных для выполнения.
+     * @arg {...string} commands Набор команд, переданных для выполнения.
     */
     exec(...commands) {
 

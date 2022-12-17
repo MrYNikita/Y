@@ -64,7 +64,7 @@ class FStyle extends IStyle {
      * Контсруктор класса `YStyle`
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
-     *  @param {TStyle} t
+     *  @arg {TStyle} t
     */
     constructor(t = {}) {
 
@@ -78,7 +78,7 @@ class FStyle extends IStyle {
 
     };
 
-    /** @param {Array<any>} t */
+    /** @arg {Array<any>} t */
     static #before(t) {
 
         if (t?.length === 1 && t[0]?.constructor === Object) {
@@ -104,7 +104,7 @@ class FStyle extends IStyle {
         } else return {};
 
     };
-    /** @param {TStyle} t @this {YStyle} */
+    /** @arg {TStyle} t @this {YStyle} */
     static #deceit(t) {
 
         try {
@@ -118,7 +118,7 @@ class FStyle extends IStyle {
         };
 
     };
-    /** @param {TStyle} t @this {YStyle} */
+    /** @arg {TStyle} t @this {YStyle} */
     static #verify(t) {
 
         const {
@@ -130,7 +130,7 @@ class FStyle extends IStyle {
         FStyle.#handle(t);
 
     };
-    /** @param {TStyle} t @this {YStyle} */
+    /** @arg {TStyle} t @this {YStyle} */
     static #handle(t) {
 
         switch (t.label[0]) {
@@ -143,7 +143,7 @@ class FStyle extends IStyle {
         };
 
     };
-    /** @param {TStyle} t @this {YStyle} */
+    /** @arg {TStyle} t @this {YStyle} */
     static #create(t) {
 
         const {
@@ -204,7 +204,7 @@ export class YStyle extends MStyle {
     };
     /**
      * Метод изменения свойства стиля.
-     * @param {CSSStyleDeclaration} set Набор `YSet`'ов или объект с описанием свойств.
+     * @arg {CSSStyleDeclaration} set Набор `YSet`'ов или объект с описанием свойств.
     */
     change(set) {
 
@@ -239,7 +239,7 @@ export class YStyle extends MStyle {
 
                 if (value instanceof Object) {
 
-                    
+
 
                 } else ystr.replace([`${property}:${value};}`, /}/]);
 
@@ -267,7 +267,7 @@ export class YStyle extends MStyle {
     /**
      * Метод для отражения от указанных стилей.
      * - Версия `0.0.0`
-     * @param {...string|YStyle} styles Стили.
+     * @arg {...string|YStyle} styles Стили.
     */
     reflect(...styles) {
 

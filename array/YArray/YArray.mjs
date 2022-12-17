@@ -1,14 +1,10 @@
+import { YList } from "../../ject/YBasic/YList/YList.mjs";
 import { jectFill } from "../../ject/ject.mjs";
-import { YCursor } from "../../ject/YCursor/YCursor.mjs";
-import { YList } from "../../ject/YList/YList.mjs";
-import { YLog } from "../../log/YLog/YLog.mjs";
-import { YString } from "../../string/YString/YString.mjs";
-import { YTemplate } from "../../string/YString/YTemplate/YTemplate.mjs";
-import { arrayAppend } from "../array.mjs";
+import { arrayLevel } from "../array.mjs";
 
 /**
  * @typedef TBArray
- * @prop {[]} array
+ * @prop {any[]} array
  * @prop {number} size
  * @typedef {DArray&TBArray} TArray
 */
@@ -21,33 +17,10 @@ class SArray extends YList {
 class DArray extends SArray {
 
     /**
-     * Журнал.
-     * @type {YLog}
+     * @type {any[]}
+     * @protected
     */
-    log = new YLog();
-    /**
-     * Состояние.
-     * Данное свойство хранит состояние текущего массива.
-     * @type {[]}
-    */
-    value = [];
-    /**
-     * Индексы пустых значений.
-     * @type {[number]}
-    */
-    empthy = [];
-    /**
-     * Ограниченность.
-     * Ограниченный массив не может превышать указанного размера.
-     * - По умолчанию `false`.
-     * @type {boolean}
-    */
-    limited = false;
-    /**
-     * Курсоры.
-     * @type {[YCursor]}
-    */
-    cursors;
+    values = [];
     /**
      * Фиксированность элементов при смещении влево.
      * * Определяет, должны ли элементы сдвигаться влево, если при удалении есть пустое пространство.
@@ -71,17 +44,27 @@ class DArray extends SArray {
     displacement = true;
 
 };
-class FArray extends DArray {
+class IArray extends DArray {
+
+
+
+};
+class MArray extends IArray {
+
+
+
+};
+class FArray extends MArray {
 
     /**
-     *
+     * Контсруктор класса `YArray`
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
-     *  @param {TArray} t
+     *  @arg {TArray} t
     */
     constructor(t = {}) {
 
-        t = FArray.#before(arguments);
+        t = FArray.#before(Object.values(arguments));
 
         FArray.#deceit(t);
 
@@ -91,37 +74,21 @@ class FArray extends DArray {
 
     };
 
-    /** @param {[]} t */
+    /** @arg {any[]} t */
     static #before(t) {
 
-        if (t?.length === 1 && t[0]?.constructor === Object) {
+        if (t?.length === 1 && [Object, YArray].includes(t[0]?.constructor)) {
 
             return t[0];
 
-
         } else if (t?.length) {
 
-            const r = { array: [], };
-
-            t = Array.from(t);
+            /** @type {TArray&DArray} */
+            const r = {};
 
             switch (t.length) {
 
-                default: arrayAppend(r.array, ...t.slice(3));
-                case 2: {
-
-
-                    if (t[1]?.constructor === Boolean) r.limited = t[1];
-                    else r.array.push(t[1]);
-
-                };
-                case 1: {
-
-                    if (t[0]?.constructor === Number) r.size = t[0];
-                    else if (t[0]?.constructor === Array) r.value = t[0];
-                    else r.array.push(t[0]);
-
-                };
+                default: r.values = t;
 
             };
 
@@ -130,7 +97,7 @@ class FArray extends DArray {
         } else return {};
 
     };
-    /** @param {TArray} t @this {YArray} */
+    /** @arg {TArray} t @this {YArray} */
     static #deceit(t) {
 
         try {
@@ -144,7 +111,7 @@ class FArray extends DArray {
         };
 
     };
-    /** @param {TArray} t @this {YArray} */
+    /** @arg {TArray} t @this {YArray} */
     static #verify(t) {
 
         const {
@@ -156,30 +123,18 @@ class FArray extends DArray {
         FArray.#handle(t);
 
     };
-    /** @param {TArray} t @this {YArray} */
+    /** @arg {TArray} t @this {YArray} */
     static #handle(t) {
-
-        let {
-
-
-
-        } = t;
 
         if (t.size) {
 
-            if (t?.array?.length) t.value = t.array.slice(0, t.size);
-            else t.value = new Array(t.size).fill(undefined);
+            if (t?.array?.length) t.values = t.array.slice(0, t.size);
+            else t.values = new Array(t.size).fill(undefined);
 
-        } else if (t?.array?.length) t.value = t.array;
-
-        t = {
-
-            ...t,
-
-        };
+        } else if (t?.array?.length) t.values = t.array;
 
     };
-    /** @param {TArray} t @this {YArray} */
+    /** @arg {TArray} t @this {YArray} */
     static #create(t) {
 
         const {
@@ -190,104 +145,58 @@ class FArray extends DArray {
 
         jectFill(this, t);
 
-        this.cursors = [new YCursor()];
+
 
     };
 
 };
 
 /**
- * Класс `массивов`.
  *
- * Данный класс дополняет обычные массивы новым функционалом и улучшает, переопределяя старый.
- * - Тип `SDFY-2.0`
+ * - Тип `SDIMFY`
  * - Версия `0.0.0`
  * - Цепочка `BDVHC`
 */
 export class YArray extends FArray {
 
     /**
+     * Метод создания объема для указанных элементов массива.
+     *
+     * Если указано одно значение, то оно будет применено для всех элементов массива.
+     *
+     * Елси указано несколько значений, то каждое будет последовательно применяться к элементам массива с соотвествующей позицией их очередности.
+     * - Версия `0.0.0`
+     * @arg {...number} dimension Размерность.
+    */
+    bulk(...dimension) {
+
+
+
+        return this;
+
+    };
+    /**
      * Метод добавления элементов в конец массива.
      * - Версия `0.0.0`
-     * @param {...any} elements
+     * @arg {...any} elements
     */
     push(...elements) {
 
-        if (!this.limited) this.value.push(...elements);
+        if (!this.limited) this.values.push(...elements);
 
         return this;
 
     };
     /**
-     * Функция отображения информации.
+     * Метод увеличения размерности массива.
      * - Версия `0.0.0`
-     *
+     * @arg {...number} levels Размерности.
     */
-    report() {
+    level(...levels) {
 
-        new YString(this.getReport()).display();
+        this.values = arrayLevel(this.values, ...levels);
 
         return this;
-
-    };
-    /**
-     *
-     * - Версия `0.0.0`
-     *
-    */
-    getReport() {
-
-        return new YString()
-
-            .changePostfix(';\n')
-            .paste(
-
-                `Вытесняемость: ${this.displacement}`,
-                `Ограниченность: ${this.limited}`,
-                `Фиксированность слева: ${this.fixedLeft}`,
-                `Фиксированность справа: ${this.fixedRight}`,
-
-            )
-            .pasteTemplate(new YTemplate('l', '---\n'))
-            .paste(
-
-                `Курсоров: ${this.cursors.length}`,
-                `Индексы курсоров: [${this.cursors.map(c => c.index)}]`,
-
-            )
-            .pasteTemplate('l')
-            .paste(
-
-                `Размер: ${this.value.length}`,
-                `Элементов: ${this.value.filter(e => e).length}`,
-                `Свободные индексы: [${this.empthy}]`,
-
-            )
-            .pasteTemplate('l')
-            .paste(`[${this.value}]`)
-            .castToYReport()
-            .get()
-
-    };
-    /**
-     * Метод заполнения пустых элементов массива указанными значениями.
-     * - Версия `0.0.0`
-     *
-    */
-    supplement() {
-
-
-
-    };
-    /**
-     *
-     * - Версия `0.0.0`
-     * @param {number} index Индекс вставки.
-     * @param {...any} elements Элементы вставки.
-    */
-    pasteByIndex() {
-
-
 
     };
 

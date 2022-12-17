@@ -1,22 +1,11 @@
 import { ReadStream, WriteStream } from "fs";
 import { arrayDevideByLimit } from "../../array/array.mjs";
-import { configString } from "../../config1.mjs";
+import { configString, configYString } from "../../config.mjs";
 import { jectFill } from "../../ject/ject.mjs";
-import { YBasic } from "../../ject/YBasic/YBasic.mjs";
+import { YList } from "../../ject/YBasic/YList/YList.mjs";
 import { YCursor } from "../../ject/YCursor/YCursor.mjs";
 import { stringAppend, stringBring, stringCastToJect, stringCastToSample, stringCastToYReport, stringFilter, stringFind, stringFindAll, stringFindToJect, stringGetColor, stringHandle, stringPad, stringPaste, stringReflect, stringRemove, stringRepaint, stringReplace, stringReplaceAllMore, stringReplaceMore, stringReverse } from "../string.mjs";
 import { YTemplate } from "./YTemplate/YTemplate.mjs";
-
-import('fs').then(j => {
-
-    var {
-
-        ReadStream,
-        WriteStream,
-
-    } = j;
-
-}).catch(e => e);
 
 /**
  * @typedef TBString
@@ -24,9 +13,15 @@ import('fs').then(j => {
  * @typedef {DString&TBString} TString
 */
 
-class SString extends YBasic {
+class SString extends YList {
 
-
+    /**
+     * Общедоступные шаблоны.
+     *
+     * Данные шаблоны могут быть получены любыми строками.
+     * @type {YTemplate[]}
+    */
+    static templates = configYString.templates.map(t => new YTemplate(...t));
 
 };
 class DString extends SString {
@@ -35,7 +30,7 @@ class DString extends SString {
      * Текущее состояние строки.
      * @type {string}
     */
-    value = '';
+    values = '';
 
 };
 class IString extends DString {
@@ -55,11 +50,6 @@ class IString extends DString {
      * @type {string}
     */
     colorB = '';
-    /**
-     * Курсоры.
-     * @type {Array<YCursor>}
-    */
-    cursors;
     /**
      * Начальная строка добавления.
      * Данная подстрока будет добавляться в начало к каждому вызову `paste` метода.
@@ -83,10 +73,12 @@ class IString extends DString {
     */
     tabIndex = 0;
     /**
-     * шаблоны.
-     * @type {Array<YTemplate>}
+     * Шаблоны.
+     *
+     * Индивидуальный массив шаблонов данной строки.
+     * @type {YTemplate[]}
     */
-    templates = configString?.templates?.map(t => new YTemplate(...t));
+    templates = configString?.templates?.map(t => new YTemplate(...t)) ?? [];
 
     /**
      * Конец строки.
@@ -104,18 +96,7 @@ class IString extends DString {
      * При превышении указанного значения длины, в строку автоматически будет вставлено значение `endRow` (конца строки).
      * @type {number?}
     */
-    rowLength;
-
-    /**
-     * Поток ввода.
-     * @type {ReadStream}
-    */
-    input;
-    /**
-     * Поток вывода.
-     * @type {WriteStream}
-    */
-    output;
+    rowLength = null;
 
 };
 class MString extends IString {
@@ -129,7 +110,7 @@ class FString extends MString {
      * Контсруктор класса `YString`
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
-     *  @param {TString} t
+     *  @arg {TString} t
     */
     constructor(t = {}) {
 
@@ -143,7 +124,7 @@ class FString extends MString {
 
     };
 
-    /** @param {Array<any>} t */
+    /** @arg {Array<any>} t */
     static #before(t) {
 
         if (t?.length === 1 && [Object, YString].includes(t[0].constructor)) {
@@ -159,7 +140,7 @@ class FString extends MString {
 
                 case 3:
                 case 2:
-                case 1: r.value = t[0];
+                case 1: r.values = t[0];
 
             };
 
@@ -168,7 +149,7 @@ class FString extends MString {
         } else return {};
 
     };
-    /** @param {TString} t @this {YString} */
+    /** @arg {TString} t @this {YString} */
     static #deceit(t) {
 
         try {
@@ -182,7 +163,7 @@ class FString extends MString {
         };
 
     };
-    /** @param {TString} t @this {YString} */
+    /** @arg {TString} t @this {YString} */
     static #verify(t) {
 
         const {
@@ -194,13 +175,13 @@ class FString extends MString {
         FString.#handle(t);
 
     };
-    /** @param {TString} t @this {YString} */
+    /** @arg {TString} t @this {YString} */
     static #handle(t) {
 
 
 
     };
-    /** @param {TString} t @this {YString} */
+    /** @arg {TString} t @this {YString} */
     static #create(t) {
 
         const {
@@ -210,9 +191,6 @@ class FString extends MString {
         } = t;
 
         jectFill(this, t);
-
-        if (!this.cursors) this.cursors = [new YCursor({ list: this })];
-        else this.cursors.forEach(c => c.list = this);
 
     };
 
@@ -230,12 +208,12 @@ export class YString extends FString {
 
     /**
      * Метод для получения текущей строки.
-     * @param {boolean} style
+     * @arg {boolean} style
      * @return {string}
     */
     get(style) {
 
-        let r = this.value;
+        let r = this.values;
 
         if (style) {
 
@@ -252,12 +230,12 @@ export class YString extends FString {
     /**
      * Метод указания текущего значения строки.
      * - Версия `0.0.0`
-     * @param {string} string
+     * @arg {string} string
     */
     set(string) {
 
-        this.value = string;
-        this.changeCursorPositionTo(this.value.length);
+        this.values = string;
+        this.changeCursorPositionTo(this.values.length);
 
         return this;
 
@@ -266,13 +244,13 @@ export class YString extends FString {
     /**
      * Метод для дополнения строки.
      * - Версия `0.0.0`
-     * @param {string} string Строка дополнения.
-     * @param {number} count Кол-во дополнений.
-     * @param {boolean} left Сторона дополнения.
+     * @arg {string} string Строка дополнения.
+     * @arg {number} count Кол-во дополнений.
+     * @arg {boolean} left Сторона дополнения.
     */
-    pad(string, count, index = this.value.length) {
+    pad(string, count, index = this.values.length) {
 
-        this.value = stringPad(this.value, string, count, index);
+        this.values = stringPad(this.values, string, count, index);
 
         return this;
 
@@ -281,15 +259,15 @@ export class YString extends FString {
     /**
      * Метод для поиска вложенных подстрок в строке.
      * - Версия `0.2.1`
-     * @param {...string|RegExp} fragments
+     * @arg {...string|RegExp} fragments
     */
     find(...fragments) {
 
         if (fragments.length) {
 
-            this.value = stringFind(this.value, ...fragments) ?? '';
+            this.values = stringFind(this.values, ...fragments) ?? '';
 
-            this.changeCursorPositionTo(this.value.length);
+            this.changeCursorPositionTo(this.values.length);
 
         };
 
@@ -302,7 +280,7 @@ export class YString extends FString {
      * В качестве значения необходимо передать функцию с указанным первым аргументом.
      * Данный аргумент предоставит доступ к строке.
      * - Версия `0.0.0`
-     * @param {function(YString):void} func Функция.
+     * @arg {function(YString):void} func Функция.
     */
     exec(func) {
 
@@ -314,11 +292,11 @@ export class YString extends FString {
 
     /**
      * Метод для повторения указанного фрагмента строки.
-     * @param {number} count
+     * @arg {number} count
     */
     repeat(count) {
 
-        this.value = this.value.repeat(count);
+        this.values = this.values.repeat(count);
 
         return this;
 
@@ -327,11 +305,11 @@ export class YString extends FString {
     /**
      * Метод для замены первых совпадений с глубоким поиском.
      * - Версия `0.1.0`
-     * @param {...[string,string|RegExp]} replaces Замены.
+     * @arg {...[string,string|RegExp]} replaces Замены.
     */
     replace(...replaces) {
 
-        if (this.value) this.value = stringReplaceMore(this.value, ...replaces);
+        if (this.values) this.values = stringReplaceMore(this.values, ...replaces);
 
         return this;
 
@@ -339,11 +317,11 @@ export class YString extends FString {
     /**
      * Метод для замены всех совпадений.
      * - Версия `0.0.0`
-     * @param {...[string, string|RegExp]} replaces Замены.
+     * @arg {...[string, string|RegExp]} replaces Замены.
     */
     replaceAll(...replaces) {
 
-        if (this.value) this.value = stringReplaceAllMore(this.value, ...replaces);
+        if (this.values) this.values = stringReplaceAllMore(this.values, ...replaces);
 
         return this;
 
@@ -361,7 +339,7 @@ export class YString extends FString {
     /**
      * Метод для вставки значения.
      * - Версия `0.2.0`
-     * @param {...string|Function} strings Строка вставки.
+     * @arg {...string|Function} strings Строка вставки.
     */
     paste(...strings) {
 
@@ -396,7 +374,7 @@ export class YString extends FString {
 
             this.cursors.forEach(c => {
 
-                this.value = stringPaste(this.value, sp, c.index, c.size);
+                this.values = stringPaste(this.values, sp, c.index, c.size);
 
                 c.move(sp.length);
 
@@ -409,13 +387,13 @@ export class YString extends FString {
     };
     /**
      * Метод дополнения строки до указанной длины указанными символами.
-     * @param {string} string
-     * @param {number} length
-     * @param {boolean} left
+     * @arg {string} string
+     * @arg {number} length
+     * @arg {boolean} left
     */
-    bring(string, length, index = this.value.length) {
+    bring(string, length, index = this.values.length) {
 
-        this.value = stringBring(this.value, index, length, string);
+        this.values = stringBring(this.values, index, length, string);
 
         return this;
 
@@ -436,12 +414,12 @@ export class YString extends FString {
     };
     /**
      * Метод для обрезания строки.
-     * @param {number} length Длина обрезки.
-     * @param {boolean} left Сторона обрезки.
+     * @arg {number} length Длина обрезки.
+     * @arg {boolean} left Сторона обрезки.
     */
     remove(length) {
 
-        this.value = stringRemove(this.value, this.cursors[0].index, length);
+        this.values = stringRemove(this.values, this.cursors[0].index, length);
 
         this.cursors.forEach(c => c.move(length));
 
@@ -450,32 +428,32 @@ export class YString extends FString {
     };
     /**
      * Метод для фильтрации строки.
-     * @param {...string|RegExp} fragments Строки и шаблоны фильтрации.
+     * @arg {...string|RegExp} fragments Строки и шаблоны фильтрации.
     */
     filter(...fragments) {
 
-        this.value = stringFilter(this.value, ...fragments);
+        this.values = stringFilter(this.values, ...fragments);
 
         return this;
 
     };
     /**
      * Функция для использования match нативных строк.
-     * @param {string|RegExp} fragment Строка или регулярное выражение для поиска соотвествий с помощью match.
+     * @arg {string|RegExp} fragment Строка или регулярное выражение для поиска соотвествий с помощью match.
     */
     match(fragment) {
 
-        return this.value.match(fragment);
+        return this.values.match(fragment);
 
     };
     /**
      * Метод обработки совпадений в строке.
-     * @param {function} handle
-     * @param {...string|RegExp} fragments
+     * @arg {function} handle
+     * @arg {...string|RegExp} fragments
     */
     handle(handle, ...fragments) {
 
-        this.value = stringHandle(this.value, handle, ...fragments);
+        this.values = stringHandle(this.values, handle, ...fragments);
 
         return this;
 
@@ -483,14 +461,14 @@ export class YString extends FString {
     /**
      * Метод отзеркаливания строки.
      * - Версия `0.0.0`
-     * @param {boolean} every Логическое значение, которое определяет, как следует проводить отражение.
+     * @arg {boolean} every Логическое значение, которое определяет, как следует проводить отражение.
      * Значение true означает, что необходимо зеркально отразить каждую строку с переносом по отдельности.
      * Значение false же прибавит инвертированную копию текущей строки на конец исходной.
-     * @param {...Array<string,string>} mirrors
+     * @arg {...Array<string,string>} mirrors
     */
     reflect(every = false, ...mirrors) {
 
-        this.value = stringReflect(this.value, every, ...mirrors);
+        this.values = stringReflect(this.values, every, ...mirrors);
 
         return this;
 
@@ -510,9 +488,9 @@ export class YString extends FString {
     };
     /**
      * Метод для перекраски текущей строки.
-     * @param {string} color Цвет.
-     * @param {boolean} bright Яркость.
-     * @param {boolean} background Фон.
+     * @arg {string} color Цвет.
+     * @arg {boolean} bright Яркость.
+     * @arg {boolean} background Фон.
     */
     repaint(color, bright, background) {
 
@@ -529,7 +507,7 @@ export class YString extends FString {
     */
     reverse() {
 
-        this.value = stringReverse(this.value);
+        this.values = stringReverse(this.values);
 
         return this;
 
@@ -537,13 +515,13 @@ export class YString extends FString {
     /**
      * Метод извлечения единственного соответствия глубоким поиском.
      * - Версия `0.2.0`
-     * @param {...string|RegExp} fragments Фрагменты соотвествия.
+     * @arg {...string|RegExp} fragments Фрагменты соотвествия.
     */
     extract(...fragments) {
 
         if (fragments.length) {
 
-            const r = stringFind(this.value, ...fragments);
+            const r = stringFind(this.values, ...fragments);
 
             if (r) {
 
@@ -560,39 +538,15 @@ export class YString extends FString {
     /**
      * Метод извлечения всех совпадений.
      * - Версия `0.0.1`
-     * @param {...string|RegExp} fragments Фрагменты соотвествия.
+     * @arg {...string|RegExp} fragments Фрагменты соотвествия.
     */
     extractAll(...fragments) {
 
-        const r = stringFindAll(this.value, ...fragments);
+        const r = stringFindAll(this.values, ...fragments);
 
         if (r.length) this.filter(...fragments);
 
         return r;
-
-    };
-    /**
-     * Метод установки размера области влияния курсоров.
-     * - Версия `0.0.0`
-     * @param {number} size Область влияния курсоров.
-    */
-    changeCursorSize(size = 0) {
-
-        this.cursors.forEach(c => c.size = size);
-
-        return this;
-
-    };
-    /**
-     * Метод утсановки курсора на заданную позицию.
-     * - Версия `0.0.0`
-     * @param {number} position Место установки для курсора.
-    */
-    changeCursorPositionTo(position) {
-
-        this.removeCursor().cursors[0].move(position - this.cursors[0].index);
-
-        return this;
 
     };
     /**
@@ -610,7 +564,7 @@ export class YString extends FString {
                 `Постфикс: '${stringCastToSample(this.postfix)}'`,
                 `Цвет заднего плана: '${this.colorB}'`,
                 `Цвет переднего плана: '${this.colorF}'`,
-                `Кол-во символов: ${this.value.length}`,
+                `Кол-во символов: ${this.values.length}`,
                 `Кол-во курсоров: ${this.cursors.length}`,
                 `Кол-во шаблонов: ${this.templates.length}`,
                 `Позиции курсоров: [${this.cursors.map(c => c.index)}]`,
@@ -620,67 +574,28 @@ export class YString extends FString {
 
     };
     /**
-     * Метод для добавления курсора.
-     * - Версия `0.0.0`
-     * @param {number} size
-     * @param {number} index
-    */
-    appendCursor(index, size) {
-
-        const c = new YCursor({ size, index, list: this, })
-
-        this.cursors.push(c);
-
-        this.log.appendNotice(['*', `Добавлен кусор. Индекс: ${c.index}; Размер: ${c.size};`,])
-
-        return this;
-
-    };
-    /**
      * Метод для поиска совпадений по фрагментам с преобразованием в объект указанного типа.
      * Свойства данного объекта - это указанные в регулярных выражениях поиска имена скобочных групп.
      * - Версия `0.0.0`
-     * @param {typeof Object} cls Конструктор объекта.
-     * @param {...string|RegExp} fragments Фрагменты.
+     * @arg {typeof Object} cls Конструктор объекта.
+     * @arg {...string|RegExp} fragments Фрагменты.
      * @return {[]}
     */
     findToJect(cls = Object, ...fragments) {
 
-        return stringFindToJect(this.value, cls, ...fragments);
+        return stringFindToJect(this.values, cls, ...fragments);
 
     };
     /**
      * Метод для добавления нового шаблона в перечень всех шаблонов.
      * - Версия `0.1.0`
-     * @param {string} label Метка.
-     * @param {string|YString|YTemplate} value Шаблон.
-     * @param {...[string, string|number|function():string|number]} inserts Вставки.
+     * @arg {string} label Метка.
+     * @arg {string|YString|YTemplate} value Шаблон.
+     * @arg {...[string, string|number|function():string|number]} inserts Вставки.
     */
     appendTemplate(label, value, ...inserts) {
 
         if (label && value) this.templates.push(new YTemplate(label, value, ...inserts));
-
-        return this;
-
-    };
-    /**
-     * Метод для удаления курсоров.
-     * - Версия `0.0.0`
-     * @param {...YCursor} cursors Курсоры, которые необходимо удалить.
-    */
-    removeCursor(...cursors) {
-
-        if (!cursors.length) {
-
-            this.cursors.splice(1).forEach(c => c.delete());
-
-        } else {
-
-            cursors.forEach(c => c.delete());
-
-            if (!this.length) this.cursors.push(new YCursor({ list: this }));
-
-        };
 
         return this;
 
@@ -694,12 +609,12 @@ export class YString extends FString {
      * Шаблон может включать в себя вставки.
      * Подробнее о вставках можно прочитать в классе шаблонов.
      * - Версия `0.2.0`
-     * @param {string} label Метка.
-     * @param {...[string, string|number|function():string|number]} inserts Вставки.
+     * @arg {string} label Метка.
+     * @arg {...[string, string|number|function():string|number]} inserts Вставки.
     */
     pasteTemplate(label, ...inserts) {
 
-        let yt = this.templates.find(t => t.label === label);
+        let yt = [...this.templates, ...YString.templates].find(t => t.label === label);
 
         if (yt) this.paste(yt.get(yt.value, ...inserts));
 
@@ -712,7 +627,7 @@ export class YString extends FString {
     */
     castToJect() {
 
-        return stringCastToJect(this.value);
+        return stringCastToJect(this.values);
 
     };
     /**
@@ -721,7 +636,7 @@ export class YString extends FString {
     */
     castToYReport() {
 
-        this.value = stringCastToYReport(this.value);
+        this.values = stringCastToYReport(this.values);
 
         return this;
 
@@ -729,7 +644,7 @@ export class YString extends FString {
     /**
      * Метод для изменения строки табуляции.
      * - Версия `0.0.0`
-     * @param {string} string Новая строка табуляции.
+     * @arg {string} string Новая строка табуляции.
      * - По умолчанию `''`
     */
     changeTab(string = '') {
@@ -742,7 +657,7 @@ export class YString extends FString {
     /**
      * Метод для изменения строки начального добавления.
      * - Версия `0.0.0`
-     * @param {string} string
+     * @arg {string} string
     */
     changePrefix(string = '') {
 
@@ -754,7 +669,7 @@ export class YString extends FString {
     /**
      * Метод для изменения строки конечного добавления.
      * - Версия `0.0.0`
-     * @param {string} string
+     * @arg {string} string
     */
     changePostfix(string = '') {
 
@@ -766,9 +681,9 @@ export class YString extends FString {
     /**
      * Метод изменения строки начального добавления на строку шаблона.
      * - Версия `0.0.0`
-     * @param {string} label Метка.
-     * @param {string} value Значение.
-     * @param {...[string, string|number|function():string|number]} inserts Вставки.
+     * @arg {string} label Метка.
+     * @arg {string} value Значение.
+     * @arg {...[string, string|number|function():string|number]} inserts Вставки.
     */
     changePrefixByTemplate(label, value, ...inserts) {
 
@@ -791,9 +706,9 @@ export class YString extends FString {
     /**
      * Метод изменения строки конечного добавления на шаблон.
      * - Версия `0.0.0`
-     * @param {string} label Метка.
-     * @param {string} value Значение.
-     * @param {...[string, string|number|function():string|number]} inserts Вставки.
+     * @arg {string} label Метка.
+     * @arg {string} value Значение.
+     * @arg {...[string, string|number|function():string|number]} inserts Вставки.
     */
     changePostfixByTemplate(label, value, ...inserts) {
 
@@ -816,8 +731,8 @@ export class YString extends FString {
     /**
      * Метод замены префикса и постфикса.
      * - Версия `0.1.0`
-     * @param {string} prefix Префикс.
-     * @param {string} postfix Постфикс.
+     * @arg {string} prefix Префикс.
+     * @arg {string} postfix Постфикс.
     */
     changePrePostfix(prefix, postfix) {
 
@@ -829,7 +744,7 @@ export class YString extends FString {
     /**
      * Метод для увелечения индекса табуляции.
      * - Версия `0.0.0`
-     * @param {number} increase Сдвиг индекса табуляции.
+     * @arg {number} increase Сдвиг индекса табуляции.
      * - По умолчанию `1`
     */
     increaseTab(increase = 1) {
@@ -842,7 +757,7 @@ export class YString extends FString {
     /**
      * Метод для уменьшения индекса табуляции.
      * - Версия `0.0.0`
-     * @param {number} decrease Сдвиг индекса табуляции.
+     * @arg {number} decrease Сдвиг индекса табуляции.
      * - По умолчанию `1`
     */
     decreaseTab(decrease = 1) {
@@ -861,7 +776,7 @@ export class YString extends FString {
     /**
      * Метод указания длины строки.
      * - Версия `0.0.0`
-     * @param {number?} length
+     * @arg {number?} length
     */
     changeRowLength(length) {
 
@@ -873,7 +788,7 @@ export class YString extends FString {
     /**
      * Метод указания завершения строк.
      * - Версия `0.0.0`
-     * @param {string} string
+     * @arg {string} string
     */
     changeRowEnd(string) {
 

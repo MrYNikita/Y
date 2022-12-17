@@ -1,5 +1,5 @@
-import { arrayRemoveByElement } from "../array/array.mjs";
-import { config, configNotice } from "../config1.mjs";
+// import { arrayRemoveByElement } from "../array/array.mjs";
+// import { config, configNotice } from "../config.mjs";
 
 //#region fill 0.1.0
 
@@ -9,7 +9,7 @@ import { config, configNotice } from "../config1.mjs";
  * @prop {{}} filler
 */
 
-/** @param {Tfill} t */
+/** @arg {Tfill} t */
 function fillDeceit(t) {
 
     try {
@@ -25,7 +25,7 @@ function fillDeceit(t) {
     };
 
 };
-/** @param {Tfill} t */
+/** @arg {Tfill} t */
 function fillVerify(t) {
 
     const {
@@ -37,7 +37,7 @@ function fillVerify(t) {
     fillHandle(t);
 
 };
-/** @param {Tfill} t */
+/** @arg {Tfill} t */
 function fillHandle(t) {
 
     let {
@@ -55,7 +55,7 @@ function fillHandle(t) {
     return fillComply(t);
 
 };
-/** @param {Tfill} t */
+/** @arg {Tfill} t */
 function fillComply(t) {
 
     const {
@@ -72,8 +72,8 @@ function fillComply(t) {
 /**
  * Функция для заполнения `полей`, заданных в `конструкторе`, данными из `объекта передачи аргументов` с помощью приёма `универсального заполнения`.
  * - Версия: `1.0.0`
- * @param {object} j Объект заполнения.
- * @param {object} t Объект передачи аргументов.
+ * @arg {object} j Объект заполнения.
+ * @arg {object} t Объект передачи аргументов.
 */
 export function jectFill(ject, filler) {
 
@@ -90,7 +90,7 @@ export function jectFill(ject, filler) {
  * @typedef {TBequal} Tequal
 */
 
-/** @param {Tequal} t */
+/** @arg {Tequal} t */
 function equalDeceit(t) {
 
     try {
@@ -106,7 +106,7 @@ function equalDeceit(t) {
     };
 
 };
-/** @param {Tequal} t */
+/** @arg {Tequal} t */
 function equalVerify(t) {
 
     const {
@@ -118,7 +118,7 @@ function equalVerify(t) {
     return equalHandle(t);
 
 };
-/** @param {Tequal} t */
+/** @arg {Tequal} t */
 function equalHandle(t) {
 
     let {
@@ -138,7 +138,7 @@ function equalHandle(t) {
     return equalComply(t);
 
 };
-/** @param {Tequal} t */
+/** @arg {Tequal} t */
 function equalComply(t) {
 
     const {
@@ -161,7 +161,7 @@ function equalComply(t) {
  * Функция для проверки объектов на идентичность.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {...Object} jects
+ * @arg {...Object} jects
 */
 export function jectEqual(...jects) {
 
@@ -178,7 +178,7 @@ export function jectEqual(...jects) {
  * @typedef {TBdisplay} Tdisplay
 */
 
-/** @param {Tdisplay} t */
+/** @arg {Tdisplay} t */
 function displayDeceit(t) {
 
     try {
@@ -194,7 +194,7 @@ function displayDeceit(t) {
     };
 
 };
-/** @param {Tdisplay} t */
+/** @arg {Tdisplay} t */
 function displayVerify(t) {
 
     const {
@@ -206,7 +206,7 @@ function displayVerify(t) {
     return displayHandle(t);
 
 };
-/** @param {Tdisplay} t */
+/** @arg {Tdisplay} t */
 function displayHandle(t) {
 
     let {
@@ -226,7 +226,7 @@ function displayHandle(t) {
     return displayComply(t);
 
 };
-/** @param {Tdisplay} t */
+/** @arg {Tdisplay} t */
 function displayComply(t) {
 
     const {
@@ -249,7 +249,7 @@ function displayComply(t) {
  * @typedef {TBsupplement} Tsupplement
 */
 
-/** @param {Tsupplement} t */
+/** @arg {Tsupplement} t */
 function supplementDeceit(t) {
 
     try {
@@ -265,7 +265,7 @@ function supplementDeceit(t) {
     };
 
 };
-/** @param {Tsupplement} t */
+/** @arg {Tsupplement} t */
 function supplementVerify(t) {
 
     const {
@@ -277,7 +277,7 @@ function supplementVerify(t) {
     return supplementHandle(t);
 
 };
-/** @param {Tsupplement} t */
+/** @arg {Tsupplement} t */
 function supplementHandle(t) {
 
     let {
@@ -297,7 +297,7 @@ function supplementHandle(t) {
     return supplementComply(t);
 
 };
-/** @param {Tsupplement} t */
+/** @arg {Tsupplement} t */
 function supplementComply(t) {
 
     const {
@@ -320,8 +320,8 @@ function supplementComply(t) {
  * будут определены у самого заполнителя.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {{}} ject Исходный объект.
- * @param {{}} supplement Объект-дополнитель.
+ * @arg {{}} ject Исходный объект.
+ * @arg {{}} supplement Объект-дополнитель.
 */
 export function jectSupplement(ject, supplement) {
 
@@ -340,7 +340,7 @@ export function jectSupplement(ject, supplement) {
  * @typedef {TBgetDeep} TgetDeep
 */
 
-/** @param {TgetDeep} t */
+/** @arg {TgetDeep} t */
 function getDeepDeceit(t) {
 
     try {
@@ -356,7 +356,7 @@ function getDeepDeceit(t) {
     };
 
 };
-/** @param {TgetDeep} t */
+/** @arg {TgetDeep} t */
 function getDeepVerify(t) {
 
     const {
@@ -368,7 +368,7 @@ function getDeepVerify(t) {
     return getDeepHandle(t);
 
 };
-/** @param {TgetDeep} t */
+/** @arg {TgetDeep} t */
 function getDeepHandle(t) {
 
     let {
@@ -386,7 +386,7 @@ function getDeepHandle(t) {
     return getDeepComply(t);
 
 };
-/** @param {TgetDeep} t */
+/** @arg {TgetDeep} t */
 function getDeepComply(t) {
 
     const {
@@ -421,6 +421,91 @@ export function jectGetDeep(ject, property) {
 };
 
 //#endregion
+//#region getByPath 0.0.0
+
+/**
+ * @typedef TBgetByPath
+ * @prop {{}} ject
+ * @prop {string[]} properties
+ * @typedef {TBgetByPath} TgetByPath
+*/
+
+/** @arg {TgetByPath} t */
+function getByPathDeceit(t) {
+
+    try {
+
+        return getByPathVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @arg {TgetByPath} t */
+function getByPathVerify(t) {
+
+
+
+    return getByPathHandle(t);
+
+};
+/** @arg {TgetByPath} t */
+function getByPathHandle(t) {
+
+    t.properties = t.properties.reverse();
+
+    return getByPathComply(t);
+
+};
+/** @arg {TgetByPath} t */
+function getByPathComply(t) {
+
+    const {
+
+        ject,
+        properties,
+
+    } = t;
+
+    let r = ject;
+
+    while (r && properties.length) {
+
+        const p = properties.pop();
+
+        if (p.includes('.')) properties.push(...p.split('.').filter(p => p).reverse());
+        else r = r[p];
+
+    };
+
+    return r;
+
+};
+
+/**
+ * Функция для получения свйосвта по указанным свойствам.
+ * Будет переходить по таким свойствам до тех пор, пока это возможно.
+ * В качестве ответа вернет последнее указанное вложенное свойство.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @arg {{}} ject Исходный объект.
+ * @arg {...string} properties Свойства.
+ * Допускается передача свойств строкой, где разделителем между словами выступает точка.
+ * Такие строки будет преобразованы в свойства и добавлены в последовательность.
+*/
+export function jectGetByPath(ject, ...properties) {
+
+    return getByPathDeceit({ ject, properties, });
+
+};
+
+//#endregion
+
 //#region setDeep 0.0.0
 
 /**
@@ -430,7 +515,7 @@ export function jectGetDeep(ject, property) {
  * @typedef {TBsetDeep&TgetDeep} TsetDeep
 */
 
-/** @param {TsetDeep} t */
+/** @arg {TsetDeep} t */
 function setDeepDeceit(t) {
 
     try {
@@ -446,7 +531,7 @@ function setDeepDeceit(t) {
     };
 
 };
-/** @param {TsetDeep} t */
+/** @arg {TsetDeep} t */
 function setDeepVerify(t) {
 
     const {
@@ -458,7 +543,7 @@ function setDeepVerify(t) {
     return setDeepHandle(t);
 
 };
-/** @param {TsetDeep} t */
+/** @arg {TsetDeep} t */
 function setDeepHandle(t) {
 
     let {
@@ -476,7 +561,7 @@ function setDeepHandle(t) {
     return setDeepComply(t);
 
 };
-/** @param {TsetDeep} t */
+/** @arg {TsetDeep} t */
 function setDeepComply(t) {
 
     const {
@@ -520,10 +605,10 @@ function setDeepComply(t) {
  * Функция для глубокой установки вложенного свойства.
  * - Версия `0.1.0`
  * - Цепочка `DVHCa`
- * @param {{}} ject Объект глубокой установки.
- * @param {any} value Значение для свойства глубокой установки.
- * @param {string} property Свойство глубокой установки.
- * @param {boolean} all Логическое значение, определяющее полноту заполнения.
+ * @arg {{}} ject Объект глубокой установки.
+ * @arg {any} value Значение для свойства глубокой установки.
+ * @arg {string} property Свойство глубокой установки.
+ * @arg {boolean} all Логическое значение, определяющее полноту заполнения.
  * Если `true`, то все вложенные совпадения будут изменены на данное.
  * Если `false`, то заменено будет только первое совпадение.
  * - По умолчанию `false`
@@ -540,11 +625,11 @@ export function jectSetDeep(ject, property, value, all = false) {
 
 /**
  * @typedef TBcopyDeep
- * @param {{}} ject
+ * @arg {{}} ject
  * @typedef {TBcopyDeep} TcopyDeep
 */
 
-/** @param {TcopyDeep} t */
+/** @arg {TcopyDeep} t */
 function copyDeepDeceit(t) {
 
     try {
@@ -560,7 +645,7 @@ function copyDeepDeceit(t) {
     };
 
 };
-/** @param {TcopyDeep} t */
+/** @arg {TcopyDeep} t */
 function copyDeepVerify(t) {
 
     const {
@@ -572,7 +657,7 @@ function copyDeepVerify(t) {
     return copyDeepHandle(t);
 
 };
-/** @param {TcopyDeep} t */
+/** @arg {TcopyDeep} t */
 function copyDeepHandle(t) {
 
     let {
@@ -592,7 +677,7 @@ function copyDeepHandle(t) {
     return copyDeepComply(t);
 
 };
-/** @param {TcopyDeep} t */
+/** @arg {TcopyDeep} t */
 function copyDeepComply(t) {
 
     const {
@@ -636,7 +721,7 @@ function copyDeepComply(t) {
  * Функция для глубокого копирования объектов.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {{}} ject Исходный объект.
+ * @arg {{}} ject Исходный объект.
 */
 export function jectCopyDeep(ject) {
 
@@ -654,7 +739,7 @@ export function jectCopyDeep(ject) {
  * @typedef {TBchangeDeep} TchangeDeep
 */
 
-/** @param {TchangeDeep} t */
+/** @arg {TchangeDeep} t */
 function changeDeepDeceit(t) {
 
     try {
@@ -670,7 +755,7 @@ function changeDeepDeceit(t) {
     };
 
 };
-/** @param {TchangeDeep} t */
+/** @arg {TchangeDeep} t */
 function changeDeepVerify(t) {
 
     const {
@@ -682,7 +767,7 @@ function changeDeepVerify(t) {
     return changeDeepHandle(t);
 
 };
-/** @param {TchangeDeep} t */
+/** @arg {TchangeDeep} t */
 function changeDeepHandle(t) {
 
     let {
@@ -702,7 +787,7 @@ function changeDeepHandle(t) {
     return changeDeepComply(t);
 
 };
-/** @param {TchangeDeep} t */
+/** @arg {TchangeDeep} t */
 function changeDeepComply(t) {
 
     const {
@@ -721,8 +806,8 @@ function changeDeepComply(t) {
  *
  * Изменение происходит за счет свойств остаточных объектов.
  * Если свойство есть у остаточного объекта, то его значение будет перезаписано исходному.
- * @param {{}} ject Исходный объект.
- * @param {...{}} changeDeeps Остаточные объекты изменения.
+ * @arg {{}} ject Исходный объект.
+ * @arg {...{}} changeDeeps Остаточные объекты изменения.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
 */
@@ -744,7 +829,7 @@ export function jectChangeDeep(ject, ...changeDeeps) {
  * @typedef {TBreplaceDeep} TreplaceDeep
 */
 
-/** @param {TreplaceDeep} t */
+/** @arg {TreplaceDeep} t */
 function replaceDeepDeceit(t) {
 
     try {
@@ -760,7 +845,7 @@ function replaceDeepDeceit(t) {
     };
 
 };
-/** @param {TreplaceDeep} t */
+/** @arg {TreplaceDeep} t */
 function replaceDeepVerify(t) {
 
     const {
@@ -772,7 +857,7 @@ function replaceDeepVerify(t) {
     return replaceDeepHandle(t);
 
 };
-/** @param {TreplaceDeep} t */
+/** @arg {TreplaceDeep} t */
 function replaceDeepHandle(t) {
 
     let {
@@ -792,7 +877,7 @@ function replaceDeepHandle(t) {
     return replaceDeepComply(t);
 
 };
-/** @param {TreplaceDeep} t */
+/** @arg {TreplaceDeep} t */
 function replaceDeepComply(t) {
 
     const {
@@ -842,10 +927,10 @@ function replaceDeepComply(t) {
  * Функция для замены исходного значения указанного объекта на приведенное.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {{}} ject Исходный объект.
- * @param {any} value Исходное значение.
- * @param {any} replace Заменяющее значение.
- * @param {boolean} all Логическое значение определяющее полноту замены.
+ * @arg {{}} ject Исходный объект.
+ * @arg {any} value Исходное значение.
+ * @arg {any} replace Заменяющее значение.
+ * @arg {boolean} all Логическое значение определяющее полноту замены.
  * Если `true`, то все вложенные совпадения будут изменены на данное.
  * Если `false`, то заменено будет только первое совпадение.
  * - По умолчанию `false`
@@ -868,7 +953,7 @@ export function jectReplaceDeep(ject, value, replace, all = false) {
  * @typedef {TBgetPathDeep} TgetPathDeep
 */
 
-/** @param {TgetPathDeep} t */
+/** @arg {TgetPathDeep} t */
 function getPathDeepDeceit(t) {
 
     try {
@@ -884,7 +969,7 @@ function getPathDeepDeceit(t) {
     };
 
 };
-/** @param {TgetPathDeep} t */
+/** @arg {TgetPathDeep} t */
 function getPathDeepVerify(t) {
 
     const {
@@ -896,7 +981,7 @@ function getPathDeepVerify(t) {
     return getPathDeepHandle(t);
 
 };
-/** @param {TgetPathDeep} t */
+/** @arg {TgetPathDeep} t */
 function getPathDeepHandle(t) {
 
     let {
@@ -916,7 +1001,7 @@ function getPathDeepHandle(t) {
     return getPathDeepComply(t);
 
 };
-/** @param {TgetPathDeep} t */
+/** @arg {TgetPathDeep} t */
 function getPathDeepComply(t) {
 
     const {
@@ -970,8 +1055,8 @@ function getPathDeepComply(t) {
  * Функция для получения путей до указанных значений объекта.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {{}} ject Исходный объект.
- * @param {any} value Искомое значение.
+ * @arg {{}} ject Исходный объект.
+ * @arg {any} value Искомое значение.
  * Если указана строка свойства, то функция будет искать пути до указанных свойств.
  * В противном случае функция вернет все возможные пути.
 */
@@ -984,8 +1069,8 @@ export function jectGetPathDeepByValue(ject, value) {
  * Функция для получения путей до указанных свойств объекта.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {{}} ject Исходный объект.
- * @param {string} property Искомое свойство.
+ * @arg {{}} ject Исходный объект.
+ * @arg {string} property Искомое свойство.
  * Если указано значение, то функция будет искать пути до совпадений.
  * В противном случае функция вернет все возможные пути.
 */
@@ -1005,7 +1090,7 @@ export function jectGetPathDeepByProperty(ject, property) {
  * @typedef {TBsupplementDeep} TsupplementDeep
 */
 
-/** @param {TsupplementDeep} t */
+/** @arg {TsupplementDeep} t */
 function supplementDeepDeceit(t) {
 
     try {
@@ -1021,7 +1106,7 @@ function supplementDeepDeceit(t) {
     };
 
 };
-/** @param {TsupplementDeep} t */
+/** @arg {TsupplementDeep} t */
 function supplementDeepVerify(t) {
 
     const {
@@ -1033,7 +1118,7 @@ function supplementDeepVerify(t) {
     return supplementDeepHandle(t);
 
 };
-/** @param {TsupplementDeep} t */
+/** @arg {TsupplementDeep} t */
 function supplementDeepHandle(t) {
 
     let {
@@ -1053,7 +1138,7 @@ function supplementDeepHandle(t) {
     return supplementDeepComply(t);
 
 };
-/** @param {TsupplementDeep} t */
+/** @arg {TsupplementDeep} t */
 function supplementDeepComply(t) {
 
     const {
@@ -1079,8 +1164,8 @@ function supplementDeepComply(t) {
  * Функция дополнения объекта недостоющими свойствами указанных объектов.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {{}} ject Исходный объект.
- * @param {...{}} supplementDeeps Объекты дополнения.
+ * @arg {{}} ject Исходный объект.
+ * @arg {...{}} supplementDeeps Объекты дополнения.
 */
 export function jectSupplementDeep(ject, ...supplementDeeps) {
 

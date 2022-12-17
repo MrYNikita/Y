@@ -40,7 +40,7 @@ class FStyleAnimation extends MStyleAnimation {
      * Контсруктор класса `YStyleAnimation`
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
-     *  @param {TStyleAnimation} t
+     *  @arg {TStyleAnimation} t
     */
     constructor(t = {}) {
 
@@ -54,7 +54,7 @@ class FStyleAnimation extends MStyleAnimation {
 
     };
 
-    /** @param {Array<any>} t */
+    /** @arg {Array<any>} t */
     static #before(t) {
 
         if (t?.length === 1 && t[0]?.constructor === Object) {
@@ -80,7 +80,7 @@ class FStyleAnimation extends MStyleAnimation {
         } else return {};
 
     };
-    /** @param {TStyleAnimation} t @this {YStyleAnimation} */
+    /** @arg {TStyleAnimation} t @this {YStyleAnimation} */
     static #deceit(t) {
 
         try {
@@ -94,7 +94,7 @@ class FStyleAnimation extends MStyleAnimation {
         };
 
     };
-    /** @param {TStyleAnimation} t @this {YStyleAnimation} */
+    /** @arg {TStyleAnimation} t @this {YStyleAnimation} */
     static #verify(t) {
 
         const {
@@ -106,13 +106,13 @@ class FStyleAnimation extends MStyleAnimation {
         FStyleAnimation.#handle(t);
 
     };
-    /** @param {TStyleAnimation} t @this {YStyleAnimation} */
+    /** @arg {TStyleAnimation} t @this {YStyleAnimation} */
     static #handle(t) {
 
         if (t.label[0] !== `~`) t.label = `~` + t.label;
 
     };
-    /** @param {TStyleAnimation} t @this {YStyleAnimation} */
+    /** @arg {TStyleAnimation} t @this {YStyleAnimation} */
     static #create(t) {
 
         const {
@@ -161,7 +161,7 @@ export class YStyleAnimation extends FStyleAnimation {
     /**
      * Метод изменения свойства стиля.
      * - Версия `0.0.0`
-     * @param {CSSStyleDeclaration} set Набор `YSet`'ов или объект с описанием свойств.
+     * @arg {CSSStyleDeclaration} set Набор `YSet`'ов или объект с описанием свойств.
     */
     change(set) {
 

@@ -40,7 +40,7 @@ class FStream extends DStream {
      *
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
-     *  @param {TStream} t
+     *  @arg {TStream} t
     */
     constructor(t = {}) {
 
@@ -54,7 +54,7 @@ class FStream extends DStream {
 
     };
 
-    /** @param {TStream} t @this {[]} */
+    /** @arg {TStream} t @this {[]} */
     static #before(t) {
 
 
@@ -64,7 +64,7 @@ class FStream extends DStream {
         return t;
 
     };
-    /** @param {TStream} t @this {YStream} */
+    /** @arg {TStream} t @this {YStream} */
     static #deceit(t) {
 
         try {
@@ -78,7 +78,7 @@ class FStream extends DStream {
         };
 
     };
-    /** @param {TStream} t @this {YStream} */
+    /** @arg {TStream} t @this {YStream} */
     static #verify(t) {
 
         const {
@@ -90,7 +90,7 @@ class FStream extends DStream {
         FStream.#handle(t);
 
     };
-    /** @param {TStream} t @this {YStream} */
+    /** @arg {TStream} t @this {YStream} */
     static #handle(t) {
 
         let {
@@ -108,7 +108,7 @@ class FStream extends DStream {
         };
 
     };
-    /** @param {TStream} t @this {YStream} */
+    /** @arg {TStream} t @this {YStream} */
     static #create(t) {
 
         const {

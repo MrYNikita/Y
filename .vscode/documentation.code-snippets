@@ -35,7 +35,7 @@
 	},
 	"paramLine": {
 
-		"body": "/** @param {$1} $2 */",
+		"body": "/** @arg {$1} $2 */",
 		"scope": "javascript",
 		"prefix": "#docParamLine",
 		"description": "Создать параметр для функции."

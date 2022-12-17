@@ -7,7 +7,7 @@ import { osGetIP } from "../../../os/os.mjs";
 import { YString } from "../../../string/YString/YString.mjs";
 import { jectFill } from "../../../ject/ject.mjs";
 import { YDirectory } from "../../../os/file/YFile/directory/YDirectory/YDirectory.mjs";
-import { config, configServer, configWeb } from "../../../config.mjs";
+import { config, configWebServer, configWeb } from "../../../config.mjs";
 
 /**
  * @typedef TBServer
@@ -39,12 +39,12 @@ class DServer extends SServer {
      * Наименование сервера.
      * @type {string}
     */
-    name = configServer.name;
+    name = configWebServer.name;
     /**
      * Номер порта прослушивания.
      * @type {number}
     */
-    port = configServer.port;
+    port = configWebServer.port;
     /**
      * Хост.
      * @type {string}
@@ -76,7 +76,7 @@ class DServer extends SServer {
      * - По умолчанию `1000`
      * @type {number}
     */
-    pingIntervalTime = configServer.pingIntervalTime ?? 1000;
+    pingIntervalTime = configWebServer.pingIntervalTime ?? 1000;
 
 };
 class IServer extends DServer {
@@ -95,7 +95,7 @@ class FServer extends MServer {
      * Контсруктор класса `YServer`
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
-     *  @param {TServer} t
+     *  @arg {TServer} t
     */
     constructor(t = {}) {
 
@@ -109,7 +109,7 @@ class FServer extends MServer {
 
     };
 
-    /** @param {Array<any>} t */
+    /** @arg {Array<any>} t */
     static #before(t) {
 
         if (t?.length === 1 && t[0]?.constructor === Object) {
@@ -134,7 +134,7 @@ class FServer extends MServer {
         } else return {};
 
     };
-    /** @param {TServer} t @this {YServer} */
+    /** @arg {TServer} t @this {YServer} */
     static #deceit(t) {
 
         try {
@@ -148,7 +148,7 @@ class FServer extends MServer {
         };
 
     };
-    /** @param {TServer} t @this {YServer} */
+    /** @arg {TServer} t @this {YServer} */
     static #verify(t) {
 
         const {
@@ -160,13 +160,13 @@ class FServer extends MServer {
         FServer.#handle(t);
 
     };
-    /** @param {TServer} t @this {YServer} */
+    /** @arg {TServer} t @this {YServer} */
     static #handle(t) {
 
         if (t.dir && (t.dir.constructor === String || t.dir.constructor === RegExp)) t.dir = new YDirectory(t.dir);
 
     };
-    /** @param {TServer} t @this {YServer} */
+    /** @arg {TServer} t @this {YServer} */
     static #create(t) {
 
         const {
@@ -279,8 +279,8 @@ export class YServer extends FServer {
     /**
      * Метод отправки сообщений.
      * - Версия `0.0.0`
-     * @param {string|Buffer} data
-     * @param {Duplex} sockets
+     * @arg {string|Buffer} data
+     * @arg {Duplex} sockets
     */
     send(data, ...sockets) {
 
@@ -315,8 +315,8 @@ export class YServer extends FServer {
      * Метод проверки соединения.
      *
      * - Версия `0.0.0`
-     * @param {string} message Строка проверки.
-     * @param {...Duplex} sockets Соединения.
+     * @arg {string} message Строка проверки.
+     * @arg {...Duplex} sockets Соединения.
      * Если указаны конкретные соединения, то проверяются только они.
      * Иначе, если не указаны соединения, будут проверены все установленны соединения.
     */

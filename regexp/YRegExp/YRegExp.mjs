@@ -15,7 +15,7 @@ class SRegExp {
      * Статический метод для фильтрации и приведения флагов к нормальной форме.
      * Убирает дубликаты, упорядочивает.
      * - Версия `0.0.0`
-     * @param {string} flags
+     * @arg {string} flags
     */
     static correctFlags(flags) {
 
@@ -55,7 +55,7 @@ class FRegExp extends MRegExp {
      * Контсруктор класса `YRegExp`
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
-     *  @param {TRegExp} t
+     *  @arg {TRegExp} t
     */
     constructor(t = {}) {
 
@@ -69,7 +69,7 @@ class FRegExp extends MRegExp {
 
     };
 
-    /** @param {Array<any>} t */
+    /** @arg {Array<any>} t */
     static #before(t) {
 
         if (t?.length === 1 && t[0]?.constructor === Object) {
@@ -94,7 +94,7 @@ class FRegExp extends MRegExp {
         } else return {};
 
     };
-    /** @param {TRegExp} t @this {YRegExp} */
+    /** @arg {TRegExp} t @this {YRegExp} */
     static #deceit(t) {
 
         try {
@@ -108,7 +108,7 @@ class FRegExp extends MRegExp {
         };
 
     };
-    /** @param {TRegExp} t @this {YRegExp} */
+    /** @arg {TRegExp} t @this {YRegExp} */
     static #verify(t) {
 
         const {
@@ -120,7 +120,7 @@ class FRegExp extends MRegExp {
         FRegExp.#handle(t);
 
     };
-    /** @param {TRegExp} t @this {YRegExp} */
+    /** @arg {TRegExp} t @this {YRegExp} */
     static #handle(t) {
 
         if (!t.flags) t.flags = '';
@@ -131,7 +131,7 @@ class FRegExp extends MRegExp {
         if (t.flags) t.flags = YRegExp.correctFlags(t.flags);
 
     };
-    /** @param {TRegExp} t @this {YRegExp} */
+    /** @arg {TRegExp} t @this {YRegExp} */
     static #create(t) {
 
         const {
@@ -171,7 +171,7 @@ export class YRegExp extends FRegExp {
      * Метод изменения регулярного выражения.
      * Убирает все вариации.
      * - Версия `0.0.0`
-     * @param {string|RegExp} value
+     * @arg {string|RegExp} value
     */
     change(value) {
 
@@ -205,7 +205,7 @@ export class YRegExp extends FRegExp {
      * Метод изменения флагов регулярного выражения.
      * Все предыдущие флаги будут заменены указанными.
      * - Версия `0.0.0`
-     * @param {string} flags Флаги.
+     * @arg {string} flags Флаги.
     */
     changeFlags(flags) {
 
@@ -219,7 +219,7 @@ export class YRegExp extends FRegExp {
      * Добавление не удаляет существующие флаги.
      * Добавленные флаги не дублируются.
      * - Версия `0.0.0`
-     * @param {string} flags Флаги.
+     * @arg {string} flags Флаги.
     */
     appendFlags(flags) {
 
@@ -231,7 +231,7 @@ export class YRegExp extends FRegExp {
     /**
      * Метод удаления указанных флагов.
      * - Версия `0.0.0`
-     * @param {string} flags Флаги.
+     * @arg {string} flags Флаги.
     */
     removeFlags(flags) {
 
@@ -244,7 +244,7 @@ export class YRegExp extends FRegExp {
      * Метод добавления вариацией к существующему регулярному выражению.
      * Вариация добавляется к исходному выражению через `|` и её флаги не влияют на исходное выражение.
      * - Версия `0.0.0`
-     * @param {...string|RegExp|YRegExp} regexps Вариации.
+     * @arg {...string|RegExp|YRegExp} regexps Вариации.
      * Добавляются к результату через `|`.
     */
     appendVariate(...regexps) {

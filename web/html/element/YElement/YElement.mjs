@@ -23,7 +23,7 @@ class SElement extends YJect {
     /**
      * Метод поиска элемента по `id`.
      * - Версия `0.0.0`
-     * @param {string} id Идентификатор поиска.
+     * @arg {string} id Идентификатор поиска.
     */
     static findById(id) {
 
@@ -36,7 +36,7 @@ class SElement extends YJect {
     /**
      * Метод поиска элементов по `id` и оборачивания их в `YElement`.
      * - Версия `0.0.0`
-     * @param {...string} id Идентификаторы поиска.
+     * @arg {...string} id Идентификаторы поиска.
     */
     static findAllById(...id) {
 
@@ -94,7 +94,7 @@ class FElement extends MElement {
      * Контсруктор класса `YElement`
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
-     *  @param {TElement} t
+     *  @arg {TElement} t
     */
     constructor(t = {}) {
 
@@ -108,7 +108,7 @@ class FElement extends MElement {
 
     };
 
-    /** @param {Array<any>} t */
+    /** @arg {Array<any>} t */
     static #before(t) {
 
         if (t?.length === 1 && t[0]?.constructor === Object) {
@@ -138,7 +138,7 @@ class FElement extends MElement {
         } else return {};
 
     };
-    /** @param {TElement} t @this {YElement} */
+    /** @arg {TElement} t @this {YElement} */
     static #deceit(t) {
 
         try {
@@ -152,7 +152,7 @@ class FElement extends MElement {
         };
 
     };
-    /** @param {TElement} t @this {YElement} */
+    /** @arg {TElement} t @this {YElement} */
     static #verify(t) {
 
         const {
@@ -164,14 +164,14 @@ class FElement extends MElement {
         FElement.#handle(t);
 
     };
-    /** @param {TElement} t @this {YElement} */
+    /** @arg {TElement} t @this {YElement} */
     static #handle(t) {
 
         if (!t.element && t.string) t.element = elementCreate(elementDecomposeString(t.string)[0]);
         else if (!t.element && !t.string) t.element = elementCreate(t);
 
     };
-    /** @param {TElement} t @this {YElement} */
+    /** @arg {TElement} t @this {YElement} */
     static #create(t) {
 
         const {

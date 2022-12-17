@@ -13,7 +13,7 @@ export const styleREProperty = / ?(.*?;|{.*?})/;
  * @typedef {TBcreate} Tcreate
 */
 
-/** @param {Tcreate} t */
+/** @arg {Tcreate} t */
 function createDeceit(t) {
 
     try {
@@ -29,7 +29,7 @@ function createDeceit(t) {
     };
 
 };
-/** @param {Tcreate} t */
+/** @arg {Tcreate} t */
 function createVerify(t) {
 
     const {
@@ -41,7 +41,7 @@ function createVerify(t) {
     return createHandle(t);
 
 };
-/** @param {Tcreate} t */
+/** @arg {Tcreate} t */
 function createHandle(t) {
 
     let {
@@ -61,7 +61,7 @@ function createHandle(t) {
     return createComply(t);
 
 };
-/** @param {Tcreate} t */
+/** @arg {Tcreate} t */
 function createComply(t) {
 
     const {
@@ -98,7 +98,7 @@ export function styleCreate() {
  * @typedef {TBchange} Tchange
 */
 
-/** @param {Tchange} t */
+/** @arg {Tchange} t */
 function changeDeceit(t) {
 
     try {
@@ -114,7 +114,7 @@ function changeDeceit(t) {
     };
 
 };
-/** @param {Tchange} t */
+/** @arg {Tchange} t */
 function changeVerify(t) {
 
 
@@ -122,7 +122,7 @@ function changeVerify(t) {
     return changeHandle(t);
 
 };
-/** @param {Tchange} t */
+/** @arg {Tchange} t */
 function changeHandle(t) {
 
     t.label = stringShield(t.label);
@@ -130,7 +130,7 @@ function changeHandle(t) {
     return changeComply(t);
 
 };
-/** @param {Tchange} t */
+/** @arg {Tchange} t */
 function changeComply(t) {
 
     const {
@@ -156,14 +156,14 @@ function changeComply(t) {
  * Допускает вложенность - это позволяет создавать размещения внутри стилей вложенных стилей, например для анимаций.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {HTMLStyleElement} element Элемент стиля, для которого осуществялется изменение.
- * @param {string} label Метка с селектором, для которой будут внесены изменения.
+ * @arg {HTMLStyleElement} element Элемент стиля, для которого осуществялется изменение.
+ * @arg {string} label Метка с селектором, для которой будут внесены изменения.
  * Указывает на искомый стиль.
  * Для упрощения указания используются `y-селекторы`:
  * - `~` - для анимаций.
  * Перым параметром указывается селектор.
- * @param {string} property Свойство, которое нужно изменить в стиле.
- * @param {string|{}} value Значение, которое необходимо определить для свойства.
+ * @arg {string} property Свойство, которое нужно изменить в стиле.
+ * @arg {string|{}} value Значение, которое необходимо определить для свойства.
  * Если является `числом` или `строкой`, то будет размещено как строка.
  * Если является `объектом`, то будет создано, как вложение.
 */
@@ -183,7 +183,7 @@ export function styleChange(element, label, property, value) {
  * @typedef {TBformatLine} TformatLine
 */
 
-/** @param {TformatLine} t */
+/** @arg {TformatLine} t */
 function formatLineDeceit(t) {
 
     try {
@@ -199,7 +199,7 @@ function formatLineDeceit(t) {
     };
 
 };
-/** @param {TformatLine} t */
+/** @arg {TformatLine} t */
 function formatLineVerify(t) {
 
 
@@ -207,7 +207,7 @@ function formatLineVerify(t) {
     return formatLineHandle(t);
 
 };
-/** @param {TformatLine} t */
+/** @arg {TformatLine} t */
 function formatLineHandle(t) {
 
 
@@ -215,7 +215,7 @@ function formatLineHandle(t) {
     return formatLineComply(t);
 
 };
-/** @param {TformatLine} t */
+/** @arg {TformatLine} t */
 function formatLineComply(t) {
 
     const {
@@ -250,7 +250,7 @@ export function styleFormatLine() {
  * @typedef {TBformatLines} TformatLines
 */
 
-/** @param {TformatLines} t */
+/** @arg {TformatLines} t */
 function formatLinesDeceit(t) {
 
     try {
@@ -266,7 +266,7 @@ function formatLinesDeceit(t) {
     };
 
 };
-/** @param {TformatLines} t */
+/** @arg {TformatLines} t */
 function formatLinesVerify(t) {
 
 
@@ -274,7 +274,7 @@ function formatLinesVerify(t) {
     return formatLinesHandle(t);
 
 };
-/** @param {TformatLines} t */
+/** @arg {TformatLines} t */
 function formatLinesHandle(t) {
 
 
@@ -282,7 +282,7 @@ function formatLinesHandle(t) {
     return formatLinesComply(t);
 
 };
-/** @param {TformatLines} t */
+/** @arg {TformatLines} t */
 function formatLinesComply(t) {
 
     const {
@@ -317,7 +317,7 @@ export function styleFormatLines() {
  * @typedef {TBapplyY} TapplyY
 */
 
-/** @param {TapplyY} t */
+/** @arg {TapplyY} t */
 function applyYDeceit(t) {
 
     try {
@@ -333,7 +333,7 @@ function applyYDeceit(t) {
     };
 
 };
-/** @param {TapplyY} t */
+/** @arg {TapplyY} t */
 function applyYVerify(t) {
 
 
@@ -341,7 +341,7 @@ function applyYVerify(t) {
     return applyYHandle(t);
 
 };
-/** @param {TapplyY} t */
+/** @arg {TapplyY} t */
 function applyYHandle(t) {
 
 
@@ -349,7 +349,7 @@ function applyYHandle(t) {
     return applyYComply(t);
 
 };
-/** @param {TapplyY} t */
+/** @arg {TapplyY} t */
 function applyYComply(t) {
 
     const {

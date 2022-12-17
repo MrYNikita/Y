@@ -40,7 +40,7 @@ class FRange extends IRange {
      * Контсруктор класса `YRange`
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
-     *  @param {TRange} t
+     *  @arg {TRange} t
     */
     constructor(t = {}) {
 
@@ -54,7 +54,7 @@ class FRange extends IRange {
 
     };
 
-    /** @param {Array<any>} t */
+    /** @arg {Array<any>} t */
     static #before(t) {
 
         if (t?.length === 1 && t[0]?.constructor === Object) {
@@ -80,7 +80,7 @@ class FRange extends IRange {
         } else return {};
 
     };
-    /** @param {TRange} t @this {YRange} */
+    /** @arg {TRange} t @this {YRange} */
     static #deceit(t) {
 
         try {
@@ -94,7 +94,7 @@ class FRange extends IRange {
         };
 
     };
-    /** @param {TRange} t @this {YRange} */
+    /** @arg {TRange} t @this {YRange} */
     static #verify(t) {
 
         const {
@@ -106,7 +106,7 @@ class FRange extends IRange {
         FRange.#handle(t);
 
     };
-    /** @param {TRange} t @this {YRange} */
+    /** @arg {TRange} t @this {YRange} */
     static #handle(t) {
 
         let {
@@ -127,7 +127,7 @@ class FRange extends IRange {
         };
 
     };
-    /** @param {TRange} t @this {YRange} */
+    /** @arg {TRange} t @this {YRange} */
     static #create(t) {
 
         const {
@@ -158,7 +158,7 @@ export class YRange extends FRange {
     /**
      * Метод для проверки вхождения значения в диапазон.
      * - Версия `0.0.0`
-     * @param {...number} numbers Значения для проверки.
+     * @arg {...number} numbers Значения для проверки.
     */
     check(...numbers) {
 
@@ -169,7 +169,7 @@ export class YRange extends FRange {
      * Метод для добавления новых значений в диапазон.
      * Данные добавления будут расширять существующий диапазон, если будут выходить за его рамки.
      * - Версия `0.0.0`
-     * @param {...YRange|number|Array<number|Array<number>>} appends Значения.
+     * @arg {...YRange|number|Array<number|Array<number>>} appends Значения.
     */
     append(...appends) {
 

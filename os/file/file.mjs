@@ -1,6 +1,6 @@
 import { pathGet, pathGetProject } from "../path/path.mjs";
 import { existsSync, readFileSync, renameSync, unlinkSync, writeFileSync } from "fs";
-import { config, configOS, configFile } from "../../config1.mjs";
+import { config, configOS, configOSFile } from "../../config.mjs";
 import { arrayAppend } from "../../array/array.mjs";
 import { jectChangeDeep } from "../../ject/ject.mjs";
 
@@ -38,7 +38,7 @@ export const fileRELocation = /(.+)(?:\/)/;
  * @typedef {TBread} Tread
 */
 
-/** @param {Tread} t */
+/** @arg {Tread} t */
 function readDeceit(t) {
 
     try {
@@ -54,7 +54,7 @@ function readDeceit(t) {
     };
 
 };
-/** @param {Tread} t */
+/** @arg {Tread} t */
 function readVerify(t) {
 
     const {
@@ -66,7 +66,7 @@ function readVerify(t) {
     return readHandle(t);
 
 };
-/** @param {Tread} t */
+/** @arg {Tread} t */
 function readHandle(t) {
 
     let {
@@ -90,7 +90,7 @@ function readHandle(t) {
     return readComply(t);
 
 };
-/** @param {Tread} t */
+/** @arg {Tread} t */
 function readComply(t) {
 
     const {
@@ -115,8 +115,8 @@ function readComply(t) {
  * Функция для считывания данных файла как текста.
  * - Версия `0.0.1`
  * - Цепочка `DVHCa`
- * @param {string} expand
- * @param {string|RegExp} fragment
+ * @arg {string} expand
+ * @arg {string|RegExp} fragment
  * @returns {{}|string}
 */
 export function fileRead(fragment, expand) {
@@ -128,7 +128,7 @@ export function fileRead(fragment, expand) {
  * Функция для считывания данных файла как текста.
  * - Версия `0.0.1`
  * - Цепочка `DVHCa`
- * @param {string|RegExp} fragment
+ * @arg {string|RegExp} fragment
  * @returns {{}|string}
 */
 export function fileReadText(fragment) {
@@ -140,7 +140,7 @@ export function fileReadText(fragment) {
  * Функция для считывания данных файла как json.
  * - Версия `0.0.1`
  * - Цепочка `DVHCa`
- * @param {string}
+ * @arg {string}
  * @returns {{}|[]|string}
 */
 export function fileReadJson(fragment) {
@@ -159,7 +159,7 @@ export function fileReadJson(fragment) {
  * @typedef {TBmove} Tmove
 */
 
-/** @param {Tmove} t */
+/** @arg {Tmove} t */
 function moveDeceit(t) {
 
     try {
@@ -175,7 +175,7 @@ function moveDeceit(t) {
     };
 
 };
-/** @param {Tmove} t */
+/** @arg {Tmove} t */
 function moveVerify(t) {
 
     const {
@@ -187,7 +187,7 @@ function moveVerify(t) {
     return moveHandle(t);
 
 };
-/** @param {Tmove} t */
+/** @arg {Tmove} t */
 function moveHandle(t) {
 
     let {
@@ -207,7 +207,7 @@ function moveHandle(t) {
     return moveComply(t);
 
 };
-/** @param {Tmove} t */
+/** @arg {Tmove} t */
 function moveComply(t) {
 
     const {
@@ -230,8 +230,8 @@ function moveComply(t) {
  * Функция для перемещения файла.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {string|RegExp} location
- * @param {string|RegExp} fragment
+ * @arg {string|RegExp} location
+ * @arg {string|RegExp} fragment
 */
 export function fileMove(fragment, location) {
 
@@ -250,7 +250,7 @@ export function fileMove(fragment, location) {
  * @typedef {TBwrite} Twrite
 */
 
-/** @param {Twrite} t */
+/** @arg {Twrite} t */
 function writeDeceit(t) {
 
     try {
@@ -266,7 +266,7 @@ function writeDeceit(t) {
     };
 
 };
-/** @param {Twrite} t */
+/** @arg {Twrite} t */
 function writeVerify(t) {
 
     const {
@@ -278,7 +278,7 @@ function writeVerify(t) {
     return writeHandle(t);
 
 };
-/** @param {Twrite} t */
+/** @arg {Twrite} t */
 function writeHandle(t) {
 
     let {
@@ -298,7 +298,7 @@ function writeHandle(t) {
     return writeComply(t);
 
 };
-/** @param {Twrite} t */
+/** @arg {Twrite} t */
 function writeComply(t) {
 
     const {
@@ -330,8 +330,8 @@ function writeComply(t) {
  * Функция для перезаписывания файла текстовыми данными.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {...string} data
- * @param {string|RegExp} fragment
+ * @arg {...string} data
+ * @arg {string|RegExp} fragment
 */
 export function fileWrite(fragment, expand, ...data) {
 
@@ -342,8 +342,8 @@ export function fileWrite(fragment, expand, ...data) {
  * Функция для перезаписывания файла текстовыми данными.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {...string} data
- * @param {string|RegExp} fragment
+ * @arg {...string} data
+ * @arg {string|RegExp} fragment
 */
 export function fileWriteText(fragment, ...data) {
 
@@ -354,8 +354,8 @@ export function fileWriteText(fragment, ...data) {
  * Функция для перезаписывания файла в формате json.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {...string} data
- * @param {string|RegExp} fragment
+ * @arg {...string} data
+ * @arg {string|RegExp} fragment
 */
 export function fileWriteJson(fragment, ...data) {
 
@@ -374,7 +374,7 @@ export function fileWriteJson(fragment, ...data) {
  * @typedef {TBappend} Tappend
 */
 
-/** @param {Tappend} t */
+/** @arg {Tappend} t */
 function appendDeceit(t) {
 
     try {
@@ -390,7 +390,7 @@ function appendDeceit(t) {
     };
 
 };
-/** @param {Tappend} t */
+/** @arg {Tappend} t */
 function appendVerify(t) {
 
     const {
@@ -402,7 +402,7 @@ function appendVerify(t) {
     return appendHandle(t);
 
 };
-/** @param {Tappend} t */
+/** @arg {Tappend} t */
 function appendHandle(t) {
 
     let {
@@ -422,7 +422,7 @@ function appendHandle(t) {
     return appendComply(t);
 
 };
-/** @param {Tappend} t */
+/** @arg {Tappend} t */
 function appendComply(t) {
 
     const {
@@ -469,8 +469,8 @@ export function fileAppend(fragment, expand, ...data) {
  * Функция для дополнения файла как текста.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {...string} data
- * @param {string|RegExp} fragment
+ * @arg {...string} data
+ * @arg {string|RegExp} fragment
 */
 export function fileAppendText(fragment, ...data) {
 
@@ -481,8 +481,8 @@ export function fileAppendText(fragment, ...data) {
  * Функция для дополнения файлка как json.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {...string} data
- * @param {string|RegExp} fragment
+ * @arg {...string} data
+ * @arg {string|RegExp} fragment
 */
 export function fileAppendJson(fragment, ...data) {
 
@@ -499,7 +499,7 @@ export function fileAppendJson(fragment, ...data) {
  * @typedef {TBdelete} Tdelete
 */
 
-/** @param {Tdelete} t */
+/** @arg {Tdelete} t */
 function deleteDeceit(t) {
 
     try {
@@ -515,7 +515,7 @@ function deleteDeceit(t) {
     };
 
 };
-/** @param {Tdelete} t */
+/** @arg {Tdelete} t */
 function deleteVerify(t) {
 
     const {
@@ -527,7 +527,7 @@ function deleteVerify(t) {
     return deleteHandle(t);
 
 };
-/** @param {Tdelete} t */
+/** @arg {Tdelete} t */
 function deleteHandle(t) {
 
     let {
@@ -547,7 +547,7 @@ function deleteHandle(t) {
     return deleteComply(t);
 
 };
-/** @param {Tdelete} t */
+/** @arg {Tdelete} t */
 function deleteComply(t) {
 
     const {
@@ -558,7 +558,7 @@ function deleteComply(t) {
 
     const path = pathGet(fragment);
 
-    if (!configFile.protects.includes(path)) unlinkSync(pathGet(fragment));
+    if (!configOSFile.protects.includes(path)) unlinkSync(pathGet(fragment));
 
 };
 
@@ -566,7 +566,7 @@ function deleteComply(t) {
  * Функция для удаления файла.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {string|RegExp} fragment
+ * @arg {string|RegExp} fragment
 */
 export function fileDelete(fragment) {
 
@@ -584,7 +584,7 @@ export function fileDelete(fragment) {
  * @typedef {TBrename} Trename
 */
 
-/** @param {Trename} t */
+/** @arg {Trename} t */
 function renameDeceit(t) {
 
     try {
@@ -600,7 +600,7 @@ function renameDeceit(t) {
     };
 
 };
-/** @param {Trename} t */
+/** @arg {Trename} t */
 function renameVerify(t) {
 
     const {
@@ -612,7 +612,7 @@ function renameVerify(t) {
     return renameHandle(t);
 
 };
-/** @param {Trename} t */
+/** @arg {Trename} t */
 function renameHandle(t) {
 
     let {
@@ -632,7 +632,7 @@ function renameHandle(t) {
     return renameComply(t);
 
 };
-/** @param {Trename} t */
+/** @arg {Trename} t */
 function renameComply(t) {
 
     const {
@@ -655,8 +655,8 @@ function renameComply(t) {
  * Функция для переименования файла.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {string} name
- * @param {string|RegExp} fragment
+ * @arg {string} name
+ * @arg {string|RegExp} fragment
 */
 export function fileRename(fragment, name) {
 

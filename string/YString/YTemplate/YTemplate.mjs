@@ -1,4 +1,4 @@
-import { configString } from "../../../config1.mjs";
+import { configString } from "../../../config.mjs";
 import { jectFill } from "../../../ject/ject.mjs";
 import { stringReplace, stringReplaceAllMore } from "../../string.mjs";
 import { YString } from "../YString.mjs";
@@ -50,7 +50,7 @@ class FTemplate extends ITemplate {
      * Контсруктор класса `YTemplate`
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
-     *  @param {TTemplate} t
+     *  @arg {TTemplate} t
     */
     constructor(t = {}) {
 
@@ -64,7 +64,7 @@ class FTemplate extends ITemplate {
 
     };
 
-    /** @param {Array<any>} t */
+    /** @arg {Array<any>} t */
     static #before(t) {
 
         if (t?.length === 1 && t[0]?.constructor === Object) {
@@ -89,7 +89,7 @@ class FTemplate extends ITemplate {
         } else return {};
 
     };
-    /** @param {TTemplate} t @this {YTemplate} */
+    /** @arg {TTemplate} t @this {YTemplate} */
     static #deceit(t) {
 
         try {
@@ -103,7 +103,7 @@ class FTemplate extends ITemplate {
         };
 
     };
-    /** @param {TTemplate} t @this {YTemplate} */
+    /** @arg {TTemplate} t @this {YTemplate} */
     static #verify(t) {
 
         const {
@@ -115,13 +115,13 @@ class FTemplate extends ITemplate {
         FTemplate.#handle(t);
 
     };
-    /** @param {TTemplate} t @this {YTemplate} */
+    /** @arg {TTemplate} t @this {YTemplate} */
     static #handle(t) {
 
 
 
     };
-    /** @param {TTemplate} t @this {YTemplate} */
+    /** @arg {TTemplate} t @this {YTemplate} */
     static #create(t) {
 
         const {
@@ -159,7 +159,7 @@ export class YTemplate extends MTemplate {
     /**
      * Метод получения шаблона.
      * - Версия `0.1.0`
-     * @param {...[string, string|number|function():number|string]} inserts
+     * @arg {...[string, string|number|function():number|string]} inserts
     */
     get(...inserts) {
 

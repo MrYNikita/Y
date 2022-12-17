@@ -21,17 +21,22 @@ class IBasic extends DBasic {
 
 
 };
-class FBasic extends IBasic {
+class MBasic extends IBasic {
+
+
+
+};
+class FBasic extends MBasic {
 
     /**
      * Контсруктор класса `YBasic`
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
-     *  @param {TBasic} t
+     *  @arg {TBasic} t
     */
     constructor(t = {}) {
 
-        t = FBasic.#before(arguments);
+        t = FBasic.#before(Object.values(arguments));
 
         FBasic.#deceit(t);
 
@@ -41,25 +46,32 @@ class FBasic extends IBasic {
 
     };
 
-    /** @param {TBasic} t */
+    /** @arg {Array<any>} t */
     static #before(t) {
 
-        if (t?.length === 1 && t[0]?.constructor === Object) {
+        if (t?.length === 1 && [Object, YBasic].includes(t[0]?.constructor)) {
 
             return t[0];
 
         } else if (t?.length) {
 
+            /** @type {TBasic&DBasic} */
             const r = {};
 
+            switch (t.length) {
 
+                case 3:
+                case 2:
+                case 1:
+
+            };
 
             return r;
 
         } else return {};
 
     };
-    /** @param {TBasic} t @this {YBasic} */
+    /** @arg {TBasic} t @this {YBasic} */
     static #deceit(t) {
 
         try {
@@ -73,7 +85,7 @@ class FBasic extends IBasic {
         };
 
     };
-    /** @param {TBasic} t @this {YBasic} */
+    /** @arg {TBasic} t @this {YBasic} */
     static #verify(t) {
 
         const {
@@ -85,25 +97,13 @@ class FBasic extends IBasic {
         FBasic.#handle(t);
 
     };
-    /** @param {TBasic} t @this {YBasic} */
+    /** @arg {TBasic} t @this {YBasic} */
     static #handle(t) {
 
-        let {
 
-
-
-        } = t;
-
-
-
-        t = {
-
-            ...t,
-
-        };
 
     };
-    /** @param {TBasic} t @this {YBasic} */
+    /** @arg {TBasic} t @this {YBasic} */
     static #create(t) {
 
         const {
@@ -114,17 +114,15 @@ class FBasic extends IBasic {
 
         jectFill(this, t);
 
-
-
     };
 
 };
 
 /**
- * Базовый класс `YModules`.
+ * Класс `YBasic`
  *
- * Данный класс содержит базовые методы и свойства для остальных классов модулей.
- * - Тип `SDIFY-1.0`
+ * Базовый класс `YModules`.
+ * - Тип `SDIMFY`
  * - Версия `0.0.0`
  * - Цепочка `BDVHC`
 */

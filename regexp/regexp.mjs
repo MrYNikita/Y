@@ -9,7 +9,7 @@ import { arrayAppend } from "../array/array.mjs";
  * @typedef {TBsplit} Tsplit
 */
 
-/** @param {Tsplit} t */
+/** @arg {Tsplit} t */
 function splitDeceit(t) {
 
     try {
@@ -25,7 +25,7 @@ function splitDeceit(t) {
     };
 
 };
-/** @param {Tsplit} t */
+/** @arg {Tsplit} t */
 function splitVerify(t) {
 
     const {
@@ -37,7 +37,7 @@ function splitVerify(t) {
     return splitHandle(t);
 
 };
-/** @param {Tsplit} t */
+/** @arg {Tsplit} t */
 function splitHandle(t) {
 
     let {
@@ -57,7 +57,7 @@ function splitHandle(t) {
     return splitComply(t);
 
 };
-/** @param {Tsplit} t */
+/** @arg {Tsplit} t */
 function splitComply(t) {
 
     const {
@@ -87,7 +87,7 @@ function splitComply(t) {
  * Данная функция извлекает вариации регулярного выражения через `|`.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @param {RegExp} regexp
+ * @arg {RegExp} regexp
 */
 export function regexpSplit(regexp) {
 
