@@ -1,5 +1,5 @@
 import { arrayRemoveByElement } from "../array/array.mjs";
-import { config, configNotice } from "../config.mjs";
+import { config, configNotice } from "../config1.mjs";
 
 //#region fill 0.1.0
 

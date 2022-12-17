@@ -1,5 +1,5 @@
 import { arrayGetRandomElement, arrayReplace, } from "../array/array.mjs";
-import { config, configString } from "../config.mjs";
+import { config, configString } from "../config1.mjs";
 import { numberGetFrac, numberGetRandomReal, numberGetReal, numberGetSequence } from "../number/number.mjs";
 import { YRegExp } from "../regexp/YRegExp/YRegExp.mjs";
 import { YString } from "./YString/YString.mjs";
@@ -255,20 +255,6 @@ function pasteVerify(t) {
 /** @param {Tpaste} t */
 function pasteHandle(t) {
 
-    let {
-
-
-
-    } = t;
-
-
-
-    t = {
-
-        ...t,
-
-    };
-
     return pasteComply(t);
 
 };
@@ -369,22 +355,22 @@ function shieldComply(t) {
 
     } = t;
 
-    return stringReplace(string,
+    return stringReplaceAllMore(string,
 
-        [/\\/g, '\\\\'],
-        [/\//g, '\\/'],
-        [/\*/g, '\\*'],
-        [/\./g, '\\.'],
-        [/\+/g, '\\+'],
-        [/\?/g, '\\?'],
-        [/\]/g, '\\]'],
-        [/\[/g, '\\['],
-        [/\)/g, '\\)'],
-        [/\(/g, '\\('],
-        [/\}/g, '\\}'],
-        [/\{/g, '\\{'],
-        [/\{/g, '\\>'],
-        [/\{/g, '\\<'],
+        ['\\\\', /\\/g,],
+        ['\\/', /\//g,],
+        ['\\*', /\*/g,],
+        ['\\.', /\./g,],
+        ['\\+', /\+/g,],
+        ['\\?', /\?/g,],
+        ['\\]', /\]/g,],
+        ['\\[', /\[/g,],
+        ['\\)', /\)/g,],
+        ['\\(', /\(/g,],
+        ['\\}', /\}/g,],
+        ['\\{', /\{/g,],
+        ['\\>', /\{/g,],
+        ['\\<', /\{/g,],
 
     );
 
@@ -564,7 +550,7 @@ function removeHandle(t) {
     if (t.end < 0 && t.end + t.start < 0) [t.start, t.end] = [null, t.start + 1];
     else if (t.end > 0 && t.end + t.start >= t.string.length) [t.start, t.end] = [t.start, null];
     else if (t.end > 0) [t.start, t.end] = [t.start, t.start + t.end];
-    else [t.start, t.end] = [t.start + t.end + 1, t.start + 1];
+    else[t.start, t.end] = [t.start + t.end + 1, t.start + 1];
 
     return removeComply(t);
 
@@ -1500,6 +1486,103 @@ export function stringFindAll(string, ...fragments) {
 };
 
 //#endregion
+//#region findLevel 0.0.0
+
+/**
+ * @typedef TBfindLevel
+ * @prop {string} string
+ * @prop {string} levelUpper
+ * @prop {string} levelLower
+ * @prop {number} fIndexResult
+ * @typedef {TBfindLevel} TfindLevel
+*/
+
+/** @param {TfindLevel} t */
+function findLevelDeceit(t) {
+
+    try {
+
+        return findLevelVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @param {TfindLevel} t */
+function findLevelVerify(t) {
+
+
+
+    return findLevelHandle(t);
+
+};
+/** @param {TfindLevel} t */
+function findLevelHandle(t) {
+
+
+
+    return findLevelComply(t);
+
+};
+/** @param {TfindLevel} t */
+function findLevelComply(t) {
+
+    const {
+
+        string,
+        levelLower,
+        levelUpper,
+        fIndexResult,
+
+    } = t;
+
+    let i = string.indexOf(levelUpper) + 1;
+    let l = 1;
+    let r = '';
+    let c = 0;
+
+    if (i !== -1) {
+
+        while (i < string.length && l) {
+
+            const s = string[i++];
+
+            if (s === levelUpper) l++;
+            else if (s === levelLower) l--;
+
+            r += s;
+
+        };
+
+        return levelUpper + r;
+
+    } else return null;
+
+};
+
+/**
+ * Функция уровневого поиска.
+ * Находит `значение увеличения` уровня, увеличивая уровень на `1`.
+ * После заносит в результат все символы после данного вхождения до тех пор, пока `уровень` не станет равным `0`.
+ * Каждое встреченное `значение повышения` уровня будет увеличивать его, а `значение уменьшения` - понижать.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @arg {string} string Исходная строка.
+ * @arg {string} levelLower Значение уменьшения уровня.
+ * @arg {string} levelUpper Значение увеличения уровня.
+*/
+export function stringFindLevel(string, levelUpper, levelLower) {
+
+    return findLevelDeceit({ string, levelUpper, levelLower, });
+
+};
+
+//#endregion
 //#region findToJect 0.1.0
 
 /**
@@ -1679,7 +1762,7 @@ function findVariateComply(t) {
                 else if (Math.abs(f.lastIndex - i) > 1) f.lastIndex = i + 1;
 
 
-            } while(f.lastIndex);
+            } while (f.lastIndex);
 
             arrayReplace(result, r, ...a);
 

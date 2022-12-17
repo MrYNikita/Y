@@ -227,6 +227,7 @@ export class YStyle extends MStyle {
 
             } = s;
 
+
             const ystr = new YString(stringFind(tabel.element.innerText, `${label} ?{.*?}`));
 
             if (ystr.copy().find(property + ':.*?;').get()) {
@@ -234,7 +235,15 @@ export class YStyle extends MStyle {
                 if (!value) ystr.replace([``, property + `:.*?;`]);
                 else ystr.replace([`${property}:${value};`, property + `:.*?;`]);
 
-            } else if (value) ystr.replace([`${property}:${value};}`, /}/]);
+            } else if (value) {
+
+                if (value instanceof Object) {
+
+                    
+
+                } else ystr.replace([`${property}:${value};}`, /}/]);
+
+            };
 
             tabel.element.innerText = stringReplace(tabel.element.innerText, ystr.get(), label + ' ?{.*?}');
 

@@ -1,5 +1,5 @@
 import { arrayRemoveByElement, arrayRemoveByIndex } from "../../../array/array.mjs";
-import { configRept } from "../../../config.mjs";
+import { configRept } from "../../../config1.mjs";
 import { YString } from "../../../string/YString/YString.mjs";
 import { jectFill } from "../../ject.mjs";
 import { YBasic } from "../../YBasic/YBasic.mjs";

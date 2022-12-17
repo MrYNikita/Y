@@ -217,7 +217,7 @@ export class YHTML extends FHTML {
                             .paste(
 
                                 ...this.elements,
-                                ...[...this.scriptsBody, ...configWeb.html.scriptsBody].map(s => `<script type='module' src='${s}'></script>`)
+                                ...[...configWeb.html.scriptsBody, ...this.scriptsBody].map(s => `<script type='module' src='${s}'></script>`)
 
                             )
                             .changePostfix()

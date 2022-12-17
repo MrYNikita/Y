@@ -447,7 +447,7 @@
 			"    /** @param {Array<any>} t */",
 			"    static #before(t) {",
 			"        ",
-			"        if (t?.length === 1 && t[0]?.constructor === Object) {",
+			"        if (t?.length === 1 && [Object, Y$1].includes(t[0]?.constructor)) {",
 			"            ",
 			"            return t[0];",
 			"            ",

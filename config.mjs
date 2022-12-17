@@ -1,6 +1,4 @@
-import { YSection } from "./log/YLog/YNotice/YSection/YSection.mjs";
-
-export const config = {
+const config = {
 
     /**
      * `Локаль` программы.
@@ -26,7 +24,7 @@ export const config = {
 
 };
 
-export const configOS = {
+const configOS = {
 
     path: {
 
@@ -116,11 +114,11 @@ export const configOS = {
 
 };
 
-export const configPath = configOS.path;
-export const configFile = configOS.file;
-export const configStream = configOS.stream;
+const configPath = configOS.path;
+const configFile = configOS.file;
+const configStream = configOS.stream;
 
-export const configWeb = {
+const configWeb = {
 
     html: {
 
@@ -167,12 +165,12 @@ export const configWeb = {
 
 };
 
-export const configServer = configWeb.server;
-export const configHtml = configWeb.html;
-export const configHtmlStyle = configHtml.style;
-export const configHtmlElement = configHtml.element;
+const configServer = configWeb.server;
+const configHtml = configWeb.html;
+const configHtmlStyle = configHtml.style;
+const configHtmlElement = configHtml.element;
 
-export const configLog = {
+const configLog = {
 
     size: 100,
     visiable: 10,
@@ -193,9 +191,9 @@ export const configLog = {
 
 };
 
-export const configNotice = configLog.notice;
+const configNotice = configLog.notice;
 
-export const configFunc = {
+const configFunc = {
 
     verify: {
 
@@ -213,7 +211,7 @@ export const configFunc = {
 
 };
 
-export const configJect = {
+const configJect = {
 
     basic: {
 
@@ -228,7 +226,7 @@ export const configJect = {
 
 };
 
-export const configRept = {
+const configRept = {
 
     /**
      * Строка конца отчета.
@@ -253,7 +251,7 @@ export const configRept = {
 
 };
 
-export const configError = {
+const configError = {
 
     template: {
 
@@ -273,13 +271,13 @@ export const configError = {
 
 };
 
-export const configArray = {
+const configArray = {
 
 
 
 };
 
-export const configString = {
+const configString = {
 
     loged: false,
     tabValue: ' '.repeat(4),
@@ -337,7 +335,7 @@ export const configString = {
 
 };
 
-export const configYString = configString.ystring;
+const configYString = configString.ystring;
 
 /**
  * @file config.mjs

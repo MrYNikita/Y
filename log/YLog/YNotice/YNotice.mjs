@@ -1,6 +1,6 @@
 import { jectFill } from "../../../ject/ject.mjs";
-import { configLog } from "../../../config.mjs";
-import { stringCastToDate, stringCastToSample, stringReplace, stringReplaceAllMore } from "../../../string/string.mjs";
+import { configLog } from "../../../config1.mjs";
+import { stringCastToDate, stringCastToSample, stringReplace, stringReplaceAllMore, stringReplaceMore } from "../../../string/string.mjs";
 import { YSection } from "./YSection/YSection.mjs";
 
 /**
@@ -146,7 +146,7 @@ export class YNotice extends FNotice {
     get() {
 
         if (this.section) return this.section.getNotice(this);
-        else return stringReplaceAllMore(
+        else return stringReplaceMore(
 
             configLog.templates.notice,
             [stringCastToDate(this.date), 't'],

@@ -1,4 +1,4 @@
-import { config } from "../config.mjs";
+import { config } from "../config1.mjs";
 import { numberGetRandomReal } from "../number/number.mjs";
 
 //#region mix 0.1.0
@@ -283,7 +283,7 @@ function removeComply(t) {
 
         };
 
-    } else if (indexs?.length) while(indexs.length) {
+    } else if (indexs?.length) while (indexs.length) {
 
         const index = indexs.pop();
 
@@ -858,6 +858,81 @@ function getRandomElementComply(t) {
 export function arrayGetRandomElement(array) {
 
     return getRandomElementDeceit({ array });
+
+};
+
+//#endregion
+
+//#region devideByLimit 0.0.0
+
+/**
+ * @typedef TBdevideByLimit
+ * @prop {any[]} array
+ * @prop {number} limit
+ * @typedef {TBdevideByLimit} TdevideByLimit
+*/
+
+/** @param {TdevideByLimit} t */
+function devideByLimitDeceit(t) {
+
+    try {
+
+        return devideByLimitVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @param {TdevideByLimit} t */
+function devideByLimitVerify(t) {
+
+
+
+    return devideByLimitHandle(t);
+
+};
+/** @param {TdevideByLimit} t */
+function devideByLimitHandle(t) {
+
+    if (t.array.constructor === String) t.array = t.array.split('');
+
+    return devideByLimitComply(t);
+
+};
+/** @param {TdevideByLimit} t */
+function devideByLimitComply(t) {
+
+    const {
+
+        array,
+        limit,
+
+    } = t;
+
+    const r = [];
+
+    for (let i = 0; i < array.length;) r.push(array.splice(0, limit));
+
+    return r;
+
+};
+
+/**
+ * Функция разделения массива по лимиту.
+ * Делит указанный массив на под-массивы по `limit` (лимиту) элементов.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @param {any[]} array Исходный массив.
+ * @param {number} limit Лимит разделения.
+*/
+export function arrayDevideByLimit(array, limit) {
+
+    return devideByLimitDeceit({ array, limit });
 
 };
 

@@ -1,6 +1,6 @@
 import { pathGet, pathGetProject } from "../path/path.mjs";
 import { existsSync, readFileSync, renameSync, unlinkSync, writeFileSync } from "fs";
-import { config, configOS, configFile } from "../../config.mjs";
+import { config, configOS, configFile } from "../../config1.mjs";
 import { arrayAppend } from "../../array/array.mjs";
 import { jectChangeDeep } from "../../ject/ject.mjs";
 

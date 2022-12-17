@@ -1,8 +1,7 @@
+import { pathGet } from "../path/path.mjs";
 import { exec, fork, spawn } from 'child_process';
 
 //#region launch 0.0.0
-
-import { pathGet } from "../path/path.mjs";
 
 /**
  * @typedef TBlaunch

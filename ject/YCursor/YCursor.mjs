@@ -1,9 +1,10 @@
 import { YString } from "../../string/YString/YString.mjs";
 import { arrayRemoveByElement } from "../../array/array.mjs";
-import { configJect, configYString } from "../../config.mjs";
+import { configJect, configYString } from "../../config1.mjs";
 import { jectFill } from "../ject.mjs";
 import { numberGetNearstIndex } from "../../number/number.mjs";
 import { YList } from "../YList/YList.mjs";
+import { YBasic } from "../YBasic/YBasic.mjs";
 
 /**
  * @typedef TBCursor
@@ -11,12 +12,17 @@ import { YList } from "../YList/YList.mjs";
  * @typedef {DCursor&TBCursor} TCursor
 */
 
-class SCursor {
+class SCursor extends YBasic {
 
 
 
 };
 class DCursor extends SCursor {
+
+
+
+};
+class ICursor extends DCursor {
 
     /**
      * Область курсора.
@@ -41,17 +47,22 @@ class DCursor extends SCursor {
     fixed = configJect?.fixed ?? true;
 
 };
-class FCursor extends DCursor {
+class MCursor extends ICursor {
+
+
+
+};
+class FCursor extends MCursor {
 
     /**
-     *
+     * Контсруктор класса `YCursor`
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
      *  @param {TCursor} t
     */
     constructor(t = {}) {
 
-        t = FCursor.#before(...arguments);
+        t = FCursor.#before(Object.values(arguments));
 
         FCursor.#deceit(t);
 
@@ -61,14 +72,29 @@ class FCursor extends DCursor {
 
     };
 
-    /** @param {[TCursor]} */
+    /** @param {Array<any>} t */
     static #before(t) {
 
+        if (t?.length === 1 && t[0]?.constructor === Object) {
 
+            return t[0];
 
-        if (!t) t = {};
+        } else if (t?.length) {
 
-        return t;
+            /** @type {TCursor&DCursor} */
+            const r = {};
+
+            switch (t.length) {
+
+                case 3:
+                case 2:
+                case 1:
+
+            };
+
+            return r;
+
+        } else return {};
 
     };
     /** @param {TCursor} t @this {YCursor} */
@@ -100,19 +126,7 @@ class FCursor extends DCursor {
     /** @param {TCursor} t @this {YCursor} */
     static #handle(t) {
 
-        let {
-
-
-
-        } = t;
-
         if ((!t.index && t.index !== 0) && t.list) t.index = t.list.value.length;
-
-        t = {
-
-            ...t,
-
-        };
 
     };
     /** @param {TCursor} t @this {YCursor} */
@@ -126,17 +140,19 @@ class FCursor extends DCursor {
 
         jectFill(this, t);
 
+
+
     };
 
 };
 
 /**
- * Класс курсоров.
+ * Класс `YCursor`
  *
- * Курсоры размещаются в строке YString в единственном и множественных кол-вах.
- * С их помощью осуществляется вставка, удаление, копирование и добавление фрагментов из/в исходную строку.
- * - Тип `SDFY-2.0`
- * - Версия `0.0.0`
+ * Курсоры выступают динамичными индексаторами в массивах.
+ * Они позволяют размещать новые значения по правилам вставки.
+ * - Тип `SDIMFY`
+ * - Версия `0.1.0`
  * - Цепочка `BDVHC`
 */
 export class YCursor extends FCursor {
@@ -149,29 +165,32 @@ export class YCursor extends FCursor {
     */
     move(number) {
 
-        if (this.fixed && number) this.index += number - this.size;
-        if (this.index < 0) this.index = 0;
-        if (this.index > this.list.value.length - 1) this.index = this.list.value.length;
+        const bias = this.index + number;
+
+        if (bias < 0) this.index = 0;
+        else if (bias >= this.list.value.length) this.index = this.list.value.length;
+        else this.index = bias;
 
         return this;
 
     };
     /**
      * Метод для отображения информации.
-     * - Версия `0.0.0`
+     * - Версия `0.1.0`
     */
     report() {
 
         new YString()
 
-            .changeStringAppendEnd('\n')
-            .append(`YCursor`)
-            .append(`---`)
-            .changeStringAppendEnd(';\n')
-            .append(`index: ${this.index}`)
-            .append(`size: ${this.size}`)
-            .append(`shift: ${this.fixed}`)
-            .log()
+            .changePostfix(';\n')
+            .paste(
+
+                `index: ${this.index}`,
+                `size: ${this.size}`,
+                `shift: ${this.fixed}`,
+
+            )
+            .display()
 
         return this;
 

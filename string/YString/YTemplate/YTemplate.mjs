@@ -1,4 +1,4 @@
-import { configString } from "../../../config.mjs";
+import { configString } from "../../../config1.mjs";
 import { jectFill } from "../../../ject/ject.mjs";
 import { stringReplace, stringReplaceAllMore } from "../../string.mjs";
 import { YString } from "../YString.mjs";

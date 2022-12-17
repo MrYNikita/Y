@@ -1,6 +1,6 @@
 import { exec, fork, spawn } from "child_process";
 import { config } from "process";
-import { configPath } from "../../../config.mjs";
+import { configPath } from "../../../config1.mjs";
 import { jectFill } from "../../../ject/ject.mjs";
 import { YLog } from "../../../log/YLog/YLog.mjs";
 import { stringRepaint } from "../../../string/string.mjs";

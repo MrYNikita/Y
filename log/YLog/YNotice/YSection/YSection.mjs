@@ -1,7 +1,7 @@
 import { arrayAppend, arrayRemoveByElement } from "../../../../array/array.mjs";
-import { configLog } from "../../../../config.mjs";
+import { configLog } from "../../../../config1.mjs";
 import { jectFill } from "../../../../ject/ject.mjs";
-import { stringCastToDate, stringCastToSample, stringReplace, stringReplaceAllMore } from "../../../../string/string.mjs";
+import { stringCastToDate, stringCastToSample, stringReplace, stringReplaceAllMore, stringReplaceMore } from "../../../../string/string.mjs";
 import { YNotice } from "../YNotice.mjs";
 
 /**
@@ -219,7 +219,7 @@ export class YSection extends FSection {
 
             if (notice.constructor === Number) notice = this.list?.[notice];
 
-            return stringReplaceAllMore(
+            return stringReplaceMore(
 
                 configLog.templates.section,
                 [stringCastToDate(notice.date), 't'],
@@ -229,6 +229,17 @@ export class YSection extends FSection {
             );
 
         };
+
+    };
+    /**
+     * Метод очистки секций.
+     * - Версия `0.0.0`
+    */
+    clear() {
+
+        this.list = [];
+
+        return this;
 
     };
 

@@ -1,6 +1,6 @@
 import { arrayAppend } from "../../array/array.mjs";
 import { existsSync, lstatSync, readdirSync } from "fs";
-import { config, configOS, configPath, } from "../../config.mjs";
+import { config, configOS, configPath, } from "../../config1.mjs";
 import { fileREName, fileREPart } from "../file/file.mjs";
 import { stringFind } from "../../string/string.mjs";
 import { YFunc } from "../../func/YFunc/YFunc.mjs";
@@ -90,7 +90,7 @@ function getComply(t) {
 
             let count = 0;
             paths.length && count < limit;
-            
+
         ) {
 
             const path = paths.pop();
@@ -121,10 +121,10 @@ function getComply(t) {
     } else if (!fragment && limit) {
 
         for (
-            
+
             let count = 0;
             count < limit;
-            
+
         ) {
 
             const path = paths.pop();
@@ -132,7 +132,7 @@ function getComply(t) {
             results.push(path);
 
             func0(path);
-            
+
             count++;
 
         };
@@ -198,7 +198,7 @@ export function pathGetAll(fragment = '.', limit) {
 
 /**
  * @typedef TBgetDisk
- * 
+ *
  * @typedef {TBgetDisk} TgetDisk
 */
 
@@ -279,7 +279,7 @@ export function pathGetDisk() {
 
 /**
  * @typedef TBgetProject
- * 
+ *
  * @typedef {TBgetProject} TgetProject
 */
 

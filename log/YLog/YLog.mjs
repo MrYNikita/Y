@@ -1,4 +1,4 @@
-import { configLog } from "../../config.mjs";
+import { configLog } from "../../config1.mjs";
 import { jectFill } from "../../ject/ject.mjs";
 import { YNotice } from "./YNotice/YNotice.mjs";
 import { YSection } from "./YNotice/YSection/YSection.mjs";
@@ -248,6 +248,18 @@ export class YLog extends FLog {
     appendSection(...j) {
 
         j.forEach(j => ((j.symbol || j.label) && !this.list.find(s => j.symbol === s.symbol || j.label === s.label)) ? this.list.push(new YSection(j)) : 0);
+
+        return this;
+
+    };
+    /**
+     * Метод очистки указанной секции.
+     * - Версия `0.0.0`
+     * @param {string} label Метка или символ.
+    */
+    clearSection(label) {
+
+        this.list.find(f => f.label === label || f.symbol === label).clear();
 
         return this;
 

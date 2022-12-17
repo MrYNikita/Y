@@ -1,9 +1,22 @@
-import { configString } from "../../config.mjs";
+import { ReadStream, WriteStream } from "fs";
+import { arrayDevideByLimit } from "../../array/array.mjs";
+import { configString } from "../../config1.mjs";
 import { jectFill } from "../../ject/ject.mjs";
 import { YBasic } from "../../ject/YBasic/YBasic.mjs";
 import { YCursor } from "../../ject/YCursor/YCursor.mjs";
 import { stringAppend, stringBring, stringCastToJect, stringCastToSample, stringCastToYReport, stringFilter, stringFind, stringFindAll, stringFindToJect, stringGetColor, stringHandle, stringPad, stringPaste, stringReflect, stringRemove, stringRepaint, stringReplace, stringReplaceAllMore, stringReplaceMore, stringReverse } from "../string.mjs";
 import { YTemplate } from "./YTemplate/YTemplate.mjs";
+
+import('fs').then(j => {
+
+    var {
+
+        ReadStream,
+        WriteStream,
+
+    } = j;
+
+}).catch(e => e);
 
 /**
  * @typedef TBString
@@ -11,7 +24,7 @@ import { YTemplate } from "./YTemplate/YTemplate.mjs";
  * @typedef {DString&TBString} TString
 */
 
-class SString {
+class SString extends YBasic {
 
 
 
@@ -27,6 +40,11 @@ class DString extends SString {
 };
 class IString extends DString {
 
+    /**
+     * Над-строка.
+     * @type {YString?}
+    */
+    over = null;
     /**
      * Цвет шрифта.
      * @type {string}
@@ -69,11 +87,35 @@ class IString extends DString {
      * @type {Array<YTemplate>}
     */
     templates = configString?.templates?.map(t => new YTemplate(...t));
+
     /**
-     * Над-строка.
-     * @type {YString?}
+     * Конец строки.
+     *
+     * При превышении строки указывается данное значение.
+     *
+     * - По умолчанию `\n`
+     * @type {string}
     */
-    stringOver = null;
+    rowEnd = '\n';
+    /**
+     * Длина строки.
+     *
+     * Если указана, то для каждой строки будет осуществляться замер.
+     * При превышении указанного значения длины, в строку автоматически будет вставлено значение `endRow` (конца строки).
+     * @type {number?}
+    */
+    rowLength;
+
+    /**
+     * Поток ввода.
+     * @type {ReadStream}
+    */
+    input;
+    /**
+     * Поток вывода.
+     * @type {WriteStream}
+    */
+    output;
 
 };
 class MString extends IString {
@@ -104,7 +146,7 @@ class FString extends MString {
     /** @param {Array<any>} t */
     static #before(t) {
 
-        if (t?.length === 1 && t[0]?.constructor === Object) {
+        if (t?.length === 1 && [Object, YString].includes(t[0].constructor)) {
 
             return t[0];
 
@@ -169,7 +211,8 @@ class FString extends MString {
 
         jectFill(this, t);
 
-        this.cursors = [new YCursor({ list: this })];
+        if (!this.cursors) this.cursors = [new YCursor({ list: this })];
+        else this.cursors.forEach(c => c.list = this);
 
     };
 
@@ -180,7 +223,7 @@ class FString extends MString {
  *
  * Класс для конструирования строк.
  * - Тип `SDIMFY-1.1`
- * - Версия `0.2.0`
+ * - Версия `0.3.0`
  * - Цепочка `BDVHC`
 */
 export class YString extends FString {
@@ -203,6 +246,35 @@ export class YString extends FString {
         };
 
         return r;
+
+    };
+
+    /**
+     * Метод указания текущего значения строки.
+     * - Версия `0.0.0`
+     * @param {string} string
+    */
+    set(string) {
+
+        this.value = string;
+        this.changeCursorPositionTo(this.value.length);
+
+        return this;
+
+    };
+
+    /**
+     * Метод для дополнения строки.
+     * - Версия `0.0.0`
+     * @param {string} string Строка дополнения.
+     * @param {number} count Кол-во дополнений.
+     * @param {boolean} left Сторона дополнения.
+    */
+    pad(string, count, index = this.value.length) {
+
+        this.value = stringPad(this.value, string, count, index);
+
+        return this;
 
     };
 
@@ -278,19 +350,6 @@ export class YString extends FString {
     };
 
     /**
-     * Метод для дополнения строки.
-     * @param {string} string Строка дополнения.
-     * @param {number} count Кол-во дополнений.
-     * @param {boolean} left Сторона дополнения.
-    */
-    pad(string, count, index = this.value.length) {
-
-        this.value = stringPad(this.value, string, count, index);
-
-        return this;
-
-    };
-    /**
      * Метод копирования строки.
      * @return {YString}
     */
@@ -320,13 +379,20 @@ export class YString extends FString {
 
             } else if (sp instanceof YString) {
 
-                sp.stringOver = this;
+                sp.over = this;
                 sp = sp.get();
 
             };
 
-            sp = ((this.prefix instanceof YTemplate ? this.prefix.get() : this.prefix) + sp + (this.postfix instanceof YTemplate ? this.postfix.get() : this.postfix)
-            ).replace(/^.+/mg, (this.tabValue ?? this?.stringOver?.tabValue)?.repeat(this.tabIndex ?? this?.stringOver?.tabIndex ?? 0) + '$&');
+            if (this.prefix instanceof YTemplate) sp = this.prefix.get() + sp;
+            else sp = this.prefix + sp;
+
+            if (this.postfix instanceof YTemplate) sp += this.postfix.get();
+            else sp += this.postfix;
+
+            sp = sp.replace(/^.+/mg, (this.tabValue ?? this?.over?.tabValue)?.repeat(this.tabIndex ?? this?.over?.tabIndex ?? 0) + '$&');
+
+            if (this.rowLength) sp = sp.split('\n').map(r => arrayDevideByLimit(r, this.rowLength).map(r => r.join(''))).flat().join(this.rowEnd);
 
             this.cursors.forEach(c => {
 
@@ -376,6 +442,8 @@ export class YString extends FString {
     remove(length) {
 
         this.value = stringRemove(this.value, this.cursors[0].index, length);
+
+        this.cursors.forEach(c => c.move(length));
 
         return this;
 
@@ -786,6 +854,41 @@ export class YString extends FString {
             if (this.tabIndex < 0) this.tabIndex = 0;
 
         };
+
+        return this;
+
+    };
+    /**
+     * Метод указания длины строки.
+     * - Версия `0.0.0`
+     * @param {number?} length
+    */
+    changeRowLength(length) {
+
+        this.rowLength = length;
+
+        return this;
+
+    };
+    /**
+     * Метод указания завершения строк.
+     * - Версия `0.0.0`
+     * @param {string} string
+    */
+    changeRowEnd(string) {
+
+        this.rowEnd = string + '\n';
+
+        return this;
+
+    };
+    /**
+     * Метод сброса стилей.
+     * - Версия `0.0.0`
+    */
+    resetStyle() {
+
+        this.replaceAll(['', /\x1b\[\d+m/]);
 
         return this;
 
