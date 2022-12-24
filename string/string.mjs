@@ -1,5 +1,5 @@
-import { arrayGetRandomElement, arrayReplace, } from "../array/array.mjs";
-import { config, configString } from "../config.mjs";
+import { arrayGetRandomElement, arrayGetRandomElementMany, arrayReplace, } from "../array/array.mjs";
+import { config, configString, configYInsert } from "../config.mjs";
 import { numberGetFrac, numberGetRandomReal, numberGetReal, numberGetSequence } from "../number/number.mjs";
 import { YRegExp } from "../regexp/YRegExp/YRegExp.mjs";
 import { YString } from "./YString/YString.mjs";
@@ -290,7 +290,92 @@ export function stringPaste(string, paste, index, size = 0) {
 };
 
 //#endregion
-//#region shield 0.0.1
+//#region insert 0.0.0
+
+/**
+ * @typedef TBinsert
+ * @prop {string} string
+ * @prop {string[]} inserts
+ * @typedef {TBinsert} Tinsert
+*/
+
+/** @arg {Tinsert} t */
+function insertDeceit(t) {
+
+    try {
+
+        return insertVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @arg {Tinsert} t */
+function insertVerify(t) {
+
+
+
+    return insertHandle(t);
+
+};
+/** @arg {Tinsert} t */
+function insertHandle(t) {
+
+
+
+    return insertComply(t);
+
+};
+/** @arg {Tinsert} t */
+function insertComply(t) {
+
+    const {
+
+        string,
+        inserts,
+
+    } = t;
+
+    const {
+
+        delimiter,
+        defaultValue,
+
+    } = configString.insert;
+
+    let result = string;
+
+    inserts.forEach(i => {
+
+        const index = i.indexOf(delimiter);
+        result = stringReplaceAll(result, i.slice(index + 1) ?? defaultValue, configYInsert.borderL + i.slice(0, index) + configYInsert.borderR);
+
+    });
+
+    return result;
+
+};
+
+/**
+ * Функция вставки в поля указанных значений значений.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @arg {string} string Исходная строка.
+ * @arg {...string} inserts Вставки.
+*/
+export function stringInsert(string, ...inserts) {
+
+    return insertDeceit({ string, inserts, });
+
+};
+
+//#endregion
+//#region shield 0.0.2
 
 /**
  * @typedef TBshield
@@ -369,8 +454,8 @@ function shieldComply(t) {
         ['\\(', /\(/g,],
         ['\\}', /\}/g,],
         ['\\{', /\{/g,],
-        ['\\>', /\{/g,],
-        ['\\<', /\{/g,],
+        ['\\>', /\>/g,],
+        ['\\<', /\</g,],
 
     );
 
@@ -1054,7 +1139,7 @@ export function stringReflect(string, every = false, ...mirrors) {
 };
 
 //#endregion
-//#region generateWord 0.0.0
+//#region generateWord 0.1.0
 
 /**
  * @typedef TBgenerateWord
@@ -1129,8 +1214,6 @@ function generateWordComply(t) {
 
     const result = [];
 
-    if (begin) result.push(begin);
-
     const s1 = [97, 101, 105, 111, 117, 121];
     const s2 = numberGetSequence(26, 97).filter(e => !s1.includes(e));
 
@@ -1149,8 +1232,7 @@ function generateWordComply(t) {
 
             result.push(String.fromCharCode(
 
-                arrayGetRandomElement(s2),
-                arrayGetRandomElement(s2),
+                ...arrayGetRandomElementMany(s2, 2),
                 arrayGetRandomElement(s1)
 
             ));
@@ -1165,11 +1247,12 @@ function generateWordComply(t) {
 
     } else result[0] = result[0][0].toUpperCase() + result[0].slice(1);
 
-    if (end) result.push(end);
-
     if (cutLast) result[result.length - 1] = result.at(-1).slice(0, -1);
 
-    return result.join(delimetr);
+    if (end) result[result.length - 1] = result.at(-1) + end;
+    if (begin) result[0] = begin + result[0].slice(1);
+
+    return result.filter(f => f).join(delimetr);
 
 };
 
@@ -1339,7 +1422,7 @@ function findVerify(t) {
 /** @arg {Tfind} t */
 function findHandle(t) {
 
-    t.fragments.map(f => new YRegExp(f).removeFlags('g').get());
+    t.fragments = t.fragments.map(f => new YRegExp(f).removeFlags('g').get());
 
     return findComply(t);
 
@@ -1980,7 +2063,7 @@ export function stringReplaceAll(string, replace, fragment) {
 */
 export function stringReplaceAllMore(string, ...replaces) {
 
-    replaces.forEach(r => string = stringReplaceAll(string, ...r));
+    replaces.filter(f => f).forEach(r => string = stringReplaceAll(string, ...r));
 
     return string;
 
@@ -2389,7 +2472,7 @@ export function stringCastToNumber(number, part = true) {
 };
 
 //#endregion
-//#region castToYReport 0.0.0
+//#region castToYReport 0.0.1
 
 /**
  * @typedef TBcastToYReport
@@ -2457,8 +2540,15 @@ function castToYReportComply(t) {
     return new YString(string)
 
         .handle(s => stringRepaint(s, 'c'), /[.,:;~\-\[\]\/#]/g)
-        .replaceAll(['+', /true/g])
-        .replaceAll(['-', /false|undefined/g])
+        .replaceAll(
+
+            ['+', /true/],
+            ['_', /null/],
+            ['-', /false/],
+            ['?', /undefinded/],
+            ['\n' ,/.(?<r>\n\n)/],
+
+        )
         .get()
 
 };

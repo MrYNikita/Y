@@ -13,207 +13,176 @@ import { YStyleAnimation } from "../../../web/html/style/YStyle/YStyleAnimation/
 // styleApplyY();
 
 const styleTest = new YElementStyle({ id: 'test' });
-// const styleLocal = new YElementStyle({ id: 'local' });
-// const styleGlobal = new YElementStyle({ id: 'global' });
-// const stylePrivate = new YElementStyle({ id: 'private' });
+const styleLocal = new YElementStyle({ id: 'local' });
+const styleGlobal = new YElementStyle({ id: 'global' });
+const stylePrivate = new YElementStyle({ id: 'private' });
 
-// console.log(styleChange(styleTest, '.test', 'width', '10px'));
+console.log(styleChange(styleTest, '.test', 'width', '10px'));
 
-// console.log(new YStyle(styleGlobal, '~test', {
+console.log(new YStyle(styleGlobal, '~test', {
 
-//     to: {
+    to: {
 
-//         width: 22,
+        width: 22,
 
-//     },
+    },
 
-// }));
+}));
 
-// styleGlobal.append(
+styleGlobal.append(
 
-//     ['*', {
+    ['*', {
 
-//         width: 'inherit',
-//         border: 'none',
-//         height: 'inherit',
-//         margin: '0',
-//         padding: '0',
-//         outline: 'none',
-//         overflow: 'hidden',
-//         boxSizing: 'border-box',
-//         fontFamily: '\'Courier New\', Courier, monospace',
+        width: 'inherit',
+        border: 'none',
+        height: 'inherit',
+        margin: '0',
+        padding: '0',
+        outline: 'none',
+        overflow: 'hidden',
+        boxSizing: 'border-box',
+        fontFamily: '\'Courier New\', Courier, monospace',
 
-//     }],
-//     ['body', {
+    }],
+    ['body', {
 
-//         width: '100%',
-//         height: '100%',
-//         position: 'absolute',
+        width: '100%',
+        height: '100%',
+        position: 'absolute',
 
-//     }],
+    }],
 
-//     ['.size_over', {
+    ['.size_over', {
 
-//         width: '100%',
-//         height: '100%',
+        width: '100%',
+        height: '100%',
 
-//     }],
+    }],
 
-//     ['#panel', {
+    ['#panel', {
 
-//         gridArea: 'p',
+        gridArea: 'p',
 
-//     }],
-//     ['#window', {
+    }],
+    ['#window', {
 
-//         left: '10px',
-//         top: '10px',
-//         width: '550px',
-//         height: '280px',
+        left: '10px',
+        top: '10px',
+        width: '550px',
+        height: '280px',
 
-//     }],
-//     ['#layout', {
+    }],
+    ['#layout', {
 
-//         gridTemplateAreas: new YString()
+        gridTemplateAreas: new YString()
 
-//             .changePrefix(`'`)
-//             .changePostfix(`'`)
-//             .paste(
+            .changePrefix(`'`)
+            .changePostfix(`'`)
+            .paste(
 
-//                 'l',
-//                 'l',
-//                 'l',
-//                 'i',
-//                 'p',
-//                 '.',
-//                 '.',
+                'l',
+                'l',
+                'l',
+                'i',
+                'p',
+                '.',
+                '.',
 
-//             )
-//             .get()
+            )
+            .get()
 
-//     }],
-//     ['#backdrop', {
+    }],
+    ['#backdrop', {
 
 
 
-//     }],
-//     ['#background', {
+    }],
+    ['#background', {
 
-//         backgroundImage: 'radial-gradient(at center, #7eb0df, transparent 5%), radial-gradient(at center, #7eb0df, #1d5c96)',
+        backgroundImage: 'radial-gradient(at center, #7eb0df, transparent 5%), radial-gradient(at center, #7eb0df, #1d5c96)',
 
-//     }],
+    }],
 
-//     ['.panel', {
+    ['.panel', {
 
-//         height: 'fixed',
-//         display: 'flex',
-//         flexWrap: 'wrap',
-//         paddingInline: '0.5em',
-//         justifyContent: 'center',
+        height: 'fixed',
+        display: 'flex',
+        flexWrap: 'wrap',
+        paddingInline: '0.5em',
+        justifyContent: 'center',
 
-//     }, '.size_over'],
-//     ['.panel_item', {
+    }, '.size_over'],
+    ['.panel_item', {
 
-//         width: '25%',
-//         height: 'auto',
-//         maxHeight: '100%',
+        width: '25%',
+        height: 'auto',
+        maxHeight: '100%',
 
-//     }],
-//     ['.layout', {
+    }],
+    ['.layout', {
 
-//         top: `50%`,
-//         left: `50%`,
-//         width: '98%',
-//         height: '85%',
-//         zIndex: 1,
-//         display: `grid`,
-//         position: 'absolute',
-//         boxShadow: 'inset 0px 0px 0.5em #000',
-//         transform: `translate(-50%, -43%)`,
-//         borderRadius: `5px`,
-//         backgroundColor: '#12293f',
+        top: `50%`,
+        left: `50%`,
+        width: '98%',
+        height: '85%',
+        zIndex: 1,
+        display: `grid`,
+        position: 'absolute',
+        boxShadow: 'inset 0px 0px 0.5em #000',
+        transform: `translate(-50%, -43%)`,
+        borderRadius: `5px`,
+        backgroundColor: '#12293f',
 
-//     }],
-//     ['.window', {
+    }],
+    ['.window', {
 
-//         position: 'absolute',
-//         borderRadius: '5px',
+        position: 'absolute',
+        borderRadius: '5px',
 
-//     }],
-//     ['.backdrop', {
+    }],
+    ['.backdrop', {
 
-//         position: 'absolute',
-//         backgroundColor: `#01315e`,
+        position: 'absolute',
+        backgroundColor: `#01315e`,
 
-//     }],
+    }],
 
-//     ['.panel_item:hover', {
+    ['.panel_item:hover', {
 
-//         background: '#74ace1',
+        background: '#74ace1',
 
-//     }],
+    }],
 
-//     ['~animation', {
+    ['~animation', {
 
-//         to: {
+        to: {
 
 
 
-//         },
+        },
 
-//     }],
+    }],
 
-// );
+);
 
-// new YElement(new YString()
+new YElement(new YString()
 
-//     .paste(`
+    .paste(`
 
-//         !div #background ^!body] <
-//             !div #window .window] <
-//                 !div #backdrop .backdrop] <
-//                     !h3 #header /
-//                     !div #layout .layout] <
-//                         !div #panel .panel] <
-//                             !button #button .button panel_item] text=Кнопка type=button /
-//                         > /
-//                     > /
-//                 > /
-//             > /
-//         > /
+        !div #background ^!body] <
+            !div #window .window] <
+                !div #backdrop .backdrop] <
+                    !h3 #header /
+                    !div #layout .layout] <
+                        !div #panel .panel] <
+                            !button #button .button panel_item] text=Кнопка type=button /
+                        > /
+                    > /
+                > /
+            > /
+        > /
 
-//     `)
-//     .get()
+    `)
+    .get()
 
-// );
-
-// console.log(styleGlobal.get(`~animation`));
-
-// console.log(`
-
-//     @keyframes recolor {
-
-//         from {
-
-//         }
-//         to {
-
-//         }
-
-//     }
-//     @keyframes rotate {
-
-//         10% {
-
-//         }
-//         from {
-
-//         }
-//         to {
-
-//         }
-
-//     }
-
-
-// `.match(/@keyframes \w+ {[^@]*/gms));
+);

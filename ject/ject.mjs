@@ -1,5 +1,7 @@
-// import { arrayRemoveByElement } from "../array/array.mjs";
-// import { config, configNotice } from "../config.mjs";
+import { config } from "../config.mjs";
+import { stringFind } from "../string/string.mjs";
+import { arrayRemoveByElement } from "../array/array.mjs";
+import { YBasic } from "./YBasic/YBasic.mjs";
 
 //#region fill 0.1.0
 
@@ -479,7 +481,7 @@ function getByPathComply(t) {
         const p = properties.pop();
 
         if (p.includes('.')) properties.push(...p.split('.').filter(p => p).reverse());
-        else r = r[p];
+        else r = p.includes('(') ? r[stringFind(p, /[^\(\)]+/)]() : r[p];
 
     };
 
@@ -1170,6 +1172,91 @@ function supplementDeepComply(t) {
 export function jectSupplementDeep(ject, ...supplementDeeps) {
 
     supplementDeepDeceit({ ject, supplementDeeps });
+
+};
+
+//#endregion
+
+//#region getInheritance 0.0.0
+
+/**
+ * @typedef TBgetInheritance
+ * @prop {any} ject
+ * @typedef {TBgetInheritance} TgetInheritance
+*/
+
+/** @arg {TgetInheritance} t */
+function getInheritanceDeceit(t) {
+
+    try {
+
+        return getInheritanceVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @arg {TgetInheritance} t */
+function getInheritanceVerify(t) {
+
+
+
+    return getInheritanceHandle(t);
+
+};
+/** @arg {TgetInheritance} t */
+function getInheritanceHandle(t) {
+
+
+
+    return getInheritanceComply(t);
+
+};
+/** @arg {TgetInheritance} t */
+function getInheritanceComply(t) {
+
+    let ject = t.ject.constructor;
+
+    const results = [];
+    const limit = Object.getPrototypeOf(Object);
+
+    while (ject !== limit) {
+
+        results.push(ject);
+
+        ject = Object.getPrototypeOf(ject);
+
+    };
+
+    return results;
+
+};
+
+/**
+ * Метод получения линии наследования для указанного объекта.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @arg {any} ject Исходный объект.
+*/
+export function jectGetInheritance(ject) {
+
+    return getInheritanceDeceit({ ject, });
+
+};
+/**
+ * Метод получения линии наследования для указанного объекта со всеми `S` звеньями.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @arg {any} ject Исходный объект.
+*/
+export function jectGetInheritanceYS(ject) {
+
+    return getInheritanceDeceit({ ject, }).filter(c => c.prototype instanceof YBasic && c.name[0] === 'S');
 
 };
 

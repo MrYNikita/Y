@@ -1,13 +1,17 @@
-import { arrayRemoveByElement, arrayUnique } from "../../array/array.mjs";
+import { YBasic } from "../../ject/YBasic/YBasic.mjs";
 import { jectFill } from "../../ject/ject.mjs";
+import { stringShield } from "../../string/string.mjs";
+import { arrayRemoveByElement, arrayUnique } from "../../array/array.mjs";
+import { regexpInsert } from "../regexp.mjs";
 
 /**
  * @typedef TBRegExp
  * @prop {string} flags
+ * @prop {string[]} inserts
  * @typedef {DRegExp&TBRegExp} TRegExp
 */
 
-class SRegExp {
+class SRegExp extends YBasic {
 
     static flags = 'gimsuy';
 
@@ -83,7 +87,7 @@ class FRegExp extends MRegExp {
 
             switch (t.length) {
 
-                case 3:
+                default: r.inserts = t.slice(2);
                 case 2: r.flags = t[1];
                 case 1: r.value = t[0];
 
@@ -127,8 +131,10 @@ class FRegExp extends MRegExp {
 
         if (t.value instanceof YRegExp) t.value = t.value.get();
         if (t.value instanceof RegExp) t.flags += t.value.flags ?? '';
+        if (t.value.constructor === String) t.value = new RegExp(t.value);
 
         if (t.flags) t.flags = YRegExp.correctFlags(t.flags);
+        if (t.inserts) t.value = regexpInsert(t.value, ...t.inserts);
 
     };
     /** @arg {TRegExp} t @this {YRegExp} */

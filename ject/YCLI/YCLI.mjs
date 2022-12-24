@@ -3,6 +3,7 @@ import { YJect } from "../YJect/YJect.mjs";
 import { emitKeypressEvents, createInterface } from "readline";
 import { YString } from "../../string/YString/YString.mjs";
 import { stringAppend, stringCastToSample, stringPaste, stringRemove, stringRepaint } from "../../string/string.mjs";
+import { YRept } from "../YBasic/YRept/YRept.mjs";
 
 /**
  * @typedef TBCLI
@@ -18,6 +19,16 @@ class SCLI extends YJect {
         emitKeypressEvents(process.stdin);
 
     };
+
+    static rept = new YRept()
+
+        .chain(Object.getPrototypeOf(SCLI).rept)
+        .append(_ => new YString()
+
+
+            .get()
+
+        , 'f', 'Данные')
 
 };
 class DCLI extends SCLI {
@@ -47,7 +58,7 @@ class ICLI extends DCLI {
         /** @this {YCLI} */
         yc() {
 
-            this.store.set('');
+            this.store.set();
 
         },
 
@@ -199,7 +210,7 @@ export class YCLI extends FCLI {
                     }; break;
                     case '\x19': {
 
-                        this.exec.apply(this, [this.command.get()]);
+                        this.exec(this.command.get());
                         this.record('>', this.command.get(true));
                         this.store.paste(this.command.get(true));
                         this.command.set('');
@@ -248,9 +259,9 @@ export class YCLI extends FCLI {
 
                         y.cursors.forEach(c => {
 
-                            if (c.index <= y.value.length - 1) {
+                            if (c.index <= y.values.length - 1) {
 
-                                y.value = stringPaste(y.value, stringRepaint(y.value[c.index], 'c', 0, 1), c.index, 1);
+                                y.values = stringPaste(y.values, stringRepaint(y.values[c.index], 'c', 0, 1), c.index, 1);
 
                             };
 
@@ -284,7 +295,7 @@ export class YCLI extends FCLI {
     */
     exec(command) {
 
-        this.instructions?.[command]?.();
+        this.instructions?.[command]?.apply?.(this);
 
         return this;
 

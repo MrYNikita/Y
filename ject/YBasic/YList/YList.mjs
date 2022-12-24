@@ -78,7 +78,7 @@ class FList extends MList {
 
                         r.values = new Array(t[0]);
 
-                    } else r.values = [t[0], ...r.values];
+                    } else r.values = [t[0], ...r.values ?? ''];
 
                 };
 

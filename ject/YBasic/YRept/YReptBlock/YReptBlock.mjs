@@ -1,3 +1,4 @@
+import { YBasic } from "../../YBasic.mjs";
 import { jectFill } from "../../../ject.mjs";
 
 /**
@@ -6,7 +7,7 @@ import { jectFill } from "../../../ject.mjs";
  * @typedef {DReptBlock&TBReptBlock} TReptBlock
 */
 
-class SReptBlock {
+class SReptBlock extends YBasic {
 
 
 
@@ -19,18 +20,16 @@ class DReptBlock extends SReptBlock {
      * Тегом можно обозначить принадлежность блока к определенной группе.
      * В последствии по тегам можно оказывать влияние на целые группы блоков.
      *
-     * - По умолчанию `[]`
-     *
-     * @type {Array<string>}
+     * @type {string[]}
     */
     tags = [];
     /**
      * Текст.
      *
      * Хранит содержимое блока в виде текста или функции, возвращающей строку.
-     * @type {string|function():string}
+     * @type {Array<string|function():string>}
     */
-    text;
+    text = [];
     /**
      * Метка.
      *
@@ -54,7 +53,12 @@ class IReptBlock extends DReptBlock {
 
 
 };
-class FReptBlock extends IReptBlock {
+class MReptBlock extends IReptBlock {
+
+
+
+};
+class FReptBlock extends MReptBlock {
 
     /**
      * Контсруктор класса `YReptBlock`
@@ -74,24 +78,24 @@ class FReptBlock extends IReptBlock {
 
     };
 
-    /** @arg {Array<any>} t */
+    /** @arg {any[]} t */
     static #before(t) {
 
-        if (t?.length === 1 && t[0]?.constructor === Object) {
+        if (t?.length === 1 && [Object, YReptBlock].includes(t[0]?.constructor)) {
 
             return t[0];
 
         } else if (t?.length) {
 
-            /** @type {TReptBlock} */
+            /** @type {TReptBlock&DReptBlock} */
             const r = {};
 
             switch (t.length) {
 
-                case 4: r.tags = t[3];
-                case 3: r.label = t[2];
+                case 4: r.text = t[3];
+                case 3: r.tags = t[2];
                 case 2: r.priority = t[1];
-                case 1: r.text = t[0];
+                case 1: r.label = t[0];
 
             };
 
@@ -129,19 +133,7 @@ class FReptBlock extends IReptBlock {
     /** @arg {TReptBlock} t @this {YReptBlock} */
     static #handle(t) {
 
-        let {
-
-
-
-        } = t;
-
-
-
-        t = {
-
-            ...t,
-
-        };
+        if (t.tags.constructor === String) t.tags = t.tags.split(',');
 
     };
     /** @arg {TReptBlock} t @this {YReptBlock} */
@@ -160,19 +152,17 @@ class FReptBlock extends IReptBlock {
     };
 
 };
-class MReptBlock extends FReptBlock {
-
-
-
-};
 
 /**
+ * Класс `YReptBlock`
  *
- * - Тип `SDIFMY-1.0`
- * - Версия `0.0.0`
+ *
+ * - Тип `SDIMFY`
+ * - Версия `0.1.0`
+ * - Модуль `ject.basic`
  * - Цепочка `BDVHC`
 */
-export class YReptBlock extends MReptBlock {
+export class YReptBlock extends FReptBlock {
 
 
 

@@ -993,7 +993,8 @@ export function arrayCountSignificant(array) {
 
 /**
  * @typedef TBgetRandomElement
- * @prop {[any]} array
+ * @prop {any[]} array
+ * @prop {number} limit
  * @typedef {TBgetRandomElement} TgetRandomElement
 */
 
@@ -1052,7 +1053,27 @@ function getRandomElementComply(t) {
 
     } = t;
 
-    return array[numberGetRandomReal(0, array.length - 1)];
+    let limit = t.limit;
+
+    if (limit === 1) return [array[numberGetRandomReal(0, array.length - 1)]];
+
+    const a = array.slice();
+
+    if (limit > 1 && limit < array.length - 1) {
+
+        limit = a.length - limit;
+
+        while (limit) {
+
+            a.splice(numberGetRandomReal(0, a.length - 1), 1);
+
+            limit--;
+
+        };
+
+    } else if (limit === array.length - 1) a.splice(numberGetRandomReal(0, a.length - 1), 1);
+
+    return a;
 
 };
 
@@ -1065,7 +1086,19 @@ function getRandomElementComply(t) {
 */
 export function arrayGetRandomElement(array) {
 
-    return getRandomElementDeceit({ array });
+    return getRandomElementDeceit({ array, limit: 1, })[0];
+
+};
+/**
+ * Функция для получения множества случайных элементов из исходного массива.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @arg {any[]} array Исходный массив.
+ * @arg {number} limit Количество элементов.
+*/
+export function arrayGetRandomElementMany(array, limit) {
+
+    return getRandomElementDeceit({ array, limit, });
 
 };
 

@@ -1,5 +1,6 @@
 import { configYRept } from "../../../config.mjs";
-import { stringFind, stringReplaceAll } from "../../../string/string.mjs";
+import { YRegExp } from "../../../regexp/YRegExp/YRegExp.mjs";
+import { stringFind, stringFindAll, stringReplace, stringReplaceAll } from "../../../string/string.mjs";
 import { YString } from "../../../string/YString/YString.mjs";
 import { jectFill, jectGetByPath } from "../../ject.mjs";
 import { YBasic } from "../../YBasic/YBasic.mjs";
@@ -150,6 +151,18 @@ class FRept extends MRept {
 export class YRept extends FRept {
 
     /**
+     * Метод выполнения инструкций в контексте данного экземпляра.
+     * - Версия `0.0.0`
+     * @arg {function(YRept):void} f
+    */
+    exec(f) {
+
+        f(this);
+
+        return this;
+
+    };
+    /**
      * Метод для сцепления отчетов.
      * Сцепление позволяет объединять уникальные блоки указанных отчетов с данным для получения единого общего отчета.
      * - Версия `0.0.0`
@@ -157,7 +170,7 @@ export class YRept extends FRept {
     */
     chain(...reports) {
 
-        reports.forEach(r => r.blocks.forEach(b => this.append(b.text, b.priority, b.label, ...b.tags)));
+        reports.filter(f => f instanceof YRept).forEach(r => r.blocks.forEach(b => this.append(b.label, b.priority, b.tags, ...b.text)));
 
         return this;
 
@@ -177,9 +190,9 @@ export class YRept extends FRept {
      * `l` - в полной форме `last` сделает данный блок последним среди всех указанных, указав ему минимальный приоритет.
      * `f` - в полной форме `first` сделает данный блок первым среди всех указанных, указав ему максимальный приоритет.
      * - По умолчанию `0`
-     * @arg {...string} tags Теги.
+     * @arg {string} tags Теги.
     */
-    append(text, priority = 0, label, ...tags) {
+    append(label, priority = 0, tags, ...text) {
 
         if (!text) return this;
 
@@ -192,7 +205,7 @@ export class YRept extends FRept {
 
         if (label && !this.blocks.find(b => b.label === label) || !label) {
 
-            this.blocks.push(new YReptBlock(text, priority, label, tags));
+            this.blocks.push(new YReptBlock(label, priority, tags, text));
             this.blocks = this.blocks.sort((p, c) => p.priority - c.priority);
 
         };
@@ -260,21 +273,24 @@ export class YRept extends FRept {
 
         new YString()
 
-            .paste(configYRept.start)
-            .changePostfix(configYRept.postfix)
-            .paste(
+        .paste(configYRept.start)
+        .changePostfix(configYRept.postfix)
+        .paste(
 
-                ...this.blocks.map(b => new YString()
+            ...this.blocks.map(b => new YString()
 
                     .pasteTemplate('lh', ['h', b.label])
                     .exec(y => {
 
-                        b.text = b.text instanceof Function ? b.text() : b.text;
+                        b.text.forEach(t => {
 
-                        const f = stringFind(b.text, /yt\.(?<f>(\w|_|\.)+)/);
+                            t = t instanceof Function ? t(this.target) : t;
 
-                        if (f) y.paste(stringReplaceAll(b.text, jectGetByPath(this.target, f) ?? `!YX`, `yt.${f}`));
-                        else y.paste(b.text);
+                            stringFindAll(t, /yt\.(?<f>(\w|_|\.|\(|\))+)/).forEach(f => t = stringReplaceAll(t, jectGetByPath(this.target, f) ?? `!YX`, `yt.${f}`));
+
+                            y.paste(`${t}\n`);
+
+                        });
 
                     })
 

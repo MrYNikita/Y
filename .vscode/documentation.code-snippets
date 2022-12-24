@@ -8,6 +8,15 @@
 		"prefix": "#docType",
 		"description": "Создание типизатора js doc."
 	},
+    "arg": {
+        "body": [
+			"/** @arg {$1} $2 */",
+			"$0"
+		],
+		"scope": "javascript",
+		"prefix": "#docArg",
+		"description": "Создание типизатора JSDoc для аргументов."
+    },
 	"field": {
 		"body": [
 			"/**",

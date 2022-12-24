@@ -160,6 +160,15 @@ class FArray extends MArray {
 export class YArray extends FArray {
 
     /**
+     * Метод получения массива без обертки.
+     * - Версия `0.0.0`
+    */
+    get() {
+
+        return this.values;
+
+    };
+    /**
      * Метод создания объема для указанных элементов массива.
      *
      * Если указано одно значение, то оно будет применено для всех элементов массива.
@@ -195,6 +204,18 @@ export class YArray extends FArray {
     level(...levels) {
 
         this.values = arrayLevel(this.values, ...levels);
+
+        return this;
+
+    };
+    /**
+     * Метод заполнения массива.
+     * - Версия `0.0.0`
+     * @arg {any} filler
+    */
+    fill(filler) {
+
+        this.values.fill(filler);
 
         return this;
 

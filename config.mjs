@@ -318,6 +318,11 @@ export const configYNumber = {
 export const configString = {
 
     /**
+     * Стиль Y строк.
+     * @type {string}
+    */
+    style: 'classic',
+    /**
      * Строка табуляции.
      *
      * Определяет строку табуляции.
@@ -325,6 +330,41 @@ export const configString = {
     */
     tabValue: ' '.repeat(4),
 
+    styles: {
+
+        classic: {
+
+            colorF: ['c', 0, 0],
+            colorB: ['b', 0, 1],
+
+        },
+        vampire: {
+
+            colorF: ['r', 0, 0],
+            colorB: ['bl', 0, 1],
+
+        },
+
+    },
+
+    insert: {
+
+        /**
+         * Разделитель.
+         *
+         * Определяет знак-разделитель для разбиения строки вставки на значения вставки.
+         * @type {string}
+        */
+        delimiter: '-',
+        /**
+         * Значение по умолчанию.
+         *
+         * Определяет значение, которое будет использоваться для тех вставок, в которых не было указанно значение замещения.
+         * @type {string}
+        */
+        defaultValue: '',
+
+    },
     castToDate: {
 
         ru: '<d>.<m>.<y>-<hh>:<mm>:<ss>',
@@ -375,7 +415,11 @@ export const configYString = {
 
 export const configRegExp = {
 
-
+    /**
+     * Флаги регулярных выражений.
+     * @type {'gimsuy'}
+    */
+    flags: 'gimsuy',
 
 };
 export const configYRegExp = {

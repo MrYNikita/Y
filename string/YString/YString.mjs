@@ -1,10 +1,8 @@
-import { ReadStream, WriteStream } from "fs";
 import { arrayDevideByLimit } from "../../array/array.mjs";
 import { configString, configYString } from "../../config.mjs";
 import { jectFill } from "../../ject/ject.mjs";
 import { YList } from "../../ject/YBasic/YList/YList.mjs";
-import { YCursor } from "../../ject/YCursor/YCursor.mjs";
-import { stringAppend, stringBring, stringCastToJect, stringCastToSample, stringCastToYReport, stringFilter, stringFind, stringFindAll, stringFindToJect, stringGetColor, stringHandle, stringPad, stringPaste, stringReflect, stringRemove, stringRepaint, stringReplace, stringReplaceAllMore, stringReplaceMore, stringReverse } from "../string.mjs";
+import { stringBring, stringCastToJect, stringCastToSample, stringCastToYReport, stringFilter, stringFind, stringFindAll, stringFindToJect, stringGetColor, stringHandle, stringPad, stringPaste, stringReflect, stringRemove, stringRepaint, stringReplace, stringReplaceAllMore, stringReplaceMore, stringReverse } from "../string.mjs";
 import { YTemplate } from "./YTemplate/YTemplate.mjs";
 
 /**
@@ -232,10 +230,10 @@ export class YString extends FString {
      * - Версия `0.0.0`
      * @arg {string} string
     */
-    set(string) {
+    set(string = '') {
 
         this.values = string;
-        this.changeCursorPositionTo(this.values.length);
+        this.setCursorTo(this.values.length);
 
         return this;
 
@@ -267,7 +265,7 @@ export class YString extends FString {
 
             this.values = stringFind(this.values, ...fragments) ?? '';
 
-            this.changeCursorPositionTo(this.values.length);
+            this.setCursorTo(this.values.length);
 
         };
 

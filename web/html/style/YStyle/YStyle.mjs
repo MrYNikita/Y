@@ -1,9 +1,11 @@
 import { YString } from "../../../../string/YString/YString.mjs";
 import { jectFill } from "../../../../ject/ject.mjs";
 import { YElementStyle } from "../../element/YElement/YElementStyle/YElementStyle.mjs";
-import { stringConvertCamelCaseToDelimetr, stringFind, stringHandle, stringReplace } from "../../../../string/string.mjs";
+import { stringFind, stringReplace, stringShield } from "../../../../string/string.mjs";
 import { YStyleSet } from "./YStyleSet/YStyleSet.mjs";
 import { YJect } from "../../../../ject/YJect/YJect.mjs";
+import { YRegExp } from "../../../../regexp/YRegExp/YRegExp.mjs";
+import { regexpCastFromString } from "../../../../regexp/regexp.mjs";
 
 /**
  * @typedef TBStyle
@@ -48,7 +50,6 @@ class DStyle extends SStyle {
 };
 class IStyle extends DStyle {
 
-
     /**
      * Проекции.
      *
@@ -57,8 +58,14 @@ class IStyle extends DStyle {
      * @type {Array<YStyle>}
     */
     projections = [];
+
 };
-class FStyle extends IStyle {
+class MStyle extends IStyle {
+
+
+
+};
+class FStyle extends MStyle {
 
     /**
      * Контсруктор класса `YStyle`
@@ -78,16 +85,16 @@ class FStyle extends IStyle {
 
     };
 
-    /** @arg {Array<any>} t */
+    /** @arg {any[]} t */
     static #before(t) {
 
-        if (t?.length === 1 && t[0]?.constructor === Object) {
+        if (t?.length === 1 && [Object, YStyle].includes(t[0]?.constructor)) {
 
             return t[0];
 
         } else if (t?.length) {
 
-            /** @type {TStyle} */
+            /** @type {TStyle&DStyle} */
             const r = {};
 
             switch (t.length) {
@@ -165,21 +172,17 @@ class FStyle extends IStyle {
     };
 
 };
-class MStyle extends FStyle {
-
-
-
-};
 
 /**
- * Класс `YStyle`.
+ * Класс `YStyle`
  *
  * Данный класс предназначен для работы со стилями.
- * - Тип `SDIFMY-1.0`
+ * - Тип `SDIMFY`
  * - Версия `0.0.0`
+ * - Модуль `web.html`
  * - Цепочка `BDVHC`
 */
-export class YStyle extends MStyle {
+export class YStyle extends FStyle {
 
     /**
      * Метод получения стиля в виде объекта.
@@ -204,6 +207,7 @@ export class YStyle extends MStyle {
     };
     /**
      * Метод изменения свойства стиля.
+     * - Версия `0.1.0`
      * @arg {CSSStyleDeclaration} set Набор `YSet`'ов или объект с описанием свойств.
     */
     change(set) {
@@ -214,38 +218,29 @@ export class YStyle extends MStyle {
 
         } = this;
 
-        const label = this.label === '*' ? '\\*' : this.label[0] === '.' ? '\\.' + this.label.slice(1) : this.label;
+        const label = stringShield(this.label);
 
         if (set) Object.entries(set).forEach(p => {
 
             const s = new YStyleSet(...p);
 
-            const {
+            const ystr = new YString(stringFind(tabel.element.innerText, new RegExp(`${label} ?\\{.*?\\}`)) ?? '');
 
-                value,
-                property,
+            if (ystr.copy().find(s.property + new RegExp(':.*?;')).get()) {
 
-            } = s;
+                if (!s.value) ystr.replace([``, s.property + `:.*?;`]);
+                else ystr.replace([`${s.property}:${s.value};`, s.property + `:.*?;`]);
 
+            } else if (s.value) {
 
-            const ystr = new YString(stringFind(tabel.element.innerText, `${label} ?{.*?}`));
-
-            if (ystr.copy().find(property + ':.*?;').get()) {
-
-                if (!value) ystr.replace([``, property + `:.*?;`]);
-                else ystr.replace([`${property}:${value};`, property + `:.*?;`]);
-
-            } else if (value) {
-
-                if (value instanceof Object) {
+                if (s.value instanceof Object) {
 
 
-
-                } else ystr.replace([`${property}:${value};}`, /}/]);
+                } else ystr.replace([`${s.property}:${s.value};}`, /\}/]);
 
             };
 
-            tabel.element.innerText = stringReplace(tabel.element.innerText, ystr.get(), label + ' ?{.*?}');
+            tabel.element.innerText = stringReplace(tabel.element.innerText, ystr.get(), new RegExp(label + ' ?\\{.*?\\}'));
 
             this.projections.forEach(s => s.change(set));
 

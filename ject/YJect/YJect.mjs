@@ -1,9 +1,13 @@
-import { configJect, configYJect, configYLog, configYRept } from "../../config.mjs";
+import { arrayUnique } from "../../array/array.mjs";
+import { configYJect } from "../../config.mjs";
 import { YDate } from "../../date/YDate/YDate.mjs";
 import { YLog } from "../../log/YLog/YLog.mjs";
-import { jectFill } from "../ject.mjs";
+import { stringCastToDate } from "../../string/string.mjs";
+import { YString } from "../../string/YString/YString.mjs";
+import { jectFill, jectGetInheritance, jectGetInheritanceYS } from "../ject.mjs";
 import { YBasic } from "../YBasic/YBasic.mjs";
 import { YRept } from "../YBasic/YRept/YRept.mjs";
+import { YReptBlock } from "../YBasic/YRept/YReptBlock/YReptBlock.mjs";
 
 /**
  * @typedef TBJect
@@ -14,12 +18,55 @@ import { YRept } from "../YBasic/YRept/YRept.mjs";
 class SJect extends YBasic {
 
     /**
-     * Общедоступный отчет.
-     * @type {YRept}
+     * Общедоступные блоки отчета.
+     * @type {[string|function():void,number|"f"|"l",string][]}
     */
-    static rept = new YRept()
+    static reportBlocks = [
 
-        .append(`Класс: <cl>`, 'f', 'Метаданные');
+        ['Метаданные', 'f', '', [
+
+            /** @arg {YJect} y */
+            y => new YString()
+
+                .changePostfix(';\n')
+                .paste(
+
+                    `Класс: ${y.constructor.name}`,
+                    `Дата: ${y.date.getString()}`,
+                    `Дата отчета: ${stringCastToDate(new Date())}`
+
+                )
+                .get(),
+
+        ]],
+        ['Журнал', 'f', '', [
+
+            /** @arg {YJect} y */
+            y => new YString()
+
+                .changePostfix(';\n')
+                .paste(
+
+                    `Видимость: ${y.log.vis}`,
+                    `Секций: ${y.log.list.length}`,
+                    `Записей: ${y.log.list.reduce((p, c) => p + c.list.length, 0)}`,
+
+                )
+                .changePostfix()
+                .pasteTemplate('lh', ['h', ''])
+                .changePostfix('\n')
+                .exec(ys => {
+
+                    const l = y.log.getVisiable();
+
+                    ys.paste(...new Array(y.log.vis).fill('-').map((_, i) => `${(i + 1).toString().padStart(2, 0)}. ` + (l[i] ?? '-')));
+
+                })
+                .get(),
+
+        ]],
+
+    ];
 
 };
 class DJect extends SJect {
@@ -153,7 +200,7 @@ class FJect extends MJect {
  *
  * Базовый класс `YModules`, наследуемый прочими классами модулей.
  * - Тип `SDIMFY`
- * - Версия `0.0.0`
+ * - Версия `0.1.0`
  * - Цепочка `BDVHC`
 */
 export class YJect extends FJect {
@@ -180,7 +227,11 @@ export class YJect extends FJect {
     */
     report() {
 
-        this.rept.display();
+        const yrept = new YRept(this);
+
+        jectGetInheritance(this).filter(c => c ? Object.getOwnPropertyDescriptor(c, 'reportBlocks') : false).reverse().map(c => c.reportBlocks).filter(b => b.length).flat().forEach(b => yrept.append(...b.flat()));
+
+        yrept.chain(this.rept).display();
 
         return this;
 
@@ -200,13 +251,46 @@ export class YJect extends FJect {
      * `l` - в полной форме `last` сделает данный блок последним среди всех указанных, указав ему минимальный приоритет.
      * `f` - в полной форме `first` сделает данный блок первым среди всех указанных, указав ему максимальный приоритет.
      * - По умолчанию `0`
-     * @param {...string} tags Теги.
+     * @param {string} tags Теги.
     */
-    appendReport(text, priority, label, ...tags) {
+    appendReport(label, priority, tags, ...text) {
 
-        this.rept.append(text, priority, label, ...tags);
+        this.rept.append(label, priority, tags, ...text);
 
         return this;
+
+    };
+    /**
+     *
+     * - Версия `0.0.0`
+     *
+    */
+    changeReport() {
+
+
+
+    };
+    /**
+     * Метод добавления новых данных в строки существующего блока отчета.
+     * Добавление не произойдет, если указанный блок не будет найден.
+     * - Версия `0.0.0`
+     *
+    */
+    appendReportBlock(text, label) {
+
+        // this.rept.blocks.find(b => b.label === label).
+
+        return this;
+
+    };
+    /**
+     *
+     * - Версия `0.0.0`
+     *
+    */
+    changeReportBlock() {
+
+
 
     };
 

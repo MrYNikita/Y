@@ -2,11 +2,10 @@ import { YString } from "../../../string/YString/YString.mjs";
 import { YElement } from "../../../web/html/element/YElement/YElement.mjs";
 import { YElementStyle } from "../../../web/html/element/YElement/YElementStyle/YElementStyle.mjs";
 
-const styleGlobal = new YElementStyle().append(
+const yesg = new YElementStyle({ id: 'global' }).append(
 
     ['*', {
 
-        color: '#fff',
         width: 'inherit',
         border: 'none',
         height: 'inherit',
@@ -20,22 +19,55 @@ const styleGlobal = new YElementStyle().append(
     }],
     ['body', {
 
-        width: '100%',
-        height: '100%',
-        position: 'absolute',
-
-    }],
-    ['html', {
-
-        width: '24rem',
-        height: '36rem',
+        width: '380px',
+        height: '550px',
 
     }],
 
+    ['.window', {
+
+        borderRadius: '5px',
+
+    }],
     ['.size_over', {
 
         width: '100%',
         height: '100%',
+
+    }],
+    ['.backdrop', {
+
+        position: 'absolute',
+        backgroundColor: `#01315e`,
+
+    }],
+    ['.panel', {
+
+        height: 'fixed',
+        display: 'flex',
+        flexWrap: 'wrap',
+        paddingInline: '0.5em',
+        justifyContent: 'center',
+
+    }],
+    ['.panel_item:hover', {
+
+        background: '#74ace1',
+
+    }],
+    ['.layout', {
+
+        top: `50%`,
+        left: `50%`,
+        width: '98%',
+        height: '85%',
+        zIndex: 1,
+        display: `grid`,
+        position: 'absolute',
+        boxShadow: 'inset 0px 0px 0.5em #000',
+        transform: `translate(-50%, -43%)`,
+        borderRadius: `5px`,
+        backgroundColor: '#12293f',
 
     }],
 
@@ -44,18 +76,8 @@ const styleGlobal = new YElementStyle().append(
         gridArea: 'p',
 
     }],
-    ['#window', {
-
-        width: '98%',
-        height: '98%',
-
-    }],
     ['#layout', {
 
-        top: `-55%`,
-        left: `50%`,
-        width: '98%',
-        height: '85%',
         gridTemplateAreas: new YString()
 
             .changePrefix(`'`)
@@ -74,102 +96,26 @@ const styleGlobal = new YElementStyle().append(
             .get()
 
     }],
-    ['#header', {
-
-        width: '5rem',
-        height: '2rem',
-        zIndex: 1,
-        position: 'absolute',
-        textAlign: 'center',
-        borderRadius: '5px',
-        backgroundColor: '#12293f',
-
-
-    }],
-    ['#backdrop', {
-
-
-
-    }],
     ['#background', {
 
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
         backgroundImage: 'radial-gradient(at center, #7eb0df, transparent 5%), radial-gradient(at center, #7eb0df, #1d5c96)',
 
     }],
 
-    ['.panel', {
+).formatLines();
 
-        height: 'fixed',
-        display: 'flex',
-        flexWrap: 'wrap',
-        paddingInline: '0.5em',
-        justifyContent: 'center',
+const yeBackground = new YElement(`
 
-    }, '.size_over'],
-    ['.panel_item', {
-
-        width: '25%',
-        height: 'auto',
-        maxHeight: '100%',
-
-    }],
-    ['.layout', {
-
-
-        zIndex: 1,
-        display: `grid`,
-        position: 'relative',
-        boxShadow: 'inset 0px 0px 0.5em #000',
-        transform: `translate(-50%, -43%)`,
-        borderRadius: `5px`,
-        backgroundColor: '#12293f',
-
-    }],
-    ['.window', {
-
-        position: 'absolute',
-        borderRadius: '5px',
-
-    }],
-    ['.backdrop', {
-
-        width: '100%',
-        height: '100%',
-        position: 'relative',
-        backgroundColor: `#01315e`,
-
-    }],
-
-    ['.panel_item:hover', {
-
-        background: '#74ace1',
-
-    }],
-
-);
-
-new YElement(new YString()
-
-    .paste(`
-
-        !div #background ^!body] <
-            !div #window .window] <
-                !div #header <
-                    !h3 :Заголовок: /
-                > /
-                !div #backdrop .backdrop] /
+    !div #background .size_over] ^!body] <
+        !div #window .size_over] <
+            !div #backdrop .backdrop size_over] <
                 !div #layout .layout] <
                     !div #panel .panel] <
-
+                        !button #button .button panel_item] text=Поиск_с_ожиданием type=button title=Функция_поиска_элемента_с_ожиданием_по_указанному_таймингу /
                     > /
                 > /
             > /
         > /
+    > /
 
-    `)
-    .get()
-
-);
+`);

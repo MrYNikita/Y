@@ -1,5 +1,6 @@
 import { jectFill } from "../../ject/ject.mjs";
 import { YBasic } from "../../ject/YBasic/YBasic.mjs";
+import { stringCastToDate } from "../../string/string.mjs";
 
 /**
  * @typedef TBDate
@@ -216,6 +217,16 @@ export class YDate extends FDate {
     getMilesecond() {
 
         return this.getMilesecond();
+
+    };
+
+    /**
+     * Метод получения даты в формате локали.
+     * - Версия `0.0.0`
+    */
+    getString() {
+
+        return stringCastToDate(this.value);
 
     };
 

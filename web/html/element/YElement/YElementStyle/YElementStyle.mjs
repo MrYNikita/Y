@@ -1,10 +1,11 @@
 import { YElement } from "../YElement.mjs";
 import { jectFill } from "../../../../../ject/ject.mjs";
-import { stringReplace } from "../../../../../string/string.mjs";
+import { stringReplace, stringReplaceAll, stringReplaceAllMore } from "../../../../../string/string.mjs";
 import { arrayRemoveByElement } from "../../../../../array/array.mjs";
 import { YStyle } from "../../../style/YStyle/YStyle.mjs";
 import { YString } from "../../../../../string/YString/YString.mjs";
 import { YStyleAnimation } from "../../../style/YStyle/YStyleAnimation/YStyleAnimation.mjs";
+import { configString } from "../../../../../config.mjs";
 
 /**
  * @typedef TBElementStyle
@@ -13,6 +14,29 @@ import { YStyleAnimation } from "../../../style/YStyle/YStyleAnimation/YStyleAni
 */
 
 class SElementStyle extends YElement {
+
+    static reportBlocks = [
+
+        [
+            /** @arg {YElementStyle} y */
+            y => new YString()
+
+                .changePostfix(';\n')
+                .paste(
+
+                    `Стилей: ${[...y.classes, ...y.commons, ...y.identificators, ...y.animations, ...y.types].length}`,
+                    `Стилей типов: ${y.types.length}`,
+                    `Стилей классов: ${y.classes.length}`,
+                    `Стилей анимаций: ${y.animations.length}`,
+                    `Стилей обыкновенных: ${y.commons.length}`,
+                    `Стилей идентификаторов: ${y.identificators.length}`,
+
+                )
+                .get()
+
+            , 'f', 'Данные'],
+
+    ];
 
     /**
      * Метод поиска элемента по `id`.
@@ -113,10 +137,10 @@ class FElementStyle extends MElementStyle {
 
     };
 
-    /** @arg {Array<any>} t */
+    /** @arg {any[]} t */
     static #before(t) {
 
-        if (t?.length === 1 && t[0]?.constructor === Object) {
+        if (t?.length === 1 && [Object, YElementStyle].includes(t[0]?.constructor)) {
 
             return t[0];
 
@@ -185,24 +209,14 @@ class FElementStyle extends MElementStyle {
 
         jectFill(this, t);
 
-        this.appendReport(_ => new YString()
 
-            .changePostfix(';\n')
-            .paste(
-
-                `Стилей: ${[this.classes, this.commons, this.identificators].reduce((p, c) => p + c.length, 0)}`,
-
-            )
-            .get()
-
-            , 'f', 'Сведения');
 
     };
 
 };
 
 /**
- * Класс элементов стиля.
+ * Класс `YElementStyle`.
  *
  * Данный класс предназначен для работы с элементом `HTMLElementStyle`.
  * Экземпляр размещается в заголовок документа.
@@ -210,7 +224,8 @@ class FElementStyle extends MElementStyle {
  * Селекторы размещенные в данном элементе сохранены для того, чтобы быстро ссылаться на их значения.
  * Все селекторы хранятся, как экземпляры `YStyle`, что позволяет изменять стили страницы через свойства данных экземпляров.
  * - Тип `SDIMFY`
- * - Версия `0.3.0`
+ * - Версия `0.0.0`
+ * - Модуль `web.html`
  * - Цепочка `BDVHC`
 */
 export class YElementStyle extends FElementStyle {
@@ -302,6 +317,29 @@ export class YElementStyle extends FElementStyle {
             s.find(s => s.label === label).change(property);
 
         };
+
+        return this;
+
+    };
+    /**
+     * Метод для форматирования таблицы в многострочный вариант.
+     * Данный вариант позволяет избежать ряда ошибок безопасности на некоторых сайтах и сервисах.
+     * Также данный вариант таблицы более удобен для изучения таблицы.
+     * - Версия `0.0.0`
+    */
+    formatLines() {
+
+        this.element.innerHTML = new YString(this.element.innerHTML)
+
+            .replaceAll(
+
+                [`;\n${configString.tabValue}`, ';'],
+                [` {\n${configString.tabValue}`, '\\{'],
+                ['}\n', '\\}'],
+                [`}`, `${configString.tabValue}\\}`],
+
+            )
+            .get();
 
         return this;
 
