@@ -21,6 +21,12 @@ class DList extends SList {
      * @protected
     */
     values = [];
+    /**
+     * Фиксированность курсоров.
+     * @protected
+     * @type {boolean}
+    */
+    cursorsFixed = false;
 
 };
 class IList extends DList {
@@ -29,7 +35,7 @@ class IList extends DList {
      * Курсоры.
      * @type {YCursor[]}
     */
-    cursors;
+    cursors = [];
 
 };
 class MList extends IList {
@@ -157,7 +163,7 @@ export class YList extends FList {
 
         this.cursors.push(...cursors.map(c => new YCursor(c)));
 
-        this.appendCursors({  })
+        this.appendCursors({})
 
         return this;
 
@@ -184,7 +190,7 @@ export class YList extends FList {
     */
     moveCursors(number) {
 
-        if (number) this.cursors.forEach(c => c.move(number));
+        if (number && !this.cursorsFixed) this.cursors.forEach(c => c.move(number));
 
         return this;
 
@@ -227,6 +233,19 @@ export class YList extends FList {
     changeCursorsSize(size) {
 
         this.cursors.forEach(c => c.changeSize(size));
+
+        return this;
+
+    };
+    /**
+     * Метод изменения фиксированности курсоров.
+     * - Версия `0.0.0`
+     * @arg {boolean} fixable
+    */
+    changeCursorFixed(fixable) {
+
+        if ([undefined, null].includes(fixable)) this.cursorsFixed = !this.cursorsFixed;
+        else if (fixable.constructor === Boolean || [0, 1].includes(fixable)) this.cursorsFixed = fixable ? true : false;
 
         return this;
 

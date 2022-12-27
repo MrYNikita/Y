@@ -63,7 +63,16 @@ class FArrayRank extends MArrayRank {
             switch (t.length) {
 
                 default: r.values = t.splice(1);
-                case 1: r.limit = t[0];
+                case 1: {
+
+                    if (t[0] instanceof Array) {
+
+                        r.limit = t[0].length;
+                        r.values = t[0];
+
+                    } else r.limit = t[0];
+
+                };
 
             };
 
@@ -101,7 +110,7 @@ class FArrayRank extends MArrayRank {
     /** @arg {TArrayRank} t @this {YArrayRank} */
     static #handle(t) {
 
-        if (t.values) t.values = arraySupplement(new Array(t.limit).fill(undefined), ...t.values.splice(0, t.limit));
+        if (t.values) t.values = arraySupplement(new Array(t.limit).fill(undefined), ...t.values);
 
     };
     /** @arg {TArrayRank} t @this {YArrayRank} */

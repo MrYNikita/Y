@@ -1,6 +1,6 @@
-import { YList } from "../../ject/YBasic/YList/YList.mjs";
 import { jectFill } from "../../ject/ject.mjs";
-import { arrayLevel } from "../array.mjs";
+import { YList } from "../../ject/YBasic/YList/YList.mjs";
+import { arrayChangeSize, arrayLevel } from "../array.mjs";
 
 /**
  * @typedef TBArray
@@ -77,11 +77,13 @@ class FArray extends MArray {
     /** @arg {any[]} t */
     static #before(t) {
 
-        if (t?.length === 1 && [Object, YArray].includes(t[0]?.constructor)) {
+        if (t?.length === 1 && [Object, YArray].includes(t[0]?.constructor) && !Object.getOwnPropertyNames(t[0], '_ytp')) {
 
             return t[0];
 
         } else if (t?.length) {
+
+            if (t[0]._ytp) t = [...t[0]._ytp];
 
             /** @type {TArray&DArray} */
             const r = {};
@@ -92,7 +94,7 @@ class FArray extends MArray {
 
             };
 
-            return r;
+            return Object.values(r).length ? r : { _ytp: t };
 
         } else return {};
 
@@ -216,6 +218,24 @@ export class YArray extends FArray {
     fill(filler) {
 
         this.values.fill(filler);
+
+        return this;
+
+    };
+
+    /**
+     * Метод изменения размера.
+     *
+     * Размер изменяет обернутое значение расширяя или уменьшая его.
+     * При увелечении размера, массив получит дополнительное пространство равное `undefined` (пустым значениям).
+     * В противном случае массив уничтожит значения и уменьшит размер.
+     * Значения незатронутые изменениями размеров останутся.
+     * - Версия `0.0.0`
+     * @arg {number} size Новый размер.
+    */
+    changeSize(size) {
+
+        arrayChangeSize(this.values, size);
 
         return this;
 

@@ -199,108 +199,6 @@ export function arrayBulk(array, ...dimension) {
 };
 
 //#endregion
-//#region level 0.0.0
-
-/**
- * @typedef TBlevel
- * @prop {any[]} array
- * @prop {number[]} levels
- * @typedef {TBlevel} Tlevel
-*/
-
-/** @arg {Tlevel} t */
-function levelDeceit(t) {
-
-    try {
-
-        return levelVerify(t);
-
-    } catch (e) {
-
-        if (config.strict) throw e;
-
-        return undefined;
-
-    };
-
-};
-/** @arg {Tlevel} t */
-function levelVerify(t) {
-
-
-
-    return levelHandle(t);
-
-};
-/** @arg {Tlevel} t */
-function levelHandle(t) {
-
-
-
-    return levelComply(t);
-
-};
-/** @arg {Tlevel} t */
-function levelComply(t) {
-
-    const {
-
-        array,
-        levels,
-
-    } = t;
-
-    for (const level of levels) {
-
-        const arrays = [array];
-
-        while (arrays.length) {
-
-            const a = arrays.pop();
-
-            for (let i = 0; i < a.length; i++) {
-
-                if (a[i] instanceof Array) arrays.push(a[i]);
-                else {
-
-                    const e = a[i];
-                    a[i] = arrayAppend(new Array(level - 1).fill(undefined));
-
-                    a[i].splice(0, 0, e);
-
-                };
-
-            };
-
-        };
-
-    };
-
-    return array;
-
-};
-
-/**
- * Функция изменения размерности массива.
- *
- * Делает исходный массив более размерным, заменяя каждый элемент
- * новым массивом указанного размера.
- *
- * Если целью функции (которой изначально являются элементы исходного массива),
- * оказываются другие массивы, то функция будет применена к их элементам и так до тех пор,
- * пока не будут найдены элементы отличные от массивов.
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * @arg {any[]} array Исходный массив.
- * @arg {...number} levels Размерности.
-*/
-export function arrayLevel(array, ...levels) {
-
-    return levelDeceit({ array, levels, });
-
-};
-
-//#endregion
 //#region paste 0.0.0
 
 /**
@@ -816,7 +714,7 @@ export function arrayRearrangeByElement(array, elementOne, elementTwo) {
 };
 
 //#endregion
-//#region supplement 0.0.0
+//#region supplement 0.0.1
 
 /**
  * @typedef TBsupplement
@@ -870,8 +768,6 @@ function supplementComply(t) {
     let ia = 0;
 
     for (const s of supplements) {
-
-        if (ia === array.length - 1) break;
 
         while (ia < array.length) {
 
@@ -1104,6 +1000,105 @@ export function arrayGetRandomElementMany(array, limit) {
 
 //#endregion
 
+//#region level 0.1.0
+
+/**
+ * @typedef TBlevel
+ * @prop {any[]} array
+ * @prop {number[]} levels
+ * @typedef {TBlevel} Tlevel
+*/
+
+/** @arg {Tlevel} t */
+function levelDeceit(t) {
+
+    try {
+
+        return levelVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @arg {Tlevel} t */
+function levelVerify(t) {
+
+
+
+    return levelHandle(t);
+
+};
+/** @arg {Tlevel} t */
+function levelHandle(t) {
+
+
+
+    return levelComply(t);
+
+};
+/** @arg {Tlevel} t */
+function levelComply(t) {
+
+    const {
+
+        array,
+        levels,
+
+    } = t;
+
+    const s = [array];
+
+    levels.slice(0, -1).forEach(l => {
+
+        const sn = [];
+
+        while(s.length) {
+
+            let a = s.pop();
+
+            arrayChangeSize(a, l);
+
+            a.forEach((_, i, a) => sn.push(a[i] = []));
+
+        };
+
+        s.push(...sn);
+
+    });
+
+    s.forEach((_, i, a) => a[i] = arrayChangeSize(a[i], levels.at(-1)));
+
+    return array;
+
+};
+
+/**
+ * Функция изменения размерности массива.
+ *
+ * Делает исходный массив более размерным, заменяя каждый элемент
+ * новым массивом указанного размера.
+ *
+ * Если целью функции (которой изначально являются элементы исходного массива),
+ * оказываются другие массивы, то функция будет применена к их элементам и так до тех пор,
+ * пока не будут найдены элементы отличные от массивов.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @arg {any[]} array Исходный массив.
+ * @arg {...number} levels Размерности.
+*/
+export function arrayLevel(array, ...levels) {
+
+    return levelDeceit({ array, levels, });
+
+};
+
+//#endregion
+
 //#region append 0.0.1
 
 /**
@@ -1273,6 +1268,79 @@ function appendMissComply(t) {
 export function arrayAppendMiss(array, ...elements) {
 
     return appendMissDeceit({ array, elements, });
+
+};
+
+//#endregion
+
+//#region changeSize 0.0.0
+
+/**
+ * @typedef TBchangeSize
+ * @prop {any[]} array
+ * @prop {number} size
+ * @typedef {TBchangeSize} TchangeSize
+*/
+
+/** @arg {TchangeSize} t */
+function changeSizeDeceit(t) {
+
+    try {
+
+        return changeSizeVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @arg {TchangeSize} t */
+function changeSizeVerify(t) {
+
+
+
+    return changeSizeHandle(t);
+
+};
+/** @arg {TchangeSize} t */
+function changeSizeHandle(t) {
+
+
+
+    return changeSizeComply(t);
+
+};
+/** @arg {TchangeSize} t */
+function changeSizeComply(t) {
+
+    const {
+
+        size,
+        array,
+
+    } = t;
+
+    if (array.length > size) array.splice(size);
+    else if (array.length < size) array.push(...new Array(size - array.length).fill(undefined));
+
+    return array;
+
+};
+
+/**
+ * Функция для изменения размера исходного массива.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @arg {any[]} array
+ * @arg {number} size
+*/
+export function arrayChangeSize(array, size) {
+
+    return changeSizeDeceit({ array, size, });
 
 };
 

@@ -66,9 +66,18 @@ export const configYJect = {
 
 };
 
-export const configYCLI = {
+export const configYTerminal = {
 
-
+    /**
+     * Размер терминала по умолчанию.
+     * @type {[number,number]}
+    */
+    sizes: [40, 20],
+    /**
+     * Символ свободного пространства.
+     * @type {string}
+    */
+    symbolSpace: 'x',
 
 };
 export const configYRept = {

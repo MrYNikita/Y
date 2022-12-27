@@ -2,7 +2,7 @@ import { arrayDevideByLimit } from "../../array/array.mjs";
 import { configString, configYString } from "../../config.mjs";
 import { jectFill } from "../../ject/ject.mjs";
 import { YList } from "../../ject/YBasic/YList/YList.mjs";
-import { stringBring, stringCastToJect, stringCastToSample, stringCastToYReport, stringFilter, stringFind, stringFindAll, stringFindToJect, stringGetColor, stringHandle, stringPad, stringPaste, stringReflect, stringRemove, stringRepaint, stringReplace, stringReplaceAllMore, stringReplaceMore, stringReverse } from "../string.mjs";
+import { stringBring, stringCastToJect, stringCastToSample, stringCastToYReport, stringFilter, stringFind, stringFindAll, stringFindToJect, stringGetColor, stringHandle, stringMesuare, stringPad, stringPaste, stringReflect, stringRemove, stringRepaint, stringReplace, stringReplaceAllMore, stringReplaceMore, stringReverse } from "../string.mjs";
 import { YTemplate } from "./YTemplate/YTemplate.mjs";
 
 /**
@@ -211,7 +211,7 @@ export class YString extends FString {
     */
     get(style) {
 
-        let r = this.values;
+        let r = stringMesuare(this.values, this.rowLength, this.rowEnd);
 
         if (style) {
 
@@ -290,11 +290,14 @@ export class YString extends FString {
 
     /**
      * Метод для повторения указанного фрагмента строки.
+     * - Версия `0.0.1`
      * @arg {number} count
     */
     repeat(count) {
 
-        this.values = this.values.repeat(count);
+        const s = this.values;
+
+        for (let i = 1; i < count; i++) this.paste(s);
 
         return this;
 
@@ -320,6 +323,30 @@ export class YString extends FString {
     replaceAll(...replaces) {
 
         if (this.values) this.values = stringReplaceAllMore(this.values, ...replaces);
+
+        return this;
+
+    };
+
+    /**
+     * Метод для перемещения курсора.
+     * - Версия `0.0.0`
+     * @arg {number} x Индекс символа.
+     *
+     * - По умолчанию `0`
+     * @arg {number?} y Индекс строки.
+     *
+     * Игнорируется, если не задан размер строки.
+     * - По умолчанию `0`
+    */
+    setCursorTo(x = 0, y = null) {
+
+        const ly = Math.floor(this.values.length / this.rowLength + this.rowEnd.length - 1) - 1;
+
+        if (this.rowLength && (x >= this.rowLength)) x = this.rowLength - 1;
+        if (this.rowLength && (y >= ly)) y = ly;
+
+        SString.prototype.setCursorTo.apply(this, [x + (y ? (y * (this.rowLength - 1 + this.rowEnd.length)): 0)]);
 
         return this;
 
@@ -368,17 +395,11 @@ export class YString extends FString {
 
             sp = sp.replace(/^.+/mg, (this.tabValue ?? this?.over?.tabValue)?.repeat(this.tabIndex ?? this?.over?.tabIndex ?? 0) + '$&');
 
-            if (this.rowLength) sp = sp.split('\n').map(r => arrayDevideByLimit(r, this.rowLength).map(r => r.join(''))).flat().join(this.rowEnd);
-
-            this.cursors.forEach(c => {
-
-                this.values = stringPaste(this.values, sp, c.index, c.size);
-
-                c.move(sp.length);
-
-            });
+            this.cursors.forEach(c => this.values = stringPaste(this.values, sp, c.index, c.size));
+            this.moveCursors(sp.length);
 
         };
+
 
         return this;
 
@@ -778,7 +799,11 @@ export class YString extends FString {
     */
     changeRowLength(length) {
 
-        this.rowLength = length;
+        if (length.constructor === Number && length > 0) {
+
+            this.rowLength = length;
+
+        };
 
         return this;
 

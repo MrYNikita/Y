@@ -1,8 +1,8 @@
-import { arrayGetRandomElement, arrayGetRandomElementMany, arrayReplace, } from "../array/array.mjs";
-import { config, configString, configYInsert } from "../config.mjs";
-import { numberGetFrac, numberGetRandomReal, numberGetReal, numberGetSequence } from "../number/number.mjs";
-import { YRegExp } from "../regexp/YRegExp/YRegExp.mjs";
 import { YString } from "./YString/YString.mjs";
+import { YRegExp } from "../regexp/YRegExp/YRegExp.mjs";
+import { config, configString, configYInsert, configYString } from "../config.mjs";
+import { arrayGetRandomElement, arrayGetRandomElementMany, arrayReplace, } from "../array/array.mjs";
+import { numberGetFrac, numberGetRandomReal, numberGetReal, numberGetSequence } from "../number/number.mjs";
 
 //#region pad 0.0.0
 
@@ -2066,6 +2066,94 @@ export function stringReplaceAllMore(string, ...replaces) {
     replaces.filter(f => f).forEach(r => string = stringReplaceAll(string, ...r));
 
     return string;
+
+};
+
+//#endregion
+
+//#region mesuare 0.0.0
+
+/**
+ * @typedef TBmesuare
+ * @prop {string} string
+ * @prop {number} step
+ * @prop {string[]} substrings
+ * @typedef {TBmesuare} Tmesuare
+*/
+
+/** @arg {Tmesuare} t */
+function mesuareDeceit(t) {
+
+    try {
+
+        return mesuareVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @arg {Tmesuare} t */
+function mesuareVerify(t) {
+
+
+
+    return mesuareHandle(t);
+
+};
+/** @arg {Tmesuare} t */
+function mesuareHandle(t) {
+
+
+
+    return mesuareComply(t);
+
+};
+/** @arg {Tmesuare} t */
+function mesuareComply(t) {
+
+    const {
+
+        step,
+        string,
+        substrings,
+
+    } = t;
+
+    let result = string;
+
+    for (let i = 0, c = 0, p = 0; i < result.length; i++) {
+
+        if ((i - p) % step === 0 && i !== 0) {
+
+            result = stringPaste(result, substrings[c], i);
+
+            i += substrings[c].length;
+            p += substrings[c].length;
+
+        };
+
+    };
+
+    return result;
+
+};
+
+/**
+ * Функция для добавления подстрок на каждые указанные n символов.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @arg {string} string Исходная строка.
+ * @arg {number} step Размер шага.
+ * @arg {...string} substrings Символы вставки.
+*/
+export function stringMesuare(string, step, ...substrings) {
+
+    return mesuareDeceit({ string, step, substrings, });
 
 };
 
