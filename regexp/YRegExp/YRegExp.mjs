@@ -1,6 +1,5 @@
 import { YBasic } from "../../ject/YBasic/YBasic.mjs";
 import { jectFill } from "../../ject/ject.mjs";
-import { stringShield } from "../../string/string.mjs";
 import { arrayRemoveByElement, arrayUnique } from "../../array/array.mjs";
 import { regexpInsert } from "../regexp.mjs";
 
@@ -32,10 +31,14 @@ class DRegExp extends SRegExp {
 
     /**
      * Значение.
-     * @protected
      * @type {RegExp}
     */
-    value;
+    value = '';
+    /**
+     * Позиция поиска.
+     * @type {number?}
+    */
+    position = null;
     /**
      * Вариации.
      * @type {Array<string>}
@@ -73,10 +76,10 @@ class FRegExp extends MRegExp {
 
     };
 
-    /** @arg {Array<any>} t */
+    /** @arg {any[]} t */
     static #before(t) {
 
-        if (t?.length === 1 && t[0]?.constructor === Object) {
+        if (t?.length === 1 && [Object, YRegExp].includes(t[0]?.constructor) && !Object.getOwnPropertyNames(t[0]).includes('_ytp')) {
 
             return t[0];
 
@@ -84,6 +87,8 @@ class FRegExp extends MRegExp {
 
             /** @type {TRegExp&DRegExp} */
             const r = {};
+
+            if (t[0]._ytp) t = [...t[0]._ytp];
 
             switch (t.length) {
 
@@ -93,7 +98,7 @@ class FRegExp extends MRegExp {
 
             };
 
-            return r;
+            return Object.values(r).length ? r : { _ytp: t };
 
         } else return {};
 
@@ -128,6 +133,7 @@ class FRegExp extends MRegExp {
     static #handle(t) {
 
         if (!t.flags) t.flags = '';
+        if (!t.value) t.value = '';
 
         if (t.value instanceof YRegExp) t.value = t.value.get();
         if (t.value instanceof RegExp) t.flags += t.value.flags ?? '';
@@ -150,6 +156,8 @@ class FRegExp extends MRegExp {
 
         this.value = new RegExp(this.value, t.flags);
 
+        if (t.position) this.value.lastIndex = t.position;
+
     };
 
 };
@@ -158,8 +166,9 @@ class FRegExp extends MRegExp {
  * Класс `YRegExp`
  *
  * Класс для работы с регулярными выражениями.
- * - Тип `SDIMFY-1.1`
- * - Версия `0.0.0`
+ * - Тип `SDIMFY`
+ * - Версия `0.0.1`
+ * - Модуль `regexp`
  * - Цепочка `BDVHC`
 */
 export class YRegExp extends FRegExp {
@@ -170,7 +179,11 @@ export class YRegExp extends FRegExp {
     */
     get() {
 
-        return new RegExp([this.value.source, ...this.variation].join('|'), this.value.flags);
+        const result = new RegExp([this.value.source, ...this.variation].join('|'), this.value.flags);
+
+        result.lastIndex = this.position;
+
+        return result;
 
     };
     /**
@@ -256,6 +269,18 @@ export class YRegExp extends FRegExp {
     appendVariate(...regexps) {
 
         if (regexps.length) this.variation.push(...regexps.map(r => new YRegExp(r).changeFlags().get().source).filter(r => !this.variation.includes(r)));
+
+        return this;
+
+    };
+    /**
+     * Метод изменения позиции поиска>
+     * - Версия `0.0.0`
+     * @arg {number} position Позиция поиска.
+    */
+    changePosition(position) {
+
+        if (position.constructor === Number && position >= 0) this.position = position;
 
         return this;
 

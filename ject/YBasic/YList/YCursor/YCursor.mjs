@@ -1,12 +1,13 @@
-import { arrayRemoveByElement } from "../../array/array.mjs";
-import { jectFill } from "../ject.mjs";
-import { YList } from "../YBasic/YList/YList.mjs";
-import { YBasic } from "../YBasic/YBasic.mjs";
+import { arrayRemoveByElement } from "../../../../array/array.mjs";
+import { jectFill } from "../../../ject.mjs";
+import { YList } from "../YList.mjs";
+import { YBasic } from "../../YBasic.mjs";
 
 /**
  * @typedef TBCursor
- * @prop {any} _
- * @typedef {DCursor&TBCursor} TCursor
+ * @prop {number} dimension
+ * @typedef {{[p in Exclude<keyof DCursor,keyof SCursor>|Exclude<keyof SCursor,keyof DCursor>]:(DCursor[p]&SCursor[p])}} TDCursor
+ * @typedef {TDCursor&TBCursor} TCursor
 */
 
 class SCursor extends YBasic {
@@ -18,7 +19,12 @@ class DCursor extends SCursor {
 
     /**
      * Область курсора.
-     * @type {number}
+     *
+     * В режиме `'auto'` Размер определяется ситуативно:
+     * - `paste` - размер вставки
+     * - `remove` - размер до пустого значения
+     *
+     * @type {number|'auto'}
     */
     size = 0;
     /**
@@ -27,10 +33,10 @@ class DCursor extends SCursor {
     */
     list = null;
     /**
-     * Индекс размещения.
-     * @type {number}
+     * Позиция курсора в многоуровневом списке.
+     * @type {number[]}
     */
-    index;
+    positions = [];
 
 };
 class ICursor extends DCursor {
@@ -63,10 +69,10 @@ class FCursor extends MCursor {
 
     };
 
-    /** @arg {Array<any>} t */
+    /** @arg {any[]} t */
     static #before(t) {
 
-        if (t?.length === 1 && t[0]?.constructor === Object) {
+        if (t?.length === 1 && [Object, YCursor].includes(t[0]?.constructor) && !Object.getOwnPropertyNames(t[0]).includes('_ytp')) {
 
             return t[0];
 
@@ -75,15 +81,17 @@ class FCursor extends MCursor {
             /** @type {TCursor&DCursor} */
             const r = {};
 
+            if (t[0]._ytp) t = [...t[0]._ytp];
+
             switch (t.length) {
 
                 case 3:
                 case 2:
-                case 1:
+                case 1: r.list = t[0];
 
             };
 
-            return r;
+            return Object.values(r).length ? r : { _ytp: t };
 
         } else return {};
 
@@ -117,7 +125,7 @@ class FCursor extends MCursor {
     /** @arg {TCursor} t @this {YCursor} */
     static #handle(t) {
 
-        if ((!t.index && t.index !== 0) && t.list) t.index = t.list.values.length;
+        if (!t.positions || t.positions.length) t.positions = new Array(t.list.cursorDimension ?? 1).fill(0);
 
     };
     /** @arg {TCursor} t @this {YCursor} */
@@ -140,10 +148,10 @@ class FCursor extends MCursor {
 /**
  * Класс `YCursor`
  *
- * Курсоры выступают динамичными индексаторами в массивах.
- * Они позволяют размещать новые значения по правилам вставки.
+ * Курсоры - индексаторы для `YList`.
  * - Тип `SDIMFY`
- * - Версия `0.1.0`
+ * - Версия `0.3.0`
+ * - Модуль `ject.list`
  * - Цепочка `BDVHC`
 */
 export class YCursor extends FCursor {
@@ -156,11 +164,11 @@ export class YCursor extends FCursor {
     */
     move(bias) {
 
-        bias = this.index + bias;
+        bias = this.positions[0] + bias;
 
-        if (bias < 0) this.index = 0;
-        else if (bias >= this.list.values.length) this.index = this.list.values.length;
-        else this.index = bias;
+        if (bias < 0) this.positions[0] = 0;
+        else if (bias >= this.list.values.length) this.positions[0] = this.list.values.length;
+        else this.positions[0] = bias;
 
         return this;
 
@@ -173,7 +181,7 @@ export class YCursor extends FCursor {
     */
     resize(bias = 1) {
 
-        this.size += bias;
+        if (this.size !== 'auto') this.size += bias;
 
         return this;
 

@@ -1,5 +1,5 @@
 import { jectFill } from "../../ject.mjs";
-import { YCursor } from "../../YCursor/YCursor.mjs";
+import { YCursor } from "./YCursor/YCursor.mjs";
 import { YBasic } from "../YBasic.mjs";
 
 /**
@@ -27,6 +27,11 @@ class DList extends SList {
      * @type {boolean}
     */
     cursorsFixed = false;
+    /**
+     * Размерность.
+     * @type {number}
+    */
+    cursorDimension = 1;
 
 };
 class IList extends DList {
@@ -138,7 +143,7 @@ class FList extends MList {
 
         jectFill(this, t);
 
-        this.cursors = [new YCursor({ list: this })];
+        this.cursors = [new YCursor({ list: this, })];
 
     };
 

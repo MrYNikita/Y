@@ -1,14 +1,14 @@
-import { arrayDevideByLimit } from "../../array/array.mjs";
-import { configString, configYString } from "../../config.mjs";
-import { jectFill } from "../../ject/ject.mjs";
 import { YList } from "../../ject/YBasic/YList/YList.mjs";
-import { stringBring, stringCastToJect, stringCastToSample, stringCastToYReport, stringFilter, stringFind, stringFindAll, stringFindToJect, stringGetColor, stringHandle, stringMesuare, stringPad, stringPaste, stringReflect, stringRemove, stringRepaint, stringReplace, stringReplaceAllMore, stringReplaceMore, stringReverse } from "../string.mjs";
+import { jectFill } from "../../ject/ject.mjs";
 import { YTemplate } from "./YTemplate/YTemplate.mjs";
+import { configString, configYString } from "../../config.mjs";
+import { stringBring, stringCastToJect, stringCastToSample, stringCastToYReport, stringFilter, stringFind, stringFindAll, stringFindToJect, stringGetColor, stringGetPositionEndPasteWrap, stringHandle, stringMesuare, stringPad, stringPaste, stringPasteWrap, stringPasteWrapByPosition, stringReflect, stringRemove, stringRepaint, stringReplace, stringReplaceAllMore, stringReplaceMore, stringReverse } from "../string.mjs";
 
 /**
  * @typedef TBString
  * @prop {any} _
- * @typedef {DString&TBString} TString
+ * @typedef {{[p in Exclude<keyof DString,keyof SString>|Exclude<keyof SString,keyof DString>]:(DString[p]&SString[p])}} TDString
+ * @typedef {TDString&TBString} TString
 */
 
 class SString extends YList {
@@ -25,14 +25,29 @@ class SString extends YList {
 class DString extends SString {
 
     /**
-     * Текущее состояние строки.
+     * Значение.
      * @type {string}
     */
     values = '';
-
-};
-class IString extends DString {
-
+    /**
+     * Конец строки.
+     *
+     * При превышении строки указывается данное значение.
+     *
+     * - По умолчанию `\n`
+     * @type {string}
+    */
+    rowEnd = '\n';
+    /**
+     * Количество строк.
+     * @type {number?}
+    */
+    rowLimit = null;
+    /**
+     * Длина строк.
+     * @type {number?}
+    */
+    rowLength = null;
     /**
      * Над-строка.
      * @type {YString?}
@@ -78,23 +93,10 @@ class IString extends DString {
     */
     templates = configString?.templates?.map(t => new YTemplate(...t)) ?? [];
 
-    /**
-     * Конец строки.
-     *
-     * При превышении строки указывается данное значение.
-     *
-     * - По умолчанию `\n`
-     * @type {string}
-    */
-    rowEnd = '\n';
-    /**
-     * Длина строки.
-     *
-     * Если указана, то для каждой строки будет осуществляться замер.
-     * При превышении указанного значения длины, в строку автоматически будет вставлено значение `endRow` (конца строки).
-     * @type {number?}
-    */
-    rowLength = null;
+};
+class IString extends DString {
+
+
 
 };
 class MString extends IString {
@@ -122,17 +124,19 @@ class FString extends MString {
 
     };
 
-    /** @arg {Array<any>} t */
+    /** @arg {any[]} t */
     static #before(t) {
 
-        if (t?.length === 1 && [Object, YString].includes(t[0].constructor)) {
+        if (t?.length === 1 && [Object, YString].includes(t[0]?.constructor) && !Object.getOwnPropertyNames(t[0]).includes('_ytp')) {
 
             return t[0];
 
         } else if (t?.length) {
 
-            /** @type {TString} */
+            /** @type {TString&DString} */
             const r = {};
+
+            if (t[0]._ytp) t = [...t[0]._ytp];
 
             switch (t.length) {
 
@@ -142,7 +146,7 @@ class FString extends MString {
 
             };
 
-            return r;
+            return Object.values(r).length ? r : { _ytp: t };
 
         } else return {};
 
@@ -190,16 +194,19 @@ class FString extends MString {
 
         jectFill(this, t);
 
+
+
     };
 
 };
 
 /**
- * Класс `YString`.
+ * Класс `YString`
  *
- * Класс для конструирования строк.
- * - Тип `SDIMFY-1.1`
- * - Версия `0.3.0`
+ *
+ * - Тип `SDIMFY`
+ * - Версия `0.4.0`
+ * - Модуль `string`
  * - Цепочка `BDVHC`
 */
 export class YString extends FString {
@@ -289,6 +296,77 @@ export class YString extends FString {
     };
 
     /**
+     * Метод для вставки значения.
+     * - Версия `0.2.0`
+     * @arg {...string|Function} strings Строка вставки.
+    */
+    paste(...strings) {
+
+        strings = strings.reverse();
+
+        while (strings.length) {
+
+            let sp = strings.pop();
+
+            if (!sp) continue;
+
+            if (sp instanceof Function) {
+
+                sp = sp() + '';
+
+            } else if (sp instanceof YString) {
+
+                sp.over = this;
+                sp = sp.get();
+
+            };
+
+            if (this.prefix instanceof YTemplate) sp = this.prefix.get() + sp;
+            else sp = this.prefix + sp;
+
+            if (this.postfix instanceof YTemplate) sp += this.postfix.get();
+            else sp += this.postfix;
+
+            sp = sp.replace(/^.+/mg, (this.tabValue ?? this?.over?.tabValue)?.repeat(this.tabIndex ?? this?.over?.tabIndex ?? 0) + '$&');
+
+            this.cursors.forEach(c => this.values = stringPaste(this.values, sp, c.positions[0], c.size));
+            this.moveCursors(sp.length);
+
+        };
+
+
+        return this;
+
+    };
+    /**
+     * Метод вставки с переносом.
+     *
+     * Данный метод построен на основе `paste` метода.
+     * При указании значения вставки метод разбивает его на фрагменты по символу переноса строки.
+     * Каждый такой фрагмент будет вставлен по всем правилам, однако после произойдет окозание влияния на курсоры:
+     * все они будут смещены по y на 1, таким образом создавая эффект переноса.
+     *
+     * Данная особенность работает только с символами  переноса строки `\n`.
+     * - Версия `0.0.0`
+     * @arg {...string|function():string} pastes Значения вставки.
+    */
+    pasteWrap(...pastes) {
+
+        pastes.filter(s => s).forEach(s => {
+
+            this.cursors.forEach(c => {
+
+                this.values = stringPasteWrapByPosition(this.values, s, c.index, 'auto');
+
+            });
+
+        });
+
+        return this;
+
+    };
+
+    /**
      * Метод для повторения указанного фрагмента строки.
      * - Версия `0.0.1`
      * @arg {number} count
@@ -346,7 +424,7 @@ export class YString extends FString {
         if (this.rowLength && (x >= this.rowLength)) x = this.rowLength - 1;
         if (this.rowLength && (y >= ly)) y = ly;
 
-        SString.prototype.setCursorTo.apply(this, [x + (y ? (y * (this.rowLength - 1 + this.rowEnd.length)): 0)]);
+        SString.prototype.setCursorTo.apply(this, [x + (y ? (y * (this.rowLength - 1 + this.rowEnd.length)) : 0)]);
 
         return this;
 
@@ -359,49 +437,6 @@ export class YString extends FString {
     copy() {
 
         return new YString(this);
-
-    };
-    /**
-     * Метод для вставки значения.
-     * - Версия `0.2.0`
-     * @arg {...string|Function} strings Строка вставки.
-    */
-    paste(...strings) {
-
-        strings = strings.reverse();
-
-        while (strings.length) {
-
-            let sp = strings.pop();
-
-            if (!sp) continue;
-
-            if (sp instanceof Function) {
-
-                sp = sp() + '';
-
-            } else if (sp instanceof YString) {
-
-                sp.over = this;
-                sp = sp.get();
-
-            };
-
-            if (this.prefix instanceof YTemplate) sp = this.prefix.get() + sp;
-            else sp = this.prefix + sp;
-
-            if (this.postfix instanceof YTemplate) sp += this.postfix.get();
-            else sp += this.postfix;
-
-            sp = sp.replace(/^.+/mg, (this.tabValue ?? this?.over?.tabValue)?.repeat(this.tabIndex ?? this?.over?.tabIndex ?? 0) + '$&');
-
-            this.cursors.forEach(c => this.values = stringPaste(this.values, sp, c.index, c.size));
-            this.moveCursors(sp.length);
-
-        };
-
-
-        return this;
 
     };
     /**

@@ -1,7 +1,7 @@
 import { YString } from "./YString/YString.mjs";
 import { YRegExp } from "../regexp/YRegExp/YRegExp.mjs";
 import { config, configString, configYInsert, configYString } from "../config.mjs";
-import { arrayGetRandomElement, arrayGetRandomElementMany, arrayReplace, } from "../array/array.mjs";
+import { arrayGetRandomElement, arrayGetRandomElementMany, arrayRearrangeByIndex, arrayReplace, } from "../array/array.mjs";
 import { numberGetFrac, numberGetRandomReal, numberGetReal, numberGetSequence } from "../number/number.mjs";
 
 //#region pad 0.0.0
@@ -209,83 +209,6 @@ export function stringBringLeft(string, length, bring) {
 export function stringBringRight(string, length, bring) {
 
     return bringDeceit({ string, length, index: string.length - 1, bring });
-
-};
-
-//#endregion
-//#region paste 0.0.0
-
-/**
- * @typedef TBpaste
- * @prop {number} size
- * @prop {number} index
- * @prop {string} paste
- * @prop {string} string
- * @typedef {TBpaste} Tpaste
-*/
-
-/** @arg {Tpaste} t */
-function pasteDeceit(t) {
-
-    try {
-
-        return pasteVerify(t);
-
-    } catch (e) {
-
-        if (config.strict) throw e;
-
-        return undefined;
-
-    };
-
-};
-/** @arg {Tpaste} t */
-function pasteVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return pasteHandle(t);
-
-};
-/** @arg {Tpaste} t */
-function pasteHandle(t) {
-
-    return pasteComply(t);
-
-};
-/** @arg {Tpaste} t */
-function pasteComply(t) {
-
-    const {
-
-        size,
-        index,
-        paste,
-        string,
-
-    } = t;
-
-    return stringAppend(stringRemove(string, index, size), index, paste);
-
-};
-
-/**
- * Функция вставки с замещением указанной индексом и размером области в строку.
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * @arg {number} size Размер вставки.
- * @arg {number} index Индекс вставки.
- * @arg {string} paste Строка вставки.
- * @arg {string} string Исходная строка.
-*/
-export function stringPaste(string, paste, index, size = 0) {
-
-    return pasteDeceit({ string, paste, index, size, });
 
 };
 
@@ -586,7 +509,7 @@ export function stringAppendRight(string, ...appends) {
 };
 
 //#endregion
-//#region remove 0.0.1
+//#region remove 0.0.2
 
 /**
  * @typedef TBremove
@@ -629,8 +552,9 @@ function removeVerify(t) {
 /** @arg {Tremove} t */
 function removeHandle(t) {
 
+
     if (t.start < 0) t.start = 0;
-    if (t.start >= t.string.length) t.start = t.string.length - 1;
+    if (t.start >= t.string.length) t.start = t.string.length;
 
     if (t.end < 0 && t.end + t.start < 0) [t.start, t.end] = [null, t.start + 1];
     else if (t.end > 0 && t.end + t.start >= t.string.length) [t.start, t.end] = [t.start, null];
@@ -1139,6 +1063,7 @@ export function stringReflect(string, every = false, ...mirrors) {
 };
 
 //#endregion
+
 //#region generateWord 0.1.0
 
 /**
@@ -1276,6 +1201,574 @@ export function stringGenerateWord(syllable = numberGetRandomReal(1, 3), begin =
 
 //#endregion
 
+//#region getRowByIndex 0.0.0
+
+/**
+ * @typedef TBgetRowByIndex
+ * @prop {number} index
+ * @prop {string} string
+ * @typedef {TBgetRowByIndex} TgetRowByIndex
+*/
+
+/** @arg {TgetRowByIndex} t */
+function getRowByIndexDeceit(t) {
+
+    try {
+
+        return getRowByIndexVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @arg {TgetRowByIndex} t */
+function getRowByIndexVerify(t) {
+
+
+
+    return getRowByIndexHandle(t);
+
+};
+/** @arg {TgetRowByIndex} t */
+function getRowByIndexHandle(t) {
+
+
+
+    return getRowByIndexComply(t);
+
+};
+/** @arg {TgetRowByIndex} t */
+function getRowByIndexComply(t) {
+
+    const {
+
+        index,
+        string,
+
+    } = t;
+
+    return string.split('\n')?.[index] ?? null
+
+};
+
+/**
+ * Функция для получения вложенной строки, по её индексу.
+ * Если строка не будет найдена, то вернется `null`.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @arg {number} index Индекс строки.
+ * @arg {string} string Исходная строка.
+*/
+export function stringGetRowByIndex(string, index) {
+
+    return getRowByIndexDeceit({ string, index });
+
+};
+
+//#endregion
+//#region getRowByPosition 0.0.0
+
+/**
+ * @typedef TBgetRowByPosition
+ * @prop {string} string
+ * @prop {number} position
+ * @typedef {TBgetRowByPosition} TgetRowByPosition
+*/
+
+/** @arg {TgetRowByPosition} t */
+function getRowByPositionDeceit(t) {
+
+    try {
+
+        return getRowByPositionVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @arg {TgetRowByPosition} t */
+function getRowByPositionVerify(t) {
+
+
+
+    return getRowByPositionHandle(t);
+
+};
+/** @arg {TgetRowByPosition} t */
+function getRowByPositionHandle(t) {
+
+
+
+    return getRowByPositionComply(t);
+
+};
+/** @arg {TgetRowByPosition} t */
+function getRowByPositionComply(t) {
+
+    let {
+
+        string,
+        position,
+
+    } = t;
+
+    let i = 0;
+
+    for (const s of string.split('\n')) {
+
+        if (s.length > position) return s;
+        else position -= s.length;
+
+    };
+
+    return null;
+
+};
+
+/**
+ * Получение строки в исходной строке по позиции символа.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @arg {string} string Исходная строка.
+ * @arg {number} position Позиция символа.
+*/
+export function stringGetRowByPosition(string, position) {
+
+    return getRowByPositionDeceit({ string, position });
+
+};
+
+//#endregion
+//#region getPositionEndPaste 0.0.0
+
+/**
+ * @typedef TBgetPositionEndPaste
+ * @prop {number} y
+ * @prop {number} x
+ * @prop {number} size
+ * @prop {string} paste
+ * @prop {string} string
+ * @prop {number} position
+ * @prop {boolean} wrap
+ * @typedef {TBgetPositionEndPaste} TgetPositionEndPaste
+*/
+
+/** @arg {TgetPositionEndPaste} t */
+function getPositionEndPasteDeceit(t) {
+
+    try {
+
+        return getPositionEndPasteVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @arg {TgetPositionEndPaste} t */
+function getPositionEndPasteVerify(t) {
+
+
+
+    return getPositionEndPasteHandle(t);
+
+};
+/** @arg {TgetPositionEndPaste} t */
+function getPositionEndPasteHandle(t) {
+
+    return getPositionEndPasteComply(t);
+
+};
+/** @arg {TgetPositionEndPaste} t */
+function getPositionEndPasteComply(t) {
+
+    let {
+
+        x,
+        y,
+        size,
+        wrap,
+        paste,
+        string,
+
+    } = t;
+
+    let result = stringGetPositionRowStartByIndex(string, y, !wrap);
+    let ps = paste.split('\n');
+
+    for (let i = 0; i < ps.length - 1; i++) {
+
+        let s = stringGetRowByIndex(string, y + i);
+        let d = s.length - x;
+
+        if (d > ps[i].length + x) result += s.length + 1;
+        else result += x + ps[i].length - 1;
+
+    };
+
+    result += x + ps.at(-1).length - 1;
+
+    return result;
+
+};
+
+/**
+ * Функция определения итоговой позиции вставки.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @arg {string} paste Вставка.
+ * @arg {string} string Исходная строка.
+ * @arg {number} position Позиция вставки.
+ * @arg {number|'auto'} size Размер вставки.
+*/
+export function stringGetPositionEndPaste(string, paste, position, size = 'auto') {
+
+    return getPositionEndPasteDeceit({ string, paste, position, size, });
+
+};
+/**
+ * Функция определения итоговой позиции вставки с переносом.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @arg {number} y Позиция линии.
+ * @arg {number} x Позиция столбца.
+ * @arg {string} paste Вставка.
+ * @arg {string} string Исходная строка.
+ * @arg {number|'auto'} size Размер вставки.
+*/
+export function stringGetPositionEndPasteWrap(string, paste, x, y, size = 'auto') {
+
+    return getPositionEndPasteDeceit({ string, paste, x, y, size, wrap: true, });
+
+};
+
+//#endregion
+//#region getPositionEndPasteByBias 0.0.0
+
+/**
+ * @typedef TBgetPositionEndPasteByBias
+ * @prop {number} end
+ * @prop {number} start
+ * @prop {number} count
+ * @typedef {TBgetPositionEndPasteByBias} TgetPositionEndPasteByBias
+*/
+
+/** @arg {TgetPositionEndPasteByBias} t */
+function getPositionEndPasteByBiasDeceit(t) {
+
+    try {
+
+        return getPositionEndPasteByBiasVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @arg {TgetPositionEndPasteByBias} t */
+function getPositionEndPasteByBiasVerify(t) {
+
+
+
+    return getPositionEndPasteByBiasHandle(t);
+
+};
+/** @arg {TgetPositionEndPasteByBias} t */
+function getPositionEndPasteByBiasHandle(t) {
+
+
+
+    return getPositionEndPasteByBiasComply(t);
+
+};
+/** @arg {TgetPositionEndPasteByBias} t */
+function getPositionEndPasteByBiasComply(t) {
+
+    const {
+
+        end,
+        start,
+        count,
+
+    } = t;
+
+    return (end - start) / count;
+
+};
+
+/**
+ * Функция для вычисления индекса сдвига относительно размера исходной строки.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @arg {number} end Конечный размер.
+ * @arg {number} start Начальный размер.
+ * @arg {number} count Кол-во сдвигов.
+ * - По умолчанию `1`
+*/
+export function stringGetPositionEndPasteByBias(start, end, count = 1) {
+
+    return getPositionEndPasteByBiasDeceit({ start, end, count, });
+
+};
+
+//#endregion
+
+//#region getLengthToRowByIndex 0.0.0
+
+/**
+ * @typedef TBgetLengthToRowByIndex
+ * @prop {number} index
+ * @prop {string} string
+ * @typedef {TBgetLengthToRowByIndex} TgetLengthToRowByIndex
+*/
+
+/** @arg {TgetLengthToRowByIndex} t */
+function getLengthToRowByIndexDeceit(t) {
+
+    try {
+
+        return getLengthToRowByIndexVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @arg {TgetLengthToRowByIndex} t */
+function getLengthToRowByIndexVerify(t) {
+
+
+
+    return getLengthToRowByIndexHandle(t);
+
+};
+/** @arg {TgetLengthToRowByIndex} t */
+function getLengthToRowByIndexHandle(t) {
+
+
+
+    return getLengthToRowByIndexComply(t);
+
+};
+/** @arg {TgetLengthToRowByIndex} t */
+function getLengthToRowByIndexComply(t) {
+
+    const {
+
+        index,
+        string,
+
+    } = t;
+
+    return string.split('\n').slice(0, index).reduce((p, c) => p + c.length, 0);
+
+};
+
+/**
+ * Метод получения кол-ва символов до указанной линии в исходной строке.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @arg {number} index Индекс линии.
+ * @arg {string} string Исходная строка.
+*/
+export function stringGetLengthToRowByIndex(string, index) {
+
+    return getLengthToRowByIndexDeceit({ string, index, });
+
+};
+
+//#endregion
+//#region getRowIndexByPosition 0.0.0
+
+/**
+ * @typedef TBgetRowIndexByPosition
+ * @prop {string} string
+ * @prop {number} position
+ * @typedef {TBgetRowIndexByPosition} TgetRowIndexByPosition
+*/
+
+/** @arg {TgetRowIndexByPosition} t */
+function getRowIndexByPositionDeceit(t) {
+
+    try {
+
+        return getRowIndexByPositionVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @arg {TgetRowIndexByPosition} t */
+function getRowIndexByPositionVerify(t) {
+
+
+
+    return getRowIndexByPositionHandle(t);
+
+};
+/** @arg {TgetRowIndexByPosition} t */
+function getRowIndexByPositionHandle(t) {
+
+
+
+    return getRowIndexByPositionComply(t);
+
+};
+/** @arg {TgetRowIndexByPosition} t */
+function getRowIndexByPositionComply(t) {
+
+    let {
+
+        string,
+        position,
+
+    } = t;
+
+    let i = 0;
+    let result = null;
+
+    for (const s of string.split('\n')) {
+
+        if (s.length > position) return i;
+        else {
+
+            i++;
+            position -= s.length;
+
+        };
+
+    };
+
+    return result;
+
+};
+
+/**
+ * Функция получения индекса линии по позиции.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @arg {string} string Исходная строка.
+ * @arg {number} position Позиция символа.
+*/
+export function stringGetRowIndexByPosition(string, position) {
+
+    return getRowIndexByPositionDeceit({ string, position, });
+
+};
+
+//#endregion
+//#region getPositionRowStartByIndex 0.0.0
+
+/**
+ * @typedef TBgetPositionRowStartByIndex
+ * @prop {number} index
+ * @prop {string} string
+ * @prop {boolean} wrap
+ * @typedef {TBgetPositionRowStartByIndex} TgetPositionRowStartByIndex
+*/
+
+/** @arg {TgetPositionRowStartByIndex} t */
+function getPositionRowStartByIndexDeceit(t) {
+
+    try {
+
+        return getPositionRowStartByIndexVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @arg {TgetPositionRowStartByIndex} t */
+function getPositionRowStartByIndexVerify(t) {
+
+
+
+    return getPositionRowStartByIndexHandle(t);
+
+};
+/** @arg {TgetPositionRowStartByIndex} t */
+function getPositionRowStartByIndexHandle(t) {
+
+
+
+    return getPositionRowStartByIndexComply(t);
+
+};
+/** @arg {TgetPositionRowStartByIndex} t */
+function getPositionRowStartByIndexComply(t) {
+
+    const {
+
+        wrap,
+        index,
+        string,
+
+    } = t;
+
+    let result = 0;
+    let i = 0;
+
+    for (const s of string.split('\n')) {
+
+        if (i++ === index) return result;
+
+        result += s.length + (wrap ? 0 : 1);
+
+    };
+
+    return null;
+
+};
+
+/**
+ * Функция получения начальной позиции, с которой начинается указанная по счету линия.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @arg {number} index Индекс линии.
+ * @arg {string} string Исходная строка.
+ * @arg {boolean} wrap Режим с переносом.
+ * - По умолчанию `true`
+*/
+export function stringGetPositionRowStartByIndex(string, index, wrap = true) {
+
+    return getPositionRowStartByIndexDeceit({ string, index, wrap, });
+
+};
+
+//#endregion
+
 //#region getColor 0.0.0
 
 /**
@@ -1377,6 +1870,86 @@ function getColorComply(t) {
 export function stringGetColor(color, bright, background) {
 
     return getColorDeceit({ color, bright, background });
+
+};
+
+//#endregion
+
+//#region castPositionLine 0.0.0
+
+/**
+ * @typedef TBcastPositionLine
+ * @prop {string} string
+ * @prop {number} position
+ * @typedef {TBcastPositionLine} TcastPositionLine
+*/
+
+/** @arg {TcastPositionLine} t */
+function castPositionLineDeceit(t) {
+
+    try {
+
+        return castPositionLineVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @arg {TcastPositionLine} t */
+function castPositionLineVerify(t) {
+
+
+
+    return castPositionLineHandle(t);
+
+};
+/** @arg {TcastPositionLine} t */
+function castPositionLineHandle(t) {
+
+
+
+    return castPositionLineComply(t);
+
+};
+/** @arg {TcastPositionLine} t */
+function castPositionLineComply(t) {
+
+    let {
+
+        string,
+        position,
+
+    } = t;
+
+    for (const s of string.split('\n')) {
+
+        if (position > s.length) {
+
+            position -= s.length;
+
+        } else return position;
+
+    };
+
+    return null;
+
+};
+
+/**
+ * Функция превращения строковой позиции в позицию линии.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @arg {string} string
+ * @arg {number} position
+*/
+export function stringCastPositionLine(string, position) {
+
+    return castPositionLineDeceit({ string, position });
 
 };
 
@@ -1874,6 +2447,382 @@ export function stringFindVariate(string, ...fragments) {
 };
 
 //#endregion
+//#region findInPosition 0.0.0
+
+/**
+ * @typedef TBfindInPosition
+ * @prop {string} string
+ * @prop {number} position
+ * @prop {(string|RegExp)[]} fragments
+ * @typedef {TBfindInPosition} TfindInPosition
+*/
+
+/** @arg {TfindInPosition} t */
+function findInPositionDeceit(t) {
+
+    try {
+
+        return findInPositionVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @arg {TfindInPosition} t */
+function findInPositionVerify(t) {
+
+
+
+    return findInPositionHandle(t);
+
+};
+/** @arg {TfindInPosition} t */
+function findInPositionHandle(t) {
+
+    t.fragments[0] = new YRegExp(t.fragments[0]).changeFlags('y').changePosition(t.position).get();
+
+    return findInPositionComply(t);
+
+};
+/** @arg {TfindInPosition} t */
+function findInPositionComply(t) {
+
+    const {
+
+        string,
+        fragments,
+
+    } = t;
+
+    const result = fragments[0].exec(string);
+
+    return stringFind(result, ...fragments.splice(1));
+
+};
+
+/**
+ * Функция поиска совпадения в указанной позиции.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @arg {string} string
+ * @arg {number} position
+ * @arg {...string|RegExp} fragments
+*/
+export function stringFindInPosition(string, position, fragments) {
+
+    return findInPositionDeceit({ string, position, fragments, });
+
+};
+
+//#endregion
+//#region findFromPosition 0.0.0
+
+/**
+ * @typedef TBfindFromPosition
+ * @prop {number} index
+ * @prop {string} string
+ * @prop {(string|RegExp)[]} fragments
+ * @typedef {TBfindFromPosition} TfindFromPosition
+*/
+
+/** @arg {TfindFromPosition} t */
+function findFromPositionDeceit(t) {
+
+    try {
+
+        return findFromPositionVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @arg {TfindFromPosition} t */
+function findFromPositionVerify(t) {
+
+
+
+    return findFromPositionHandle(t);
+
+};
+/** @arg {TfindFromPosition} t */
+function findFromPositionHandle(t) {
+
+    t.fragments[0] = new YRegExp(t.fragments[0]).appendFlags('g').changePosition(t.index);
+
+    return findFromPositionComply(t);
+
+};
+/** @arg {TfindFromPosition} t */
+function findFromPositionComply(t) {
+
+    const {
+
+        string,
+        fragments,
+
+    } = t;
+
+    const result = fragments[0].get().exec(string);
+
+    return stringFind(result?.groups?.f ?? result[0], ...fragments.splice(1));
+
+};
+
+/**
+ * Функция поиска совпадений с указанной позиции.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @arg {number} index Индекс поиска.
+ * @arg {string} string Исходная строка.
+ * @arg {string|RegExp} fragments Фрагменты совпадения.
+*/
+export function stringFindFromPosition(string, index, ...fragments) {
+
+    return findFromPositionDeceit({ string, index, fragments, });
+
+};
+
+//#endregion
+
+//#region paste 0.0.1
+
+/**
+ * @typedef TBpaste
+ * @prop {number} size
+ * @prop {number} index
+ * @prop {string} paste
+ * @prop {string} string
+ * @typedef {TBpaste} Tpaste
+*/
+
+/** @arg {Tpaste} t */
+function pasteDeceit(t) {
+
+    try {
+
+        return pasteVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @arg {Tpaste} t */
+function pasteVerify(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return pasteHandle(t);
+
+};
+/** @arg {Tpaste} t */
+function pasteHandle(t) {
+
+    return pasteComply(t);
+
+};
+/** @arg {Tpaste} t */
+function pasteComply(t) {
+
+    let {
+
+        size,
+        index,
+        paste,
+        string,
+
+    } = t;
+
+    string = stringRemove(string, index, size);
+
+    if (size < -1) {
+
+        const d = index + size;
+
+        if (d < 0) index += size - d;
+        else index += size + 1;
+
+    };
+
+    return stringAppend(string, index, paste);
+
+};
+
+/**
+ * Функция вставки с замещением указанной индексом и размером области в строку.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @arg {number} size Размер вставки.
+ * @arg {number} index Индекс вставки.
+ * @arg {string} paste Строка вставки.
+ * @arg {string} string Исходная строка.
+*/
+export function stringPaste(string, paste, index, size = 0) {
+
+    return pasteDeceit({ string, paste, index, size, });
+
+};
+
+//#endregion
+//#region pasteWrap 0.0.0
+
+/**
+ * @typedef TBpasteWrap
+ * @prop {number} y
+ * @prop {number} x
+ * @prop {number} size
+ * @prop {string} paste
+ * @prop {string} string
+ * @prop {number} position
+ * @typedef {TBpasteWrap&Tpaste} TpasteWrap
+*/
+
+/** @arg {TpasteWrap} t */
+function pasteWrapDeceit(t) {
+
+    try {
+
+        return pasteWrapVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @arg {TpasteWrap} t */
+function pasteWrapVerify(t) {
+
+
+
+    return pasteWrapHandle(t);
+
+};
+/** @arg {TpasteWrap} t */
+function pasteWrapHandle(t) {
+
+    if (t.position) {
+
+        t.x = t.position;
+        t.y = 0;
+
+        for (const s of t.string.split('\n')) {
+
+            if (s.length <= t.x) {
+
+                t.y += 1;
+                t.x -= s.length;
+
+            } else break;
+
+        };
+
+    };
+
+    return pasteWrapComply(t);
+
+};
+/** @arg {TpasteWrap} t */
+function pasteWrapComply(t) {
+
+    let {
+
+        x,
+        y,
+        size,
+        paste,
+        string,
+
+    } = t;
+
+    let result = string;
+
+    paste.split('\n').forEach((p, i) => {
+
+        let s = stringGetRowByIndex(result, y);
+
+        if (!s) {
+
+            result += '\n'.repeat(y - result.split('\n').length + 1);
+            s = stringGetRowByIndex(result, y);
+
+        };
+
+        if (!s[x]) result = stringReplaceRowByIndex(result, y, s = s.padEnd(x + 1 + p.length, ' '));
+
+        s = stringPaste(s, p, x, size === 'auto' ? p.length : size);
+
+        result = stringReplaceRowByIndex(result, y, s);
+
+        y += 1;
+
+    });
+
+    return result;
+
+};
+
+/**
+ * Функция вставки с переносом позиции.
+ *
+ * Вставляет значения вставки, как обычные значения.
+ * Если встречает символы переноса строки `\n`, то вместо из вставки переносит индекс на строку ниже.
+ * Если такой строки не существует, то она будет создана и дополнена пробелами до текущей позиции.
+ * Иначе строка будет все равно дополнена до указанной позиции, после чего вставка продолжится.
+ *
+ * Использует в своей работе простую вставку.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @arg {number} y Индекс строки.
+ * @arg {number} x Индекс столбца.
+ * @arg {string} paste Строка вставки.
+ * @arg {string} string Исходная строка.
+ * @arg {number|'auto'} size Размер области вставки.
+ * - по умолчанию `auto`
+*/
+export function stringPasteWrap(string, paste, x, y, size = 'auto') {
+
+    return pasteWrapDeceit({ string, paste, x, y, size, });
+
+};
+/**
+ * Функция вставки с переносом позиции относительно позиции в исходной строке.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @arg {string} paste Вставка.
+ * @arg {string} string Исходная строка.
+ * @arg {number} position Позиция.
+ * @arg {number|'auto'} size Размер области вставки.
+ * - по умолчанию `auto`
+*/
+export function stringPasteWrapByPosition(string, paste, position, size = 'auto') {
+
+    return pasteWrapDeceit({ string, paste, position, size, });
+
+};
+
+//#endregion
 
 //#region replace 0.1.0
 
@@ -2066,6 +3015,82 @@ export function stringReplaceAllMore(string, ...replaces) {
     replaces.filter(f => f).forEach(r => string = stringReplaceAll(string, ...r));
 
     return string;
+
+};
+
+//#endregion
+//#region replaceRowByIndex 0.0.0
+
+/**
+ * @typedef TBreplaceRowByIndex
+ * @prop {number} index
+ * @prop {string} string
+ * @prop {string} replace
+ * @typedef {TBreplaceRowByIndex} TreplaceRowByIndex
+*/
+
+/** @arg {TreplaceRowByIndex} t */
+function replaceRowByIndexDeceit(t) {
+
+    try {
+
+        return replaceRowByIndexVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @arg {TreplaceRowByIndex} t */
+function replaceRowByIndexVerify(t) {
+
+
+
+    return replaceRowByIndexHandle(t);
+
+};
+/** @arg {TreplaceRowByIndex} t */
+function replaceRowByIndexHandle(t) {
+
+
+
+    return replaceRowByIndexComply(t);
+
+};
+/** @arg {TreplaceRowByIndex} t */
+function replaceRowByIndexComply(t) {
+
+    const {
+
+        index,
+        string,
+        replace,
+
+    } = t;
+
+    const a = string.split('\n');
+
+    a[index] = replace;
+
+    return a.join('\n');
+
+};
+
+/**
+ * Функция замены линии по индексу.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @arg {number} index Индекс.
+ * @arg {string} string Исходная строка.
+ * @arg {string} replace Линия замены.
+*/
+export function stringReplaceRowByIndex(string, index, replace) {
+
+    return replaceRowByIndexDeceit({ string, index, replace, });
 
 };
 
@@ -2634,7 +3659,7 @@ function castToYReportComply(t) {
             ['_', /null/],
             ['-', /false/],
             ['?', /undefinded/],
-            ['\n' ,/.(?<r>\n\n)/],
+            ['\n', /.(?<r>\n\n)/],
 
         )
         .get()
