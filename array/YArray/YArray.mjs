@@ -6,7 +6,8 @@ import { arrayChangeSize, arrayLevel } from "../array.mjs";
  * @typedef TBArray
  * @prop {any[]} array
  * @prop {number} size
- * @typedef {DArray&TBArray} TArray
+ * @typedef {{[p in Exclude<keyof DArray,keyof SArray>|Exclude<keyof SArray,keyof DArray>]:(DArray[p]&SArray[p])}} TDArray
+ * @typedef {TDArray&TBArray} TArray
 */
 
 class SArray extends YList {
@@ -16,11 +17,6 @@ class SArray extends YList {
 };
 class DArray extends SArray {
 
-    /**
-     * @type {any[]}
-     * @protected
-    */
-    values = [];
     /**
      * Фиксированность элементов при смещении влево.
      * * Определяет, должны ли элементы сдвигаться влево, если при удалении есть пустое пространство.
@@ -77,20 +73,22 @@ class FArray extends MArray {
     /** @arg {any[]} t */
     static #before(t) {
 
-        if (t?.length === 1 && [Object, YArray].includes(t[0]?.constructor) && !Object.getOwnPropertyNames(t[0], '_ytp')) {
+        if (t?.length === 1 && [Object, YArray].includes(t[0]?.constructor) && !Object.getOwnPropertyNames(t[0]).includes('_ytp')) {
 
             return t[0];
 
         } else if (t?.length) {
 
-            if (t[0]._ytp) t = [...t[0]._ytp];
-
             /** @type {TArray&DArray} */
             const r = {};
 
+            if (t[0]._ytp) t = [...t[0]._ytp];
+
             switch (t.length) {
 
-                default: r.values = t;
+                case 3:
+                case 2:
+                case 1: r.values = t;
 
             };
 
@@ -154,9 +152,12 @@ class FArray extends MArray {
 };
 
 /**
+ * Класс `YArray`
+ *
  *
  * - Тип `SDIMFY`
  * - Версия `0.0.0`
+ * - Модуль ``
  * - Цепочка `BDVHC`
 */
 export class YArray extends FArray {
@@ -170,6 +171,16 @@ export class YArray extends FArray {
         return this.values;
 
     };
+    /**
+     * Метод получения значений по курсорам.
+     * - Версия `0.0.0`
+    */
+    getByCursors() {
+
+
+
+    };
+
     /**
      * Метод создания объема для указанных элементов массива.
      *

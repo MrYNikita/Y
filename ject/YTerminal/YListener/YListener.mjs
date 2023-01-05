@@ -1,11 +1,13 @@
 import { YJect } from "../../YJect/YJect.mjs";
 import { jectFill } from "../../ject.mjs";
 import { emitKeypressEvents } from "readline";
+import { YTerminal } from "../YTerminal.mjs";
 
 /**
  * @typedef TBListener
  * @prop {any} _
- * @typedef {DListener&TBListener} TListener
+ * @typedef {{[p in Exclude<keyof DListener,keyof SListener>|Exclude<keyof SListener,keyof DListener>]:(DListener[p]&SListener[p])}} TDListener
+ * @typedef {TDListener&TBListener} TListener
 */
 
 class SListener extends YJect {
@@ -20,7 +22,11 @@ class SListener extends YJect {
 };
 class DListener extends SListener {
 
-
+    /**
+     * Терминал.
+     * @type {YTerminal?}
+    */
+    terminal = null;
 
 };
 class IListener extends DListener {
@@ -50,11 +56,6 @@ class IListener extends DListener {
      * @type {boolean}
     */
     active = false;
-    /**
-     * Терминал.
-     * @type {YTerminal?}
-    */
-    terminal = null;
 
 };
 class MListener extends IListener {
@@ -67,7 +68,7 @@ class MListener extends IListener {
     */
     signal() {
 
-        if (this.terminal) {};
+        if (this.terminal) this.terminal.receive();
 
         return this;
 
@@ -97,7 +98,7 @@ class FListener extends MListener {
     /** @arg {any[]} t */
     static #before(t) {
 
-        if (t?.length === 1 && [Object, YListener].includes(t[0]?.constructor) && !Object.getOwnPropertyNames(t[0], '_ytp')) {
+        if (t?.length === 1 && [Object, YListener].includes(t[0]?.constructor) && !Object.getOwnPropertyNames(t[0]).includes('_ytp')) {
 
             return t[0];
 
@@ -106,13 +107,13 @@ class FListener extends MListener {
             /** @type {TListener&DListener} */
             const r = {};
 
-            if (t[0]._ytp) t = [...t[0]._ytp];
+            if (t[0]?._ytp) t = [...t[0]._ytp];
 
             switch (t.length) {
 
                 case 3:
                 case 2:
-                case 1:
+                case 1: r.terminal = t[0];
 
             };
 
@@ -176,8 +177,8 @@ class FListener extends MListener {
  * Класс прослушивателя, экземпляры которого предназначены для получения данных пользовательского ввода.
  * С его помощью разнообразные структуры, такие как `YMenu` и `YInput` могут получать данные, необходимые для реагирования на действия пользователя.
  * - Тип `SDIMFY`
- * - Версия `0.0.0`
- * - Модуль `ject.cli`
+ * - Версия `0.1.0`
+ * - Модуль `ject.terminal`
  * - Цепочка `BDVHC`
 */
 export class YListener extends FListener {
@@ -197,6 +198,7 @@ export class YListener extends FListener {
              * @arg {import("readline").Key} k Данные клавиши.
             */
             (c, k) => {
+
 
                 this.value = c ? c.toString() : c;
                 this.code = k.sequence;

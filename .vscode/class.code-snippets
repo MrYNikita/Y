@@ -457,7 +457,7 @@
 			"            /** @type {T$1&D$1} */",
 			"            const r = {};",
 			"            ",
-			"            if (t[0]._ytp) t = [...t[0]._ytp];",
+			"            if (t[0]?._ytp) t = [...t[0]._ytp];",
 			"            ",
 			"            switch (t.length) {",
 			"                ",

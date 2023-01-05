@@ -2,7 +2,8 @@ import { YList } from "../../ject/YBasic/YList/YList.mjs";
 import { jectFill } from "../../ject/ject.mjs";
 import { YTemplate } from "./YTemplate/YTemplate.mjs";
 import { configString, configYString } from "../../config.mjs";
-import { stringBring, stringCastToJect, stringCastToSample, stringCastToYReport, stringFilter, stringFind, stringFindAll, stringFindToJect, stringGetColor, stringGetPositionEndPasteWrap, stringHandle, stringMesuare, stringPad, stringPaste, stringPasteWrap, stringPasteWrapByPosition, stringReflect, stringRemove, stringRepaint, stringReplace, stringReplaceAllMore, stringReplaceMore, stringReverse } from "../string.mjs";
+import { stringBring, stringBringColumn, stringCastToJect, stringCastToSample, stringCastToYReport, stringFilter, stringFind, stringFindAll, stringFindToJect, stringGetColor, stringGetPositionEndPasteWrap, stringGetPositionRowStartByIndex, stringGetRowByIndex, stringHandle, stringMesuare, stringPad, stringPaste, stringPasteWrap, stringPasteWrapByPosition, stringReflect, stringRemove, stringRepaint, stringReplace, stringReplaceAllMore, stringReplaceMore, stringReverse, stringTrim } from "../string.mjs";
+import { YStylist } from "./YStylist/YStylist.mjs";
 
 /**
  * @typedef TBString
@@ -12,6 +13,8 @@ import { stringBring, stringCastToJect, stringCastToSample, stringCastToYReport,
 */
 
 class SString extends YList {
+
+    static dimension = 2;
 
     /**
      * Общедоступные шаблоны.
@@ -96,12 +99,21 @@ class DString extends SString {
 };
 class IString extends DString {
 
-
+    stylist = new YStylist(this);
 
 };
 class MString extends IString {
 
+    /**
+     * Метод вычисления позиции по координатам вставки.
+     * - Версия `0.0.0`
+     * @protected
+    */
+    calculateIndex() {
 
+        return stringGetPositionRowStartByIndex(this.values, this.cursors[0].indexs[0], false) + this.cursors[0].indexs[1];
+
+    };
 
 };
 class FString extends MString {
@@ -136,7 +148,7 @@ class FString extends MString {
             /** @type {TString&DString} */
             const r = {};
 
-            if (t[0]._ytp) t = [...t[0]._ytp];
+            if (t[0]?._ytp) t = [...t[0]._ytp];
 
             switch (t.length) {
 
@@ -205,7 +217,7 @@ class FString extends MString {
  *
  *
  * - Тип `SDIMFY`
- * - Версия `0.4.0`
+ * - Версия `0.5.0`
  * - Модуль `string`
  * - Цепочка `BDVHC`
 */
@@ -213,7 +225,10 @@ export class YString extends FString {
 
     /**
      * Метод для получения текущей строки.
-     * @arg {boolean} style
+     * - Версия `0.1.0`
+     * @arg {boolean} style Режим стилизации.
+     *
+     * Активация данного режима позволяет получить итоговую строку с сохранением цветов и декораторов текста.
      * @return {string}
     */
     get(style) {
@@ -281,6 +296,18 @@ export class YString extends FString {
     };
 
     /**
+     * Метод обрезки обернутой строки.
+     * - Версия `0.0.0`
+    */
+    trim() {
+
+        this.values = stringTrim(this.values);
+
+        return this;
+
+    };
+
+    /**
      * Метод для выполнения функции в контексте указанной строки.
      * В качестве значения необходимо передать функцию с указанным первым аргументом.
      * Данный аргумент предоставит доступ к строке.
@@ -302,13 +329,11 @@ export class YString extends FString {
     */
     paste(...strings) {
 
-        strings = strings.reverse();
+        strings = strings.reverse().filter(f => f);
 
         while (strings.length) {
 
             let sp = strings.pop();
-
-            if (!sp) continue;
 
             if (sp instanceof Function) {
 
@@ -329,11 +354,10 @@ export class YString extends FString {
 
             sp = sp.replace(/^.+/mg, (this.tabValue ?? this?.over?.tabValue)?.repeat(this.tabIndex ?? this?.over?.tabIndex ?? 0) + '$&');
 
-            this.cursors.forEach(c => this.values = stringPaste(this.values, sp, c.positions[0], c.size));
+            this.cursors.forEach(c => this.values = stringPaste(this.values, sp, this.calculateIndex(), c.size));
             this.moveCursors(sp.length);
 
         };
-
 
         return this;
 
@@ -356,7 +380,7 @@ export class YString extends FString {
 
             this.cursors.forEach(c => {
 
-                this.values = stringPasteWrapByPosition(this.values, s, c.index, 'auto');
+                this.values = stringPasteWrap(this.values, s, c.indexs[1], c.indexs[0]);
 
             });
 
@@ -368,14 +392,14 @@ export class YString extends FString {
 
     /**
      * Метод для повторения указанного фрагмента строки.
-     * - Версия `0.0.1`
+     * - Версия `0.0.2`
      * @arg {number} count
     */
     repeat(count) {
 
         const s = this.values;
 
-        for (let i = 1; i < count; i++) this.paste(s);
+        this.paste(s.repeat(count));
 
         return this;
 
@@ -407,30 +431,6 @@ export class YString extends FString {
     };
 
     /**
-     * Метод для перемещения курсора.
-     * - Версия `0.0.0`
-     * @arg {number} x Индекс символа.
-     *
-     * - По умолчанию `0`
-     * @arg {number?} y Индекс строки.
-     *
-     * Игнорируется, если не задан размер строки.
-     * - По умолчанию `0`
-    */
-    setCursorTo(x = 0, y = null) {
-
-        const ly = Math.floor(this.values.length / this.rowLength + this.rowEnd.length - 1) - 1;
-
-        if (this.rowLength && (x >= this.rowLength)) x = this.rowLength - 1;
-        if (this.rowLength && (y >= ly)) y = ly;
-
-        SString.prototype.setCursorTo.apply(this, [x + (y ? (y * (this.rowLength - 1 + this.rowEnd.length)) : 0)]);
-
-        return this;
-
-    };
-
-    /**
      * Метод копирования строки.
      * @return {YString}
     */
@@ -453,29 +453,15 @@ export class YString extends FString {
 
     };
     /**
-     * Метод отображения состояния.
-     * - Версия `0.0.0`
-    */
-    report() {
-
-        new YString(this.getReport())
-
-            .castToYReport()
-            .display()
-
-        return this;
-
-    };
-    /**
      * Метод для обрезания строки.
      * @arg {number} length Длина обрезки.
      * @arg {boolean} left Сторона обрезки.
     */
-    remove(length) {
+    remove(length = -1) {
 
-        this.values = stringRemove(this.values, this.cursors[0].index, length);
+        this.values = stringRemove(this.values, this.cursors[0].indexs[1] - 1, length);
 
-        this.cursors.forEach(c => c.move(length));
+        this.moveCursors(length);
 
         return this;
 
@@ -601,30 +587,6 @@ export class YString extends FString {
         if (r.length) this.filter(...fragments);
 
         return r;
-
-    };
-    /**
-     * Метод для получения информации.
-     * - Версия `0.0.0`
-    */
-    getReport() {
-
-        return new YString()
-
-            .changePostfix(';\n')
-            .paste(
-
-                `Префикс: '${stringCastToSample(this.prefix)}'`,
-                `Постфикс: '${stringCastToSample(this.postfix)}'`,
-                `Цвет заднего плана: '${this.colorB}'`,
-                `Цвет переднего плана: '${this.colorF}'`,
-                `Кол-во символов: ${this.values.length}`,
-                `Кол-во курсоров: ${this.cursors.length}`,
-                `Кол-во шаблонов: ${this.templates.length}`,
-                `Позиции курсоров: [${this.cursors.map(c => c.index)}]`,
-
-            )
-            .get();
 
     };
     /**
@@ -862,6 +824,16 @@ export class YString extends FString {
     resetStyle() {
 
         this.replaceAll(['', /\x1b\[\d+m/]);
+
+        return this;
+
+    };
+
+    setCursorTo(...indexs) {
+
+        SString.prototype.setCursorTo.apply(this, [...indexs]);
+
+        this.values = stringBringColumn(this.values, ...indexs);
 
         return this;
 

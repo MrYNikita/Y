@@ -8,7 +8,8 @@ import { YTerminal } from "../YTerminal.mjs";
 /**
  * @typedef TBInterface
  * @prop {any} _
- * @typedef {DInterface&TBInterface} TInterface
+ * @typedef {{[p in Exclude<keyof DInterface,keyof SInterface>|Exclude<keyof SInterface,keyof DInterface>]:(DInterface[p]&SInterface[p])}} TDInterface
+ * @typedef {TDInterface&TBInterface} TInterface
 */
 
 class SInterface extends YJect {
@@ -19,35 +20,20 @@ class SInterface extends YJect {
 class DInterface extends SInterface {
 
     /**
-     * Над-скрин.
-     * @type {YInterface?}
-    */
-    over = null;
-    /**
      * Метка.
      * @type {string}
     */
     label = '';
-    /**
-     * Разметка.
-     * @type {YString}
-    */
-    layout = new YString();
     /**
      * Терминал.
      * @type {YTerminal?}
     */
     terminal = null;
     /**
-     * Элементы.
+     * Массив элементов.
      * @type {YElement[]}
     */
     elements = [];
-    /**
-     * Вложенные скрины.
-     * @type {YInterface[]}
-    */
-    interfaces = [];
     /**
      * Интерактивный элемент.
      * @type {YInteract?}
@@ -62,7 +48,17 @@ class IInterface extends DInterface {
 };
 class MInterface extends IInterface {
 
+    /**
+     * Метод принятия данных от прослушивателя.
+     * - Версия `0.0.0`
+     * @protected
+     *
+    */
+    receive() {
 
+        
+
+    };
 
 };
 class FInterface extends MInterface {
@@ -87,7 +83,6 @@ class FInterface extends MInterface {
 
     /** @arg {any[]} t */
     static #before(t) {
-
 
         if (t?.length === 1 && [Object, YInterface].includes(t[0]?.constructor) && !Object.getOwnPropertyNames(t[0]).includes('_ytp')) {
 
@@ -142,7 +137,7 @@ class FInterface extends MInterface {
     /** @arg {TInterface} t @this {YInterface} */
     static #handle(t) {
 
-        if (t.interactor) t.interactor.interface = this;
+
 
     };
     /** @arg {TInterface} t @this {YInterface} */
@@ -165,60 +160,22 @@ class FInterface extends MInterface {
 /**
  * Класс `YInterface`
  *
- * Класс экранов `YTerminal`.
+ * Класс отображений. Позволяет `YTerminal` (терминалам) отображать данные и результаты взаимодействий.
  *
- * Экземпляры класса предназначены для отображения экранов терминала, размещающих в себе элементы `YTerminal`.
- * Такими элементами могут выступать `YMenu` или `YInput` элементы.
+ * Состоит из собственной разметки и `YElement` (элементов) отображения, один из которых может быть `YInteract` (интерактивным).
  * - Тип `SDIMFY`
  * - Версия `0.0.0`
- * - Модуль ``
+ * - Модуль `ject.terminal`
  * - Цепочка `BDVHC`
 */
 export class YInterface extends FInterface {
 
     /**
-     * Метод отображения интерфейса.
+     * Метод добавления элементов для указанного отображения.
      * - Версия `0.0.0`
+     * @arg {...import("./YElement/YElement.mjs").TElement} elements
     */
-    display() {
-
-        const s = new YString(this.terminal.layout)
-
-            .setCursorTo()
-            .changeCursorsSize(this.layout.get().length)
-            .paste(this.layout.get())
-            .exec(y => {
-
-                y.changeCursorFixed();
-
-                this.elements.forEach(e => {
-
-                    e.layout.split('\n').filter(s => s).forEach((s, i) => y
-
-                        .setCursorTo(e.coords[0], e.coords[1] + i)
-                        .changeCursorsSize(s.length)
-                        .paste(s)
-
-                    );
-
-                });
-
-                y.changeCursorFixed();
-
-            })
-            .display();
-
-        return this;
-
-    };
-    /**
-     * Метод добавления элементов.
-     * - Версия `0.0.0`
-     * @arg {...YElement} elements
-    */
-    appendElement(...elements) {
-
-        if (elements.length) this.elements.push(...elements.filter(e => e).map(e => e instanceof YElement ? e : new YElement({ interface: this, ...e, })));
+    appendElements(...elements) {
 
         return this;
 

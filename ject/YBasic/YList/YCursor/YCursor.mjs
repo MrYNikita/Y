@@ -33,10 +33,10 @@ class DCursor extends SCursor {
     */
     list = null;
     /**
-     * Позиция курсора в многоуровневом списке.
+     * Индексы курсора в списке.
      * @type {number[]}
     */
-    positions = [];
+    indexs = [];
 
 };
 class ICursor extends DCursor {
@@ -125,7 +125,7 @@ class FCursor extends MCursor {
     /** @arg {TCursor} t @this {YCursor} */
     static #handle(t) {
 
-        if (!t.positions || t.positions.length) t.positions = new Array(t.list.cursorDimension ?? 1).fill(0);
+        if (!t.indexs || !t.indexs.length) t.indexs = new Array(t.list.dimension ?? t.list.constructor.dimension).fill(0);
 
     };
     /** @arg {TCursor} t @this {YCursor} */
@@ -138,8 +138,6 @@ class FCursor extends MCursor {
         } = t;
 
         jectFill(this, t);
-
-
 
     };
 
@@ -164,11 +162,13 @@ export class YCursor extends FCursor {
     */
     move(bias) {
 
-        bias = this.positions[0] + bias;
+        const li = this.indexs.length - 1;
 
-        if (bias < 0) this.positions[0] = 0;
-        else if (bias >= this.list.values.length) this.positions[0] = this.list.values.length;
-        else this.positions[0] = bias;
+        bias = this.indexs[li] + bias;
+
+        if (bias < 0) this.indexs[li] = 0;
+        else if (bias >= this.list.values.length) this.indexs[li] = this.list.values.length;
+        else this.indexs[li] = bias;
 
         return this;
 
@@ -196,7 +196,7 @@ export class YCursor extends FCursor {
 
         this.size = undefined;
         this.list = undefined;
-        this.index = undefined;
+        this.indexs = [];
 
     };
     /**
@@ -209,46 +209,6 @@ export class YCursor extends FCursor {
         this.size = size;
 
         return this;
-
-    };
-    /**
-     * Метод утсановки позиции курсора.
-     * - Версия `0.0.0`
-     * @arg {number} index Индекс.
-    */
-    changeIndex(index) {
-
-        if (index < 0) this.index = 0;
-        else if (index > this.list.values.length) this.index = this.list.values.length;
-
-        this.index = index;
-
-        return this;
-
-    };
-    /**
-     * Метод вычисления конечного индекса.
-     *
-     * Данный метод учитывает тот факт, что значение размера курсора касается и его первоначального индекса.
-     * Это означает, что если размер курсора равен `1` или `-1`, то область влияния курсора будет ограничиваться его индексом.
-     * Отличие от `0` заключается в том, что для такого курсора область влияния отсутсвует.
-     * Таким образом конечный индекс не изменился.
-     *
-     * Учитывая данный факт, метод возвращает значение, которое будет являться индексом завершения области влияния курсора.
-     * Метод используется в вычислениях.
-     * - Версия `0.0.0`
-    */
-    calculateIndexEnd() {
-
-        const {
-
-            size,
-            index,
-
-        } = this;
-
-        if (size) return index + ((size < 0) ? size + 1 : size - 1);
-        else return index;
 
     };
 

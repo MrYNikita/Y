@@ -95,23 +95,20 @@ export function stringPad(string, pad, count, index = string.length) {
 };
 
 //#endregion
-//#region bring 0.0.0
+//#region trim 0.0.0
 
 /**
- * @typedef TBbring
- * @prop {string} bring
+ * @typedef TBtrim
  * @prop {string} string
- * @prop {number} index
- * @prop {number} length
- * @typedef {TBbring} Tbring
+ * @typedef {TBtrim} Ttrim
 */
 
-/** @arg {Tbring} t */
-function bringDeceit(t) {
+/** @arg {Ttrim} t */
+function trimDeceit(t) {
 
     try {
 
-        return bringVerify(t);
+        return trimVerify(t);
 
     } catch (e) {
 
@@ -122,93 +119,44 @@ function bringDeceit(t) {
     };
 
 };
-/** @arg {Tbring} t */
-function bringVerify(t) {
+/** @arg {Ttrim} t */
+function trimVerify(t) {
+
+
+
+    return trimHandle(t);
+
+};
+/** @arg {Ttrim} t */
+function trimHandle(t) {
+
+
+
+    return trimComply(t);
+
+};
+/** @arg {Ttrim} t */
+function trimComply(t) {
 
     const {
 
-
-
-    } = t;
-
-    return bringHandle(t);
-
-};
-/** @arg {Tbring} t */
-function bringHandle(t) {
-
-    let {
-
-
-
-    } = t;
-
-
-
-    t = {
-
-        ...t,
-
-    };
-
-    return bringComply(t);
-
-};
-/** @arg {Tbring} t */
-function bringComply(t) {
-
-    const {
-
-        index,
-        bring,
         string,
-        length,
 
     } = t;
 
-    if (string.length < length) return stringAppend(string, index, bring.repeat(length - string.length));
-    else return string;
+    return string.trimEnd().split('\n').map(s => s.trimEnd()).join('\n');
 
 };
 
 /**
- * Функция дополнения строки до указнной длины указанными символами.
+ * Функция обрезки каждой линии строки и самой строки от свободных линий.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @arg {string} bring Дополнения.
- * @arg {string} string Исходная строка.
- * @arg {number} index Индекс дополнения.
- * @arg {number} length Требуемая длина новой строки.
+ * @arg {string} string - Исходная строка.
 */
-export function stringBring(string, index, length, bring) {
+export function stringTrim(string) {
 
-    return bringDeceit({ string, index, length, bring });
-
-};
-/**
- * Функция дополнения строки с её начала до указанной длины указанными символами.
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * @arg {string} bring Дополнения.
- * @arg {string} string Исходная строка.
- * @arg {number} length Требуемая длина новой строки.
-*/
-export function stringBringLeft(string, length, bring) {
-
-    return bringDeceit({ string, length, index: 0, bring })
-
-};
-/**
- * Функция дополнения строки с её конца до указанной длины указанными символами.
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * @arg {string} bring Дополнения.
- * @arg {string} string Исходная строка.
- * @arg {number} length Требуемая длина новой строки.
-*/
-export function stringBringRight(string, length, bring) {
-
-    return bringDeceit({ string, length, index: string.length - 1, bring });
+    return trimDeceit({ string, });
 
 };
 
@@ -796,93 +744,6 @@ function handleComply(t) {
 export function stringHandle(string, handle, ...fragments) {
 
     return handleDeceit({ string, handle, fragments });
-
-};
-
-//#endregion
-//#region repaint 0.0.0
-
-/**
- * @typedef TBrepaint
- * @prop {string} color
- * @prop {string} string
- * @typedef {TBrepaint} Trepaint
-*/
-
-/** @arg {Trepaint} t */
-function repaintDeceit(t) {
-
-    try {
-
-        return repaintVerify(t);
-
-    } catch (e) {
-
-        if (config.strict) throw e;
-
-        return undefined;
-
-    };
-
-};
-/** @arg {Trepaint} t */
-function repaintVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return repaintHandle(t);
-
-};
-/** @arg {Trepaint} t */
-function repaintHandle(t) {
-
-    let {
-
-
-
-    } = t;
-
-    t = {
-
-        ...t,
-
-    };
-
-    return repaintComply(t);
-
-};
-/** @arg {Trepaint} t */
-function repaintComply(t) {
-
-    const {
-
-        color,
-        string,
-        bright,
-        background,
-
-    } = t;
-
-    return `${stringGetColor(color, bright, background)}${string}${stringGetColor('reset', 0, background)}`;
-
-};
-
-/**
- * Функция для перекрашивания строки.
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * @arg {string} color
- * @arg {string} string
- * @arg {boolean} bright
- * @arg {boolean} background
-*/
-export function stringRepaint(string, color, bright, background) {
-
-    return repaintDeceit({ string, color, bright, background });
 
 };
 
@@ -1769,13 +1630,12 @@ export function stringGetPositionRowStartByIndex(string, index, wrap = true) {
 
 //#endregion
 
-//#region getColor 0.0.0
+//#region getColor 0.1.0
 
 /**
  * @typedef TBgetColor
- * @prop {string} color
- * @prop {boolean} bright
  * @prop {boolean} background
+ * @prop {string|number} color
  * @typedef {TBgetColor} TgetColor
 */
 
@@ -1838,38 +1698,20 @@ function getColorComply(t) {
 
     } = t;
 
-    let result = Object.entries({
-
-        red: 31,
-        cyan: 36,
-        blue: 34,
-        reset: 39,
-        black: 30,
-        green: 32,
-        white: 37,
-        yellow: 33,
-        magenta: 35,
-
-    }).find(c => c[0].match(new RegExp(color)));
-
-    if (background) result[1] += 10;
-    if (bright && result[0] !== 'reset') result[1] += 60;
-
-    return `\x1b[${result[1]}m`;
+    return Object.entries(configString.getColor.colors).find(c => c[0].match(new RegExp(color)))[1];
 
 };
 
 /**
- * Функция для определения цвета.
+ * Функция для определения кода цвета по его названию.
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @arg {string} color
- * @arg {boolean} bright
- * @arg {boolean} background
+ * @arg {string} color Код/название цвета.
+ * @arg {boolean} background Режим определения фонового цвета.
 */
-export function stringGetColor(color, bright, background) {
+export function stringGetColor(color, background) {
 
-    return getColorDeceit({ color, bright, background });
+    return getColorDeceit({ color, background });
 
 };
 
@@ -2594,6 +2436,272 @@ export function stringFindFromPosition(string, index, ...fragments) {
 
 //#endregion
 
+//#region bring 0.0.0
+
+/**
+ * @typedef TBbring
+ * @prop {string} bring
+ * @prop {string} string
+ * @prop {number} index
+ * @prop {number} length
+ * @typedef {TBbring} Tbring
+*/
+
+/** @arg {Tbring} t */
+function bringDeceit(t) {
+
+    try {
+
+        return bringVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @arg {Tbring} t */
+function bringVerify(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return bringHandle(t);
+
+};
+/** @arg {Tbring} t */
+function bringHandle(t) {
+
+    let {
+
+
+
+    } = t;
+
+
+
+    t = {
+
+        ...t,
+
+    };
+
+    return bringComply(t);
+
+};
+/** @arg {Tbring} t */
+function bringComply(t) {
+
+    const {
+
+        index,
+        bring,
+        string,
+        length,
+
+    } = t;
+
+    if (string.length < length) return stringAppend(string, index, bring.repeat(length - string.length));
+    else return string;
+
+};
+
+/**
+ * Функция дополнения строки до указнной длины указанными символами.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @arg {string} bring Дополнения.
+ * @arg {string} string Исходная строка.
+ * @arg {number} index Индекс дополнения.
+ * @arg {number} length Требуемая длина новой строки.
+*/
+export function stringBring(string, index, length, bring) {
+
+    return bringDeceit({ string, index, length, bring });
+
+};
+/**
+ * Функция дополнения строки с её начала до указанной длины указанными символами.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @arg {string} bring Дополнения.
+ * @arg {string} string Исходная строка.
+ * @arg {number} length Требуемая длина новой строки.
+*/
+export function stringBringLeft(string, length, bring) {
+
+    return bringDeceit({ string, length, index: 0, bring })
+
+};
+/**
+ * Функция дополнения строки с её конца до указанной длины указанными символами.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @arg {string} bring Дополнения.
+ * @arg {string} string Исходная строка.
+ * @arg {number} length Требуемая длина новой строки.
+*/
+export function stringBringRight(string, length, bring) {
+
+    return bringDeceit({ string, length, index: string.length - 1, bring });
+
+};
+
+//#endregion
+//#region bringRow 0.0.0
+
+/**
+ * @typedef TBbringRow
+ * @prop {number} row
+ * @prop {string} string
+ * @typedef {TBbringRow} TbringRow
+*/
+
+/** @arg {TbringRow} t */
+function bringRowDeceit(t) {
+
+    try {
+
+        return bringRowVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @arg {TbringRow} t */
+function bringRowVerify(t) {
+
+
+
+    return bringRowHandle(t);
+
+};
+/** @arg {TbringRow} t */
+function bringRowHandle(t) {
+
+
+
+    return bringRowComply(t);
+
+};
+/** @arg {TbringRow} t */
+function bringRowComply(t) {
+
+    const {
+
+        row,
+        string,
+
+    } = t;
+
+    const rc = string.match(/\n/g)?.length ?? 0;
+
+    return row && rc < row ? string + '\n'.repeat(row - rc) : string;
+
+};
+
+/**
+ * Функция доведения строки до указанного кол-ва линий.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @arg {string} string Исходная строка.
+ * @arg {number} row Кол-во строк.
+*/
+export function stringBringRow(string, row) {
+
+    return bringRowDeceit({ string, row });
+
+};
+
+//#endregion
+//#region bringColumn 0.0.0
+
+/**
+ * @typedef TBbringColumn
+ * @prop {number} row
+ * @prop {number} column
+ * @prop {string} string
+ * @typedef {TBbringColumn} TbringColumn
+*/
+
+/** @arg {TbringColumn} t */
+function bringColumnDeceit(t) {
+
+    try {
+
+        return bringColumnVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @arg {TbringColumn} t */
+function bringColumnVerify(t) {
+
+
+
+    return bringColumnHandle(t);
+
+};
+/** @arg {TbringColumn} t */
+function bringColumnHandle(t) {
+
+
+
+    return bringColumnComply(t);
+
+};
+/** @arg {TbringColumn} t */
+function bringColumnComply(t) {
+
+    const {
+
+        row,
+        column,
+        string,
+
+    } = t;
+
+    let result = stringBringRow(string, row);
+    let r = stringGetRowByIndex(result, row);
+    let n = column - r.length;
+
+    return stringReplaceRowByIndex(result, row, r + ' '.repeat(n <= 0 ? 0 : n));
+
+};
+
+/**
+ * Функция дополнения указанной линии до указанного размера.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @arg {string} string Исходная строка.
+ * @arg {number} row Индекс линии.
+ * @arg {number} column Индекс длины линии.
+*/
+export function stringBringColumn(string, row, column) {
+
+    return bringColumnDeceit({ string, row, column, });
+
+};
+
+//#endregion
+
 //#region paste 0.0.1
 
 /**
@@ -2682,7 +2790,7 @@ export function stringPaste(string, paste, index, size = 0) {
 };
 
 //#endregion
-//#region pasteWrap 0.0.0
+//#region pasteWrap 0.0.1
 
 /**
  * @typedef TBpasteWrap
@@ -2762,7 +2870,7 @@ function pasteWrapComply(t) {
 
         let s = stringGetRowByIndex(result, y);
 
-        if (!s) {
+        if (!s && s !== '') {
 
             result += '\n'.repeat(y - result.split('\n').length + 1);
             s = stringGetRowByIndex(result, y);
@@ -2819,6 +2927,78 @@ export function stringPasteWrap(string, paste, x, y, size = 'auto') {
 export function stringPasteWrapByPosition(string, paste, position, size = 'auto') {
 
     return pasteWrapDeceit({ string, paste, position, size, });
+
+};
+
+//#endregion
+
+//#region checkStyle 0.0.0
+
+/**
+ * @typedef TBcheckStyle
+ * @prop {string} string
+ * @typedef {TBcheckStyle} TcheckStyle
+*/
+
+/** @arg {TcheckStyle} t */
+function checkStyleDeceit(t) {
+
+    try {
+
+        return checkStyleVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @arg {TcheckStyle} t */
+function checkStyleVerify(t) {
+
+
+
+    return checkStyleHandle(t);
+
+};
+/** @arg {TcheckStyle} t */
+function checkStyleHandle(t) {
+
+
+
+    return checkStyleComply(t);
+
+};
+/** @arg {TcheckStyle} t */
+function checkStyleComply(t) {
+
+    const {
+
+        string,
+
+    } = t;
+
+    return !!stringFind(string, new YRegExp()
+
+        .appendVariate(/\x1b\[(\d+|;)+?m/)
+        .get()
+
+    );
+
+};
+
+/**
+ * Функция проверки наличия стилей в указанной строке.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @arg {string} string Исходная строка.
+*/
+export function stringCheckStyle(string) {
+
+    return checkStyleDeceit({ string, });
 
 };
 
@@ -3179,6 +3359,164 @@ function mesuareComply(t) {
 export function stringMesuare(string, step, ...substrings) {
 
     return mesuareDeceit({ string, step, substrings, });
+
+};
+
+//#endregion
+
+//#region repaint 0.1.0
+
+/**
+ * @typedef TBrepaint
+ * @prop {string} string
+ * @prop {string|number} foreground
+ * @prop {string|number} background
+ * @typedef {TBrepaint} Trepaint
+ * @typedef {keyof configString['getColor']['colors']} MrepaintColor
+*/
+
+/** @arg {Trepaint} t */
+function repaintDeceit(t) {
+
+    try {
+
+        return repaintVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @arg {Trepaint} t */
+function repaintVerify(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return repaintHandle(t);
+
+};
+/** @arg {Trepaint} t */
+function repaintHandle(t) {
+
+    if (t.foreground || t.foreground === 0) {
+
+        const p = parseInt(t.foreground);
+
+        if (!p && p !== 0) t.foreground = stringGetColor(t.foreground);
+        else if (p >= 0 && p <= 255) t.foreground = p;
+        else t.foreground = undefined;
+
+    };
+    if (t.background || t.background === 0) {
+
+        const p = parseInt(t.background);
+
+        if (!p && p !== 0) t.background = stringGetColor(t.background);
+        else if (p >= 0 && p <= 255) t.background = p;
+        else t.background = undefined;
+
+    };
+
+    return repaintComply(t);
+
+};
+/** @arg {Trepaint} t */
+function repaintComply(t) {
+
+    const {
+
+        string,
+        foreground,
+        background,
+
+    } = t;
+
+    if (foreground && background) return `\x1b[38;5;${foreground};48;5;${background}m${string}\x1b[39;49m`;
+    else if (foreground && !background) return `\x1b[38;5;${foreground}m${string}\x1b[39m`;
+    else if (background && !foreground) return `\x1b[48;5;${background}m${string}\x1b[49m`;
+    else return string;
+
+};
+
+/**
+ * Функция для перекрашивания указанной строки в указанные цвета заднего и переднего плана.
+ *
+ * Цвета можно указать двумя способами: через название или через код.
+ * Первый способ может определить код цаета по его названию, причем не обязательно давать точное название.
+ * Второй способ наиболее предпочтительный, так как с его помощью можно миновать процесс поиска цвета,
+ * однако важно, чтобы код был представлен числом от 0 до 255, а иначе цвет не будет учтен.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @arg {string} string Исходная строка.
+ * @arg {MrepaintColor|number} background Цвет фона.
+ * @arg {MrepaintColor|number} foreground Цвет переднего плана.
+*/
+export function stringRepaint(string, foreground, background) {
+
+    return repaintDeceit({ string, foreground, background, });
+
+};
+
+//#endregion
+
+//#region injectANSI 0.0.0
+
+/**
+ * @typedef TBinjectANSI
+ * @prop {any} _
+ * @typedef {TBinjectANSI} TinjectANSI
+*/
+
+/** @arg {TinjectANSI} t */
+function injectANSIDeceit(t) {
+
+    try {
+
+        return injectANSIVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @arg {TinjectANSI} t */
+function injectANSIVerify(t) {
+
+
+
+    return injectANSIHandle(t);
+
+};
+/** @arg {TinjectANSI} t */
+function injectANSIHandle(t) {
+
+
+
+    return injectANSIComply(t);
+
+};
+/** @arg {TinjectANSI} t */
+function injectANSIComply(t) {
+
+    const {
+
+
+
+    } = t;
+
+
 
 };
 

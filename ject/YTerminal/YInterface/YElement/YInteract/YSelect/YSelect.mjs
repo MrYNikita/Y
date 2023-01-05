@@ -3,13 +3,13 @@ import { jectFill } from "../../../../../ject.mjs";
 import { YInteract } from "../YInteract.mjs";
 
 /**
- * @typedef TBMenu
+ * @typedef TBSelect
  * @prop {any} _
- * @typedef {{[p in Exclude<keyof DMenu,keyof SMenu>|Exclude<keyof SMenu,keyof DMenu>]:(DMenu[p]&SMenu[p])}} TDMenu
- * @typedef {TDMenu&TBMenu&import("../YInteract.mjs").TInteract} TMenu
+ * @typedef {{[p in Exclude<keyof DSelect,keyof SSelect>|Exclude<keyof SSelect,keyof DSelect>]:(DSelect[p]&SSelect[p])}} TDSelect
+ * @typedef {TDSelect&TBSelect&import("../YInteract.mjs").TInteract} TSelect
 */
 
-class SMenu extends YInteract {
+class SSelect extends YInteract {
 
     static binds = [
 
@@ -18,11 +18,12 @@ class SMenu extends YInteract {
             y => y.points[y.index][1](),
         ],
         [['\x1B[B', 's'],
-            /** @arg {YMenu} y */
-            y => ++y.index >= y.points.length ? y.index = 0 : 0,
+        /** @arg {YMenu} y */
+        y => ++y.index >= y.points.length ? y.index = 0 : 0,
             true,
         ],
-        [['\x1B[A', 'w'],
+        [
+            ['\x1B[A', 'w'],
             /** @arg {YMenu} y */
             y => --y.index < 0 ? y.index = y.points.length - 1 : 0,
             true,
@@ -31,69 +32,68 @@ class SMenu extends YInteract {
     ];
 
 };
-class DMenu extends SMenu {
+class DSelect extends SSelect {
 
     /**
-     * Пункты меню.
-     * @type {[string,function():void][]}
+     * Пункты.
+     * @type {string[]}
     */
     points = [];
 
 };
-class IMenu extends DMenu {
+class ISelect extends DSelect {
 
     /**
      * Индекс.
-     *
-     * Определяет выбранный пункт меню.
      * @type {number}
     */
     index = 0;
 
 };
-class MMenu extends IMenu {
+class MSelect extends ISelect {
 
-    /** @arg {string} string Ключ-код/символ привязки. */
     receive(string) {
 
-        SMenu.prototype.receive.apply(this, [string]);
+        SSelect.prototype.receive.apply(this, [string]);
+
+        return this;
 
     };
 
 };
-class FMenu extends MMenu {
+class FSelect extends MSelect {
 
     /**
-     * Контсруктор класса `YMenu`
+     * Контсруктор класса `YSelect`
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
-     *  @arg {TMenu} t
+     *  @arg {TSelect} t
     */
     constructor(t = {}) {
 
-        t = FMenu.#before(Object.values(arguments));
+        t = FSelect.#before(Object.values(arguments));
 
-        FMenu.#deceit(t);
+        FSelect.#deceit(t);
 
         super(t);
 
-        FMenu.#create.apply(this, [t]);
+        FSelect.#create.apply(this, [t]);
 
     };
 
     /** @arg {any[]} t */
     static #before(t) {
 
-        if (t?.length === 1 && [Object, YMenu].includes(t[0]?.constructor) && !Object.getOwnPropertyNames(t[0]).includes('_ytp')) {
+        if (t?.length === 1 && [Object, YSelect].includes(t[0]?.constructor) && !Object.getOwnPropertyNames(t[0]).includes('_ytp')) {
 
             return t[0];
 
         } else if (t?.length) {
 
-            /** @type {TMenu&DMenu} */
+            /** @type {TSelect&DSelect} */
             const r = {};
 
-            if (t[0]._ytp) t = [...t[0]._ytp];
+            if (t[0]?._ytp) t = [...t[0]._ytp];
 
             switch (t.length) {
 
@@ -108,12 +108,12 @@ class FMenu extends MMenu {
         } else return {};
 
     };
-    /** @arg {TMenu} t @this {YMenu} */
+    /** @arg {TSelect} t @this {YSelect} */
     static #deceit(t) {
 
         try {
 
-            FMenu.#verify(t);
+            FSelect.#verify(t);
 
         } catch (e) {
 
@@ -122,7 +122,7 @@ class FMenu extends MMenu {
         };
 
     };
-    /** @arg {TMenu} t @this {YMenu} */
+    /** @arg {TSelect} t @this {YSelect} */
     static #verify(t) {
 
         const {
@@ -131,16 +131,16 @@ class FMenu extends MMenu {
 
         } = t;
 
-        FMenu.#handle(t);
+        FSelect.#handle(t);
 
     };
-    /** @arg {TMenu} t @this {YMenu} */
+    /** @arg {TSelect} t @this {YSelect} */
     static #handle(t) {
 
 
 
     };
-    /** @arg {TMenu} t @this {YMenu} */
+    /** @arg {TSelect} t @this {YSelect} */
     static #create(t) {
 
         const {
@@ -158,15 +158,15 @@ class FMenu extends MMenu {
 };
 
 /**
- * Класс `YMenu`
+ * Класс `YSelect`
  *
- *
+ * Данный класс используется для формирования интерактивного элемента выборки.
  * - Тип `SDIMFY`
  * - Версия `0.0.0`
- * - Модуль ``
+ * - Модуль `ject.terminal.recurrent`
  * - Цепочка `BDVHC`
 */
-export class YMenu extends FMenu {
+export class YSelect extends FSelect {
 
     get() {
 
@@ -179,7 +179,7 @@ export class YMenu extends FMenu {
 
             .changePrefix('  ')
             .changePostfix('\n')
-            .paste(...this.points.map(p => p[0]))
+            .paste(...this.points)
             .changePrePostfix()
             .setCursorTo(this.index, 0)
             .changeCursorsSize(1)

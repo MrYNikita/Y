@@ -508,7 +508,7 @@ export function jectGetByPath(ject, ...properties) {
 
 //#endregion
 
-//#region setDeep 0.0.0
+//#region setDeep 0.0.1
 
 /**
  * @typedef TBsetDeep
@@ -586,7 +586,7 @@ function setDeepComply(t) {
 
             s[property] = value;
 
-            if (!all) return;
+            if (!all) return ject;
 
         };
 

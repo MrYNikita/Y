@@ -1,37 +1,50 @@
-import { jectFill } from "../../ject.mjs";
-import { YCursor } from "./YCursor/YCursor.mjs";
 import { YBasic } from "../YBasic.mjs";
+import { YCursor } from "./YCursor/YCursor.mjs";
+import { jectFill } from "../../ject.mjs";
+import { configYList } from "../../../config.mjs";
+import { arraySupplement, arraySupplementFill } from "../../../array/array.mjs";
 
 /**
  * @typedef TBList
  * @prop {any} _
- * @typedef {DList&TBList} TList
+ * @typedef {{[p in Exclude<keyof DList,keyof SList>|Exclude<keyof SList,keyof DList>]:(DList[p]&SList[p])}} TDList
+ * @typedef {TDList&TBList} TList
 */
 
 class SList extends YBasic {
 
-
+    /**
+     * Общая размерность.
+     *
+     * Определяет размер для курсоров класса по умолчанию.
+     * @type {number?}
+    */
+    static dimension = configYList.dimension;
+    /**
+     * Общее значение смещения курсора.
+     * @type {boolean}
+    */
+    static cursorsFixed = configYList.cursorsFixed;
 
 };
 class DList extends SList {
 
     /**
      * Значения списка.
-     * @type {string|any[]}
-     * @protected
+     * @type {any[]}
     */
     values = [];
     /**
+     * Размерность.
+     * @type {number?}
+    */
+    dimension = null;
+    /**
      * Фиксированность курсоров.
      * @protected
-     * @type {boolean}
+     * @type {boolean?}
     */
-    cursorsFixed = false;
-    /**
-     * Размерность.
-     * @type {number}
-    */
-    cursorDimension = 1;
+    cursorsFixed = null;
 
 };
 class IList extends DList {
@@ -71,7 +84,7 @@ class FList extends MList {
     /** @arg {any[]} t */
     static #before(t) {
 
-        if (t?.length === 1 && [Object, YList].includes(t[0]?.constructor)) {
+        if (t?.length === 1 && [Object, YList].includes(t[0]?.constructor) && !Object.getOwnPropertyNames(t[0]).includes('_ytp')) {
 
             return t[0];
 
@@ -80,22 +93,17 @@ class FList extends MList {
             /** @type {TList&DList} */
             const r = {};
 
+            if (t[0]._ytp) t = [...t[0]._ytp];
+
             switch (t.length) {
 
-                default: r.values = t.splice(1);
-                case 1: {
-
-                    if (t[0].constructor === Number && !r.values) {
-
-                        r.values = new Array(t[0]);
-
-                    } else r.values = [t[0], ...r.values ?? ''];
-
-                };
+                case 3:
+                case 2:
+                case 1:
 
             };
 
-            return r;
+            return Object.values(r).length ? r : { _ytp: t };
 
         } else return {};
 
@@ -152,27 +160,14 @@ class FList extends MList {
 /**
  * Класс `YList`
  *
- * Класс, предназначенный для работы с наборами значений, такими как `String`, `Array`, `Buffer`.
+ * Класс, для оборачивания наборов значений, таких как `String`, `Array`, `Buffer`.
  * - Тип `SDIMFY`
  * - Версия `0.0.0`
+ * - Модуль ``
  * - Цепочка `BDVHC`
 */
 export class YList extends FList {
 
-    /**
-     * Метод добавления курсоров.
-     * - Версия `0.0.0`
-     * @arg {...YCursor} cursors Курсоры для добавления.
-    */
-    appendCursors(...cursors) {
-
-        this.cursors.push(...cursors.map(c => new YCursor(c)));
-
-        this.appendCursors({})
-
-        return this;
-
-    };
     /**
      * Метод сброса курсоров.
      * Удаляет все курсоры, кроме основного.
@@ -190,28 +185,46 @@ export class YList extends FList {
     };
     /**
      * Метод смещения курсоров.
-     * - Версия `0.0.0`
+     * - Версия `0.1.0`
      * @arg {number} number
     */
     moveCursors(number) {
 
-        if (number && !this.cursorsFixed) this.cursors.forEach(c => c.move(number));
+        if (number && !(this.cursorsFixed ?? this.constructor.cursorsFixed)) this.cursors.forEach(c => c.move(number));
 
         return this;
 
     };
     /**
-     * Метод установки курсора на указанную позицию.
-     * Удаляет все курсоры кроме основного.
-     * Для основного курсора указывает заданную позицию.
-     * - Версия `0.0.0`
-     * @arg {number} index Позиия размещения курсора.
+     * Метод установки курсора в указанную позицию по заданным координатам.
+     * - Версия `0.1.0`
+     * @arg {...number} indexs - Позиция размещения курсора.
+     *
+     * Количесвто координат передаваемых для размещения определяется размерность заданного экземпляра.
+     * Для случаев, если размерность не была указана для конкретного экземпляра используется общее значение.
+     *
+     * Все избыточные координаты не берутся в расчет.
+     * Отрицтальные координаты замещаются на `0`.
     */
-    setCursorTo(index) {
+    setCursorTo(...indexs) {
 
         this.cursors.splice(1).forEach(c => c.delete());
 
-        this.cursors[0].changeIndex(index);
+        this.cursors[0].indexs = arraySupplementFill(arraySupplement(new Array(this.dimension ?? this.constructor.dimension).fill(undefined), ...indexs.map(i => i < 0 ? 0 : i)), 0);
+
+        return this;
+
+    };
+    /**
+     * Метод добавления курсоров.
+     * - Версия `0.0.0`
+     * @arg {...YCursor} cursors Курсоры для добавления.
+    */
+    appendCursors(...cursors) {
+
+        this.cursors.push(...cursors.map(c => new YCursor(c)));
+
+        this.appendCursors({})
 
         return this;
 

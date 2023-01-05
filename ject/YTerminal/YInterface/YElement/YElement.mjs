@@ -1,5 +1,7 @@
 import { YJect } from "../../../YJect/YJect.mjs";
 import { jectFill } from "../../../ject.mjs";
+import { YTerminal } from "../../YTerminal.mjs";
+import { YInterface } from "../YInterface.mjs";
 
 /**
  * @typedef TBElement
@@ -17,14 +19,19 @@ class DElement extends SElement {
 
     /**
      * Координаты размещения.
-     * @type {[number,number]}
+     * @type {[number,number]?}
     */
-    coords = [0, 0];
+    coords;
     /**
-     * Разметка.
-     * @type {string?}
+     * Терминал.
+     * @type {YTerminal?}
     */
-    layout = '';
+    terminal = null;
+    /**
+     * Интерфейс.
+     * @type {YInterface?}
+    */
+    interface = null;
 
 };
 class IElement extends DElement {
@@ -149,6 +156,14 @@ class FElement extends MElement {
 */
 export class YElement extends FElement {
 
+    /**
+     * Метод получения разметки элемента.
+     * - Версия `0.0.0`
+    */
+    getLayout() {
 
+        return '';
+
+    };
 
 };

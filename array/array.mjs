@@ -714,94 +714,6 @@ export function arrayRearrangeByElement(array, elementOne, elementTwo) {
 };
 
 //#endregion
-//#region supplement 0.0.1
-
-/**
- * @typedef TBsupplement
- * @prop {any[]} array
- * @prop {any[]} supplements
- * @typedef {TBsupplement} Tsupplement
-*/
-
-/** @arg {Tsupplement} t */
-function supplementDeceit(t) {
-
-    try {
-
-        return supplementVerify(t);
-
-    } catch (e) {
-
-        if (config.strict) throw e;
-
-        return undefined;
-
-    };
-
-};
-/** @arg {Tsupplement} t */
-function supplementVerify(t) {
-
-
-
-    return supplementHandle(t);
-
-};
-/** @arg {Tsupplement} t */
-function supplementHandle(t) {
-
-    if (t.supplements.length) t.supplements = t.supplements.filter(f => f !== undefined);
-
-    return supplementComply(t);
-
-};
-/** @arg {Tsupplement} t */
-function supplementComply(t) {
-
-    const {
-
-        array,
-        supplements,
-
-    } = t;
-
-    let ia = 0;
-
-    for (const s of supplements) {
-
-        while (ia < array.length) {
-
-            if (array[ia] === undefined) {
-
-                array[ia++] = s;
-                break;
-
-            };
-
-            ia++;
-
-        };
-
-    };
-
-    return array;
-
-};
-
-/**
- * Функция для дополнения свободных значений массива.
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * @arg {any[]} array Исходный массив.
- * @arg {...any} supplements Элементы дополнения.
-*/
-export function arraySupplement(array, ...supplements) {
-
-    return supplementDeceit({ array, supplements, });
-
-};
-
-//#endregion
 //#region countSignificant 0.0.0
 
 /**
@@ -1341,6 +1253,164 @@ function changeSizeComply(t) {
 export function arrayChangeSize(array, size) {
 
     return changeSizeDeceit({ array, size, });
+
+};
+
+//#endregion
+
+//#region supplement 0.0.1
+
+/**
+ * @typedef TBsupplement
+ * @prop {any[]} array
+ * @prop {any[]} supplements
+ * @typedef {TBsupplement} Tsupplement
+*/
+
+/** @arg {Tsupplement} t */
+function supplementDeceit(t) {
+
+    try {
+
+        return supplementVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @arg {Tsupplement} t */
+function supplementVerify(t) {
+
+
+
+    return supplementHandle(t);
+
+};
+/** @arg {Tsupplement} t */
+function supplementHandle(t) {
+
+    if (t.supplements.length) t.supplements = t.supplements.filter(f => f !== undefined);
+
+    return supplementComply(t);
+
+};
+/** @arg {Tsupplement} t */
+function supplementComply(t) {
+
+    const {
+
+        array,
+        supplements,
+
+    } = t;
+
+    let ia = 0;
+
+    for (const s of supplements) {
+
+        while (ia < array.length) {
+
+            if (array[ia] === undefined) {
+
+                array[ia++] = s;
+                break;
+
+            };
+
+            ia++;
+
+        };
+
+    };
+
+    return array;
+
+};
+
+/**
+ * Функция для дополнения свободных значений массива.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @arg {any[]} array Исходный массив.
+ * @arg {...any} supplements Элементы дополнения.
+*/
+export function arraySupplement(array, ...supplements) {
+
+    return supplementDeceit({ array, supplements, });
+
+};
+
+//#endregion
+//#region supplementFill 0.0.0
+
+/**
+ * @typedef TBsupplementFill
+ * @prop {any} supplement
+ * @prop {any[]} array
+ * @typedef {TBsupplementFill} TsupplementFill
+*/
+
+/** @arg {TsupplementFill} t */
+function supplementFillDeceit(t) {
+
+    try {
+
+        return supplementFillVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @arg {TsupplementFill} t */
+function supplementFillVerify(t) {
+
+
+
+    return supplementFillHandle(t);
+
+};
+/** @arg {TsupplementFill} t */
+function supplementFillHandle(t) {
+
+
+
+    return supplementFillComply(t);
+
+};
+/** @arg {TsupplementFill} t */
+function supplementFillComply(t) {
+
+    const {
+
+        array,
+        supplement,
+
+    } = t;
+
+    return array.map(e => e === undefined ? supplement : e);
+
+};
+
+/**
+ * Функция заполнения свободных значений массива указанным заполнителем.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @arg {any[]} array Исходный массив.
+ * @arg {any} supplement Заполнитель.
+*/
+export function arraySupplementFill(array, supplement) {
+
+    return supplementFillDeceit({ array, supplement, });
 
 };
 

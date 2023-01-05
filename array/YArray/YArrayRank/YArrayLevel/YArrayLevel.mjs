@@ -5,8 +5,9 @@ import { YLevel } from "./YLevel/YLevel.mjs";
 
 /**
  * @typedef TBArrayLevel
- * @prop {(number|number[])[]} levels
- * @typedef {DArrayLevel&TBArrayLevel} TArrayLevel
+ * @prop {number[]} levels
+ * @typedef {{[p in Exclude<keyof DArrayLevel,keyof SArrayLevel>|Exclude<keyof SArrayLevel,keyof DArrayLevel>]:(DArrayLevel[p]&SArrayLevel[p])}} TDArrayLevel
+ * @typedef {TDArrayLevel&TBArrayLevel} TArrayLevel
 */
 
 class SArrayLevel extends YArrayRank {
@@ -22,7 +23,7 @@ class DArrayLevel extends SArrayLevel {
 class IArrayLevel extends DArrayLevel {
 
     /**
-     *
+     * Краевые уровни.
      * @type {}
     */
     edges = [];
@@ -37,9 +38,6 @@ class FArrayLevel extends MArrayLevel {
 
     /**
      * Контсруктор класса `YArrayLevel`
-     *
-     * 1. Указание остаточного набора чисел для обозначения количества измерений и их глубины.
-     * Количество измерений определяется количеством переданных значений, а глубина - их значениями (натуральными).
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
      *  @arg {TArrayLevel} t
@@ -59,7 +57,7 @@ class FArrayLevel extends MArrayLevel {
     /** @arg {any[]} t */
     static #before(t) {
 
-        if (t?.length === 1 && [Object, YArrayLevel].includes(t[0]?.constructor)) {
+        if (t?.length === 1 && [Object, YArrayLevel].includes(t[0]?.constructor) && !Object.getOwnPropertyNames(t[0]).includes('_ytp')) {
 
             return t[0];
 
@@ -68,13 +66,15 @@ class FArrayLevel extends MArrayLevel {
             /** @type {TArrayLevel&DArrayLevel} */
             const r = {};
 
+            if (t[0]?._ytp) t = [...t[0]._ytp];
+
             switch (t.length) {
 
                 default: r.levels = t;
 
             };
 
-            return r;
+            return Object.values(r).length ? r : { _ytp: t };
 
         } else return {};
 
@@ -122,9 +122,7 @@ class FArrayLevel extends MArrayLevel {
 
         jectFill(this, t);
 
-        // this.values = new YLevel(...arrayLevel(this.values, ...t.levels));
-
-        console.log(arrayLevel(this.values, ...t.levels));
+        this.values = arrayLevel(this.values, ...t.levels);
 
     };
 
@@ -133,9 +131,9 @@ class FArrayLevel extends MArrayLevel {
 /**
  * Класс `YArrayLevel`
  *
- * Экземпляры данного класса представляют собой размерные массивы, измерения которых называются уровнями.
+ *
  * - Тип `SDIMFY`
- * - Версия `0.0.0`
+ * - Версия `0.1.0`
  * - Модуль `array.rank.level`
  * - Цепочка `BDVHC`
 */

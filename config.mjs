@@ -72,12 +72,12 @@ export const configYTerminal = {
      * Размер терминала по умолчанию.
      * @type {[number,number]}
     */
-    sizes: [40, 20],
+    sizes: [120, 30],
     /**
      * Символ свободного пространства.
      * @type {string}
     */
-    symbolSpace: 'x',
+    symbolSpace: ' ',
 
 };
 export const configYRept = {
@@ -101,7 +101,16 @@ export const configYRept = {
 };
 export const configYList = {
 
-
+    /**
+     * Общая размерность.
+     * @type {number}
+    */
+    dimension: 1,
+    /**
+     * Общая фиксированность курсоров.
+     * @type {boolean}
+    */
+    cursorsFixed: false,
 
 };
 export const configYCache = {
@@ -372,6 +381,31 @@ export const configString = {
          * @type {string}
         */
         defaultValue: '',
+
+    },
+    getColor: {
+
+        /**
+         * Объект-карта цветов.
+         * Ключ - название цвета, а значение - его код.
+        */
+        colors: {
+
+            'red': 160,
+            'blue': 20,
+            'cyan': 45,
+            'pink': 91,
+            'aqua': 44,
+            'gray': 243,
+            'green': 40,
+            'black': 0,
+            'white': 231,
+            'brown': 94,
+            'orange': 208,
+            'yellow': 226,
+            'magenta': 53,
+
+        },
 
     },
     castToDate: {

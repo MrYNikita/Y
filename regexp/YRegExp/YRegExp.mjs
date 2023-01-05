@@ -175,11 +175,11 @@ export class YRegExp extends FRegExp {
 
     /**
      * Метод получения текущего состояния регулярного выражения.
-     * - Версия `0.0.0`
+     * - Версия `0.0.1`
     */
     get() {
 
-        const result = new RegExp([this.value.source, ...this.variation].join('|'), this.value.flags);
+        const result = new RegExp([this.value.source === '(?:)' ? '' : this.value.source, ...this.variation].filter(v => v).join('|'), this.value.flags);
 
         result.lastIndex = this.position;
 
