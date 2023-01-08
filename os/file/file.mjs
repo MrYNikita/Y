@@ -301,12 +301,12 @@ function writeComply(t) {
 
         case 'json': {
 
-            writeFileSync(pathGet(fragment), (data.length === 1) ? JSON.stringify(data[0], null, 4) : JSON.stringify(data, null, 4));
+            writeFileSync(pathGetProject() + '/' + pathGet(fragment), (data.length === 1) ? JSON.stringify(data[0], null, 4) : JSON.stringify(data, null, 4));
 
         }; break;
         default: {
 
-            writeFileSync(pathGet(fragment), data.join('\n'));
+            writeFileSync(pathGetProject() + '/' + pathGet(fragment), data.join('\n'));
 
         } break;
 

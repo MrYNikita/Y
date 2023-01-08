@@ -1,13 +1,10 @@
 {
     "name": "ymodules",
     "bugs": {
-
         "url": "https://github.com/MrYNikita/YModules/issues"
-
     },
     "icon": "logo.png",
     "files": [
-
         "os/",
         "log/",
         "web/",
@@ -26,26 +23,21 @@
         "cahce.json",
         "YExtansion/",
         "manifest.json"
-
     ],
     "author": "Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>",
     "license": "Apache-2.0",
-    "version": "0.21.0",
+    "version": "1.22.0",
     "keywords": [
-
         "y",
         "module",
         "ymodule",
         "package",
         "ypackage"
-
     ],
     "homepage": "https://github.com/MrYNikita/YModules#readme",
     "repository": {
-
         "url": "https://github.com/MrYNikita/YModules.git",
         "type": "git"
-
     },
     "description": "A module of functions and classes designed to reuse popular functions in their optimized form."
 }
