@@ -695,8 +695,6 @@ function copyDeepComply(t) {
 
         Object.entries(j).forEach(p => {
 
-            console.log(p);
-
             if (p[1] instanceof Object) {
 
                 switch (p[1].constructor) {

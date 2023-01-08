@@ -69,21 +69,9 @@ function readVerify(t) {
 /** @arg {Tread} t */
 function readHandle(t) {
 
-    let {
-
-
-
-    } = t;
-
     if (t.fragment) {
 
-        if (!t.fragment.includes(pathGetProject())) t.fragment = pathGet(t.fragment);
-
-    };
-
-    t = {
-
-        ...t,
+        if (!t.fragment.includes(pathGetProject())) t.fragment = pathGetProject() + '/' + t.fragment;
 
     };
 

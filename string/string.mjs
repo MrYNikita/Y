@@ -4,6 +4,39 @@ import { config, configString, configYInsert, configYString } from "../config.mj
 import { arrayGetRandomElement, arrayGetRandomElementMany, arrayRearrangeByIndex, arrayReplace, } from "../array/array.mjs";
 import { numberGetFrac, numberGetRandomReal, numberGetReal, numberGetSequence } from "../number/number.mjs";
 
+//#region YT
+
+/** ### stringT
+ *
+ * Основной параметр модуля `string`.
+ *
+ * - Тип `T`
+ * - Версия `0.0.0`
+ * - Пространство `string`
+ *
+ * @typedef {string} stringT
+ *
+*/
+
+//#endregion
+
+
+/**
+ * @typedef TFString
+ * @prop {string} string
+*/
+
+/**
+ * Регулярное выражение поиска вставок ANSI.
+ * @type {RegExp}
+*/
+export const stringREANSI = /\x1b\[.*?m/;
+/**
+ * Регулярное выражение поиска вставок ANSI влияющих на цвет выводимого текста.
+ * @type {RegExp}
+*/
+export const stringREANSIColor = /\x1b\[.*?(?<r>([34]8;5;\d+|[34]([0-7]|9));?).*?m/;
+
 //#region pad 0.0.0
 
 /**
@@ -1634,7 +1667,6 @@ export function stringGetPositionRowStartByIndex(string, index, wrap = true) {
 
 /**
  * @typedef TBgetColor
- * @prop {boolean} background
  * @prop {string|number} color
  * @typedef {TBgetColor} TgetColor
 */
@@ -1670,20 +1702,6 @@ function getColorVerify(t) {
 /** @arg {TgetColor} t */
 function getColorHandle(t) {
 
-    let {
-
-
-
-    } = t;
-
-
-
-    t = {
-
-        ...t,
-
-    };
-
     return getColorComply(t);
 
 };
@@ -1693,25 +1711,92 @@ function getColorComply(t) {
     const {
 
         color,
-        bright,
-        background,
 
     } = t;
 
-    return Object.entries(configString.getColor.colors).find(c => c[0].match(new RegExp(color)))[1];
+    return Object.entries(configString.getColor.colors).find(c => c[0].match(new RegExp(color) || c[1] === color))[1];
 
 };
 
 /**
  * Функция для определения кода цвета по его названию.
- * - Версия `0.0.0`
+ * - Версия `0.1.0`
  * - Цепочка `DVHCa`
  * @arg {string} color Код/название цвета.
- * @arg {boolean} background Режим определения фонового цвета.
 */
-export function stringGetColor(color, background) {
+export function stringGetColor(color) {
 
-    return getColorDeceit({ color, background });
+    return getColorDeceit({ color });
+
+};
+
+//#endregion
+//#region setColor 0.0.0
+
+/**
+ * @typedef TBsetColor
+ * @prop {string} string
+ * @typedef {TBsetColor} TsetColor
+*/
+
+/** @arg {TsetColor} t */
+function setColorDeceit(t) {
+
+    try {
+
+        return setColorVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @arg {TsetColor} t */
+function setColorVerify(t) {
+
+
+
+    return setColorHandle(t);
+
+};
+/** @arg {TsetColor} t */
+function setColorHandle(t) {
+
+
+
+    return setColorComply(t);
+
+};
+/** @arg {TsetColor} t */
+function setColorComply(t) {
+
+    const {
+
+        string,
+
+    } = t;
+
+    return string;
+
+};
+
+/**
+ * Функция установки цвета для строки.
+ *
+ * Возвращает новую строку с предустановкой указанного цвета за счет `Escape ANSI Sequence` вставки.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @arg {string} string Исходная строка.
+ * @arg {MrepaintColor|number} background Цвет фона текста.
+ * @arg {MrepaintColor|number} foreground Цвет символов текста.
+*/
+export function stringSetColor(string, foreground, background) {
+
+    return setColorDeceit({ string, foreground, background, });
 
 };
 
@@ -2776,14 +2861,16 @@ function pasteComply(t) {
 
 /**
  * Функция вставки с замещением указанной индексом и размером области в строку.
- * - Версия `0.0.0`
+ * - Версия `0.0.1`
  * - Цепочка `DVHCa`
  * @arg {number} size Размер вставки.
  * @arg {number} index Индекс вставки.
+ *
+ * - По умолчанию `string.length ?? 0`
  * @arg {string} paste Строка вставки.
  * @arg {string} string Исходная строка.
 */
-export function stringPaste(string, paste, index, size = 0) {
+export function stringPaste(string, paste, index = string.length ?? 0, size = 0) {
 
     return pasteDeceit({ string, paste, index, size, });
 
@@ -3369,6 +3456,7 @@ export function stringMesuare(string, step, ...substrings) {
 /**
  * @typedef TBrepaint
  * @prop {string} string
+ * @prop {boolean} ending
  * @prop {string|number} foreground
  * @prop {string|number} background
  * @typedef {TBrepaint} Trepaint
@@ -3433,15 +3521,20 @@ function repaintComply(t) {
 
     const {
 
-        string,
+        ending,
         foreground,
         background,
 
     } = t;
 
-    if (foreground && background) return `\x1b[38;5;${foreground};48;5;${background}m${string}\x1b[39;49m`;
-    else if (foreground && !background) return `\x1b[38;5;${foreground}m${string}\x1b[39m`;
-    else if (background && !foreground) return `\x1b[48;5;${background}m${string}\x1b[49m`;
+    let string = t.string;
+
+    if (foreground) string = stringReplaceAll(string, '', /\x1b\[3([0-7]|9)m|\x1b\[.*?(?<r>(38;5;\d+|3([0-7]|9));?).*?m/);
+    if (background) string = stringReplaceAll(string, '', /\x1b\[4([0-7]|9)m|\x1b\[.*?(?<r>(48;5;\d+|4([0-7]|9));?).*?m/);
+
+    if (foreground && background) return `\x1b[38;5;${foreground};48;5;${background}m${string}${ending ? '\x1b[39;49m' : ''}`;
+    else if (foreground && !background) return `\x1b[38;5;${foreground}m${string}${ending ? '\x1b[39m' : ''}`;
+    else if (background && !foreground) return `\x1b[48;5;${background}m${string}${ending ? '\x1b[49m' : ''}`;
     else return string;
 
 };
@@ -3453,34 +3546,40 @@ function repaintComply(t) {
  * Первый способ может определить код цаета по его названию, причем не обязательно давать точное название.
  * Второй способ наиболее предпочтительный, так как с его помощью можно миновать процесс поиска цвета,
  * однако важно, чтобы код был представлен числом от 0 до 255, а иначе цвет не будет учтен.
- * - Версия `0.0.0`
+ * - Версия `0.1.0`
  * - Цепочка `DVHCa`
  * @arg {string} string Исходная строка.
+ * @arg {boolean} ending Окончание.
+ *
+ * При указании как `false`, не указывает завершающий символ сброса цвета, из-за чего переключает режим консоли в указанный цвет.
+ * - по умолчанию `true`
  * @arg {MrepaintColor|number} background Цвет фона.
  * @arg {MrepaintColor|number} foreground Цвет переднего плана.
 */
-export function stringRepaint(string, foreground, background) {
+export function stringRepaint(string, foreground, background, ending = true) {
 
-    return repaintDeceit({ string, foreground, background, });
+    return repaintDeceit({ string, foreground, background, ending, });
 
 };
 
 //#endregion
 
-//#region injectANSI 0.0.0
+//#region getTransducer 0.0.0
 
 /**
- * @typedef TBinjectANSI
- * @prop {any} _
- * @typedef {TBinjectANSI} TinjectANSI
+ * @typedef TBgetTransducer
+ * @prop {string} mode
+ * @prop {string} string
+ * @prop {RegExp[]} regexps
+ * @typedef {TBgetTransducer} TgetTransducer
 */
 
-/** @arg {TinjectANSI} t */
-function injectANSIDeceit(t) {
+/** @arg {TgetTransducer} t */
+function getTransducerDeceit(t) {
 
     try {
 
-        return injectANSIVerify(t);
+        return getTransducerVerify(t);
 
     } catch (e) {
 
@@ -3491,24 +3590,26 @@ function injectANSIDeceit(t) {
     };
 
 };
-/** @arg {TinjectANSI} t */
-function injectANSIVerify(t) {
+/** @arg {TgetTransducer} t */
+function getTransducerVerify(t) {
 
 
 
-    return injectANSIHandle(t);
-
-};
-/** @arg {TinjectANSI} t */
-function injectANSIHandle(t) {
-
-
-
-    return injectANSIComply(t);
+    return getTransducerHandle(t);
 
 };
-/** @arg {TinjectANSI} t */
-function injectANSIComply(t) {
+/** @arg {TgetTransducer} t */
+function getTransducerHandle(t) {
+
+    t.regexps = [];
+
+    t.regexps.push(stringREANSIColor);
+
+    return getTransducerComply(t);
+
+};
+/** @arg {TgetTransducer} t */
+function getTransducerComply(t) {
 
     const {
 
@@ -3516,7 +3617,114 @@ function injectANSIComply(t) {
 
     } = t;
 
+    const result = [];
 
+    while (true) {
+
+        const f = t.string.match(stringREANSIColor);
+
+        if (!f) break;
+
+        t.string = stringRemove(t.string, f.index, f[0].length);
+
+        result.push([f.index, f[0]]);
+
+    };
+
+    return result;
+
+};
+
+/**
+ * Функция для получения карты преобразователей строки.
+ *
+ * Под термин преобразователей подпадают такие строковые вставки, которые своим пристутсвием видоизменяют визуальное отображение текста или искажают его.
+ * К подобным вставкам могут относиться `ANSI Escape Sequence`.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @arg {string} string Исходная строка.
+*/
+export function stringGetTranducer(string) {
+
+    return getTransducerDeceit({ string, mode: 'all', });
+
+};
+/**
+ * Функция для получения карты цветовых преобразователей строки.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @arg {string} string Исходная строка.
+*/
+export function stringGetTransducerColor(string) {
+
+    return getTransducerDeceit({ string, node: 'color', });
+
+};
+
+//#endregion
+
+//#region resetColor 0.0.0
+
+/**
+ * @typedef TBresetColor
+ * @prop {string} string
+ * @typedef {TBresetColor} TresetColor
+*/
+
+/** @arg {TresetColor} t */
+function resetColorDeceit(t) {
+
+    try {
+
+        return resetColorVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @arg {TresetColor} t */
+function resetColorVerify(t) {
+
+
+
+    return resetColorHandle(t);
+
+};
+/** @arg {TresetColor} t */
+function resetColorHandle(t) {
+
+
+
+    return resetColorComply(t);
+
+};
+/** @arg {TresetColor} t */
+function resetColorComply(t) {
+
+    const {
+
+        string,
+
+    } = t;
+
+    return stringFilter(string, stringREANSIColor, '\x1b\\[m');
+
+};
+
+/**
+ * Функция для удаления цветовых вставок в указанной строке.
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * @arg {string} string Исходная строка.
+*/
+export function stringResetColor(string) {
+
+    return resetColorDeceit({ string, });
 
 };
 
@@ -3728,7 +3936,7 @@ export function stringCastToDateRu(date = new Date()) {
 };
 
 //#endregion
-//#region castToSample 0.0.1
+//#region castToSample 0.0.2
 
 /**
  * @typedef TBcastToSample
@@ -3767,20 +3975,6 @@ function castToSampleVerify(t) {
 /** @arg {TcastToSample} t */
 function castToSampleHandle(t) {
 
-    let {
-
-
-
-    } = t;
-
-
-
-    t = {
-
-        ...t,
-
-    };
-
     return castToSampleComply(t);
 
 };
@@ -3797,6 +3991,7 @@ function castToSampleComply(t) {
 
         ['\\n', /\n/g],
         ['\\r', /\r/g,],
+        ['\\t', /\t/g,],
         ['\\x1b', /\x1b/g],
 
     ).get();

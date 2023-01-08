@@ -391,19 +391,57 @@ export const configString = {
         */
         colors: {
 
-            'red': 160,
-            'blue': 20,
-            'cyan': 45,
-            'pink': 91,
-            'aqua': 44,
-            'gray': 243,
-            'green': 40,
-            'black': 0,
-            'white': 231,
-            'brown': 94,
-            'orange': 208,
-            'yellow': 226,
-            'magenta': 53,
+            red: 160,
+            redDark: 52,
+            redLight: 196,
+
+            sea: 37,
+            seaDark: 30,
+            seaLight: 43,
+
+            blue: 19,
+            blueDark: 17,
+            blueLight: 21,
+
+            cyan: 51,
+            cyanDark: 45,
+            cyanLight: 159,
+
+            pink: 92,
+            pinkDark: 91,
+            pinkLight: 93,
+
+            aqua: 44,
+            aquaDark: 43,
+            aquaLight: 80,
+
+            gray: 243,
+            grayDark: 240,
+            grayLight: 254,
+
+            green: 76,
+            greenDark: 28,
+            greenLight: 82,
+
+            black: 0,
+
+            white: 231,
+
+            brown: 94,
+            brownDark: 52,
+            brownLight: 137,
+
+            orange: 208,
+            orangeDark: 202,
+            orangeLight: 214,
+
+            yellow: 226,
+            yellowDark: 220,
+            yellowLight: 228,
+
+            magenta: 54,
+            magentaDark: 53,
+            magentaLight: 56,
 
         },
 
@@ -453,6 +491,109 @@ export const configYString = {
         ['lh', `--- ${configYInsert.borderL}h${configYInsert.borderR}\n`, ['h', '']],
 
     ],
+
+};
+export const configStringANSI = {
+
+    /**
+     * Эндер.
+     * @type {string}
+    */
+    end: `m`,
+    /**
+     * Стартер.
+     * @type {string}
+    */
+    start: `\x1b[`,
+    /**
+     * Разделитель.
+     * @type {string}
+    */
+    delimetr: `;`,
+
+
+};
+export const configStringColor = {
+
+    /**
+         * Объект-карта цветов.
+         * Ключ - название цвета, а значение - его код.
+        */
+    colors: {
+
+        red: 160,
+        redDark: 52,
+        redLight: 196,
+
+        sea: 37,
+        seaDark: 30,
+        seaLight: 43,
+
+        blue: 19,
+        blueDark: 17,
+        blueLight: 21,
+
+        cyan: 51,
+        cyanDark: 45,
+        cyanLight: 159,
+
+        pink: 92,
+        pinkDark: 91,
+        pinkLight: 93,
+
+        aqua: 44,
+        aquaDark: 43,
+        aquaLight: 80,
+
+        gray: 243,
+        grayDark: 240,
+        grayLight: 254,
+
+        green: 76,
+        greenDark: 28,
+        greenLight: 82,
+
+        black: 0,
+
+        white: 231,
+
+        brown: 94,
+        brownDark: 52,
+        brownLight: 137,
+
+        orange: 208,
+        orangeDark: 202,
+        orangeLight: 214,
+
+        yellow: 226,
+        yellowDark: 220,
+        yellowLight: 228,
+
+        magenta: 54,
+        magentaDark: 53,
+        magentaLight: 56,
+
+    },
+    /**
+     * Значение сброса цветов.
+     * @type {number}
+    */
+    valueReset: 9,
+    /**
+     * Вставка точечной настройки цвета.
+     * @type {string}
+    */
+    valueOption: '8;5',
+    /**
+     * Значение цвета фона.
+     * @type {number}
+    */
+    valueBackground: 4,
+    /**
+     * Значение цвета символов.
+     * @type {number}
+    */
+    valueForeground: 3,
 
 };
 

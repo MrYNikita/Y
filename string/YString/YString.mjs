@@ -406,6 +406,39 @@ export class YString extends FString {
     };
 
     /**
+     * Метод перекраски позиций строки, попадающих в области курсоров.
+     * - Версия `0.1.0`
+     * @arg {boolean} ending Окончание.
+     * @arg {import("../string.mjs").MrepaintColor|number} background Цвет фона.
+     * @arg {import("../string.mjs").MrepaintColor|number} foreground Цвет символов.
+    */
+    repaint(foreground, background, ending) {
+
+        return this;
+        // const c = stringGetColor(color, bright, background);
+
+        // if (background) this.colorB = c;
+        // else this.colorF = c;
+
+        // return this;
+
+    };
+    /**
+     * Метод перекраски строки.
+     * - Версия `0.0.0`
+     * @arg {import("../string.mjs").MrepaintColor|number} background Цвет фона.
+     * @arg {import("../string.mjs").MrepaintColor|number} foreground Цвет символа.
+    */
+    repaintAll(foreground, background) {
+
+        if (foreground) this.colorF = stringGetColor(foreground);
+        if (background) this.colorB = stringGetColor(background);
+
+        return this;
+
+    };
+
+    /**
      * Метод для замены первых совпадений с глубоким поиском.
      * - Версия `0.1.0`
      * @arg {...[string,string|RegExp]} replaces Замены.
@@ -522,22 +555,6 @@ export class YString extends FString {
         let r = this.get(true);
 
         console.log(r);
-
-        return this;
-
-    };
-    /**
-     * Метод для перекраски текущей строки.
-     * @arg {string} color Цвет.
-     * @arg {boolean} bright Яркость.
-     * @arg {boolean} background Фон.
-    */
-    repaint(color, bright, background) {
-
-        const c = stringGetColor(color, bright, background);
-
-        if (background) this.colorB = c;
-        else this.colorF = c;
 
         return this;
 

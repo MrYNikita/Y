@@ -1,5 +1,8 @@
 import { YBasic } from '../../../ject/YBasic/YBasic.mjs';
 import { jectFill } from '../../../ject/ject.mjs';
+import { stringCastToSample, stringFindAll, stringGetTranducer, stringPaste, stringREANSIColor, stringRemove, stringResetColor } from '../../string.mjs';
+import { YRegExp } from '../../../regexp/YRegExp/YRegExp.mjs';
+import { arrayPaste } from '../../../array/array.mjs';
 
 /**
  * @typedef TBStylist
@@ -14,12 +17,6 @@ class SStylist extends YBasic {
 
 };
 class DStylist extends SStylist {
-
-    /**
-     * Значение.
-     * @type {string|import('../YString.mjs').YString}
-    */
-    value = '';
 
 };
 class IStylist extends DStylist {
@@ -129,7 +126,17 @@ class FStylist extends MStylist {
 
         jectFill(this, t);
 
+        while (true) {
 
+            const f = t.value.match(stringREANSIColor);
+
+            if (!f) break;
+
+            t.value = stringRemove(t.value, f.index, f[0].length);
+
+            this.mapColor.push([f.index, f[0]]);
+
+        };
 
     };
 
@@ -161,6 +168,51 @@ class FStylist extends MStylist {
 */
 export class YStylist extends FStylist {
 
+    /**
+     * Метод получения итоговой строки.
+     * - Версия `0.0.0`
+    */
+    get(string) {
 
+        string = stringResetColor(string);
+
+        this.mapColor.slice().reverse().forEach(c => string = stringPaste(string, c[1], c[0]));
+
+        return string;
+
+    };
+    /**
+     * Метод добавления нового значения.
+     * - Версия `0.0.0`
+     * @arg {number} index Индекс вставки.
+     * @arg {string} string Строка вствки.
+    */
+    paste(index, string) {
+
+        const r = stringGetTranducer(string);
+        const re = /\x1b\[([34]9|39;49;|49;39;)m/;
+        const la = this.mapColor.reverse().find(c => !c[1].match(re));
+
+        r.forEach(c => {
+
+            c[0] += index;
+
+            if (c[1].match(re)) c[1] = la[1];
+
+        });
+
+        const l = string.length - r.reduce((p, c) => p + c[1].length, 0);
+
+        this.mapColor.forEach(c => {
+
+            if (c[0] >= index) c[0] += l;
+
+        });
+
+        this.mapColor = arrayPaste(this.mapColor, index, ...r).sort((p, c) => p[0] - c[0]);
+
+        return this;
+
+    };
 
 };
