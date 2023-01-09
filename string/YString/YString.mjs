@@ -2,15 +2,44 @@ import { YList } from "../../ject/YBasic/YList/YList.mjs";
 import { jectFill } from "../../ject/ject.mjs";
 import { YTemplate } from "./YTemplate/YTemplate.mjs";
 import { configString, configYString } from "../../config.mjs";
-import { stringBring, stringBringColumn, stringCastToJect, stringCastToSample, stringCastToYReport, stringFilter, stringFind, stringFindAll, stringFindToJect, stringGetColor, stringGetPositionEndPasteWrap, stringGetPositionRowStartByIndex, stringGetRowByIndex, stringHandle, stringMesuare, stringPad, stringPaste, stringPasteWrap, stringPasteWrapByPosition, stringReflect, stringRemove, stringRepaint, stringReplace, stringReplaceAllMore, stringReplaceMore, stringReverse, stringTrim } from "../string.mjs";
+import { stringBring, stringBringColumn, stringCastToJect, stringCastToSample, stringCastToYReport, stringFilter, stringFind, stringFindAll, stringFindToJect, stringGetPositionEndPasteWrap, stringGetPositionRowStartByIndex, stringGetRowByIndex, stringHandle, stringMesuare, stringPad, stringPaste, stringPasteWrap, stringPasteWrapByPosition, stringReflect, stringRemove, stringReplace, stringReplaceAllMore, stringReplaceMore, stringReverse, stringTrim } from "../string.mjs";
 import { YStylist } from "./YStylist/YStylist.mjs";
 
-/**
- * @typedef TBString
- * @prop {any} _
- * @typedef {{[p in Exclude<keyof DString,keyof SString>|Exclude<keyof SString,keyof DString>]:(DString[p]&SString[p])}} TDString
- * @typedef {TDString&TBString} TString
+//#region YT
+
+/** ### YStringT
+ * - Тип `T`
+ * - Версия `0.0.0`
+ * - Модуль `YString`
+ *
+ * Основной параметр модуля `YString`.
+ *
+ * @typedef {YStringTE&YStringTU} YStringT
+ *
 */
+/** ### YStringTE
+ * - Тип `TE`
+ * - Версия `0.0.0`
+ * - Модуль `YString`
+ *
+ * Параметр наследования `YString`.
+ *
+ * @typedef {{[p in Exclude<keyof DString,keyof SString>|Exclude<keyof SString,keyof DString>]:(DString[p]&SString[p])}} YStringTE
+ *
+*/
+/** ### YStringTU
+ * - Тип `TU`
+ * - Версия `0.0.0`
+ * - Модуль `YString`
+ *
+ * Уникальные параметры `YString`.
+ *
+ * @typedef YStringTU
+ * @prop {any} _
+ *
+*/
+
+//#endregion
 
 class SString extends YList {
 
@@ -119,10 +148,14 @@ class MString extends IString {
 class FString extends MString {
 
     /**
-     * Контсруктор класса `YString`
+     * ### `YString.constructor`
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
-     *  @arg {TString} t
+     *
+     *
+     *
+     * ***
+     *  @arg {YStringT} t
     */
     constructor(t = {}) {
 
@@ -154,7 +187,7 @@ class FString extends MString {
 
                 case 3:
                 case 2:
-                case 1: r.values = t[0];
+                case 1:
 
             };
 
@@ -163,7 +196,7 @@ class FString extends MString {
         } else return {};
 
     };
-    /** @arg {TString} t @this {YString} */
+    /** @arg {YStringT} t @this {YString} */
     static #deceit(t) {
 
         try {
@@ -177,7 +210,7 @@ class FString extends MString {
         };
 
     };
-    /** @arg {TString} t @this {YString} */
+    /** @arg {YStringT} t @this {YString} */
     static #verify(t) {
 
         const {
@@ -189,13 +222,13 @@ class FString extends MString {
         FString.#handle(t);
 
     };
-    /** @arg {TString} t @this {YString} */
+    /** @arg {YStringT} t @this {YString} */
     static #handle(t) {
 
 
 
     };
-    /** @arg {TString} t @this {YString} */
+    /** @arg {YStringT} t @this {YString} */
     static #create(t) {
 
         const {
@@ -213,13 +246,14 @@ class FString extends MString {
 };
 
 /**
- * Класс `YString`
- *
- *
+ * ### YString
  * - Тип `SDIMFY`
- * - Версия `0.5.0`
- * - Модуль `string`
+ * - Версия `0.6.0`
+ * - Модуль `string.YString`
  * - Цепочка `BDVHC`
+ * ***
+ * Класс-обертка над строками.
+ * Оборачивает строчное значение, позволяя манипулировать над ним с помощью методов класса.
 */
 export class YString extends FString {
 
@@ -861,5 +895,5 @@ export class YString extends FString {
 /**
  * @file YString.mjs
  * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
- * @copyright Yakhin Nikita Artemovich 2022
+ * @copyright Yakhin Nikita Artemovich 2023
 */

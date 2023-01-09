@@ -3,7 +3,6 @@ import { config } from "process";
 import { configOSPath } from "../../../config.mjs";
 import { jectFill } from "../../../ject/ject.mjs";
 import { YLog } from "../../../log/YLog/YLog.mjs";
-import { stringRepaint } from "../../../string/string.mjs";
 import { YString } from "../../../string/YString/YString.mjs";
 import { YTemplate } from "../../../string/YString/YTemplate/YTemplate.mjs";
 import { pathGetProject } from "../../path/path.mjs";

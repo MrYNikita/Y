@@ -7,24 +7,58 @@ import { numberGetFrac, numberGetRandomReal, numberGetReal, numberGetSequence } 
 //#region YT
 
 /** ### stringT
- *
- * Основной параметр модуля `string`.
- *
  * - Тип `T`
  * - Версия `0.0.0`
  * - Пространство `string`
  *
+ * Основной параметр модуля `string`.
+ *
  * @typedef {string} stringT
+ *
+*/
+/** ### stringTString
+ * - Тип `T`
+ * - Версия `0.0.0`
+ * - Пространство `string`
+ *
+ *
+ *
+ * @typedef stringTString
+ * @prop {stringT} string
+ *
+*/
+/** ### stringTLimit
+ * - Тип `T`
+ * - Версия `0.0.0`
+ * - Пространство `string`
+ *
+ *
+ *
+ * @typedef {import("../array/array.mjs").arrayTLimit} stringTLimit
+ *
+*/
+/** ### stringTIndex
+ * - Тип `T`
+ * - Версия `0.0.0`
+ * - Пространство `string`
+ *
+ *
+ *
+ * @typedef {import("../array/array.mjs").arrayTIndex} stringTIndex
+ *
+*/
+/** ### stringTPosition
+ * - Тип `T`
+ * - Версия `0.0.0`
+ * - Пространство `string`
+ *
+ *
+ *
+ * @typedef {import("../array/array.mjs").arrayTPosition} stringTPosition
  *
 */
 
 //#endregion
-
-
-/**
- * @typedef TFString
- * @prop {string} string
-*/
 
 /**
  * Регулярное выражение поиска вставок ANSI.
@@ -37,18 +71,30 @@ export const stringREANSI = /\x1b\[.*?m/;
 */
 export const stringREANSIColor = /\x1b\[.*?(?<r>([34]8;5;\d+|[34]([0-7]|9));?).*?m/;
 
-//#region pad 0.0.0
+//#region pad 0.1.0
 
-/**
- * @typedef TBpad
+/** ### stringTFpad
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Пространство `string`
+ *
+ * Результирующие параметры функции `pad`.
+ *
+ * @typedef {stringTFUpad&stringTString&stringTIndex&stringTLimit} stringTFpad
+ *
+*/
+/** ### stringTFUpad
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Пространство `string`
+ *
+ * Уникальные параметры функции `pad`.
+ *
+ * @typedef stringTFUpad
  * @prop {string} pad
- * @prop {number} index
- * @prop {number} count
- * @prop {string} string
- * @typedef {TBpad} Tpad
 */
 
-/** @arg {Tpad} t */
+/** @arg {stringTFpad} t */
 function padDeceit(t) {
 
     try {
@@ -64,79 +110,87 @@ function padDeceit(t) {
     };
 
 };
-/** @arg {Tpad} t */
+/** @arg {stringTFpad} t */
 function padVerify(t) {
 
-    const {
 
-
-
-    } = t;
 
     return padHandle(t);
 
 };
-/** @arg {Tpad} t */
+/** @arg {stringTFpad} t */
 function padHandle(t) {
-
-    let {
-
-
-
-    } = t;
-
-
-
-    t = {
-
-        ...t,
-
-    };
 
     return padComply(t);
 
 };
-/** @arg {Tpad} t */
+/** @arg {stringTFpad} t */
 function padComply(t) {
 
     const {
 
         pad,
+        limit,
         index,
-        count,
         string,
 
     } = t;
 
-    return stringAppend(string, index, pad.repeat(count));
+    const c = Math.floor((t.limit - t.string.length) / t.pad.length);
+    const l = t.limit - (c * t.pad.length + t.string.length);
+
+    if (t.string.length >= t.limit) return t.string;
+    else return stringAppend(t.string, t.index, t.pad.repeat(c) + t.pad.slice(0, l > 0 ? l : 0));
 
 };
 
 /**
- * Функция для дополнения строки.
- * - Версия `0.0.0`
+ * ### stringPad
+ * - Версия `0.1.0`
  * - Цепочка `DVHCa`
- * @arg {string} pad Строка дополнения.
- * @arg {string} string Исходная строка.
- * @arg {number} count Кол-во повторений строки дополнения.
- * @arg {boolean} left Место стыка.
+ * - Пространство `string`
+ *
+ * Функция доведения указанной `строки` до указанного `лимита` символов `строкой доведения`.
+ *
+ * В отличии от обычной функции `pad` позволяет доводить строку до указанного лимита с указанной позиции.
+ * ***
+ * @arg {string} pad `Строка доведения`
+ * @arg {number} limit `Лимит`
+ * @arg {number} index `Позиция`
+ * @arg {string} string `Строка`
 */
-export function stringPad(string, pad, count, index = string.length) {
+export function stringPad(string, pad, limit, index = string.length) {
 
-    return padDeceit({ string, pad, index, count });
+    return padDeceit({ string, limit, index, pad, });
 
 };
 
 //#endregion
-//#region trim 0.0.0
+//#region trim 0.1.0
 
-/**
- * @typedef TBtrim
- * @prop {string} string
- * @typedef {TBtrim} Ttrim
+/** ### stringTFtrim
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Пространство `string`
+ *
+ * Результирующие параметры функции `trim`.
+ *
+ * @typedef {stringTFUtrim&stringTString} stringTFtrim
+ *
+*/
+/** ### stringTFUtrim
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Пространство `string`
+ *
+ * Уникальные параметры функции `trim`.
+ *
+ * @typedef stringTFUtrim
+ * @prop {boolean} end
+ * @prop {boolean} start
 */
 
-/** @arg {Ttrim} t */
+/** @arg {stringTFtrim} t */
 function trimDeceit(t) {
 
     try {
@@ -152,7 +206,7 @@ function trimDeceit(t) {
     };
 
 };
-/** @arg {Ttrim} t */
+/** @arg {stringTFtrim} t */
 function trimVerify(t) {
 
 
@@ -160,7 +214,7 @@ function trimVerify(t) {
     return trimHandle(t);
 
 };
-/** @arg {Ttrim} t */
+/** @arg {stringTFtrim} t */
 function trimHandle(t) {
 
 
@@ -168,42 +222,74 @@ function trimHandle(t) {
     return trimComply(t);
 
 };
-/** @arg {Ttrim} t */
+/** @arg {stringTFtrim} t */
 function trimComply(t) {
 
     const {
 
+        end,
+        start,
         string,
 
     } = t;
 
-    return string.trimEnd().split('\n').map(s => s.trimEnd()).join('\n');
+    return (!end && !start) ? string : string.split('\n').map(s => {
+
+        if (end) s = s.trimEnd();
+        if (start) s = s.trimStart();
+
+        return s;
+
+    }).join('\n');
 
 };
 
 /**
- * Функция обрезки каждой линии строки и самой строки от свободных линий.
- * - Версия `0.0.0`
+ * ### stringTrim
+ * - Версия `0.1.0`
  * - Цепочка `DVHCa`
- * @arg {string} string - Исходная строка.
+ * - Пространство `string`
+ *
+ * Функция обрезки каждой линии строки и самой строки от свободных линий.
+ * ***
+ * @arg {string} string `Строка`
+ * @arg {boolean} end `Обрезка конца строки`
+ * - По умолчанию `true`
+ * @arg {boolean} start `Обрезка начала строки`
+ * - По умолчанию `false`
 */
-export function stringTrim(string) {
+export function stringTrim(string, end = true, start = false) {
 
-    return trimDeceit({ string, });
+    return trimDeceit({ string, start, end, });
 
 };
 
 //#endregion
-//#region insert 0.0.0
+//#region insert 0.1.0
 
-/**
- * @typedef TBinsert
- * @prop {string} string
+/** ### stringTFinsert
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Пространство `string`
+ *
+ * Результирующие параметры функции `insert`.
+ *
+ * @typedef {stringTFUinsert&stringTString} stringTFinsert
+ *
+*/
+/** ### stringTFUinsert
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Пространство `string`
+ *
+ * Уникальные параметры функции `insert`.
+ *
+ * @typedef stringTFUinsert
+ * @prop {string} defaultValue
  * @prop {string[]} inserts
- * @typedef {TBinsert} Tinsert
 */
 
-/** @arg {Tinsert} t */
+/** @arg {stringTFinsert} t */
 function insertDeceit(t) {
 
     try {
@@ -219,7 +305,7 @@ function insertDeceit(t) {
     };
 
 };
-/** @arg {Tinsert} t */
+/** @arg {stringTFinsert} t */
 function insertVerify(t) {
 
 
@@ -227,58 +313,83 @@ function insertVerify(t) {
     return insertHandle(t);
 
 };
-/** @arg {Tinsert} t */
+/** @arg {stringTFinsert} t */
 function insertHandle(t) {
 
+    if (!t.defaultValue) t.defaultValue = configString.insert.defaultValue;
 
+    t.inserts.forEach((e, ei, a) => {
+
+        if (e.constructor === String) a[ei] = e.split(configString.insert.delimiter);
+
+    });
 
     return insertComply(t);
 
 };
-/** @arg {Tinsert} t */
+/** @arg {stringTFinsert} t */
 function insertComply(t) {
 
     const {
 
         string,
         inserts,
+        defaultValue,
 
     } = t;
 
-    const {
-
-        delimiter,
-        defaultValue,
-
-    } = configString.insert;
-
     let result = string;
 
-    inserts.forEach(i => {
+    inserts.forEach(i => result = stringReplaceAll(result, i[1] ?? i[2] ?? defaultValue, configYInsert.borderL + i[0] + configYInsert.borderR));
 
-        const index = i.indexOf(delimiter);
-        result = stringReplaceAll(result, i.slice(index + 1) ?? defaultValue, configYInsert.borderL + i.slice(0, index) + configYInsert.borderR);
-
-    });
-
-    return result;
+    return stringReplaceAll(result, defaultValue, configYInsert.borderL + '.' + configYInsert.borderR);
 
 };
 
 /**
- * Функция вставки в поля указанных значений значений.
+ * ### stringInsert
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @arg {string} string Исходная строка.
- * @arg {...string} inserts Вставки.
+ * - Пространство `string`
+ *
+ * Функция вставки в поля указанных значений.
+ * `Поле` - место в строке, обозначенное по правилам вставки.
+ * На место поля вставляется соответсвующее ему значение.
+ *
+ * Поля обозначаются в соответствии с правилами вставки.
+ * Заполнить поле можно, передав функции вставку с указанием соответствующего символа, например, для строки `1234<i>5` поля `<i>` это будет вставка `i-WW`.
+ * Таким образом результат: `1234WW5`.
+ * ***
+ * @arg {string} string `Строка`
+ * @arg {...string} inserts `Вставки`
 */
 export function stringInsert(string, ...inserts) {
 
-    return insertDeceit({ string, inserts, });
+    return insertDeceit({ string, inserts });
+
+};
+/**
+ * ### stringInsertByArray
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * - Пространство `string`
+ *
+ * Модификация {@link stringInsert}.
+ * Вставляет значения через массивы.
+ * Может принимать значение по умолчанию.
+ * ***
+ * @arg {string} string `Строка`
+ * @arg {string} defaultValue `Значение по умолчанию`
+ * @arg {...(string|[string,string,string])} inserts `Вставки`
+*/
+export function stringInsertByArray(string, defaultValue, ...inserts) {
+
+    return insertDeceit({ string, defaultValue, inserts, });
 
 };
 
 //#endregion
+
 //#region shield 0.0.2
 
 /**
@@ -1658,145 +1769,6 @@ function getPositionRowStartByIndexComply(t) {
 export function stringGetPositionRowStartByIndex(string, index, wrap = true) {
 
     return getPositionRowStartByIndexDeceit({ string, index, wrap, });
-
-};
-
-//#endregion
-
-//#region getColor 0.1.0
-
-/**
- * @typedef TBgetColor
- * @prop {string|number} color
- * @typedef {TBgetColor} TgetColor
-*/
-
-/** @arg {TgetColor} t */
-function getColorDeceit(t) {
-
-    try {
-
-        return getColorVerify(t);
-
-    } catch (e) {
-
-        if (config.strict) throw e;
-
-        return undefined;
-
-    };
-
-};
-/** @arg {TgetColor} t */
-function getColorVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return getColorHandle(t);
-
-};
-/** @arg {TgetColor} t */
-function getColorHandle(t) {
-
-    return getColorComply(t);
-
-};
-/** @arg {TgetColor} t */
-function getColorComply(t) {
-
-    const {
-
-        color,
-
-    } = t;
-
-    return Object.entries(configString.getColor.colors).find(c => c[0].match(new RegExp(color) || c[1] === color))[1];
-
-};
-
-/**
- * Функция для определения кода цвета по его названию.
- * - Версия `0.1.0`
- * - Цепочка `DVHCa`
- * @arg {string} color Код/название цвета.
-*/
-export function stringGetColor(color) {
-
-    return getColorDeceit({ color });
-
-};
-
-//#endregion
-//#region setColor 0.0.0
-
-/**
- * @typedef TBsetColor
- * @prop {string} string
- * @typedef {TBsetColor} TsetColor
-*/
-
-/** @arg {TsetColor} t */
-function setColorDeceit(t) {
-
-    try {
-
-        return setColorVerify(t);
-
-    } catch (e) {
-
-        if (config.strict) throw e;
-
-        return undefined;
-
-    };
-
-};
-/** @arg {TsetColor} t */
-function setColorVerify(t) {
-
-
-
-    return setColorHandle(t);
-
-};
-/** @arg {TsetColor} t */
-function setColorHandle(t) {
-
-
-
-    return setColorComply(t);
-
-};
-/** @arg {TsetColor} t */
-function setColorComply(t) {
-
-    const {
-
-        string,
-
-    } = t;
-
-    return string;
-
-};
-
-/**
- * Функция установки цвета для строки.
- *
- * Возвращает новую строку с предустановкой указанного цвета за счет `Escape ANSI Sequence` вставки.
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * @arg {string} string Исходная строка.
- * @arg {MrepaintColor|number} background Цвет фона текста.
- * @arg {MrepaintColor|number} foreground Цвет символов текста.
-*/
-export function stringSetColor(string, foreground, background) {
-
-    return setColorDeceit({ string, foreground, background, });
 
 };
 
@@ -3451,119 +3423,6 @@ export function stringMesuare(string, step, ...substrings) {
 
 //#endregion
 
-//#region repaint 0.1.0
-
-/**
- * @typedef TBrepaint
- * @prop {string} string
- * @prop {boolean} ending
- * @prop {string|number} foreground
- * @prop {string|number} background
- * @typedef {TBrepaint} Trepaint
- * @typedef {keyof configString['getColor']['colors']} MrepaintColor
-*/
-
-/** @arg {Trepaint} t */
-function repaintDeceit(t) {
-
-    try {
-
-        return repaintVerify(t);
-
-    } catch (e) {
-
-        if (config.strict) throw e;
-
-        return undefined;
-
-    };
-
-};
-/** @arg {Trepaint} t */
-function repaintVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return repaintHandle(t);
-
-};
-/** @arg {Trepaint} t */
-function repaintHandle(t) {
-
-    if (t.foreground || t.foreground === 0) {
-
-        const p = parseInt(t.foreground);
-
-        if (!p && p !== 0) t.foreground = stringGetColor(t.foreground);
-        else if (p >= 0 && p <= 255) t.foreground = p;
-        else t.foreground = undefined;
-
-    };
-    if (t.background || t.background === 0) {
-
-        const p = parseInt(t.background);
-
-        if (!p && p !== 0) t.background = stringGetColor(t.background);
-        else if (p >= 0 && p <= 255) t.background = p;
-        else t.background = undefined;
-
-    };
-
-    return repaintComply(t);
-
-};
-/** @arg {Trepaint} t */
-function repaintComply(t) {
-
-    const {
-
-        ending,
-        foreground,
-        background,
-
-    } = t;
-
-    let string = t.string;
-
-    if (foreground) string = stringReplaceAll(string, '', /\x1b\[3([0-7]|9)m|\x1b\[.*?(?<r>(38;5;\d+|3([0-7]|9));?).*?m/);
-    if (background) string = stringReplaceAll(string, '', /\x1b\[4([0-7]|9)m|\x1b\[.*?(?<r>(48;5;\d+|4([0-7]|9));?).*?m/);
-
-    if (foreground && background) return `\x1b[38;5;${foreground};48;5;${background}m${string}${ending ? '\x1b[39;49m' : ''}`;
-    else if (foreground && !background) return `\x1b[38;5;${foreground}m${string}${ending ? '\x1b[39m' : ''}`;
-    else if (background && !foreground) return `\x1b[48;5;${background}m${string}${ending ? '\x1b[49m' : ''}`;
-    else return string;
-
-};
-
-/**
- * Функция для перекрашивания указанной строки в указанные цвета заднего и переднего плана.
- *
- * Цвета можно указать двумя способами: через название или через код.
- * Первый способ может определить код цаета по его названию, причем не обязательно давать точное название.
- * Второй способ наиболее предпочтительный, так как с его помощью можно миновать процесс поиска цвета,
- * однако важно, чтобы код был представлен числом от 0 до 255, а иначе цвет не будет учтен.
- * - Версия `0.1.0`
- * - Цепочка `DVHCa`
- * @arg {string} string Исходная строка.
- * @arg {boolean} ending Окончание.
- *
- * При указании как `false`, не указывает завершающий символ сброса цвета, из-за чего переключает режим консоли в указанный цвет.
- * - по умолчанию `true`
- * @arg {MrepaintColor|number} background Цвет фона.
- * @arg {MrepaintColor|number} foreground Цвет переднего плана.
-*/
-export function stringRepaint(string, foreground, background, ending = true) {
-
-    return repaintDeceit({ string, foreground, background, ending, });
-
-};
-
-//#endregion
-
 //#region getTransducer 0.0.0
 
 /**
@@ -3658,73 +3517,6 @@ export function stringGetTranducer(string) {
 export function stringGetTransducerColor(string) {
 
     return getTransducerDeceit({ string, node: 'color', });
-
-};
-
-//#endregion
-
-//#region resetColor 0.0.0
-
-/**
- * @typedef TBresetColor
- * @prop {string} string
- * @typedef {TBresetColor} TresetColor
-*/
-
-/** @arg {TresetColor} t */
-function resetColorDeceit(t) {
-
-    try {
-
-        return resetColorVerify(t);
-
-    } catch (e) {
-
-        if (config.strict) throw e;
-
-        return undefined;
-
-    };
-
-};
-/** @arg {TresetColor} t */
-function resetColorVerify(t) {
-
-
-
-    return resetColorHandle(t);
-
-};
-/** @arg {TresetColor} t */
-function resetColorHandle(t) {
-
-
-
-    return resetColorComply(t);
-
-};
-/** @arg {TresetColor} t */
-function resetColorComply(t) {
-
-    const {
-
-        string,
-
-    } = t;
-
-    return stringFilter(string, stringREANSIColor, '\x1b\\[m');
-
-};
-
-/**
- * Функция для удаления цветовых вставок в указанной строке.
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * @arg {string} string Исходная строка.
-*/
-export function stringResetColor(string) {
-
-    return resetColorDeceit({ string, });
 
 };
 

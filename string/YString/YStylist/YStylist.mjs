@@ -1,8 +1,8 @@
 import { YBasic } from '../../../ject/YBasic/YBasic.mjs';
 import { jectFill } from '../../../ject/ject.mjs';
-import { stringCastToSample, stringFindAll, stringGetTranducer, stringPaste, stringREANSIColor, stringRemove, stringResetColor } from '../../string.mjs';
-import { YRegExp } from '../../../regexp/YRegExp/YRegExp.mjs';
+import { stringGetTranducer, stringPaste, stringREANSIColor, stringRemove } from '../../string.mjs';
 import { arrayPaste } from '../../../array/array.mjs';
+import { colorClear } from '../color/color.mjs';
 
 /**
  * @typedef TBStylist
@@ -174,7 +174,7 @@ export class YStylist extends FStylist {
     */
     get(string) {
 
-        string = stringResetColor(string);
+        string = colorClear(string);
 
         this.mapColor.slice().reverse().forEach(c => string = stringPaste(string, c[1], c[0]));
 
@@ -216,3 +216,9 @@ export class YStylist extends FStylist {
     };
 
 };
+
+/**
+ * @file YStylist.mjs
+ * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
+ * @copyright Yakhin Nikita Artemovich 2023
+*/

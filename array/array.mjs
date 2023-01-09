@@ -1,6 +1,55 @@
 import { config } from "../config.mjs";
 import { numberGetRandomReal } from "../number/number.mjs";
 
+//#region YT
+
+/** ### arrayT
+ * - Тип `T`
+ * - Версия `0.0.0`
+ * - Пространство `array`
+ *
+ * Основной параметр модуля `array`.
+ *
+ * @typedef arrayT
+ * @prop {any[]} array
+ *
+*/
+/** ### arrayTIndex
+ * - Тип `T`
+ * - Версия `0.0.0`
+ * - Пространство `array`
+ *
+ * Объект-носитель с числовым параметром индекса для определения позиции в одномерном массиве.
+ *
+ * @typedef arrayTIndex
+ * @prop {number} index
+ *
+*/
+/** ### arrayTLimit
+ * - Тип `T`
+ * - Версия `0.0.0`
+ * - Пространство `array`
+ *
+ * Объект-носитель с числовым параметром лимита для определения пределов.
+ *
+ * @typedef arrayTLimit
+ * @prop {number} limit
+ *
+*/
+/** ### arrayTPosition
+ * - Тип `T`
+ * - Версия `0.0.0`
+ * - Пространство `array`
+ *
+ * Объект-носитель с параметром в виде массива позиций для многомерных массивов.
+ *
+ * @typedef arrayTPosition
+ * @prop {number[]} positions
+ *
+*/
+
+//#endregion
+
 //#region mix 0.1.0
 
 /**

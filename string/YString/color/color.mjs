@@ -433,7 +433,7 @@ function resetComply(t) {
  * @arg {boolean} background `Цвет фона`
  * @arg {boolean} foreground `Цвет символов`
 */
-export function colorReset(string, index = 0, foreground = true, background = true) {
+export function colorReset(string = '', index = 0, foreground = true, background = true) {
 
     return resetDeceit({ string, index, foreground, background });
 
@@ -595,7 +595,7 @@ function repaintComply(t) {
 
     } = t;
 
-    return colorSet(colorClear(string), 0, foreground, background);
+    return colorSet(colorClear(string), 0, foreground, background) + colorReset('');
 
 };
 
@@ -620,3 +620,9 @@ export function colorRepaint(string, foreground, background) {
 };
 
 //#endregion
+
+/**
+ * @file color.mjs
+ * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
+ * @copyright Yakhin Nikita Artemovich 2023
+*/
