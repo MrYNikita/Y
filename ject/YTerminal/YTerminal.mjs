@@ -49,14 +49,10 @@ class STerminal extends YJect {
     */
     static layout = new YString()
 
-        .paste(
-
-            '╔' + '═'.repeat(configYTerminal.sizes[0] - 2) + '╗\n',
-            ('║' + ' '.repeat(configYTerminal.sizes[0] - 2) + '║\n').repeat(configYTerminal.sizes[1] - 2),
-            '╚' + '═'.repeat(configYTerminal.sizes[0] - 2) + '╝\n',
-
-        )
-        .repaint('c', 0, 1)
+        .setColor('c', '')
+        .paste('╔' + '═'.repeat(configYTerminal.sizes[0] - 2) + '╗\n')
+        .paste(('║' + ' '.repeat(configYTerminal.sizes[0] - 2) + '║\n').repeat(configYTerminal.sizes[1] - 2))
+        .paste('╚' + '═'.repeat(configYTerminal.sizes[0] - 2) + '╝\n')
 
 };
 class DTerminal extends STerminal {
@@ -244,7 +240,7 @@ export class YTerminal extends FTerminal {
 
         console.clear();
 
-        new YString(this?.layout?.get(true) ?? YTerminal.layout.get(true))
+        new YString(this.layout ? this.layout.get(true) : YTerminal.layout.get(true))
 
             .exec(y => {
 

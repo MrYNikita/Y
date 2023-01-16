@@ -1,6 +1,6 @@
 import { config, configStringANSI, configStringColor } from "../../../config.mjs";
-import { stringFilter, stringPaste, stringReplaceAll } from "../../string.mjs";
-import { YStylist } from "../YStylist/YStylist.mjs";
+import { stringFilter, stringPaste } from "../../string.mjs";
+import { YRegExp } from "../../../regexp/YRegExp/YRegExp.mjs";
 
 //#region YT
 
@@ -75,6 +75,34 @@ import { YStylist } from "../YStylist/YStylist.mjs";
  * @prop {number} index
  *
 */
+
+//#endregion
+//#region YV
+
+/**
+ * ### colorVEREColor
+ * - Тип `VE`
+ * - Версия `0.0.0`
+ * - Модуль `color`
+ *
+ * Значение для поиска цветовых вставок.
+ *
+ * ***
+ *
+*/
+export const colorVEREColor = /\x1b\[.*?(?<r>([34]8;5;\d+|[34]([0-7]|9));?).*?m/;
+/**
+ * ### colorVEREReset
+ * - Тип `VE`
+ * - Версия `0.0.0`
+ * - Модуль `color`
+ *
+ * Значение для поиска сброса цветовых вставок.
+ *
+ * ***
+ *
+*/
+export const colorVEREReset = /\x1b\[([34]9|39;49|49;39)m/;
 
 //#endregion
 
@@ -161,6 +189,112 @@ function getComply(t) {
 export function colorGet(foreground, background) {
 
     return getDeceit({ foreground, background, });
+
+};
+
+//#endregion
+//#region getMap 0.0.0
+
+/** ### colorTFgetMap
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `color`
+ *
+ * Результирующие параметры функции `getMap`.
+ *
+ * @typedef {colorTFUgetMap&colorTString} colorTFgetMap
+ *
+*/
+/** ### colorTFUgetMap
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `color`
+ *
+ * Уникальные параметры функции `getMap`.
+ *
+ * @typedef colorTFUgetMap
+ * @prop {any} _
+*/
+
+/** @arg {colorTFgetMap} t */
+function getMapDeceit(t) {
+
+    try {
+
+        return getMapVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @arg {colorTFgetMap} t */
+function getMapVerify(t) {
+
+
+
+    return getMapHandle(t);
+
+};
+/** @arg {colorTFgetMap} t */
+function getMapHandle(t) {
+
+
+
+    return getMapComply(t);
+
+};
+/** @arg {colorTFgetMap} t */
+function getMapComply(t) {
+
+    const {
+
+
+
+    } = t;
+
+    /** @type {[number,string][][]} */
+    const rs = [];
+
+    t.string.split('\n').forEach((s, si) => {
+
+        rs[si] = [];
+
+        Array.from(s.matchAll(new YRegExp(colorVEREColor, 'g').get())).map(f => [f.index, f[0]]).reduce((p, c) => {
+
+            c[0] -= p;
+            p += c[1].length;
+
+            rs[si].push(c);
+
+            return p;
+
+        }, 0);
+
+    });
+
+    return rs;
+
+};
+
+/**
+ * ### colorGetMap
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * - Модуль `string.color`
+ *
+ * Функция получения цветовой карты для указанной строки.
+ * Все полученные точки указаны в позициях `y:x`, где `y` - индекс линии, а `x` - позиция в линии.
+ * ***
+ * @arg {string} string `Строка`
+*/
+export function colorGetMap(string) {
+
+    return getMapDeceit({ string, });
 
 };
 
@@ -302,9 +436,7 @@ function setVerify(t) {
 
 };
 /** @arg {colorTFset} t */
-function setHandle(t) {4
-
-
+function setHandle(t) {
 
     return setComply(t);
 
@@ -345,7 +477,7 @@ export function colorSet(string, index = 0, foreground, background) {
 
 //#endregion
 
-//#region reset 0.0.0
+//#region reset 0.0.1
 
 /** ### colorTFreset
  *
@@ -412,14 +544,10 @@ function resetComply(t) {
 
     } = t;
 
-    const yst = new YStylist(t.string);
-
     if (t.foreground) t.foreground = `${configStringColor.valueForeground}${configStringColor.valueReset}`;
     if (t.background) t.background = `${configStringColor.valueBackground}${configStringColor.valueReset}`;
 
-    yst.paste(t.index, configStringANSI.start + [t.foreground, t.background].filter(e => e).join(configStringANSI.delimetr) + configStringANSI.end);
-
-    return yst.get(t.string);
+    return stringPaste(t.string, configStringANSI.start + [t.foreground, t.background].filter(e => e).join(configStringANSI.delimetr) + configStringANSI.end, t.index);
 
 };
 

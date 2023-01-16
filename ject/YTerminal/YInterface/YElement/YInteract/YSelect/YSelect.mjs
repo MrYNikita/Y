@@ -1,5 +1,5 @@
-import { YString } from "../../../../../../string/YString/YString.mjs";
 import { jectFill } from "../../../../../ject.mjs";
+import { YString } from "../../../../../../string/YString/YString.mjs";
 import { YInteract } from "../YInteract.mjs";
 
 /**
@@ -15,7 +15,7 @@ class SSelect extends YInteract {
 
         ['\r',
             /** @arg {YMenu} y */
-            y => y.points[y.index][1](),
+            y => y.points[y.index]?.[1]?.(),
         ],
         [['\x1B[B', 's'],
         /** @arg {YMenu} y */

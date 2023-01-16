@@ -253,3 +253,9 @@ export class YArray extends FArray {
     };
 
 };
+
+/**
+ * @file YArray.mjs
+ * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
+ * @copyright Yakhin Nikita Artemovich 2023
+*/

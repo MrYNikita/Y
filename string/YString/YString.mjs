@@ -2,8 +2,9 @@ import { YList } from "../../ject/YBasic/YList/YList.mjs";
 import { jectFill } from "../../ject/ject.mjs";
 import { YTemplate } from "./YTemplate/YTemplate.mjs";
 import { configString, configYString } from "../../config.mjs";
-import { stringBring, stringBringColumn, stringCastToJect, stringCastToSample, stringCastToYReport, stringFilter, stringFind, stringFindAll, stringFindToJect, stringGetPositionEndPasteWrap, stringGetPositionRowStartByIndex, stringGetRowByIndex, stringHandle, stringMesuare, stringPad, stringPaste, stringPasteWrap, stringPasteWrapByPosition, stringReflect, stringRemove, stringReplace, stringReplaceAllMore, stringReplaceMore, stringReverse, stringTrim } from "../string.mjs";
-import { YStylist } from "./YStylist/YStylist.mjs";
+import { stringBring, stringBringColumn, stringCastToJect, stringCastToSample, stringCastToYReport, stringFilter, stringFind, stringFindAll, stringFindToJect, stringGetPositionEndPasteWrap, stringGetPositionRowStartByIndex, stringGetRowByIndex, stringGetTransducerColor, stringHandle, stringMesuare, stringPad, stringPaste, stringPasteWrap, stringPasteWrapByPosition, stringReflect, stringRemove, stringReplace, stringReplaceAllMore, stringReplaceMore, stringReverse, stringTrim } from "../string.mjs";
+import { colorGet, colorReset } from "../style/color/color.mjs";
+import { YStylist } from "../style/YStylist/YStylist.mjs";
 
 //#region YT
 
@@ -128,7 +129,11 @@ class DString extends SString {
 };
 class IString extends DString {
 
-    stylist = new YStylist(this);
+    /**
+     *
+     * @type {YStylist}
+    */
+    stylist = new YStylist('');
 
 };
 class MString extends IString {
@@ -148,7 +153,7 @@ class MString extends IString {
 class FString extends MString {
 
     /**
-     * ### `YString.constructor`
+     * ### YString.constructor
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
      *
@@ -178,7 +183,7 @@ class FString extends MString {
 
         } else if (t?.length) {
 
-            /** @type {TString&DString} */
+            /** @type {YStringT} */
             const r = {};
 
             if (t[0]?._ytp) t = [...t[0]._ytp];
@@ -187,7 +192,12 @@ class FString extends MString {
 
                 case 3:
                 case 2:
-                case 1:
+                case 1: {
+
+                    if (t[0].constructor === YString) r.values = t[0].get(true);
+                    else if (t[0].constructor === String) r.values = t[0];
+
+                };
 
             };
 
@@ -239,7 +249,7 @@ class FString extends MString {
 
         jectFill(this, t);
 
-
+        this.stylist.pasteColorByString(this.values);
 
     };
 
@@ -259,7 +269,7 @@ export class YString extends FString {
 
     /**
      * Метод для получения текущей строки.
-     * - Версия `0.1.0`
+     * - Версия `0.1.1`
      * @arg {boolean} style Режим стилизации.
      *
      * Активация данного режима позволяет получить итоговую строку с сохранением цветов и декораторов текста.
@@ -269,15 +279,7 @@ export class YString extends FString {
 
         let r = stringMesuare(this.values, this.rowLength, this.rowEnd);
 
-        if (style) {
-
-
-            if (this.colorF) r = `${this.colorF}${r}` + '\x1b[39m';
-            if (this.colorB) r = `${this.colorB}${r}` + '\x1b[49m';
-
-        };
-
-        return r;
+        return style ? this.stylist.handle(r) : r;
 
     };
 
@@ -434,6 +436,63 @@ export class YString extends FString {
         const s = this.values;
 
         this.paste(s.repeat(count));
+
+        return this;
+
+    };
+
+    /**
+     * ### setColor
+     * - Версия `0.0.0`
+     * - Цепочка `BDVHC`
+     * - Модуль `YString`
+     *
+     * Метод для обозначения позиции смены цвета.
+     *
+     * ***
+     * @arg {import("./color/color.mjs").colorTVColor} foreground
+     * @arg {import("./color/color.mjs").colorTVColor} background
+    */
+    setColor(foreground, background) {
+
+        this.stylist.pasteColorByString(colorGet(foreground, background), ...this.cursors[0].indexs);
+
+        return this;
+
+    };
+    /**
+     * ### resetColor
+     * - Версия `0.0.0`
+     * - Модуль `string.YString`
+     * - Цепочка `BDVHC`
+     *
+     * Метод сброса цвета в позициях курсоров.
+     *
+     * ***
+     * @arg {boolean} foreground
+     * @arg {boolean} background
+    */
+    resetColor(foreground, background) {
+
+        this.stylist.pasteColorByString(this.calculateIndex(), colorReset());
+
+        return this;
+
+    };
+    /**
+     * ### applyColorByString
+     * - Версия `0.0.0`
+     * - Модуль `YString`
+     * - Цепочка `BDVHC`
+     *
+     * Метод принятия стилей по строке.
+     * Позволяет добавить к существующим стилям цветовые карты внедренных строк.
+     *
+     * ***
+     * @arg {string} string `Строка`
+    */
+    applyColorByString(string) {
+
 
         return this;
 

@@ -1,7 +1,7 @@
 import { config } from "../config.mjs";
+import { YBasic } from "./YBasic/YBasic.mjs";
 import { stringFind } from "../string/string.mjs";
 import { arrayRemoveByElement } from "../array/array.mjs";
-import { YBasic } from "./YBasic/YBasic.mjs";
 
 //#region fill 0.1.0
 

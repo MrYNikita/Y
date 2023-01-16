@@ -453,8 +453,11 @@ export const configString = {
     },
     castToNumber: {
 
-        spliterEN: '.',
-        spliterRF: ',',
+        spliterPart: {
+            ru: '.',
+            en: ',',
+        },
+        spliterDischarge: ' ',
 
     },
     castToNumberPhone: {

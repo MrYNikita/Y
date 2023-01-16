@@ -1,6 +1,6 @@
 import { config } from "../config.mjs";
 import { arrayAppend } from "../array/array.mjs";
-import { stringInsert, stringReplaceAll, stringReplaceAllMore, stringShield } from "../string/string.mjs";
+import { stringInsert, stringReplaceAll, stringShield } from "../string/string.mjs";
 
 //#region split 0.0.0
 

@@ -216,8 +216,6 @@ function removeComply(t) {
 
     elements.forEach(e => {
 
-        console.log(e);
-
         if (e.constructor === String) Array.from(document.querySelectorAll(e)).forEach(e => e.remove());
         else e.remove();
 

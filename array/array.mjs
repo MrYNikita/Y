@@ -1539,3 +1539,9 @@ export function arrayDevideByLimit(array, limit) {
 };
 
 //#endregion
+
+/**
+ * @file array.mjs
+ * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
+ * @copyright Yakhin Nikita Artemovich 2023
+*/

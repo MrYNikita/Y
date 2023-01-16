@@ -69,7 +69,7 @@
 			"class F$1 extends M$1 {",
 			"    ",
 			"    /**",
-			"     * ### `Y$1.constructor`",
+			"     * ### Y$1.constructor",
 			"     * - Версия `0.0.0`",
 			"     * - Цепочка `BDVHC`",
 			"     *",
@@ -99,7 +99,7 @@
 			"            ",
 			"        } else if (t?.length) {",
 			"            ",
-			"            /** @type {T$1&D$1} */",
+			"            /** @type {Y$1T} */",
 			"            const r = {};",
 			"            ",
 			"            if (t[0]?._ytp) t = [...t[0]._ytp];",
@@ -185,7 +185,22 @@
 
     },
     "value": {
-        "body": "export const $1 = $2;",
+        "body": [
+
+            "/**",
+            " * ### ${TM_FILENAME_BASE}V$1",
+            " * - Тип `VE`",
+            " * - Версия `0.0.0`",
+            " * - Модуль `${TM_FILENAME_BASE}`",
+            " * ",
+            " * $2",
+            " * ",
+            " * ***",
+            " * ",
+            "*/",
+            "export const ${TM_FILENAME_BASE}V$1 = $0;",
+
+        ],
         "scope": "javascript",
         "prefix": "#v",
         "description": "Значение модуля."
@@ -211,6 +226,11 @@
             "*/",
             "",
             "//#endregion",
+            "//#region YV",
+            "",
+            "",
+            "",
+            "//#endregion",
             "",
 
         ],
@@ -224,18 +244,34 @@
             "/**",
             " * ### $1",
             " * - Версия `0.0.0`",
-            " * - Цепочка `BDVHC`",
             " * - Модуль `${TM_FILENAME_BASE}`",
+            " * - Цепочка `BDVHC`",
             " * ",
             " * $2",
             " * ",
             " * ***",
             " * $0",
             "*/",
-            "",
+            "$1() {",
+            "    ",
+            "    ",
+            "    ",
+            "};",
 
         ],
         "prefix": "#fm"
+
+    },
+    "metadata": {
+
+        "body": [
+            "/**",
+            " * @file $TM_FILENAME",
+            " * @author ${1:Yakhin Nikita Artemovich} ${2:<mr.y.nikita@gmail.com>}",
+            " * @copyright $1 $CURRENT_YEAR",
+            "*/",
+        ],
+        "prefix": "#metadata"
 
     },
     "transmit": {
@@ -258,7 +294,7 @@
         "prefix": "#t"
 
     },
-    "functionDVHCa": {
+    "function": {
         "body": [
             "//#region $1 0.0.0",
             "",
@@ -327,12 +363,14 @@
             "    ",
             "    ",
             "};",
+            "",
             "$0",
+            "",
             "//#endregion",
         ],
         "prefix": "#f"
     },
-    "functionAggregator": {
+    "functionA": {
         "body": [
             "/**",
             " * ### $TM_FILENAME_BASE$1",
@@ -352,5 +390,26 @@
         ],
         "prefix": "#fA",
         "description": "Добавить функцию агрегатор."
+    },
+    "breakpoint": {
+
+        "body": [
+
+            "console.log('$TM_FILENAME_BASE WW');$0",
+
+        ],
+        "prefix": "#b"
+
+    },
+    "breakpointF": {
+
+        "body": [
+
+            "console.log('$TM_FILENAME_BASE WW');$0",
+            "process.exit();",
+
+        ],
+        "prefix": "#bf",
+
     },
 }

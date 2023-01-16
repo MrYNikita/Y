@@ -1,8 +1,9 @@
 import { YString } from "./YString/YString.mjs";
 import { YRegExp } from "../regexp/YRegExp/YRegExp.mjs";
-import { config, configString, configYInsert, configYString } from "../config.mjs";
-import { arrayGetRandomElement, arrayGetRandomElementMany, arrayRearrangeByIndex, arrayReplace, } from "../array/array.mjs";
-import { numberGetFrac, numberGetRandomReal, numberGetReal, numberGetSequence } from "../number/number.mjs";
+import { config, configString, configYInsert } from "../config.mjs";
+import { arrayGetRandomElement, arrayGetRandomElementMany, arrayReplace, } from "../array/array.mjs";
+import { numberGetRandomReal, numberGetSequence } from "../number/number.mjs";
+import { funcBypass } from "../func/func.mjs";
 
 //#region YT
 
@@ -59,17 +60,11 @@ import { numberGetFrac, numberGetRandomReal, numberGetReal, numberGetSequence } 
 */
 
 //#endregion
+//#region YV
 
-/**
- * Регулярное выражение поиска вставок ANSI.
- * @type {RegExp}
-*/
-export const stringREANSI = /\x1b\[.*?m/;
-/**
- * Регулярное выражение поиска вставок ANSI влияющих на цвет выводимого текста.
- * @type {RegExp}
-*/
-export const stringREANSIColor = /\x1b\[.*?(?<r>([34]8;5;\d+|[34]([0-7]|9));?).*?m/;
+
+
+//#endregion
 
 //#region pad 0.1.0
 
@@ -3063,7 +3058,7 @@ export function stringCheckStyle(string) {
 
 //#endregion
 
-//#region replace 0.1.0
+//#region replace 0.1.1
 
 /**
  * @typedef TBreplace
@@ -3124,7 +3119,7 @@ function replaceComply(t) {
 
     if (m) {
 
-        if (m.groups?.r) return string.replace(m[0], m[0].replace(m.groups.r, replace));
+        if (m.groups?.r || m.groups?.r === '') return string.replace(m[0], m[0].replace(m.groups.r, replace));
         else return string.replace(m[0], replace);
 
     };
@@ -3162,7 +3157,7 @@ export function stringReplaceMore(string, ...replaces) {
 };
 
 //#endregion
-//#region replaceAll 0.0.0
+//#region replaceAll 0.0.1
 
 /**
  * @typedef TBreplaceAll
@@ -3218,7 +3213,7 @@ function replaceAllComply(t) {
 
     Array.from(string.matchAll(t.fragment)).reverse().forEach(m => {
 
-        if (m.groups?.r) result = stringPaste(stringRemove(result, m.index, m[0].length), m[0].replace(m.groups.r, replace), m.index);
+        if (m.groups?.r || m.groups?.r === '') result = stringPaste(stringRemove(result, m.index, m[0].length), m[0].replace(m.groups.r, replace), m.index);
         else result = stringPaste(stringRemove(result, m.index, m[0].length), replace, m.index);
 
     });
@@ -3522,6 +3517,123 @@ export function stringGetTransducerColor(string) {
 
 //#endregion
 
+//#region formatNumber 0.1.0
+
+/** ### stringTFformatNumber
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `string`
+ *
+ * Результирующие параметры функции `formatNumber`.
+ *
+ * @typedef {stringTFUformatNumber} stringTFformatNumber
+ *
+*/
+/** ### stringTFUformatNumber
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `string`
+ *
+ * Уникальные параметры функции `formatNumber`.
+ *
+ * @typedef stringTFUformatNumber
+ * @prop {number} number
+ * @prop {boolean|string} spliterPart
+ * @prop {boolean|string} spliterDischarge
+*/
+
+/** @arg {stringTFformatNumber} t */
+function formatNumberDeceit(t) {
+
+    try {
+
+        return formatNumberVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @arg {stringTFformatNumber} t */
+function formatNumberVerify(t) {
+
+
+
+    return formatNumberHandle(t);
+
+};
+/** @arg {stringTFformatNumber} t */
+function formatNumberHandle(t) {
+
+
+
+    return formatNumberComply(t);
+
+};
+/** @arg {stringTFformatNumber} t */
+function formatNumberComply(t) {
+
+    const {
+
+        number,
+        spliterPart,
+        spliterDischarge,
+
+    } = t;
+
+    let parts = new String(number).split('.');
+
+    if (spliterDischarge) {
+
+        parts.forEach((p, pi, pa) => pa[pi] = funcBypass(p,
+
+            [stringReverse],
+            [stringMesuare, 3, spliterDischarge === true ? configString.castToNumber.spliterDischarge : spliterDischarge],
+            [stringReverse]
+
+        ));
+
+    };
+
+    if (spliterPart) return parts.join((spliterPart === true ? configString.castToNumber.spliterPart[config.local] : spliterPart) ?? '.');
+    else return parts[0];
+
+};
+
+/**
+ * ### stringFormatNumber
+ * - Версия `0.1.0`
+ * - Цепочка `DVHCa`
+ * - Модуль `string`
+ *
+ * Функция форматирования числа в строку.
+ * В итоговой строке числа будут размещены знаки разделения разрядов и частей.
+ *
+ * Для разделителей задано значение по умолчанию `false`.
+ * При таком значении все разряды будут указаны без разделителя, а дробная часть отброшена.
+ *
+ * При указании значения `true` для любого разделителя он будет использован со значением конфигуратора.
+ *
+ * Если необходимо указать особый разделитель, то можно явно указать для каждого разделителя его значение.
+ * ***
+ * @arg {number} number `Число`
+ * @arg {boolean|string} spliterPart `Строка-разделитель целой и дробной части`
+ * - По умолчанию `false`
+ * @arg {boolean|string} spliterDischarge `Строка-разделитель разрядов`
+ * - По умолчанию `false`
+*/
+export function stringFormatNumber(number, spliterPart, spliterDischarge) {
+
+    return formatNumberDeceit({ number, spliterPart, spliterDischarge, });
+
+};
+
+//#endregion
+
 //#region castToJect 0.0.0
 
 /**
@@ -3799,113 +3911,6 @@ function castToSampleComply(t) {
 export function stringCastToSample(string) {
 
     return castToSampleDeceit({ string });
-
-};
-
-//#endregion
-//#region castToNumber 0.0.0
-
-/**
- * @typedef TBcastToNumber
- * @prop {number} number
- * @prop {boolean} part
- * @typedef {TBcastToNumber} TcastToNumber
-*/
-
-/** @arg {TcastToNumber} t */
-function castToNumberDeceit(t) {
-
-    try {
-
-        return castToNumberVerify(t);
-
-    } catch (e) {
-
-        if (config.strict) throw e;
-
-        return undefined;
-
-    };
-
-};
-/** @arg {TcastToNumber} t */
-function castToNumberVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return castToNumberHandle(t);
-
-};
-/** @arg {TcastToNumber} t */
-function castToNumberHandle(t) {
-
-    let {
-
-
-
-    } = t;
-
-    t = {
-
-        ...t,
-
-    };
-
-    return castToNumberComply(t);
-
-};
-/** @arg {TcastToNumber} t */
-function castToNumberComply(t) {
-
-    const {
-
-        part,
-        number,
-
-    } = t;
-
-    let nr = numberGetReal(number) + '', nf = numberGetFrac(number, 4) + '', result = '';
-
-    if (part) {
-
-        if (nr.length >= 4) {
-
-            const i = nr.length % 3;
-            result += nr.slice(0, i) + configString.castToNumber.spliter + nr.slice(i).match(/\d{3}/g).join(configString.castToNumber.spliter);
-
-        } else result += nr;
-        if (nf !== '0') {
-
-            result += configString.castToNumber.spliterRF;
-
-            if (nf.length >= 4) {
-
-                const i = nf.length % 3;
-                result += nf.match(/\d{1,3}/g).map(s => s.padEnd(3, 0)).join(configString.castToNumber.spliter);
-
-            } else result += nf.padEnd(3, 0);
-
-        };
-
-    } else result = nr + configString.castToNumber.spliter + nf;
-
-    return result || number.toString();
-
-};
-
-/**
- * Функция для преобразования числа к заданному виду.
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * @arg {number} number Число, которое необходимо привести к определенной форме.
-*/
-export function stringCastToNumber(number, part = true) {
-
-    return castToNumberDeceit({ number, part });
 
 };
 

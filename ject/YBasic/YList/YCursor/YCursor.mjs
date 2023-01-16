@@ -1,7 +1,7 @@
-import { arrayRemoveByElement } from "../../../../array/array.mjs";
-import { jectFill } from "../../../ject.mjs";
-import { YList } from "../YList.mjs";
 import { YBasic } from "../../YBasic.mjs";
+import { YList } from "../YList.mjs";
+import { jectFill } from "../../../ject.mjs";
+import { arrayRemoveByElement } from "../../../../array/array.mjs";
 
 /**
  * @typedef TBCursor

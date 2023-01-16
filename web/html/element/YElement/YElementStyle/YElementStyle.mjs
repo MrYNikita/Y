@@ -47,8 +47,6 @@ class SElementStyle extends YElement {
 
         const e = document.querySelector('#' + id);
 
-        console.log(e, id);
-
         if (e) return new YElementStyle(e);
         else return null;
 
