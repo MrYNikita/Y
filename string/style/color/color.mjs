@@ -1,4 +1,4 @@
-import { config, configStringANSI, configStringColor } from "../../../config.mjs";
+import { config, configStringANSI, configStringANSIColor } from "../../../config.mjs";
 import { stringFilter, stringPaste } from "../../string.mjs";
 import { YRegExp } from "../../../regexp/YRegExp/YRegExp.mjs";
 
@@ -35,7 +35,7 @@ import { YRegExp } from "../../../regexp/YRegExp/YRegExp.mjs";
  * - Версия `0.0.0`
  * - Пространство `string.color`
  *
- * @typedef {keyof configStringColor['colors']} colorTMColors
+ * @typedef {keyof configStringANSIColor['colors']} colorTMColors
  *
 */
 /** ### colorTForeBackGround
@@ -171,8 +171,8 @@ function getComply(t) {
 
     } = t;
 
-    if (t.foreground || t.foreground === 0) t.foreground = [configStringColor.valueForeground + configStringColor.valueOption, t.foreground].join(configStringANSI.delimetr);
-    if (t.background || t.background === 0) t.background = [configStringColor.valueBackground + configStringColor.valueOption, t.background].join(configStringANSI.delimetr);
+    if (t.foreground || t.foreground === 0) t.foreground = [configStringANSIColor.valueForeground + configStringANSIColor.valueOption, t.foreground].join(configStringANSI.delimetr);
+    if (t.background || t.background === 0) t.background = [configStringANSIColor.valueBackground + configStringANSIColor.valueOption, t.background].join(configStringANSI.delimetr);
 
     return configStringANSI.start + [t.foreground, t.background].filter(e => e).join(configStringANSI.delimetr) + configStringANSI.end;
 
@@ -365,7 +365,7 @@ function getCodeComply(t) {
 
     } = t;
 
-    return Object.entries(configStringColor.colors).find(c => c[0].match(new RegExp(t.color) || c[1] === t.color))[1];
+    return Object.entries(configStringANSIColor.colors).find(c => c[0].match(new RegExp(t.color) || c[1] === t.color))[1];
 
 };
 
@@ -381,6 +381,99 @@ function getCodeComply(t) {
 export function colorGetCode(color) {
 
     return getCodeDeceit({ color, });
+
+};
+
+//#endregion
+//#region getReset 0.0.0
+
+/** ### colorTFgetReset
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `color`
+ * ***
+ *
+ * Результирующие параметры функции `getReset`.
+ *
+ * @typedef {colorTFUgetReset} colorTFgetReset
+ *
+*/
+/** ### colorTFUgetReset
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `color`
+ *
+ * Уникальные параметры функции `getReset`.
+ *
+ * @typedef colorTFUgetReset
+ * @prop {boolean} background
+ * @prop {boolean} foreground
+*/
+
+/** @arg {colorTFgetReset} t */
+function getResetDeceit(t) {
+
+    try {
+
+        return getResetVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @arg {colorTFgetReset} t */
+function getResetVerify(t) {
+
+
+
+    return getResetHandle(t);
+
+};
+/** @arg {colorTFgetReset} t */
+function getResetHandle(t) {
+
+
+
+    return getResetComply(t);
+
+};
+/** @arg {colorTFgetReset} t */
+function getResetComply(t) {
+
+    const {
+
+
+
+    } = t;
+
+    if (t.foreground) t.foreground = `${configStringANSIColor.valueForeground}${configStringANSIColor.valueReset}`;
+    if (t.background) t.background = `${configStringANSIColor.valueBackground}${configStringANSIColor.valueReset}`;
+
+    return configStringANSI.start + [t.foreground, t.background].filter(e => e).join(configStringANSI.delimetr) + configStringANSI.end;
+
+};
+
+/**
+ * ### colorGetReset
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * - Модуль `color`
+ * ***
+ *
+ * Функция получения значения сброса цвета.
+ *
+ * ***
+ * @arg {boolean} background `Цвет фона`
+ * @arg {boolean} foreground `Цвет символов`
+*/
+export function colorGetReset(foreground, background) {
+
+    return getResetDeceit({ foreground, background });
 
 };
 
@@ -477,7 +570,7 @@ export function colorSet(string, index = 0, foreground, background) {
 
 //#endregion
 
-//#region reset 0.0.1
+//#region reset 0.1.0
 
 /** ### colorTFreset
  *
@@ -544,10 +637,7 @@ function resetComply(t) {
 
     } = t;
 
-    if (t.foreground) t.foreground = `${configStringColor.valueForeground}${configStringColor.valueReset}`;
-    if (t.background) t.background = `${configStringColor.valueBackground}${configStringColor.valueReset}`;
-
-    return stringPaste(t.string, configStringANSI.start + [t.foreground, t.background].filter(e => e).join(configStringANSI.delimetr) + configStringANSI.end, t.index);
+    return stringPaste(t.string, colorGetReset(t.foreground, t.background), t.index);
 
 };
 

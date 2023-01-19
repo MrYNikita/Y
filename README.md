@@ -19,8 +19,9 @@
     2. Правила
        1. От меньшего к большему
        2. Z,Y,X
-       3. Null и undefined
-       4. Минимизация
+       3. Приоритет последнего указания
+       4. Null и undefined
+       5. Минимизация
           1. Через обобщения
     3. Паттерны
        1. Объекты-носители аргументов
@@ -248,39 +249,33 @@
 - Удаления
 - Улучшения
   - string
-    - castToNumber
-      - Переименован в formatNumber.
-      - Оптимизирована.
-      - Отбрасывает ненужные части по умолчанию.
-      - Учитывает пользовательские обозначения разделителей.
+    - color
+      - getReset
+        - Можно получить вставку цветового сброса с помощью функции.
     - YStylist
-      - get
-        - Переименован в apply.
-        - При изменении вставка занимающая позицию существующего индекса заменяет его.
+      - Метод явной установки теперь исключительно добавляют одну точку без сдвигов.
+      - handle -> stylize
+        - Переименован.
+        - Оптимизирован.
+        - Учитывает все указанные карты.
 - Добавления
-  - func
-    - F - bypass.
   - string
-    - M - style.
-      - F - getMap.
-    - M - ascii.
-    - YString
-      - FМ - setColor.
+    - ansi
+      - M - underline
+        - F - get
+        - F - getReset
+    - style
+      - color
+        - F - getReset
+      - YStylist
+        - C - YStylistMap
+        - C - YStylistPoint
+        - C - YStylistMapColor
+        - C - YStylistMapUnderline
 - Перемещения
   - string
-    - YString
-      - YStylist -> string.style.YStylist.
-    - stringREANSI -> string.ascii.asciiVFragment.
-    - stringREANSIColor -> string.color.colorVEREColor.
+    - ascii -> ansi
 - Исправления
-  - string
-    - reset
-      - Бесконечный цикл создания YStylist.
-    - replace
-      - Замены пустых позиций.
-    - style
-      - YStylist
-        - Цикл while true в конструкторе заменен на более надежный вариант с точным временем отработки.
 ***
 ## Комментарий
 **String Paste Wrap**

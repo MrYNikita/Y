@@ -516,12 +516,12 @@ export const configStringANSI = {
 
 
 };
-export const configStringColor = {
+export const configStringANSIColor = {
 
     /**
-         * Объект-карта цветов.
-         * Ключ - название цвета, а значение - его код.
-        */
+     * Объект-карта цветов.
+     * Ключ - название цвета, а значение - его код.
+    */
     colors: {
 
         red: 160,
@@ -597,6 +597,13 @@ export const configStringColor = {
      * @type {number}
     */
     valueForeground: 3,
+
+};
+export const configStringANSIUnderline = {
+
+
+    value: 4,
+    valueReset: 24,
 
 };
 

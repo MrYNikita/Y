@@ -2,7 +2,11 @@ import { YBasic } from '../../../ject/YBasic/YBasic.mjs';
 import { jectFill } from '../../../ject/ject.mjs';
 import { stringFindAll, stringGetTranducer, stringPaste, stringPasteWrap } from '../../string.mjs';
 import { arrayAppend, arrayPaste } from '../../../array/array.mjs';
-import { colorClear, colorGet, colorGetMap, colorReset, colorVEREReset } from '../color/color.mjs';
+import { colorClear, colorGet, colorGetMap, colorGetReset, colorReset, colorVEREReset } from '../color/color.mjs';
+import { YStylistMapColor } from './YStylistMap/YStylistMapColor/YStylistMapColor.mjs';
+import { YStylistMapUnderline } from './YStylistMap/YStylistMapUnderline/YStylistMapUnderline.mjs';
+import { underlineGet, underlineGetReset } from '../underline/underline.mjs';
+import { YStylistMap } from './YStylistMap/YStylistMap.mjs';
 
 //#region YT
 
@@ -38,6 +42,17 @@ import { colorClear, colorGet, colorGetMap, colorReset, colorVEREReset } from '.
  *
 */
 
+/** ### YStylistTVColor
+ * - Тип `T`
+ * - Версия `0.0.0`
+ * - Модуль `YStylist`
+ *
+ *
+ *
+ * @typedef {import('../color/color.mjs').colorTVColor} YStylistTVColor
+ *
+*/
+
 //#endregion
 
 class SStylist extends YBasic {
@@ -53,35 +68,30 @@ class DStylist extends SStylist {
 class IStylist extends DStylist {
 
     /**
-     * Цветовая карта.
+     * ### mapColor
      *
-     * Представлена наборами вида `y:x:color`, где `color` (цвет) является `escape` кодовой вставкой, а `y` и `x` - позиции для размещения данной вставки.
+     * Карта цветов `ansi`.
+     *
+     * ***
+     * @type {YStylistMapColor}
      * @protected
-     * @type {[number,number,string][]}
     */
-    mapColor = [];
+    mapColor = new YStylistMapColor();
+    /**
+     * ### mapUnderline
+     *
+     * Карта стилистических точек для `asci` подчеркиваний.
+     *
+     * ***
+     * @type {YStylistMapUnderline}
+     * @protected
+    */
+    mapUnderline = new YStylistMapUnderline();
 
 };
 class MStylist extends IStylist {
 
-    /**
-     * ### regulate
-     * - Версия `0.0.0`
-     * - Модуль `YStylist`
-     * - Цепочка `BDVHC`
-     *
-     * Метод регулирования карт стилей.
-     *
-     * ***
-     *
-    */
-    regulate() {
 
-        this.mapColor.forEach(l => l = l.sort((p, c) => p[0] - c[0]));
-
-        return this;
-
-    };
 
 };
 class FStylist extends MStylist {
@@ -187,7 +197,7 @@ class FStylist extends MStylist {
 /**
  * ### YStylist
  * - Тип `SDIMFY`
- * - Версия `0.1.0`
+ * - Версия `0.2.0`
  * - Модуль `string.style.YStylist`
  * - Цепочка `BDVHC`
  * ***
@@ -211,32 +221,190 @@ class FStylist extends MStylist {
 export class YStylist extends FStylist {
 
     /**
-     * ### handle
-     * - Версия `0.1.0`
+     * ### stylize
+     * - Версия `0.0.0`
      * - Модуль `YStylist`
-     * - Цепочка `BDVHC`
+     * ***
      *
-     * Метод обработки указанной строки с данным стилем.
+     * Метод стилизации указанной строки в соответствии с картами стилей.
      *
      * ***
      * @arg {string} string `Строка`
+     * @public
     */
-    handle(string) {
+    stylize(string) {
 
         if (string) {
 
             string = colorClear(string);
 
-            const c = stringFindAll(string, /\n/).length;
+            const c = stringFindAll(string, /\n/)?.length;
 
-            this.mapColor.slice(0, c ? c + 1 : 1).forEach((l, li) => l.slice().reverse().forEach(c => string = stringPasteWrap(string, c[1], c[0], li, 0)));
+            const ms = Object.entries(this).filter(e => e[0].match('map')).map(e => e[1]).reduce((p, c) => {
 
-            return string + colorReset();
+                c.lines.forEach(l => {
+
+                    const f = p.lines.find(pl => pl[0] === l[0]);
+
+                    if (f) f[1].push(...l[1].slice());
+                    else p.lines.push([l[0], l[1].slice()]);
+
+                });
+
+                return p;
+
+            }, new YStylistMap()).regulate().lines.slice(0, c ? c + 1 : 1).forEach((l, li) => l[1].slice().reverse().forEach(c => string = stringPasteWrap(string, c.insert, c.position, li, 0)));
+
+            return string + colorReset() + underlineGetReset();
 
         } else return '';
 
     };
 
+    /**
+     * ### clearColor
+     * - Версия `0.0.0`
+     * - Модуль `YStylist`
+     * ***
+     *
+     * Метод удаления цветовых точек из цветовой карты.
+     *
+     * ***
+     *
+    */
+    clearColor() {
+
+        this.mapColor = [];
+
+        return this;
+
+    };
+    /**
+     * ### clearColorByLine
+     * - Версия `0.0.0`
+     * - Модуль `YStylist`
+     * ***
+     *
+     * Метод удаления цветовых точек для указанной линии цветовой карты.
+     *
+     * ***
+     * @arg {number} line `Линия`.
+    */
+    clearColorByLine(line = 0) {
+
+        this.mapColor = this.mapColor.filter(l => l[0] === l);
+
+        return this;
+
+    };
+
+    /**
+     * ### setColor
+     * - Версия `0.0.0`
+     * - Модуль `YStylist`
+     * ***
+     *
+     * Метод установки цветовой точки на карте в указанной позиции.
+     *
+     * ***
+     * @arg {number} y `Индекс линии`
+     *
+     * - По умолчанию `0`
+     * @arg {number} x `Индекс позиции`
+     *
+     * При указании уже занятой цветовой позиции, значение точки, находившейся на ней ранее, будет заменено на данное значение.
+     *
+     * - По умолчанию `0`
+     * @arg {number} length `Длина`
+     *
+     * При значении отличном от нуля определяет цветовую область, при попадании на которую прочие цветовые точки будут удалены.
+     * @arg {boolean} end `Эндинг`
+     *
+     * При значении `true` устанавливает после данной точки вставку завершения окраски.
+     * Если данный эндинг будет размещен перед другим цветом (без учета вставляемого), то он будет заменен на него.
+     *
+     * - По умолчанию `false`
+     * @arg {YStylistTVColor} background `Цвет фона`
+     * @arg {YStylistTVColor} foreground `Цвет символов`
+    */
+    setColor(foreground, background, y = 0, x = 0) {
+
+        if (foreground || background) this.mapColor.append(y, x, colorGet(foreground, background));
+
+        return this;
+
+    };
+    /**
+     * ### resetColor
+     * - Версия `0.0.0`
+     * - Модуль `YStylist`
+     * ***
+     *
+     * Метод установки эндинга цветовых `ansi` вставок.
+     *
+     * ***
+     * @arg {number} y
+     * @arg {number} x
+     * @arg {boolean} foreground
+     * @arg {boolean} background
+     * @public
+    */
+    resetColor(y, x, foreground, background) {
+
+        if (foreground || background) this.mapColor.append(y, x, colorGetReset(foreground, background));
+
+        return this;
+
+    };
+
+    /**
+     * ### pasteColor
+     * - Версия `0.0.0`
+     * - Модуль `YStylist`
+     * ***
+     *
+     * Метод вставки цветовой точки.
+     *
+     * Позволяет разместить нужную цветовую точку по заданным индексам.
+     *
+     * ***
+     * @arg {number} y `Индекс линии`
+     *
+     * - По умолчанию `0`
+     * @arg {number} x `Индекс позиции`
+     *
+     * - По умолчанию `0`
+     * @arg {number} length `Длина`
+     *
+     * При значении отличном от нуля смещает все цвета в строке начиная с индекса равному вставляемому цвету.
+     * Если не указана длина и цвет вставет на уже занятую позицию, то данный цвет заменит собой существоваший ранее.
+     * @arg {boolean} end `Эндинг`
+     *
+     * При значении `true` устанавливает после данной точки вставку завершения окраски.
+     * Если данный эндинг будет размещен перед другим цветом (без учета вставляемого), то он будет заменен на него.
+     *
+     * - По умолчанию `false`
+     * @arg {YStylistTVColor} background `Цвет фона`
+     * @arg {YStylistTVColor} foreground `Цвет символов`
+    */
+    pasteColor(foreground, background, y = 0, x = 0, length = 0, end = false) {
+
+        const sc = colorGet(foreground, background);
+
+        let ml = this.mapColor.find(l => l[0] === y);
+
+        if (!ml) this.mapColor.push(ml = [y, []]);
+        if (length) ml[1].forEach(c => c[0] >= x ? c[0] += length : null);
+
+        ml[1].push([x, sc]);
+
+        if (end && length >= 1) ml[1].push([x + (length ?? 0), this.getColorLastByLine(y, x)?.[1] ?? colorReset()]);
+
+        this.regulateColor();
+
+        return this;
+
+    };
     /**
      * Метод добавления нового значения.
      * - Версия `0.1.0`
@@ -244,65 +412,54 @@ export class YStylist extends FStylist {
      * @arg {number} x Индекс позиции.
      * @arg {string} string Строка вствки.
     */
-    pasteColorByString(string, x = 0, y = 0) {
+    pasteColorByString(string, y = 0, x = 0) {
 
         const ls = colorClear(string).split('\n').map(s => s.length);
 
         colorGetMap(string).forEach((l, ci) => {
 
-            if (!this.mapColor[ci + y]) this.mapColor[ci + y] = [];
+            ci += y;
 
-            const la = this.mapColor[ci + y].slice().reverse().find(c => !c[1].match(colorVEREReset));
-            const ml = this.mapColor[ci + y];
+            let la = this.getColorLastByLine(ci, x);
+            let ml = this.mapColor.find(c => c[0] === ci);
 
-            if (ml) {
+            if (!ml) this.mapColor.push(ml = [ci, []]);
+            else ml[1].forEach(c => (c[0] >= x) ? c[0] += ls[ci] : 0);
 
-                ml.forEach(c => c[0] >= x ? c[0] += ls[ci + y] : 0);
+            l.forEach(c => c[0] += x);
 
-                if (la && l.length && l.at(-1)[1].match(colorVEREReset)) l.at(-1)[1] = la[1];
+            if (la && l.length && l.at(-1)[1].match(colorVEREReset)) l.at(-1)[1] = la[1];
 
-                l.forEach(l => l[0] += x);
-
-                ml.push(...l);
-
-            };
+            ml[1].push(...l);
 
         });
 
-        this.regulate();
+        this.regulateColor();
 
         return this;
 
     };
+
     /**
-     * ### append
+     * ### setUnderline
      * - Версия `0.0.0`
      * - Модуль `YStylist`
-     * - Цепочка `BDVHC`
+     * ***
      *
-     * Метод добавления новых цветов в цветовую карту.
+     * Метод размещения стилистической точки `asci` подчеркивания текста.
      *
      * ***
-     * @arg {...([number,string][][]|YStylist)} map
+     * @arg {number} y `Индекс линии`
+     *
+     * - По умолчанию `0`
+     * @arg {number} x `Индекс позиции`
+     *
+     * - По умолчанию `0`
+     * @public
     */
-    append(...map) {
+    setUnderline(y = 0, x = 0) {
 
-        for (let i = 0; i < map.length; i++) {
-
-            const m = map[i];
-
-            if (m instanceof YStylist) map.push(m.mapColor);
-            else m.forEach((l, li) => {
-
-                if (!this.mapColor[li]) this.mapColor[li] = [];
-
-                this.mapColor[li].push(...l)
-
-            });
-
-        };
-
-        this.regulate();
+        this.mapUnderline.append(y, x, underlineGet());
 
         return this;
 

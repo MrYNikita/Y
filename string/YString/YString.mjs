@@ -279,7 +279,7 @@ export class YString extends FString {
 
         let r = stringMesuare(this.values, this.rowLength, this.rowEnd);
 
-        return style ? this.stylist.handle(r) : r;
+        return style ? this.stylist.stylize(r) : r;
 
     };
 
