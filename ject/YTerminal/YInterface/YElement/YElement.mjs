@@ -3,12 +3,41 @@ import { jectFill } from "../../../ject.mjs";
 import { YTerminal } from "../../YTerminal.mjs";
 import { YInterface } from "../YInterface.mjs";
 
-/**
- * @typedef TBElement
- * @prop {any} _
- * @typedef {{[p in Exclude<keyof DElement,keyof SElement>|Exclude<keyof SElement,keyof DElement>]:(DElement[p]&SElement[p])}} TDElement
- * @typedef {TDElement&TBElement} TElement
+//#region YT
+
+/** ### YElementT
+ * - Тип `T`
+ * - Версия `0.0.0`
+ * - Модуль `YElement`
+ *
+ * Основной параметр модуля `YElement`.
+ *
+ * @typedef {YElementTE&YElementTU} YElementT
+ *
 */
+/** ### YElementTE
+ * - Тип `TE`
+ * - Версия `0.0.0`
+ * - Модуль `YElement`
+ *
+ * Параметр наследования `YElement`.
+ *
+ * @typedef {{[p in Exclude<keyof DElement,keyof SElement>|Exclude<keyof SElement,keyof DElement>]:(DElement[p]&SElement[p])}} YElementTE
+ *
+*/
+/** ### YElementTU
+ * - Тип `TU`
+ * - Версия `0.0.0`
+ * - Модуль `YElement`
+ *
+ * Уникальные параметры `YElement`.
+ *
+ * @typedef YElementTU
+ * @prop {any} _
+ *
+*/
+
+//#endregion
 
 class SElement extends YJect {
 
@@ -18,27 +47,37 @@ class SElement extends YJect {
 class DElement extends SElement {
 
     /**
-     * Координаты размещения.
+     * ### coords
+     *
+     * Координаты размещения элемента.
+     *
+     * ***
      * @type {[number,number]?}
+     * @public
     */
-    coords;
-    /**
-     * Терминал.
-     * @type {YTerminal?}
-    */
-    terminal = null;
-    /**
-     * Интерфейс.
-     * @type {YInterface?}
-    */
-    interface = null;
+    coords = [1, 1];
 
 };
 class IElement extends DElement {
 
     /**
+     * ### terminal
+     *
+     * Терминал.
+     *
+     * ***
+     * @type {YTerminal?}
+     * @protected
+    */
+    terminal = null;
+    /**
+     * ### interface
+     *
      * Интерфейс размещения элемента.
+     *
+     * ***
      * @type {import("../YInterface.mjs").YInterface?}
+     * @protected
     */
     interface = null;
 
@@ -51,10 +90,14 @@ class MElement extends IElement {
 class FElement extends MElement {
 
     /**
-     * Контсруктор класса `YElement`
+     * ### YElement.constructor
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
-     *  @arg {TElement} t
+     *
+     *
+     *
+     * ***
+     *  @arg {YElementT} t
     */
     constructor(t = {}) {
 
@@ -77,10 +120,10 @@ class FElement extends MElement {
 
         } else if (t?.length) {
 
-            /** @type {TElement&DElement} */
+            /** @type {YElementT} */
             const r = {};
 
-            if (t[0]._ytp) t = [...t[0]._ytp];
+            if (t[0]?._ytp) t = [...t[0]._ytp];
 
             switch (t.length) {
 
@@ -95,7 +138,7 @@ class FElement extends MElement {
         } else return {};
 
     };
-    /** @arg {TElement} t @this {YElement} */
+    /** @arg {YElementT} t @this {YElement} */
     static #deceit(t) {
 
         try {
@@ -109,7 +152,7 @@ class FElement extends MElement {
         };
 
     };
-    /** @arg {TElement} t @this {YElement} */
+    /** @arg {YElementT} t @this {YElement} */
     static #verify(t) {
 
         const {
@@ -121,13 +164,13 @@ class FElement extends MElement {
         FElement.#handle(t);
 
     };
-    /** @arg {TElement} t @this {YElement} */
+    /** @arg {YElementT} t @this {YElement} */
     static #handle(t) {
 
 
 
     };
-    /** @arg {TElement} t @this {YElement} */
+    /** @arg {YElementT} t @this {YElement} */
     static #create(t) {
 
         const {
@@ -145,20 +188,28 @@ class FElement extends MElement {
 };
 
 /**
- * Класс `YElement`
- *
+ * ### YElement
+ * - Тип `SDIMFY`
+ * - Версия `0.0.1`
+ * - Модуль `ject.terminal.YElement`
+ * - Цепочка `BDVHC`
+ * ***
  * Класс элементов интерфейса.
  * Данный класс позволяет создавать объекты, нацеленные на взаимодействие с пользователем.
- * - Тип `SDIMFY`
- * - Версия `0.0.0`
- * - Модуль ``
- * - Цепочка `BDVHC`
 */
 export class YElement extends FElement {
 
     /**
+     * ### getLayout
+     * - Версия `0.0.1`
+     * - Модуль `YElement`
+     * ***
+     *
      * Метод получения разметки элемента.
-     * - Версия `0.0.0`
+     *
+     * ***
+     *
+     * @public
     */
     getLayout() {
 

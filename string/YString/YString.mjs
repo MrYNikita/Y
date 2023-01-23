@@ -2,9 +2,10 @@ import { YList } from "../../ject/YBasic/YList/YList.mjs";
 import { jectFill } from "../../ject/ject.mjs";
 import { YTemplate } from "./YTemplate/YTemplate.mjs";
 import { configString, configYString } from "../../config.mjs";
-import { stringBring, stringBringColumn, stringCastToJect, stringCastToSample, stringCastToYReport, stringFilter, stringFind, stringFindAll, stringFindToJect, stringGetPositionEndPasteWrap, stringGetPositionRowStartByIndex, stringGetRowByIndex, stringGetTransducerColor, stringHandle, stringMesuare, stringPad, stringPaste, stringPasteWrap, stringPasteWrapByPosition, stringReflect, stringRemove, stringReplace, stringReplaceAllMore, stringReplaceMore, stringReverse, stringTrim } from "../string.mjs";
-import { colorGet, colorReset } from "../style/color/color.mjs";
+import { stringBring, stringBringColumn, stringCastToJect, stringCastToSample, stringCastToYReport, stringFilter, stringFind, stringFindAll, stringFindToJect, stringGetPositionEndPasteWrap, stringGetPositionRowStartByIndex, stringGetRowByIndex, stringGetRowByPosition, stringGetTransducerColor, stringHandle, stringMesuare, stringPad, stringPaste, stringPasteWrap, stringPasteWrapByPosition, stringReflect, stringRemove, stringReplace, stringReplaceAllMore, stringReplaceMore, stringReverse, stringTrim } from "../string.mjs";
+import { colorClear, colorGet, colorGetMap, colorGetReset, colorReset } from "../ansi/color/color.mjs";
 import { YStylist } from "../style/YStylist/YStylist.mjs";
+import { underlineGetReset } from "../ansi/underline/underline.mjs";
 
 //#region YT
 
@@ -37,6 +38,17 @@ import { YStylist } from "../style/YStylist/YStylist.mjs";
  *
  * @typedef YStringTU
  * @prop {any} _
+ *
+*/
+
+/** ### YStringTIPasteWrapSize
+ * - Тип `T`
+ * - Версия `0.0.0`
+ * - Модуль `YString`
+ *
+ *
+ *
+ * @typedef {import("../string.mjs").stringTPasteWrapSize} YStringTIPasteWrapSize
  *
 */
 
@@ -138,6 +150,47 @@ class IString extends DString {
 };
 class MString extends IString {
 
+    /**
+     * ### handlePaste
+     * - Версия `0.0.0`
+     * - Модуль `YString`
+     * ***
+     *
+     * Метод обработки вставки.
+     *
+     * Данный метод учитывает вставку, изменяя на её основе внутренние свойства строки.
+     *
+     * ***
+     * @arg {string} string `Строка`
+     * @protected
+    */
+    handlePaste(string) {
+
+        if (string instanceof Function) {
+
+            string = string();
+
+        } else if (string instanceof YString) {
+
+            string.over = this;
+            string = string.get();
+
+        };
+
+        if (this.prefix instanceof YTemplate) string = this.prefix.get() + string;
+        else string = this.prefix + string;
+
+        if (this.postfix instanceof YTemplate) string += this.postfix.get();
+        else string += this.postfix;
+
+        this.stylist.pasteColorByString(string, ...this.cursors[0].indexs);
+        string = colorClear(string);
+
+        string = string.replace(/^.+/mg, (this.tabValue ?? this?.over?.tabValue)?.repeat(this.tabIndex ?? this?.over?.tabIndex ?? 0) + '$&');
+
+        return string;
+
+    };
     /**
      * Метод вычисления позиции по координатам вставки.
      * - Версия `0.0.0`
@@ -251,6 +304,8 @@ class FString extends MString {
 
         this.stylist.pasteColorByString(this.values);
 
+        this.values = colorClear(this.values);
+
     };
 
 };
@@ -258,7 +313,7 @@ class FString extends MString {
 /**
  * ### YString
  * - Тип `SDIMFY`
- * - Версия `0.6.0`
+ * - Версия `0.7.0`
  * - Модуль `string.YString`
  * - Цепочка `BDVHC`
  * ***
@@ -360,7 +415,7 @@ export class YString extends FString {
 
     /**
      * Метод для вставки значения.
-     * - Версия `0.2.0`
+     * - Версия `0.3.0`
      * @arg {...string|Function} strings Строка вставки.
     */
     paste(...strings) {
@@ -369,26 +424,7 @@ export class YString extends FString {
 
         while (strings.length) {
 
-            let sp = strings.pop();
-
-            if (sp instanceof Function) {
-
-                sp = sp() + '';
-
-            } else if (sp instanceof YString) {
-
-                sp.over = this;
-                sp = sp.get();
-
-            };
-
-            if (this.prefix instanceof YTemplate) sp = this.prefix.get() + sp;
-            else sp = this.prefix + sp;
-
-            if (this.postfix instanceof YTemplate) sp += this.postfix.get();
-            else sp += this.postfix;
-
-            sp = sp.replace(/^.+/mg, (this.tabValue ?? this?.over?.tabValue)?.repeat(this.tabIndex ?? this?.over?.tabIndex ?? 0) + '$&');
+            const sp = this.handlePaste(strings.pop());
 
             this.cursors.forEach(c => this.values = stringPaste(this.values, sp, this.calculateIndex(), c.size));
             this.moveCursors(sp.length);
@@ -399,28 +435,38 @@ export class YString extends FString {
 
     };
     /**
-     * Метод вставки с переносом.
+     * ### pasteWrap
+     * - Версия `0.1.0`
+     * - Модуль `YString`
+     * ***
      *
-     * Данный метод построен на основе `paste` метода.
-     * При указании значения вставки метод разбивает его на фрагменты по символу переноса строки.
-     * Каждый такой фрагмент будет вставлен по всем правилам, однако после произойдет окозание влияния на курсоры:
-     * все они будут смещены по y на 1, таким образом создавая эффект переноса.
+     * Метод вставки по правилу переноса.
      *
-     * Данная особенность работает только с символами  переноса строки `\n`.
-     * - Версия `0.0.0`
-     * @arg {...string|function():string} pastes Значения вставки.
+     * Данный метод позволяет размещать текстовую многострочную структуру.
+     * Размещенная структура может как заменить собой текст, так и вытеснить его.
+     *
+     * ***
+     * @arg {YStringTIPasteWrapSize} size `Размер`
+     *
+     * Если `вставка` имеет `размер`, то она заменит собой указанное кол-во символов исходной строки.
+     *
+     * Значение `auto` удалит ровно столько символов, сколько содержит сама `вставка`.
+     *
+     * - По умолчанию `auto`
+     * @arg {string|function():string} paste `Вставка`
+     * @public
     */
-    pasteWrap(...pastes) {
+    pasteWrap(paste, size = 'auto') {
 
-        pastes.filter(s => s).forEach(s => {
+        this.stylist.pasteColorByStringWrap(paste, ...this.cursors[0].indexs);
 
-            this.cursors.forEach(c => {
+        // this.stylist.mapColor.lines.forEach(l => console.log(l));
 
-                this.values = stringPasteWrap(this.values, s, c.indexs[1], c.indexs[0]);
+        paste = colorClear(paste);
 
-            });
+        this.values = stringPasteWrap(this.values, paste, ...this.cursors[0].indexs, size);
 
-        });
+        this.setCursorTo((stringFindAll(paste, /\n/)?.length ?? 0) + this.cursors[0].indexs[0], (stringFind(paste, /\n([^\n]*)$/)?.length ?? 0) + this.cursors[0].indexs[1]);
 
         return this;
 
@@ -442,20 +488,46 @@ export class YString extends FString {
     };
 
     /**
-     * ### setColor
-     * - Версия `0.0.0`
-     * - Цепочка `BDVHC`
+     * ### display
+     * - Версия `0.2.0`
      * - Модуль `YString`
+     * ***
+     *
+     * Метод отображения текущего состояния строки.
+     *
+     * Помимо отображения, данный метод защищает консоль от разметки в стилизаторе, не позволяя менять её параметры отображения.
+     *
+     * ***
+     * @arg {boolean} style `Режим стилизации`
+     *
+     * В данном режиме отображаемая строка будет выводиться с использованием стилизатора.
+     *
+     * - По умолчанию `true`
+     * @public
+    */
+    display(style = true) {
+
+        console.log(this.get(style) + colorGetReset(1, 1) + underlineGetReset());
+
+        return this;
+
+    };
+
+    /**
+     * ### setColor
+     * - Версия `0.1.0`
+     * - Модуль `YString`
+     * ***
      *
      * Метод для обозначения позиции смены цвета.
      *
      * ***
-     * @arg {import("./color/color.mjs").colorTVColor} foreground
-     * @arg {import("./color/color.mjs").colorTVColor} background
+     * @arg {import("../ansi/color/color.mjs").colorTVColor} foreground
+     * @arg {import("../ansi/color/color.mjs").colorTVColor} background
     */
     setColor(foreground, background) {
 
-        this.stylist.pasteColorByString(colorGet(foreground, background), ...this.cursors[0].indexs);
+        this.stylist.setColor(foreground, background, ...this.cursors[0].indexs);
 
         return this;
 
@@ -635,19 +707,6 @@ export class YString extends FString {
     reflect(every = false, ...mirrors) {
 
         this.values = stringReflect(this.values, every, ...mirrors);
-
-        return this;
-
-    };
-    /**
-     * Метод для отображения текущего состояния строки.
-     * - Версия `0.1.0`
-    */
-    display() {
-
-        let r = this.get(true);
-
-        console.log(r);
 
         return this;
 
@@ -944,6 +1003,17 @@ export class YString extends FString {
         SString.prototype.setCursorTo.apply(this, [...indexs]);
 
         this.values = stringBringColumn(this.values, ...indexs);
+
+        return this;
+
+    };
+    setCursorToEnd() {
+
+        SString.prototype.setCursorToEnd.apply(this, []);
+
+        const f = this.values.split('\n');
+
+        this.cursors[0].indexs = [f.length - 1, f.at(-1).length];
 
         return this;
 

@@ -3,6 +3,38 @@ import { YBasic } from "./YBasic/YBasic.mjs";
 import { stringFind } from "../string/string.mjs";
 import { arrayRemoveByElement } from "../array/array.mjs";
 
+//#region YT
+
+/** ### jectT
+ * - Тип `T`
+ * - Версия `0.0.0`
+ * - Модуль `ject`
+ *
+ * Основной параметр модуля `ject`.
+ *
+ * @typedef jectT
+ * @prop {jectTJect} ject
+ *
+*/
+/** ### jectTject
+ * - Тип `T`
+ * - Версия `0.0.0`
+ * - Модуль `ject`
+ *
+ *
+ *
+ * @typedef {{}} jectTJect
+ *
+*/
+
+//#endregion
+//#region YV
+
+
+
+//#endregion
+
+
 //#region fill 0.1.0
 
 /**
@@ -625,13 +657,29 @@ export function jectSetDeep(ject, property, value, all = false) {
 //#endregion
 //#region copyDeep 0.0.0
 
-/**
- * @typedef TBcopyDeep
- * @arg {{}} ject
- * @typedef {TBcopyDeep} TcopyDeep
+/** ### jectTFcopyDeep
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `ject`
+ * ***
+ *
+ * Результирующие параметры функции `copyDeep`.
+ *
+ * @typedef {jectTFUcopyDeep&jectT} jectTFcopyDeep
+ *
+*/
+/** ### jectTFUcopyDeep
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `ject`
+ *
+ * Уникальные параметры функции `copyDeep`.
+ *
+ * @typedef jectTFUcopyDeep
+ * @prop {boolean} link
 */
 
-/** @arg {TcopyDeep} t */
+/** @arg {jectTFcopyDeep} t */
 function copyDeepDeceit(t) {
 
     try {
@@ -647,7 +695,7 @@ function copyDeepDeceit(t) {
     };
 
 };
-/** @arg {TcopyDeep} t */
+/** @arg {jectTFcopyDeep} t */
 function copyDeepVerify(t) {
 
     const {
@@ -659,77 +707,94 @@ function copyDeepVerify(t) {
     return copyDeepHandle(t);
 
 };
-/** @arg {TcopyDeep} t */
+/** @arg {jectTFcopyDeep} t */
 function copyDeepHandle(t) {
 
-    let {
+    const {
 
 
 
     } = t;
 
-
-
-    t = {
-
-        ...t,
-
-    };
-
     return copyDeepComply(t);
 
 };
-/** @arg {TcopyDeep} t */
+/** @arg {jectTFcopyDeep} t */
 function copyDeepComply(t) {
 
     const {
 
         ject,
+        link,
 
     } = t;
 
-    const r = { ...ject };
-    const s = [r];
+    if (ject) {
 
-    for (const j of s) {
+        const result = new ject.constructor();
+        const mirror = [[result, ject]];
+        const subjects = [];
 
-        Object.entries(j).forEach(p => {
+        const f = (n, p, v) => {
 
-            if (p[1] instanceof Object) {
+            const f = subjects.find(s => s[0] === v);
 
-                switch (p[1].constructor) {
+            if (link && f) {
 
-                    case Array: j[p[0]] = p[1].slice(); break;
-                    case Object: j[p[0]] = Object.assign({}, p[1]); break;
-                    default: j[p[0]] = new p[1].constructor(p[1]); break;
+                n[p] = f[1];
 
-                };
+            } else if (v instanceof Object) {
 
-                s.push(j[p[0]]);
+                n[p] = new v.constructor();
 
-            };
+                mirror.push([n[p], v]);
+                subjects.push([v, n[p]]);
 
-        });
+            } else n[p] = v;
 
-    };
+        };
 
-    return r;
+        while (mirror.length) {
+
+            const [n, o] = mirror.pop();
+
+            if (o instanceof Array) o.forEach((e, ei) => f(n, ei, e));
+            else Object.entries(o).forEach(e => f(n, e[0], e[1]));
+
+        };
+
+        return result;
+
+    } else return ject;
 
 };
 
 /**
- * Функция для глубокого копирования объектов.
- * - Версия `0.0.0`
+ * ### jectCopyDeep
+ * - Версия `0.1.0`
  * - Цепочка `DVHCa`
- * @arg {{}} ject Исходный объект.
+ * - Модуль `ject`
+ * ***
+ *
+ * Функция глубокого копирования объектов.
+ *
+ * Функция создает копии всех свойств исходного объекта и размещает их на тех же местах в новом объекте, который возвращается в качестве результата.
+ * Она также не просто копирует его значения, но и повторяет при необходимости ссылочную структуру объекта с помощью режима сохранения ссылочной структуры.
+ *
+ * ***
+ * @arg {typeG} ject `Исходный объект`
+ * @arg {boolean?} link `Режим сохранения ссылочной структуры`
+ * @template typeG
+ * @return {typeG}
 */
-export function jectCopyDeep(ject) {
+export function jectCopyDeep(ject, link = true) {
 
-    return copyDeepDeceit({ ject });
+    return copyDeepDeceit({ ject, link, });
 
 };
 
 //#endregion
+
 //#region changeDeep 0.0.0
 
 /**
@@ -1263,5 +1328,5 @@ export function jectGetInheritanceYS(ject) {
 /**
  * @file ject.mjs
  * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
- * @copyright Yakhin Nikita Artemovich 2022
+ * @copyright Yakhin Nikita Artemovich 2023
 */

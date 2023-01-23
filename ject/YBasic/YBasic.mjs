@@ -1,10 +1,40 @@
-import { jectFill } from "../ject.mjs";
+import { jectCopyDeep, jectFill } from "../ject.mjs";
 
-/**
- * @typedef TBBasic
- * @prop {any} _
- * @typedef {DBasic&TBBasic} TBasic
+//#region YT
+
+/** ### YBasicT
+ * - Тип `T`
+ * - Версия `0.0.0`
+ * - Модуль `YBasic`
+ *
+ * Основной параметр модуля `YBasic`.
+ *
+ * @typedef {YBasicTE&YBasicTU} YBasicT
+ *
 */
+/** ### YBasicTE
+ * - Тип `TE`
+ * - Версия `0.0.0`
+ * - Модуль `YBasic`
+ *
+ * Параметр наследования `YBasic`.
+ *
+ * @typedef {{[p in Exclude<keyof DBasic,keyof SBasic>|Exclude<keyof SBasic,keyof DBasic>]:(DBasic[p]&SBasic[p])}} YBasicTE
+ *
+*/
+/** ### YBasicTU
+ * - Тип `TU`
+ * - Версия `0.0.0`
+ * - Модуль `YBasic`
+ *
+ * Уникальные параметры `YBasic`.
+ *
+ * @typedef YBasicTU
+ * @prop {any} _
+ *
+*/
+
+//#endregion
 
 class SBasic {
 
@@ -29,10 +59,14 @@ class MBasic extends IBasic {
 class FBasic extends MBasic {
 
     /**
-     * Контсруктор класса `YBasic`
+     * ### YBasic.constructor
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
-     *  @arg {TBasic} t
+     *
+     *
+     *
+     * ***
+     *  @arg {YBasicT} t
     */
     constructor(t = {}) {
 
@@ -46,17 +80,19 @@ class FBasic extends MBasic {
 
     };
 
-    /** @arg {Array<any>} t */
+    /** @arg {any[]} t */
     static #before(t) {
 
-        if (t?.length === 1 && [Object, YBasic].includes(t[0]?.constructor)) {
+        if (t?.length === 1 && [Object, YBasic].includes(t[0]?.constructor) && !Object.getOwnPropertyNames(t[0]).includes('_ytp')) {
 
             return t[0];
 
         } else if (t?.length) {
 
-            /** @type {TBasic&DBasic} */
+            /** @type {YBasicT} */
             const r = {};
+
+            if (t[0]?._ytp) t = [...t[0]._ytp];
 
             switch (t.length) {
 
@@ -66,12 +102,12 @@ class FBasic extends MBasic {
 
             };
 
-            return r;
+            return Object.values(r).length ? r : { _ytp: t };
 
         } else return {};
 
     };
-    /** @arg {TBasic} t @this {YBasic} */
+    /** @arg {YBasicT} t @this {YBasic} */
     static #deceit(t) {
 
         try {
@@ -85,7 +121,7 @@ class FBasic extends MBasic {
         };
 
     };
-    /** @arg {TBasic} t @this {YBasic} */
+    /** @arg {YBasicT} t @this {YBasic} */
     static #verify(t) {
 
         const {
@@ -97,13 +133,13 @@ class FBasic extends MBasic {
         FBasic.#handle(t);
 
     };
-    /** @arg {TBasic} t @this {YBasic} */
+    /** @arg {YBasicT} t @this {YBasic} */
     static #handle(t) {
 
 
 
     };
-    /** @arg {TBasic} t @this {YBasic} */
+    /** @arg {YBasicT} t @this {YBasic} */
     static #create(t) {
 
         const {
@@ -114,20 +150,41 @@ class FBasic extends MBasic {
 
         jectFill(this, t);
 
+
+
     };
 
 };
 
 /**
- * Класс `YBasic`
- *
- * Базовый класс `YModules`.
+ * ### YBasic
  * - Тип `SDIMFY`
- * - Версия `0.0.0`
+ * - Версия `0.1.0`
+ * - Модуль `YBasic`
  * - Цепочка `BDVHC`
+ * ***
+ *
 */
 export class YBasic extends FBasic {
 
+    /**
+     * ### copy
+     * - Версия `0.0.0`
+     * - Модуль `YBasic`
+     * ***
+     *
+     * Метод {@link jectCopyDeep|глубокого копирования объекта}.
+     *
+     * ***
+     * @arg {boolean} `Режим сохранения ссылочной структуры`
+     *
+     * - По умолчанию `true`
+     * @public
+    */
+    copy(link = true) {
 
+        return jectCopyDeep(this, link);
+
+    };
 
 };

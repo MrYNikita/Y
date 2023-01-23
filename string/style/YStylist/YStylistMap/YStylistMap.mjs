@@ -1,6 +1,9 @@
+import { arrayUnique } from "../../../../array/array.mjs";
+import { funcBypass } from "../../../../func/func.mjs";
 import { jectFill } from "../../../../ject/ject.mjs";
 import { YBasic } from "../../../../ject/YBasic/YBasic.mjs";
 import { YRegExp } from "../../../../regexp/YRegExp/YRegExp.mjs";
+import { stringCastToSample, stringShield } from "../../../string.mjs";
 import { YStylistPoint } from "./YStylistPoint/YStylistPoint.mjs";
 
 //#region YT
@@ -44,6 +47,20 @@ class SStylistMap extends YBasic {
     /**
      * ### ends
      *
+     * Общие {@link YStylistMap.prototype.ends|эндинги}.
+     *
+     * ***
+     * @type {(string|RegExp)[]}
+     * @protected
+    */
+    static ends = [];
+
+};
+class DStylistMap extends SStylistMap {
+
+    /**
+     * ### ends
+     *
      * Эндинги.
      *
      * Определяют набор завершающих точек.
@@ -52,13 +69,9 @@ class SStylistMap extends YBasic {
      *
      * ***
      * @type {(string|RegExp)[]}
-     * @protected
+     * @public
     */
-    static ends = ['1'];
-
-};
-class DStylistMap extends SStylistMap {
-
+    ends = [];
     /**
      * ### lines
      *
@@ -77,33 +90,6 @@ class IStylistMap extends DStylistMap {
 
 };
 class MStylistMap extends IStylistMap {
-
-    /**
-     * ### getPointLast
-     * - Версия `0.0.0`
-     * - Модуль `YStylistMap`
-     * ***
-     *
-     * Метод получения последней вставки в линии по её индексу не распознаной как {@link SStylistMap.ends|эндинг}.
-     *
-     * Начнет поиск в указанной линии с указанной позиции.
-     *
-     * Реализация учитывает только эндинги текущего класса или унаследованные от родительского в том случае, если для данного класса таковые не были указаны.
-     *
-     * ***
-     * @arg {number} y `Индекс линии`
-     *
-     * - По умолчанию `0`
-     * @arg {number} x `Индекс позиции`
-     *
-     * - По умолчанию `0`
-     * @protected
-    */
-    getPointLast(y = 0, x = 0) {
-
-        return this.lines.find(l => l[0] === y)[1].find(p => p.position < x && p.insert.match(new YRegExp('').appendVariate(...this.constructor.ends).get())) ?? null;
-
-    };
 
     /**
      * ### getLineByIndex
@@ -238,6 +224,70 @@ class FStylistMap extends MStylistMap {
 export class YStylistMap extends FStylistMap {
 
     /**
+     * ### move
+     * - Версия `0.0.0`
+     * - Модуль `YStylistMap`
+     * ***
+     *
+     * Метод сдвига точек с указанной позиции в указанной линии.
+     *
+     * ***
+     * @arg {number} y `Индекс линии`
+     *
+     * - По умолчанию `0`
+     * @arg {number} x `Индекс позиции`
+     *
+     * - По умолчанию `0`
+     * @arg {number} bias `Смещение`
+     *
+     * Определяет значение смещения всех точек.
+     * При указании недействительного значения метод завершится.
+     * @public
+    */
+    move(bias, y = 0, x = 0) {
+
+        if (bias) this.lines.find(l => l[0] === y)?.[1]?.forEach(p => p.position >= x ? p.position += bias : 0);
+
+        return this;
+
+    };
+
+    /**
+     * ### checkEnd
+     * - Версия `0.0.0`
+     * - Модуль `YStylistMap`
+     * ***
+     *
+     * Метод проверки значения на эндинг.
+     *
+     * ***
+     * @arg {string} point
+     * @public
+    */
+    checkEnd(point) {
+
+        return !!point.match(new YRegExp('').appendVariate(...[...this.constructor.ends, ...this.ends].map(e => {
+
+            if (e instanceof String) {
+
+                return funcBypass(e,
+
+                    [stringShield],
+                    [stringCastToSample],
+
+                );
+
+            } else {
+
+                return e;
+
+            };
+
+        })).get());
+
+    };
+
+    /**
      * ### clear
      * - Версия `0.0.0`
      * - Модуль `YStylistMap`
@@ -258,21 +308,54 @@ export class YStylistMap extends FStylistMap {
     };
     /**
      * ### clearLineByIndex
-     * - Версия `0.0.0`
+     * - Версия `0.1.0`
      * - Модуль `YStylistMap`
      * ***
      *
-     * Метод удлаения линии.
+     * Метод удаления линий.
      *
      * ***
-     * @arg {number} index `Индекс`
+     * @arg {...number} indexs `Индексы`
      *
      * - По умолччанию `0`
      * @public
     */
-    clearLineByIndex(index = 0) {
+    clearLinesByIndex(...indexs) {
 
-        this.lines = this.lines.filter(l => l[0] !== index);
+        indexs = arrayUnique(indexs).filter(f => f);
+
+        this.lines = this.lines.filter(l => !indexs.includes(l[0]));
+
+        return this;
+
+    };
+
+    /**
+     * ### paste
+     * - Версия `0.0.0`
+     * - Модуль `YStylistMap`
+     * ***
+     *
+     * Метод вставки.
+     *
+     * Смещает точки на указанное значение смещения, после чего размещает новую точку.
+     *
+     * ***
+     * @arg {number} x `Индекс позиции`
+     *
+     * - По умолчанию `0`
+     * @arg {number} y `Индекс линии`
+     *
+     * - По умолчанию `0`
+     * @arg {number} bias `Смещение`
+     *
+     * - По умолчанию `0`
+     * @arg {string} paste `Стилистическая вставка`
+     * @public
+    */
+    paste(paste, bias = 0, y = 0, x = 0) {
+
+        this.move(bias, y, x).append(paste, y, x);
 
         return this;
 
@@ -280,7 +363,7 @@ export class YStylistMap extends FStylistMap {
 
     /**
      * ### append
-     * - Версия `0.0.0`
+     * - Версия `0.1.0`
      * - Модуль `YStylistMap`
      * ***
      *
@@ -296,16 +379,83 @@ export class YStylistMap extends FStylistMap {
      * @arg {string} insert `Стилистическая вставка`
      * @public
     */
-    append(y = 0, x = 0, insert) {
+    append(insert, y, x) {
 
-        if (insert) this.appendByPoint(y, new YStylistPoint(insert, x));
+        if (!y && y !== 0) {
+
+            y = this.lines.at(-1)[0] ?? 0;
+
+        };
+        if (!x && x !== 0) {
+
+            const line = this.lines.find(l => l[0] === y);
+
+            if (line) {
+
+                x = line[1].at(-1).position ?? 0;
+
+            } else {
+
+                x = 0;
+
+            };
+
+        };
+
+        if (insert) this.appendByPoint(new YStylistPoint(insert, x), y);
+
+        return this;
+
+    };
+    /**
+     * ### appendByMap
+     * - Версия `0.0.0`
+     * - Модуль `YStylistMap`
+     * ***
+     *
+     * Метод добавления цветовых точек указанной карты.
+     *
+     * ***
+     * @arg {YStylistMap|[number,[number, string][]][]} map `карта`
+     *
+     * Может быть как экземпляром класса `YStylistMap` или иметь аналогичную структуру.
+     *
+     * @public
+    */
+    appendByMap(map) {
+
+        if (map instanceof YStylistMap) {
+
+            map.lines.forEach(l => {
+
+                l[1].forEach(p => {
+
+                    this.appendByPoint(l[0], p);
+
+                });
+
+            });
+
+        } else if (map instanceof Array) {
+
+            map.forEach(l => {
+
+                l[1].forEach(p => {
+
+                    this.append(p[1], l[0], p[0]);
+
+                });
+
+            });
+
+        };
 
         return this;
 
     };
     /**
      * ### appendByPoint
-     * - Версия `0.0.0`
+     * - Версия `0.1.0`
      * - Модуль `YStylistMap`
      * ***
      *
@@ -318,7 +468,7 @@ export class YStylistMap extends FStylistMap {
      * @arg {YStylistPoint} point `Стилистическая точка`
      * @public
     */
-    appendByPoint(y = 0, point) {
+    appendByPoint(point, y = 0) {
 
         if (point) {
 
@@ -331,6 +481,40 @@ export class YStylistMap extends FStylistMap {
             this.regulate();
 
         };
+
+        return this;
+
+    };
+
+    /**
+     * ### appendEnds
+     * - Версия `0.0.0`
+     * - Модуль `YStylistMap`
+     * ***
+     *
+     * Метод добавления эндингов.
+     *
+     * ***
+     * @arg {...(string|RegExp)} ends `Эндинги`
+     * @public
+    */
+    appendEnds(...ends) {
+
+        ends.forEach(e => {
+
+            if ([String, RegExp].includes(e.constructor)) {
+
+                if (e instanceof String) {
+
+                    e = new RegExp(e);
+
+                };
+
+                this.ends.push(e);
+
+            };
+
+        });
 
         return this;
 
@@ -360,6 +544,128 @@ export class YStylistMap extends FStylistMap {
         });
 
         return this;
+
+    };
+
+    /**
+     * ### getPointLast
+     * - Версия `0.0.0`
+     * - Модуль `YStylistMap`
+     * ***
+     *
+     * Метод получения последней вставки в линии по её индексу не распознаной как {@link SStylistMap.ends|эндинг}.
+     *
+     * Начнет поиск в указанной линии с указанной позиции.
+     *
+     * Реализация учитывает только эндинги текущего класса или унаследованные от родительского в том случае, если для данного класса таковые не были указаны.
+     *
+     * ***
+     * @arg {number} y `Индекс линии`
+     *
+     * - По умолчанию `0`
+     * @arg {number} x `Индекс позиции`
+     *
+     * - По умолчанию `0`
+     * @public
+    */
+    getPointLastByLine(y = 0, x) {
+
+        const l = this.lines.find(l => l[0] === y)?.[1];
+
+        if (l) {
+
+            if (!x && x !== 0) {
+
+                x = l.at(-1).position;
+
+            };
+
+            return l.find(p => {
+
+                const r = new YRegExp('').appendVariate(...[...this.constructor.ends, ...this.ends].map(e => {
+
+                    if (e instanceof String) {
+
+                        return funcBypass(e,
+
+                            [stringShield],
+                            [stringCastToSample],
+
+                        );
+
+                    } else {
+
+                        return e;
+
+                    };
+
+                })).get();
+
+                if (p.position <= x && !p.insert.match(r)) return p;
+
+            }) ?? null;
+
+        } else {
+
+            return null;
+
+        };
+
+    };
+    /**
+     * ### getPointLastByPosition
+     * - Версия `0.0.0`
+     * - Модуль `YStylistMap`
+     * ***
+     *
+     * Метод {@link YStylistMap.getPointLastByLine|получения последней точки} начиная с указанной `линии` и с указнной `позиции`.
+     *
+     * Поиск осуществляется по всем линиям стилизатора от указанной `линии`до тех пор, пока не будет найдена последняя точка,
+     * не являющаяся {@link SStylistMap.ends|эндингом}.
+     *
+     * ***
+     * @arg {number} y `Индекс линии`
+     *
+     * Если не определена, то будет взят индекс последней линии.
+     * @arg {number} x `Индекс позиции`
+     *
+     * Если не поределена, то будет взят последний индекс указанной линии.
+     * @public
+    */
+    getPointLastByPosition(y, x) {
+
+        let result = null;
+
+        if (y || y === 0) {
+
+            const line = this.lines.find(l => l[0] === y);
+
+            if (line) {
+
+                for (const point of line[1].slice().reverse()) {
+
+                    if (point.position < x && !this.checkEnd(point.insert)) return point;
+
+                };
+
+            };
+
+            const lines = this.lines.filter(l => l[0] < y);
+
+            for (const line of lines.slice().reverse()) {
+
+                for (const point of line[1].slice().reverse()) {
+
+                    if (!this.checkEnd(point.insert)) return point;
+
+                };
+
+            };
+
+
+        };
+
+        return result;
 
     };
 

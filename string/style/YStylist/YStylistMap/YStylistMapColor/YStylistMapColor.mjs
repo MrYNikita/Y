@@ -1,6 +1,7 @@
 import { jectFill } from "../../../../../ject/ject.mjs";
-import { colorVEREReset } from "../../../color/color.mjs";
 import { YStylistMap } from "../YStylistMap.mjs";
+import { colorClear, colorGetMap, colorGetMapWrap, colorVEREReset } from "../../../../ansi/color/color.mjs";
+import { YStylistPoint } from "../YStylistPoint/YStylistPoint.mjs";
 
 //#region YT
 
@@ -40,7 +41,7 @@ import { YStylistMap } from "../YStylistMap.mjs";
 
 class SStylistMapColor extends YStylistMap {
 
-    static end = [colorVEREReset];
+    static ends = [colorVEREReset];
 
 };
 class DStylistMapColor extends SStylistMapColor {
@@ -169,7 +170,101 @@ class FStylistMapColor extends MStylistMapColor {
 */
 export class YStylistMapColor extends FStylistMapColor {
 
+    /**
+     * ### pasteByString
+     * - Версия `0.0.0`
+     * - Модуль `YStylistMapColor`
+     * ***
+     *
+     * Метод {@link YStylistMap.paste|вставки} по строке.
+     *
+     * Для каждой линии в указанной строке вычисляет её значение смещения и применяет их к каждой линии карты
+     * начиная с указанной линии с указанной позиции.
+     *
+     * После осуществялется {@link YStylistMap.append|дополнение}.
+     *
+     * ***
+     * @arg {number} x `Индекс позиции`
+     *
+     * - По умолчанию `0`
+     * @arg {number} y `Индекс линии`
+     *
+     * - По умолчанию `0`
+     * @arg {string} string `Строка`
+     * @public
+    */
+    pasteByString(string, y, x) {
 
+        if (string) {
+
+            const m = colorGetMap(string, y, x);
+
+            if (m.length) {
+
+                colorClear(string).split('\n').forEach(s => this.move(s.length, y, x));
+                m.forEach(l => l[1].forEach(p => this.append(p[1], l[0], p[0])));
+
+            };
+
+        };
+
+        return this;
+
+    };
+    /**
+     * ### pasteByStringWrap
+     * - Версия `0.0.0`
+     * - Модуль `YStylistMapColor`
+     * ***
+     *
+     * Метод {@link YStylistMap.paste|вставки} {@link YStylistMapColor.pasteByString|по строке} с переносом.
+     *
+     * Благодаря правилам переноса стилистическая структура исходной втсавки не будет нарушена.
+     *
+     * ***
+     * @arg {number} x `Индекс позиции`
+     *
+     * - По умолчанию `0`
+     * @arg {number} y `Индекс линии`
+     *
+     * - По умолчанию `0`
+     * @arg {string} string `Строка`
+     * @public
+    */
+    pasteByStringWrap(string, y = 0, x = 0) {
+
+        if (string) {
+
+            const m = colorGetMapWrap(string, y, x);
+            const r = m.map(l => this.getPointLastByPosition(l[0], x).insert);
+
+            if (m.length) {
+
+                colorClear(string).split('\n').forEach(s => this.move(s.length, y, x));
+                m.forEach(l => {
+
+                    l[1].forEach((p, pi) => {
+
+                        if (l[1].length - 1 === pi) {
+
+                            p = new YStylistPoint(r[pi], p.position)
+                            l[1][pi] = p;
+
+                        };
+
+                        this.append(p.insert, l[0], p.position);
+
+                    });
+
+                });
+
+            };
+
+        };
+
+        return this;
+
+    };
 
 };
 

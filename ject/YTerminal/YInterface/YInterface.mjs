@@ -5,12 +5,41 @@ import { YElement } from "./YElement/YElement.mjs";
 import { YInteract } from "./YElement/YInteract/YInteract.mjs";
 import { YTerminal } from "../YTerminal.mjs";
 
-/**
- * @typedef TBInterface
- * @prop {any} _
- * @typedef {{[p in Exclude<keyof DInterface,keyof SInterface>|Exclude<keyof SInterface,keyof DInterface>]:(DInterface[p]&SInterface[p])}} TDInterface
- * @typedef {TDInterface&TBInterface} TInterface
+//#region YT
+
+/** ### YInterfaceT
+ * - Тип `T`
+ * - Версия `0.0.0`
+ * - Модуль `YInterface`
+ *
+ * Основной параметр модуля `YInterface`.
+ *
+ * @typedef {YInterfaceTE&YInterfaceTU} YInterfaceT
+ *
 */
+/** ### YInterfaceTE
+ * - Тип `TE`
+ * - Версия `0.0.0`
+ * - Модуль `YInterface`
+ *
+ * Параметр наследования `YInterface`.
+ *
+ * @typedef {{[p in Exclude<keyof DInterface,keyof SInterface>|Exclude<keyof SInterface,keyof DInterface>]:(DInterface[p]&SInterface[p])}} YInterfaceTE
+ *
+*/
+/** ### YInterfaceTU
+ * - Тип `TU`
+ * - Версия `0.0.0`
+ * - Модуль `YInterface`
+ *
+ * Уникальные параметры `YInterface`.
+ *
+ * @typedef YInterfaceTU
+ * @prop {any} _
+ *
+*/
+
+//#endregion
 
 class SInterface extends YJect {
 
@@ -20,23 +49,53 @@ class SInterface extends YJect {
 class DInterface extends SInterface {
 
     /**
+     * ### label
+     *
      * Метка.
+     *
+     * ***
      * @type {string}
+     * @public
     */
     label = '';
     /**
+     * ### layout
+     *
+     * Разметка.
+     *
+     * ***
+     * @type {YString?}
+     * @public
+    */
+    layout = null;
+    /**
+     * ### terminal
+     *
      * Терминал.
+     *
+     * ***
      * @type {YTerminal?}
+     * @public
     */
     terminal = null;
     /**
+     * ### elements
+     *
      * Массив элементов.
+     *
+     * ***
      * @type {YElement[]}
+     * @public
     */
     elements = [];
     /**
+     * ### interactor
+     *
      * Интерактивный элемент.
+     *
+     * ***
      * @type {YInteract?}
+     * @public
     */
     interactor = null;
 
@@ -49,14 +108,20 @@ class IInterface extends DInterface {
 class MInterface extends IInterface {
 
     /**
-     * Метод принятия данных от прослушивателя.
-     * - Версия `0.0.0`
-     * @protected
+     * ### receive
+     * - Версия `0.0.1`
+     * - Модуль `YInterface`
+     * ***
      *
+     * Метод принятия данных от прослушивателя.
+     *
+     * ***
+     *
+     * @protected
     */
     receive() {
 
-        
+
 
     };
 
@@ -64,10 +129,14 @@ class MInterface extends IInterface {
 class FInterface extends MInterface {
 
     /**
-     * Контсруктор класса `YInterface`
+     * ### YInterface.constructor
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
-     *  @arg {TInterface} t
+     *
+     *
+     *
+     * ***
+     *  @arg {YInterfaceT} t
     */
     constructor(t = {}) {
 
@@ -90,10 +159,10 @@ class FInterface extends MInterface {
 
         } else if (t?.length) {
 
-            /** @type {TInterface&DInterface} */
+            /** @type {YInterfaceT} */
             const r = {};
 
-            if (t[0]._ytp) t = [...t[0]._ytp];
+            if (t[0]?._ytp) t = [...t[0]._ytp];
 
             switch (t.length) {
 
@@ -108,7 +177,7 @@ class FInterface extends MInterface {
         } else return {};
 
     };
-    /** @arg {TInterface} t @this {YInterface} */
+    /** @arg {YInterfaceT} t @this {YInterface} */
     static #deceit(t) {
 
         try {
@@ -122,7 +191,7 @@ class FInterface extends MInterface {
         };
 
     };
-    /** @arg {TInterface} t @this {YInterface} */
+    /** @arg {YInterfaceT} t @this {YInterface} */
     static #verify(t) {
 
         const {
@@ -134,13 +203,13 @@ class FInterface extends MInterface {
         FInterface.#handle(t);
 
     };
-    /** @arg {TInterface} t @this {YInterface} */
+    /** @arg {YInterfaceT} t @this {YInterface} */
     static #handle(t) {
 
 
 
     };
-    /** @arg {TInterface} t @this {YInterface} */
+    /** @arg {YInterfaceT} t @this {YInterface} */
     static #create(t) {
 
         const {
@@ -158,22 +227,29 @@ class FInterface extends MInterface {
 };
 
 /**
- * Класс `YInterface`
- *
+ * ### YInterface
+ * - Тип `SDIMFY`
+ * - Версия `0.1.0`
+ * - Модуль `ject.terminal.YInterface`
+ * - Цепочка `BDVHC`
+ * ***
  * Класс отображений. Позволяет `YTerminal` (терминалам) отображать данные и результаты взаимодействий.
  *
  * Состоит из собственной разметки и `YElement` (элементов) отображения, один из которых может быть `YInteract` (интерактивным).
- * - Тип `SDIMFY`
- * - Версия `0.0.0`
- * - Модуль `ject.terminal`
- * - Цепочка `BDVHC`
 */
 export class YInterface extends FInterface {
 
     /**
-     * Метод добавления элементов для указанного отображения.
-     * - Версия `0.0.0`
-     * @arg {...import("./YElement/YElement.mjs").TElement} elements
+     * ### appendElements
+     * - Версия `0.0.1`
+     * - Модуль `YInterface`
+     * ***
+     *
+     *
+     *
+     * ***
+     * @arg {...import("./YElement/YElement.mjs").TElement} elements `Элементы`
+     * @public
     */
     appendElements(...elements) {
 

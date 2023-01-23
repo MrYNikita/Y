@@ -5,11 +5,41 @@ import { YListener } from "./YListener/YListener.mjs";
 import { YInterface } from "./YInterface/YInterface.mjs";
 import { configYTerminal } from "../../config.mjs";
 
-/**
- * @typedef TBTerminal
- * @prop {[number,number]} sizes
- * @typedef {{[p in Exclude<keyof DTerminal,keyof STerminal>|Exclude<keyof STerminal,keyof DTerminal>]:(DTerminal[p]&STerminal[p])}&TBTerminal} TTerminal
+//#region YT
+
+/** ### YTerminalT
+ * - Тип `T`
+ * - Версия `0.0.0`
+ * - Модуль `YTerminal`
+ *
+ * Основной параметр модуля `YTerminal`.
+ *
+ * @typedef {YTerminalTE&YTerminalTU} YTerminalT
+ *
 */
+/** ### YTerminalTE
+ * - Тип `TE`
+ * - Версия `0.0.0`
+ * - Модуль `YTerminal`
+ *
+ * Параметр наследования `YTerminal`.
+ *
+ * @typedef {{[p in Exclude<keyof DTerminal,keyof STerminal>|Exclude<keyof STerminal,keyof DTerminal>]:(DTerminal[p]&STerminal[p])}} YTerminalTE
+ *
+*/
+/** ### YTerminalTU
+ * - Тип `TU`
+ * - Версия `0.0.0`
+ * - Модуль `YTerminal`
+ *
+ * Уникальные параметры `YTerminal`.
+ *
+ * @typedef YTerminalTU
+ * @prop {[number,number]} sizes
+ *
+*/
+
+//#endregion
 
 class STerminal extends YJect {
 
@@ -49,10 +79,14 @@ class STerminal extends YJect {
     */
     static layout = new YString()
 
-        .setColor('c', '')
-        .paste('╔' + '═'.repeat(configYTerminal.sizes[0] - 2) + '╗\n')
-        .paste(('║' + ' '.repeat(configYTerminal.sizes[0] - 2) + '║\n').repeat(configYTerminal.sizes[1] - 2))
-        .paste('╚' + '═'.repeat(configYTerminal.sizes[0] - 2) + '╝\n')
+        .setColor('cyan', 'blueDark')
+        .paste(
+
+            '╔' + '═'.repeat(configYTerminal.sizes[0] - 2) + '╗\n',
+            ('║' + ' '.repeat(configYTerminal.sizes[0] - 2) + '║\n').repeat(configYTerminal.sizes[1] - 2),
+            '╚' + '═'.repeat(configYTerminal.sizes[0] - 2) + '╝\n',
+
+        )
 
 };
 class DTerminal extends STerminal {
@@ -117,10 +151,14 @@ class MTerminal extends ITerminal {
 class FTerminal extends MTerminal {
 
     /**
-     * Контсруктор класса `YTerminal`
+     * ### YTerminal.constructor
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
-     *  @arg {TTerminal} t
+     *
+     *
+     *
+     * ***
+     *  @arg {YTerminalT} t
     */
     constructor(t = {}) {
 
@@ -143,10 +181,10 @@ class FTerminal extends MTerminal {
 
         } else if (t?.length) {
 
-            /** @type {TTerminal&DTerminal} */
+            /** @type {YTerminalT} */
             const r = {};
 
-            if (t[0]._ytp) t = [...t[0]._ytp];
+            if (t[0]?._ytp) t = [...t[0]._ytp];
 
             switch (t.length) {
 
@@ -161,7 +199,7 @@ class FTerminal extends MTerminal {
         } else return {};
 
     };
-    /** @arg {TTerminal} t @this {YTerminal} */
+    /** @arg {YTerminalT} t @this {YTerminal} */
     static #deceit(t) {
 
         try {
@@ -175,7 +213,7 @@ class FTerminal extends MTerminal {
         };
 
     };
-    /** @arg {TTerminal} t @this {YTerminal} */
+    /** @arg {YTerminalT} t @this {YTerminal} */
     static #verify(t) {
 
         const {
@@ -187,7 +225,7 @@ class FTerminal extends MTerminal {
         FTerminal.#handle(t);
 
     };
-    /** @arg {TTerminal} t @this {YTerminal} */
+    /** @arg {YTerminalT} t @this {YTerminal} */
     static #handle(t) {
 
         if (!t.sizes) {
@@ -202,7 +240,7 @@ class FTerminal extends MTerminal {
         };
 
     };
-    /** @arg {TTerminal} t @this {YTerminal} */
+    /** @arg {YTerminalT} t @this {YTerminal} */
     static #create(t) {
 
         const {
@@ -220,8 +258,12 @@ class FTerminal extends MTerminal {
 };
 
 /**
- * Класс `YTerminal`
- *
+ * ### YTerminal
+ * - Тип `SDIMFY`
+ * - Версия `0.1.0`
+ * - Модуль `YTerminal`
+ * - Цепочка `BDVHC`
+ * ***
  * Класс терминалов для контроля программ и/или приложений посредством взаимодействия через элементы управления или ввод данных.
  *
  * Для прослушивания данных терминалы используют `YListener` (прослушиватель).
@@ -229,13 +271,21 @@ class FTerminal extends MTerminal {
  *
  * Любой терминал состоит из `YInterface` (оторажений), которые показывают данные, необходимые для взаимодействия, и позволяют манипулировать ими через ввод.
  * По умолчанию, первым видимым для пользователя отображением будет первое назначенное отображение.
- * - Тип `SDIMFY`
- * - Версия `0.0.0`
- * - Модуль `ject.terminal`
- * - Цепочка `BDVHC`
 */
 export class YTerminal extends FTerminal {
 
+    /**
+     * ### display
+     * - Версия `0.0.1`
+     * - Модуль `YTerminal`
+     * ***
+     *
+     * Метод отображения терминала.
+     *
+     * ***
+     *
+     * @public
+    */
     display() {
 
         console.clear();
@@ -244,14 +294,20 @@ export class YTerminal extends FTerminal {
 
             .exec(y => {
 
-                if (!this.interfaces[0]) return;
+                if (!this.interfaces[0]) {
 
-                [...this.interfaces[0].elements, this.interfaces[0]?.interactor].filter(e => e).forEach(e => {
+                    return;
 
-                    y.setCursorTo(...e.coords)
-                    y.pasteWrap(e.getLayout())
+                } else {
 
-                });
+                    [...this.interfaces[0].elements, this.interfaces[0]?.interactor].filter(e => e).forEach(e => {
+
+                        y.setCursorTo(...e.coords)
+                        y.pasteWrap(e.getLayout())
+
+                    });
+
+                };
 
             })
             .display();
@@ -259,10 +315,18 @@ export class YTerminal extends FTerminal {
         return this;
 
     };
+
     /**
+     * ### appendInterface
+     * - Версия `0.0.1`
+     * - Модуль `YTerminal`
+     * ***
+     *
      * Метод добавления интерфейсов для терминала.
-     * - Версия `0.0.0`
-     * @arg {...import("./YInterface/YInterface.mjs").TInterface} interfaces
+     *
+     * ***
+     * @arg {...import("./YInterface/YInterface.mjs").YInterfaceT} interfaces
+     * @public
     */
     appendInterface(...interfaces) {
 

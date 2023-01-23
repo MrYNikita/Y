@@ -6,7 +6,7 @@ import { YElement } from "../YElement.mjs";
  * @typedef TBHeader
  * @prop {any} _
  * @typedef {{[p in Exclude<keyof DHeader,keyof SHeader>|Exclude<keyof SHeader,keyof DHeader>]:(DHeader[p]&SHeader[p])}} TDHeader
- * @typedef {TDHeader&TBHeader&import("../YElement.mjs").TDElement} THeader
+ * @typedef {TDHeader&TBHeader&import("../YElement.mjs").YElementT} THeader
 */
 
 class SHeader extends YElement {
@@ -123,25 +123,6 @@ class FHeader extends MHeader {
 
         jectFill(this, t);
 
-        this.layout = new YString()
-
-            .exec(y => {
-
-                const size = this.title.length + 2;
-
-                y
-                    .changePostfix('\n')
-                    .paste(
-
-                        `┌${'─'.repeat(size)}┐`,
-                        `| ${this.title} |`,
-                        `└${'─'.repeat(size)}┘`
-
-                    )
-
-            })
-            .get(true)
-
     };
 
 };
@@ -157,9 +138,26 @@ class FHeader extends MHeader {
 */
 export class YHeader extends FHeader {
 
-    display() {
+    getLayout() {
 
+        return new YString()
 
+            .exec(y => {
+
+                const size = this.title.length + 2;
+
+                y
+                    .changePostfix('\n')
+                    .paste(
+
+                        `╔${'═'.repeat(size)}╗`,
+                        `║ ${this.title} ║`,
+                        `╚${'═'.repeat(size)}╝`
+
+                    )
+
+            })
+            .get(true);
 
     };
 

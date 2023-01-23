@@ -1,6 +1,7 @@
 import { config, configStringANSI, configStringANSIColor } from "../../../config.mjs";
 import { stringFilter, stringPaste } from "../../string.mjs";
 import { YRegExp } from "../../../regexp/YRegExp/YRegExp.mjs";
+import { YStylistMap } from "../../style/YStylist/YStylistMap/YStylistMap.mjs";
 
 //#region YT
 
@@ -193,7 +194,8 @@ export function colorGet(foreground, background) {
 };
 
 //#endregion
-//#region getMap 0.0.0
+
+//#region getMap 0.1.0
 
 /** ### colorTFgetMap
  * - Тип `TF`
@@ -213,7 +215,8 @@ export function colorGet(foreground, background) {
  * Уникальные параметры функции `getMap`.
  *
  * @typedef colorTFUgetMap
- * @prop {any} _
+ * @prop {number} biasY
+ * @prop {number} biasX
 */
 
 /** @arg {colorTFgetMap} t */
@@ -253,23 +256,27 @@ function getMapComply(t) {
 
     const {
 
-
+        biasY,
+        biasX,
 
     } = t;
 
-    /** @type {[number,string][][]} */
+    /** @type {[number,[number,string]][]} */
     const rs = [];
 
     t.string.split('\n').forEach((s, si) => {
 
-        rs[si] = [];
+        si += biasY;
 
         Array.from(s.matchAll(new YRegExp(colorVEREColor, 'g').get())).map(f => [f.index, f[0]]).reduce((p, c) => {
 
-            c[0] -= p;
+            c[0] -= p - biasX;
             p += c[1].length;
 
-            rs[si].push(c);
+            const f = rs.find(l => l[0] === si);
+
+            if (f) f[1].push(c);
+            else rs.push([si, [c]]);
 
             return p;
 
@@ -283,22 +290,156 @@ function getMapComply(t) {
 
 /**
  * ### colorGetMap
- * - Версия `0.0.0`
+ * - Версия `0.1.0`
  * - Цепочка `DVHCa`
  * - Модуль `string.color`
+ * ***
  *
  * Функция получения цветовой карты для указанной строки.
  * Все полученные точки указаны в позициях `y:x`, где `y` - индекс линии, а `x` - позиция в линии.
+ *
+ * Для имзенения индексов вставок можно использовать смещения.
+ * Каждое смещение изменит соответсвующий смещению  индекс на указанное значение.
+ *
  * ***
  * @arg {string} string `Строка`
+ * @arg {number?} biasY `Смещение по линии`
+ * @arg {number?} biasX `Смещение по позиции`
 */
-export function colorGetMap(string) {
+export function colorGetMap(string, biasY = 0, biasX = 0) {
 
-    return getMapDeceit({ string, });
+    return getMapDeceit({ string, biasY, biasX });
 
 };
 
 //#endregion
+//#region getMapWrap 0.0.0
+
+/** ### colorTFgetMapWrap
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `color`
+ * ***
+ *
+ * Результирующие параметры функции `getMapWrap`.
+ *
+ * @typedef {colorTFUgetMapWrap&colorTString&colorTFgetMap} colorTFgetMapWrap
+ *
+*/
+/** ### colorTFUgetMapWrap
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `color`
+ *
+ * Уникальные параметры функции `getMapWrap`.
+ *
+ * @typedef colorTFUgetMapWrap
+ * @prop {any} _
+*/
+
+/** @arg {colorTFgetMapWrap} t */
+function getMapWrapDeceit(t) {
+
+    try {
+
+        return getMapWrapVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @arg {colorTFgetMapWrap} t */
+function getMapWrapVerify(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return getMapWrapHandle(t);
+
+};
+/** @arg {colorTFgetMapWrap} t */
+function getMapWrapHandle(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return getMapWrapComply(t);
+
+};
+/** @arg {colorTFgetMapWrap} t */
+function getMapWrapComply(t) {
+
+    const {
+
+        biasY,
+        biasX,
+        string,
+
+    } = t;
+
+    const result = new YStylistMap().appendByMap(colorGetMap(string, biasY, biasX)).appendEnds(colorVEREReset);
+
+    let last = null;
+
+    colorClear(string).split('\n').forEach((s, si) => {
+
+        si += biasY;
+
+        if (last) {
+
+            result.paste(last.insert, 1, si, biasX);
+
+        };
+
+        result.append(colorGetReset(1, 1), si, biasX + s.length);
+
+        last = result.getPointLastByLine(si) ?? last;
+
+    });
+
+    return result.lines;
+
+};
+
+/**
+ * ### colorGetMapWrap
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * - Модуль `color`
+ * ***
+ *
+ * Функция {@link colorGetMap|получения цветовой карты} с переносом.
+ *
+ * Отличие от исходной функции заключается в переносе цветов на следующие индексы и добавлением эндингов для каждой строчки строки.
+ *
+ * ***
+ * @arg {number} biasY `Смещение по линии`
+ *
+ * - По умолчанию `0`
+ * @arg {number} biasX `Смещение по позиции`
+ *
+ * - По умолчанию `0`
+ * @arg {string} string `Строка`
+*/
+export function colorGetMapWrap(string, biasY = 0, biasX = 0) {
+
+    return getMapWrapDeceit({ string, biasY, biasX, });
+
+};
+
+//#endregion
+
 //#region getCode 0.0.0
 
 /** **colorTFgetCode**
@@ -454,13 +595,14 @@ function getResetComply(t) {
     if (t.foreground) t.foreground = `${configStringANSIColor.valueForeground}${configStringANSIColor.valueReset}`;
     if (t.background) t.background = `${configStringANSIColor.valueBackground}${configStringANSIColor.valueReset}`;
 
-    return configStringANSI.start + [t.foreground, t.background].filter(e => e).join(configStringANSI.delimetr) + configStringANSI.end;
+    if (t.foreground || t.background) return configStringANSI.start + [t.foreground, t.background].filter(e => e).join(configStringANSI.delimetr) + configStringANSI.end;
+    else return '';
 
 };
 
 /**
  * ### colorGetReset
- * - Версия `0.0.0`
+ * - Версия `0.1.0`
  * - Цепочка `DVHCa`
  * - Модуль `color`
  * ***
@@ -471,7 +613,7 @@ function getResetComply(t) {
  * @arg {boolean} background `Цвет фона`
  * @arg {boolean} foreground `Цвет символов`
 */
-export function colorGetReset(foreground, background) {
+export function colorGetReset(foreground = true, background) {
 
     return getResetDeceit({ foreground, background });
 

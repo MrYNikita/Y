@@ -1050,7 +1050,7 @@ function reflectComply(t) {
  * @arg {boolean} every Логическое значение, которое определяет, как следует проводить отражение.
  * Значение `true` означает, что необходимо зеркально отразить каждую строку с переносом по отдельности.
  * Значение `false` же прибавит инвертированную копию текущей строки на конец исходной.
- * - По умоланию `false`
+ * - По умолчанию `false`
  * @arg {...[string,string]} mirrors Зеркальные символы. Представлен парой ключ-значение.
  * По ключу осуществляется поиск символа исходной строки.
  * Найденное совпадение в отражении заменяется значением, если соответсвующий ключ существует.
@@ -1450,9 +1450,9 @@ export function stringGetPositionEndPaste(string, paste, position, size = 'auto'
  * @arg {string} string Исходная строка.
  * @arg {number|'auto'} size Размер вставки.
 */
-export function stringGetPositionEndPasteWrap(string, paste, x, y, size = 'auto') {
+export function stringGetPositionEndPasteWrap(string, paste, y, x, size = 'auto') {
 
-    return getPositionEndPasteDeceit({ string, paste, x, y, size, wrap: true, });
+    return getPositionEndPasteDeceit({ string, paste, y, x, size, wrap: true, });
 
 };
 
@@ -2846,6 +2846,17 @@ export function stringPaste(string, paste, index = string.length ?? 0, size = 0)
 //#endregion
 //#region pasteWrap 0.0.1
 
+/** ### stringTpasteWrapSize
+ * - Тип `T`
+ * - Версия `0.0.0`
+ * - Модуль `string`
+ *
+ *
+ *
+ * @typedef {number|'auto'} stringTPasteWrapSize
+ *
+*/
+
 /**
  * @typedef TBpasteWrap
  * @prop {number} y
@@ -2954,7 +2965,7 @@ function pasteWrapComply(t) {
  * Иначе строка будет все равно дополнена до указанной позиции, после чего вставка продолжится.
  *
  * Использует в своей работе простую вставку.
- * - Версия `0.0.0`
+ * - Версия `0.1.0`
  * - Цепочка `DVHCa`
  * @arg {number} y Индекс строки.
  * @arg {number} x Индекс столбца.
@@ -2963,9 +2974,9 @@ function pasteWrapComply(t) {
  * @arg {number|'auto'} size Размер области вставки.
  * - по умолчанию `auto`
 */
-export function stringPasteWrap(string, paste, x, y, size = 'auto') {
+export function stringPasteWrap(string, paste, y, x, size = 'auto') {
 
-    return pasteWrapDeceit({ string, paste, x, y, size, });
+    return pasteWrapDeceit({ string, paste, y, x, size, });
 
 };
 /**

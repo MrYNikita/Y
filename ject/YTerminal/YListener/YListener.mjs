@@ -3,12 +3,41 @@ import { jectFill } from "../../ject.mjs";
 import { emitKeypressEvents } from "readline";
 import { YTerminal } from "../YTerminal.mjs";
 
-/**
- * @typedef TBListener
- * @prop {any} _
- * @typedef {{[p in Exclude<keyof DListener,keyof SListener>|Exclude<keyof SListener,keyof DListener>]:(DListener[p]&SListener[p])}} TDListener
- * @typedef {TDListener&TBListener} TListener
+//#region YT
+
+/** ### YListenerT
+ * - Тип `T`
+ * - Версия `0.0.0`
+ * - Модуль `YListener`
+ *
+ * Основной параметр модуля `YListener`.
+ *
+ * @typedef {YListenerTE&YListenerTU} YListenerT
+ *
 */
+/** ### YListenerTE
+ * - Тип `TE`
+ * - Версия `0.0.0`
+ * - Модуль `YListener`
+ *
+ * Параметр наследования `YListener`.
+ *
+ * @typedef {{[p in Exclude<keyof DListener,keyof SListener>|Exclude<keyof SListener,keyof DListener>]:(DListener[p]&SListener[p])}} YListenerTE
+ *
+*/
+/** ### YListenerTU
+ * - Тип `TU`
+ * - Версия `0.0.0`
+ * - Модуль `YListener`
+ *
+ * Уникальные параметры `YListener`.
+ *
+ * @typedef YListenerTU
+ * @prop {any} _
+ *
+*/
+
+//#endregion
 
 class SListener extends YJect {
 
@@ -23,8 +52,13 @@ class SListener extends YJect {
 class DListener extends SListener {
 
     /**
+     * ### terminal
+     *
      * Терминал.
+     *
+     * ***
      * @type {YTerminal?}
+     * @public
     */
     terminal = null;
 
@@ -32,28 +66,53 @@ class DListener extends SListener {
 class IListener extends DListener {
 
     /**
+     * ### ctrl
+     *
      * Значение нажатия ctrl.
+     *
+     * ***
      * @type {boolean}
+     * @protected
     */
     ctrl = false;
     /**
+     * ### code
+     *
      * Код ввода.
+     *
+     * ***
      * @type {string}
+     * @protected
     */
     code = '';
     /**
+     * ### shift
+     *
      * Значение нажатия Shift.
+     *
+     * ***
      * @type {boolean}
+     * @protected
     */
     shift = false;
     /**
+     * ### value
+     *
      * Значение ввода.
+     *
+     * ***
      * @type {string}
+     * @protected
     */
     value = '';
     /**
+     * ### active
+     *
      * Состояние.
+     *
+     * ***
      * @type {boolean}
+     * @protected
     */
     active = false;
 
@@ -61,10 +120,16 @@ class IListener extends DListener {
 class MListener extends IListener {
 
     /**
-     * Метод сигнализирования о получении нового значения.
+     * ### signal
      * - Версия `0.0.0`
-     * @protected
+     * - Модуль `YListener`
+     * ***
      *
+     * Метод сигнализирования о получении нового значения.
+     *
+     * ***
+     *
+     * @protected
     */
     signal() {
 
@@ -78,10 +143,14 @@ class MListener extends IListener {
 class FListener extends MListener {
 
     /**
-     * Контсруктор класса `YListener`
+     * ### YListener.constructor
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
-     *  @arg {TListener} t
+     *
+     *
+     *
+     * ***
+     *  @arg {YListenerT} t
     */
     constructor(t = {}) {
 
@@ -104,7 +173,7 @@ class FListener extends MListener {
 
         } else if (t?.length) {
 
-            /** @type {TListener&DListener} */
+            /** @type {YListenerT} */
             const r = {};
 
             if (t[0]?._ytp) t = [...t[0]._ytp];
@@ -122,7 +191,7 @@ class FListener extends MListener {
         } else return {};
 
     };
-    /** @arg {TListener} t @this {YListener} */
+    /** @arg {YListenerT} t @this {YListener} */
     static #deceit(t) {
 
         try {
@@ -136,7 +205,7 @@ class FListener extends MListener {
         };
 
     };
-    /** @arg {TListener} t @this {YListener} */
+    /** @arg {YListenerT} t @this {YListener} */
     static #verify(t) {
 
         const {
@@ -148,13 +217,13 @@ class FListener extends MListener {
         FListener.#handle(t);
 
     };
-    /** @arg {TListener} t @this {YListener} */
+    /** @arg {YListenerT} t @this {YListener} */
     static #handle(t) {
 
 
 
     };
-    /** @arg {TListener} t @this {YListener} */
+    /** @arg {YListenerT} t @this {YListener} */
     static #create(t) {
 
         const {
@@ -172,20 +241,28 @@ class FListener extends MListener {
 };
 
 /**
- * Класс `YListener`
- *
+ * ### YListener
+ * - Тип `SDIMFY`
+ * - Версия `0.2.0`
+ * - Модуль `ject.terminal.YListener`
+ * - Цепочка `BDVHC`
+ * ***
  * Класс прослушивателя, экземпляры которого предназначены для получения данных пользовательского ввода.
  * С его помощью разнообразные структуры, такие как `YMenu` и `YInput` могут получать данные, необходимые для реагирования на действия пользователя.
- * - Тип `SDIMFY`
- * - Версия `0.1.0`
- * - Модуль `ject.terminal`
- * - Цепочка `BDVHC`
 */
 export class YListener extends FListener {
 
     /**
+     * ### on
+     * - Версия `0.0.1`
+     * - Модуль `YListener`
+     * ***
+     *
      * Метод активации прослушивания.
-     * - Версия `0.0.0`
+     *
+     * ***
+     *
+     * @public
     */
     on() {
 
@@ -221,8 +298,16 @@ export class YListener extends FListener {
 
     };
     /**
-     * Метод отключения прослушивания.
-     * - Версия `0.0.0`
+     * ### off
+     * - Версия `0.0.1`
+     * - Модуль `YListener`
+     * ***
+     *
+     * Метод отключения просушивания.
+     *
+     * ***
+     *
+     * @public
     */
     off() {
 

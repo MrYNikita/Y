@@ -593,26 +593,30 @@
         "prefix": "#fA",
         "description": "Добавить функцию агрегатор."
     },
+
     "breakpoint": {
 
         "body": [
 
-            "console.log('$TM_FILENAME_BASE WW');$0",
+            "console.log('${RELATIVE_FILEPATH/[^\\w\\d,-. _]/\\/\\//g} $TM_LINE_INDEX');",
+            "console.log(${1|[],this|}$0);",
+            "console.log('#'.repeat(5));",
 
         ],
         "prefix": "#b"
 
     },
-    "breakpointF": {
+    "breakpointExit": {
 
         "body": [
 
-            "console.log('$TM_FILENAME_BASE WW');$0",
-            "process.exit();",
+            "console.log('${RELATIVE_FILEPATH/[^\\w\\d,-. _]/\\/\\//g} $TM_LINE_INDEX');",
+            "console.log(${1|[],this|}$0);",
+            "console.log('#'.repeat(5));",
+            "process.exit();"
 
         ],
-        "prefix": "#bf",
+        "prefix": "#be"
 
     },
 }
-

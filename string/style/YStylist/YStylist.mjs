@@ -2,10 +2,10 @@ import { YBasic } from '../../../ject/YBasic/YBasic.mjs';
 import { jectFill } from '../../../ject/ject.mjs';
 import { stringFindAll, stringGetTranducer, stringPaste, stringPasteWrap } from '../../string.mjs';
 import { arrayAppend, arrayPaste } from '../../../array/array.mjs';
-import { colorClear, colorGet, colorGetMap, colorGetReset, colorReset, colorVEREReset } from '../color/color.mjs';
+import { colorClear, colorGet, colorGetMap, colorGetReset, colorReset, colorVEREReset } from '../../ansi/color/color.mjs';
 import { YStylistMapColor } from './YStylistMap/YStylistMapColor/YStylistMapColor.mjs';
 import { YStylistMapUnderline } from './YStylistMap/YStylistMapUnderline/YStylistMapUnderline.mjs';
-import { underlineGet, underlineGetReset } from '../underline/underline.mjs';
+import { underlineGet, underlineGetReset } from '../../ansi/underline/underline.mjs';
 import { YStylistMap } from './YStylistMap/YStylistMap.mjs';
 
 //#region YT
@@ -49,7 +49,7 @@ import { YStylistMap } from './YStylistMap/YStylistMap.mjs';
  *
  *
  *
- * @typedef {import('../color/color.mjs').colorTVColor} YStylistTVColor
+ * @typedef {import('../../ansi/color/color.mjs').colorTVColor} YStylistTVColor
  *
 */
 
@@ -222,7 +222,7 @@ export class YStylist extends FStylist {
 
     /**
      * ### stylize
-     * - Версия `0.0.0`
+     * - Версия `0.1.0`
      * - Модуль `YStylist`
      * ***
      *
@@ -240,22 +240,21 @@ export class YStylist extends FStylist {
 
             const c = stringFindAll(string, /\n/)?.length;
 
-            const ms = Object.entries(this).filter(e => e[0].match('map')).map(e => e[1]).reduce((p, c) => {
+            for (let iy = this.mapColor.lines.length - 1; iy >= 0; iy--) {
 
-                c.lines.forEach(l => {
+                const l = this.mapColor.lines[iy];
 
-                    const f = p.lines.find(pl => pl[0] === l[0]);
+                for (let ix = l[1].length - 1; ix >= 0; ix--) {
 
-                    if (f) f[1].push(...l[1].slice());
-                    else p.lines.push([l[0], l[1].slice()]);
+                    const point = l[1][ix];
 
-                });
+                    string = stringPasteWrap(string, point.insert, l[0], point.position, 0);
 
-                return p;
+                };
 
-            }, new YStylistMap()).regulate().lines.slice(0, c ? c + 1 : 1).forEach((l, li) => l[1].slice().reverse().forEach(c => string = stringPasteWrap(string, c.insert, c.position, li, 0)));
+            };
 
-            return string + colorReset() + underlineGetReset();
+            return string;
 
         } else return '';
 
@@ -274,7 +273,7 @@ export class YStylist extends FStylist {
     */
     clearColor() {
 
-        this.mapColor = [];
+        this.mapColor.lines = [];
 
         return this;
 
@@ -292,7 +291,36 @@ export class YStylist extends FStylist {
     */
     clearColorByLine(line = 0) {
 
-        this.mapColor = this.mapColor.filter(l => l[0] === l);
+        this.mapColor.lines = this.mapColor.lines.filter(l => l[0] === l);
+
+        return this;
+
+    };
+
+    /**
+     * ### moveColor
+     * - Версия `0.0.0`
+     * - Модуль `YStylist`
+     * ***
+     *
+     * Метод смещения цветовых точек в указанной позиции указанной линии.
+     *
+     * ***
+     * @arg {number} y `Индекс линии`
+     *
+     * - По умолчанию `0`
+     * @arg {number} x `Индекс позиции`
+     *
+     * - По умолчанию `0`
+     * @arg {number} bias `Смещение`
+     *
+     * Определяет значение смещения всех цветовых точек.
+     * При указании недействительного значения метод завершится.
+     * @public
+    */
+    moveColor(bias, y = 0, x = 0) {
+
+        this.mapColor.move(bias, y, x);
 
         return this;
 
@@ -300,7 +328,7 @@ export class YStylist extends FStylist {
 
     /**
      * ### setColor
-     * - Версия `0.0.0`
+     * - Версия `0.0.1`
      * - Модуль `YStylist`
      * ***
      *
@@ -329,14 +357,14 @@ export class YStylist extends FStylist {
     */
     setColor(foreground, background, y = 0, x = 0) {
 
-        if (foreground || background) this.mapColor.append(y, x, colorGet(foreground, background));
+        if (foreground || background) this.mapColor.append(colorGet(foreground, background), y, x);
 
         return this;
 
     };
     /**
      * ### resetColor
-     * - Версия `0.0.0`
+     * - Версия `0.1.0`
      * - Модуль `YStylist`
      * ***
      *
@@ -349,9 +377,9 @@ export class YStylist extends FStylist {
      * @arg {boolean} background
      * @public
     */
-    resetColor(y, x, foreground, background) {
+    resetColor(foreground, background, y = 0, x = 0) {
 
-        if (foreground || background) this.mapColor.append(y, x, colorGetReset(foreground, background));
+        if (foreground || background) this.mapColor.append(colorGetReset(foreground, background), y, x);
 
         return this;
 
@@ -406,35 +434,43 @@ export class YStylist extends FStylist {
 
     };
     /**
-     * Метод добавления нового значения.
+     * ### pasteColorByString
      * - Версия `0.1.0`
-     * @arg {number} y Индекс линии.
-     * @arg {number} x Индекс позиции.
-     * @arg {string} string Строка вствки.
+     * - Модуль `YStylist`
+     * ***
+     *
+     * Метод добавления новой цветовой точки на основе указанной строчки.
+     *
+     * ***
+     * @arg {number} y `Индекс линии`.
+     * @arg {number} x `Индекс позиции`.
+     * @arg {string} string `Строка вствки`.
+     * @public
     */
     pasteColorByString(string, y = 0, x = 0) {
 
-        const ls = colorClear(string).split('\n').map(s => s.length);
+        this.mapColor.pasteByString(string, y, x);
 
-        colorGetMap(string).forEach((l, ci) => {
+        return this;
 
-            ci += y;
+    };
+    /**
+     * ### pasteColorByStringWrap
+     * - Версия `0.0.0`
+     * - Модуль `YStylist`
+     * ***
+     *
+     * Метод {@link YStylist.pasteColorByString|вставки строки} с переносом.
+     *
+     * ***
+     * @arg {number} y `Индекс линии`.
+     * @arg {number} x `Индекс позиции`.
+     * @arg {string} string `Строка вствки`.
+     * @public
+    */
+    pasteColorByStringWrap(string, y = 0, x = 0) {
 
-            let la = this.getColorLastByLine(ci, x);
-            let ml = this.mapColor.find(c => c[0] === ci);
-
-            if (!ml) this.mapColor.push(ml = [ci, []]);
-            else ml[1].forEach(c => (c[0] >= x) ? c[0] += ls[ci] : 0);
-
-            l.forEach(c => c[0] += x);
-
-            if (la && l.length && l.at(-1)[1].match(colorVEREReset)) l.at(-1)[1] = la[1];
-
-            ml[1].push(...l);
-
-        });
-
-        this.regulateColor();
+        this.mapColor.pasteByStringWrap(string, y, x);
 
         return this;
 
