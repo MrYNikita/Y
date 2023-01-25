@@ -2844,7 +2844,7 @@ export function stringPaste(string, paste, index = string.length ?? 0, size = 0)
 };
 
 //#endregion
-//#region pasteWrap 0.0.1
+//#region pasteWrap 0.0.2
 
 /** ### stringTpasteWrapSize
  * - Тип `T`
@@ -2931,7 +2931,7 @@ function pasteWrapComply(t) {
 
     let result = string;
 
-    paste.split('\n').forEach((p, i) => {
+    paste.split('\n').forEach(p => {
 
         let s = stringGetRowByIndex(result, y);
 
@@ -2941,8 +2941,6 @@ function pasteWrapComply(t) {
             s = stringGetRowByIndex(result, y);
 
         };
-
-        if (!s[x]) result = stringReplaceRowByIndex(result, y, s = s.padEnd(x + 1 + p.length, ' '));
 
         s = stringPaste(s, p, x, size === 'auto' ? p.length : size);
 

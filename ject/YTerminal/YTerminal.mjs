@@ -84,7 +84,7 @@ class STerminal extends YJect {
 
             '╔' + '═'.repeat(configYTerminal.sizes[0] - 2) + '╗\n',
             ('║' + ' '.repeat(configYTerminal.sizes[0] - 2) + '║\n').repeat(configYTerminal.sizes[1] - 2),
-            '╚' + '═'.repeat(configYTerminal.sizes[0] - 2) + '╝\n',
+            '╚' + '═'.repeat(configYTerminal.sizes[0] - 2) + '╝',
 
         )
 

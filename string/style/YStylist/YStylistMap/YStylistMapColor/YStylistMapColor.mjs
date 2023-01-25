@@ -236,18 +236,18 @@ export class YStylistMapColor extends FStylistMapColor {
         if (string) {
 
             const m = colorGetMapWrap(string, y, x);
-            const r = m.map(l => this.getPointLastByPosition(l[0], x).insert);
+            const r = m.map(l => this.getPointLastByPosition(l[0], x)?.insert);
 
             if (m.length) {
 
                 colorClear(string).split('\n').forEach(s => this.move(s.length, y, x));
-                m.forEach(l => {
+                m.forEach((l, li) => {
 
                     l[1].forEach((p, pi) => {
 
                         if (l[1].length - 1 === pi) {
 
-                            p = new YStylistPoint(r[pi], p.position)
+                            p = new YStylistPoint(r[li], p.position)
                             l[1][pi] = p;
 
                         };

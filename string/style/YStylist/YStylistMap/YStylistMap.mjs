@@ -522,26 +522,44 @@ export class YStylistMap extends FStylistMap {
 
     /**
      * ### regulate
-     * - Версия `0.0.0`
+     * - Версия `0.1.0`
      * - Модуль `YStylistMap`
      * ***
      *
      * Метод регулирования карты.
      *
      * ***
-     *
+     * @public
     */
     regulate() {
 
-        this.lines = this.lines.filter(c => c[1].length).sort((p, c) => p[0] - c[0]).map(l => {
+        this.lines = this.lines.filter(c => c[1].length).sort((p, c) => p[0] - c[0]).map((l, li, la) => {
 
             l[1] = l[1].sort((p, c) => p.position - c.position);
             l[1].forEach((c, ci, ca) => ca[ci + 1]?.position === c.position || ca[ci + 1]?.position === c.position ? ca[ci] = null : null);
             l[1] = l[1].filter(c => c && c.insert);
+            l[1] = l[1].reverse().filter((p, pi, pa) => (pa[pi + 1] && pa[pi + 1].insert !== p.insert) || !pa[pi + 1]).reverse();
+
+            // if (la[li - 1]) {
+
+            //     const last = this.getPointLastByLine(la[li - 1][0]);
+
+            //     if (last) {
+
+            //         for (let i = 0; i < l[1].length; i++) {
+
+            //             if (l[1][i].insert === last.insert) l[1].splice(i, 1);
+            //             else break;
+
+            //         };
+
+            //     };
+
+            // };
 
             return l;
 
-        });
+        }).filter(l => l[1].length);
 
         return this;
 
@@ -582,26 +600,11 @@ export class YStylistMap extends FStylistMap {
 
             return l.find(p => {
 
-                const r = new YRegExp('').appendVariate(...[...this.constructor.ends, ...this.ends].map(e => {
+                if (p.position <= x && !this.checkEnd(p.insert)) {
 
-                    if (e instanceof String) {
+                    return p;
 
-                        return funcBypass(e,
-
-                            [stringShield],
-                            [stringCastToSample],
-
-                        );
-
-                    } else {
-
-                        return e;
-
-                    };
-
-                })).get();
-
-                if (p.position <= x && !p.insert.match(r)) return p;
+                };
 
             }) ?? null;
 

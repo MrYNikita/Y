@@ -6,6 +6,7 @@ import { stringBring, stringBringColumn, stringCastToJect, stringCastToSample, s
 import { colorClear, colorGet, colorGetMap, colorGetReset, colorReset } from "../ansi/color/color.mjs";
 import { YStylist } from "../style/YStylist/YStylist.mjs";
 import { underlineGetReset } from "../ansi/underline/underline.mjs";
+import { funcBypass } from "../../func/func.mjs";
 
 //#region YT
 
@@ -323,16 +324,27 @@ class FString extends MString {
 export class YString extends FString {
 
     /**
-     * Метод для получения текущей строки.
-     * - Версия `0.1.1`
-     * @arg {boolean} style Режим стилизации.
+     * ### get
+     * - Версия `0.2.0`
+     * - Модуль `YString`
+     * ***
      *
-     * Активация данного режима позволяет получить итоговую строку с сохранением цветов и декораторов текста.
-     * @return {string}
+     * Метод получения текущей стркои.
+     *
+     * ***
+     * @arg {boolean} style `Режим стилизации`
+     *
+     * Активация режима приведт к возвращению строки с применением стилей.
+     * @public
     */
     get(style) {
 
-        let r = stringMesuare(this.values, this.rowLength, this.rowEnd);
+        const r = funcBypass(this.values,
+
+            [stringTrim],
+            [stringMesuare, this.rowLength, this.rowEnd],
+
+        );
 
         return style ? this.stylist.stylize(r) : r;
 
@@ -460,8 +472,6 @@ export class YString extends FString {
 
         this.stylist.pasteColorByStringWrap(paste, ...this.cursors[0].indexs);
 
-        // this.stylist.mapColor.lines.forEach(l => console.log(l));
-
         paste = colorClear(paste);
 
         this.values = stringPasteWrap(this.values, paste, ...this.cursors[0].indexs, size);
@@ -546,7 +556,7 @@ export class YString extends FString {
     */
     resetColor(foreground, background) {
 
-        this.stylist.pasteColorByString(this.calculateIndex(), colorReset());
+        this.stylist.resetColor(foreground, background, ...this.cursors[0].indexs);
 
         return this;
 

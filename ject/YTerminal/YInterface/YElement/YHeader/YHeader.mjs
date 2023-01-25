@@ -147,11 +147,10 @@ export class YHeader extends FHeader {
                 const size = this.title.length + 2;
 
                 y
-                    .changePostfix('\n')
                     .paste(
 
-                        `╔${'═'.repeat(size)}╗`,
-                        `║ ${this.title} ║`,
+                        `╔${'═'.repeat(size)}╗\n`,
+                        `║ ${this.title} ║\n`,
                         `╚${'═'.repeat(size)}╝`
 
                     )

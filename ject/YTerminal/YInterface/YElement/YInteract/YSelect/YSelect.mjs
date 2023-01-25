@@ -2,20 +2,49 @@ import { jectFill } from "../../../../../ject.mjs";
 import { YString } from "../../../../../../string/YString/YString.mjs";
 import { YInteract } from "../YInteract.mjs";
 
-/**
- * @typedef TBSelect
- * @prop {any} _
- * @typedef {{[p in Exclude<keyof DSelect,keyof SSelect>|Exclude<keyof SSelect,keyof DSelect>]:(DSelect[p]&SSelect[p])}} TDSelect
- * @typedef {TDSelect&TBSelect&import("../YInteract.mjs").TInteract} TSelect
+//#region YT
+
+/** ### YSelectT
+ * - Тип `T`
+ * - Версия `0.0.0`
+ * - Модуль `YSelect`
+ *
+ * Основной параметр модуля `YSelect`.
+ *
+ * @typedef {YSelectTE&YSelectTU&import("../../../YInterface.mjs").YInterfaceT} YSelectT
+ *
 */
+/** ### YSelectTE
+ * - Тип `TE`
+ * - Версия `0.0.0`
+ * - Модуль `YSelect`
+ *
+ * Параметр наследования `YSelect`.
+ *
+ * @typedef {{[p in Exclude<keyof DSelect,keyof SSelect>|Exclude<keyof SSelect,keyof DSelect>]:(DSelect[p]&SSelect[p])}} YSelectTE
+ *
+*/
+/** ### YSelectTU
+ * - Тип `TU`
+ * - Версия `0.0.0`
+ * - Модуль `YSelect`
+ *
+ * Уникальные параметры `YSelect`.
+ *
+ * @typedef YSelectTU
+ * @prop {any} _
+ *
+*/
+
+//#endregion
 
 class SSelect extends YInteract {
 
     static binds = [
 
         ['\r',
-            /** @arg {YMenu} y */
-            y => y.points[y.index]?.[1]?.(),
+            /** @arg {YSelect} y */
+            y => y.exec?.(y.points[y.index]),
         ],
         [['\x1B[B', 's'],
         /** @arg {YMenu} y */
@@ -35,8 +64,23 @@ class SSelect extends YInteract {
 class DSelect extends SSelect {
 
     /**
+     * ### exec
+     *
+     * Функция выбора.
+     *
+     * ***
+     * @type {function(string):void}
+     * @public
+    */
+    exec;
+    /**
+     * ### points
+     *
      * Пункты.
+     *
+     * ***
      * @type {string[]}
+     * @public
     */
     points = [];
 
@@ -44,30 +88,33 @@ class DSelect extends SSelect {
 class ISelect extends DSelect {
 
     /**
+     * ### index
+     *
      * Индекс.
+     *
+     * ***
      * @type {number}
+     * @public
     */
     index = 0;
 
 };
 class MSelect extends ISelect {
 
-    receive(string) {
 
-        SSelect.prototype.receive.apply(this, [string]);
-
-        return this;
-
-    };
 
 };
 class FSelect extends MSelect {
 
     /**
-     * Контсруктор класса `YSelect`
+     * ### YSelect.constructor
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
-     *  @arg {TSelect} t
+     *
+     *
+     *
+     * ***
+     *  @arg {YSelectT} t
     */
     constructor(t = {}) {
 
@@ -90,7 +137,7 @@ class FSelect extends MSelect {
 
         } else if (t?.length) {
 
-            /** @type {TSelect&DSelect} */
+            /** @type {YSelectT} */
             const r = {};
 
             if (t[0]?._ytp) t = [...t[0]._ytp];
@@ -108,7 +155,7 @@ class FSelect extends MSelect {
         } else return {};
 
     };
-    /** @arg {TSelect} t @this {YSelect} */
+    /** @arg {YSelectT} t @this {YSelect} */
     static #deceit(t) {
 
         try {
@@ -122,7 +169,7 @@ class FSelect extends MSelect {
         };
 
     };
-    /** @arg {TSelect} t @this {YSelect} */
+    /** @arg {YSelectT} t @this {YSelect} */
     static #verify(t) {
 
         const {
@@ -134,13 +181,13 @@ class FSelect extends MSelect {
         FSelect.#handle(t);
 
     };
-    /** @arg {TSelect} t @this {YSelect} */
+    /** @arg {YSelectT} t @this {YSelect} */
     static #handle(t) {
 
 
 
     };
-    /** @arg {TSelect} t @this {YSelect} */
+    /** @arg {YSelectT} t @this {YSelect} */
     static #create(t) {
 
         const {
@@ -158,13 +205,15 @@ class FSelect extends MSelect {
 };
 
 /**
- * Класс `YSelect`
- *
- * Данный класс используется для формирования интерактивного элемента выборки.
+ * ### YSelect
  * - Тип `SDIMFY`
- * - Версия `0.0.0`
- * - Модуль `ject.terminal.recurrent`
+ * - Версия `0.1.0`
+ * - Модуль `YSelect`
  * - Цепочка `BDVHC`
+ * ***
+ * Класс интерактивных элементов выбора
+ *
+ * Данный класс позволяет сохдвать и размещать интерактивные элементы выбора из нескольких позиций.
 */
 export class YSelect extends FSelect {
 
@@ -182,7 +231,7 @@ export class YSelect extends FSelect {
             .paste(...this.points)
             .changePrePostfix()
             .setCursorTo(this.index, 0)
-            .changeCursorsSize(1)
+            .setCursorsSize(1)
             .paste('>')
             .get()
 
