@@ -47,6 +47,29 @@ import { numberGetRandomReal } from "../number/number.mjs";
  * @prop {number[]} positions
  *
 */
+/** ### arrayTIndexD
+ * - Тип `T`
+ * - Версия `0.0.0`
+ * - Модуль `array`
+ *
+ *
+ *
+ * @typedef arrayTIndexD
+ * @prop {number} y `Индекс линии`
+ * @prop {number} x `Индекс позиции`
+ *
+*/
+/** ### arrayTSize
+ * - Тип `T`
+ * - Версия `0.0.0`
+ * - Модуль `array`
+ *
+ *
+ *
+ * @typedef arrayTSize
+ * @prop {number} size
+ *
+*/
 
 //#endregion
 
