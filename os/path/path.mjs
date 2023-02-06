@@ -1,23 +1,110 @@
-import { arrayAppend } from "../../array/array.mjs";
-import { lstatSync, readdirSync } from "fs";
-import { config, configOSPath, } from "../../config.mjs";
-import { fileREName, fileREPart } from "../file/file.mjs";
-import { stringFind } from "../../string/string.mjs";
+import { config, } from "../../config.mjs";
+import { fileVREName, fileVREPart } from "../file/file.mjs";
+import { stringFind, stringUnifyBySymbol } from "../../string/string.mjs";
+import { existsSync, lstatSync, readdirSync } from "fs";
 
-/** @type {regexp} */
-export const pathREFileInfo = /(\d+\.){2}\d{4,} *?\d{2}:\d{2} *?(<DIR>)? *?(\d+?)? *?(\w|\.)+/mg;
+//#region YT
 
-//#region get 0.2.0
-
-/**
- * @typedef TBget
- * @prop {number} limit
- * @prop {Array<string>} paths
- * @prop {string|RegExp} fragment
- * @typedef {TBget} Tget
+/** ### pathT
+ * - Тип `T`
+ * - Версия `0.0.0`
+ * - Модуль `path`
+ *
+ * Основной параметр модуля `path`.
+ *
+ * @typedef pathT
+ * @prop {string} path
+ *
+*/
+/** ### pathTLimit
+ * - Тип `T`
+ * - Версия `0.0.0`
+ * - Модуль `path`
+ *
+ *
+ *
+ * @typedef {import("../../array/array.mjs").arrayTLimit} pathTLimit
+ *
+*/
+/** ### pathTPaths
+ * - Тип `T`
+ * - Версия `0.0.0`
+ * - Модуль `path`
+ *
+ *
+ *
+ * @typedef pathTPaths
+ * @prop {string[]} paths
+ *
+*/
+/** ### pathTFragment
+ * - Тип `T`
+ * - Версия `0.0.0`
+ * - Модуль `os.path`
+ *
+ *
+ *
+ * @typedef pathTFragment
+ * @prop {pathTTFragment} fragment
+ *
 */
 
-/** @arg {Tget} t */
+/** ### pathTTFragment
+ * - Тип `TT`
+ * - Версия `0.0.0`
+ * - Модуль `path`
+ *
+ * Параметр фрагмент.
+ *
+ * Данный тип позволяет указывать в качестве фрагмента пути строки или регулярные выражения.
+ *
+ * @typedef {string|RegExp} pathTTFragment
+ *
+*/
+
+//#endregion
+//#region YV
+
+/**
+ * ### pathVREFileInfo
+ * - Тип `VE`
+ * - Версия `0.0.0`
+ * - Модуль `path`
+ *
+ * Регулярное выражение для получения информации о файле из консоли windows.
+ *
+ * ***
+ * @type {RegExp}
+*/
+export const pathVREFileInfo = /(\d+\.){2}\d{4,} *?\d{2}:\d{2} *?(<DIR>)? *?(\d+?)? *?(\w|\.)+/mg;
+
+//#endregion
+
+//#region get 0.3.0
+
+/** ### pathTFGet
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `path`
+ * ***
+ *
+ * Результирующие параметры функции `get`.
+ *
+ * @typedef {pathTFUGet&pathTFragment&pathTPaths&pathTLimit} pathTFGet
+ *
+*/
+/** ### pathTFUGet
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `path`
+ *
+ * Уникальные параметры функции `get`.
+ *
+ * @typedef pathTFUGet
+ * @prop {any} _
+*/
+
+/** @arg {pathTFGet} t */
 function getDeceit(t) {
 
     try {
@@ -33,7 +120,7 @@ function getDeceit(t) {
     };
 
 };
-/** @arg {Tget} t */
+/** @arg {pathTFGet} t */
 function getVerify(t) {
 
     const {
@@ -45,59 +132,67 @@ function getVerify(t) {
     return getHandle(t);
 
 };
-/** @arg {Tget} t */
+/** @arg {pathTFGet} t */
 function getHandle(t) {
 
-    let {
+    const {
 
 
 
     } = t;
 
-    if (!t.fragment) t.fragment = new RegExp();
-    if (!configOSPath.pathProject) configOSPath.pathProject = pathGetProject();
+    if (!t.paths || !t.paths.length) {
+
+        const pathProject = pathGetProject();
+
+        t.paths = readdirSync(pathProject).map(p => pathConcat(pathProject, p));
+
+    };
 
     return getComply(t);
 
 };
-/** @arg {Tget} t */
+/** @arg {pathTFGet} t */
 function getComply(t) {
 
     const {
 
+        paths,
         limit,
-        paths = readdirSync(configOSPath.pathProject),
         fragment,
 
-    } = t, {
+    } = t;
 
-        pathProject,
-
-    } = configOSPath;
-
-    const func0 = path => lstatSync(pathProject + '/' + path).isDirectory() ? arrayAppend(paths, ...readdirSync(pathProject + '/' + path).map(e => `${path}/${e}`)) : 0;
-    /** @type {Array<string>} */
+    /** @type {string[]} */
     const results = [];
 
     if (fragment && limit) {
 
-        for (
+        while (paths.length && results.length < limit) {
 
-            let count = 0;
-            paths.length && count < limit;
+            const p = paths.pop();
 
-        ) {
+            if (p.match(fragment)) {
 
-            const path = paths.pop();
-
-            if (path.match(fragment)) {
-
-                count++;
-                results.push(path);
+                results.push(p);
 
             };
 
-            func0(path);
+            if (results.length === limit) {
+
+                break;
+
+            } else {
+
+                const ps = pathGetIn(p);
+
+                if (ps) {
+
+                    paths.push(...ps);
+
+                };
+
+            };
 
         };
 
@@ -105,30 +200,43 @@ function getComply(t) {
 
         while (paths.length) {
 
-            const path = paths.pop();
+            const p = paths.pop();
 
-            if (path.match(fragment)) results.push(path);
+            if (p.match(fragment)) {
 
-            func0(path);
+                results.push(p);
+
+            };
+
+            const ps = pathGetIn(p);
+
+            if (ps) {
+
+                paths.push(...ps);
+
+            };
 
         };
 
     } else if (!fragment && limit) {
 
-        for (
+        while (paths.length && results.length < limit) {
 
-            let count = 0;
-            count < limit;
+            const p = paths.pop();
 
-        ) {
+            results.push(p);
 
-            const path = paths.pop();
+            if (results.length === limit) {
 
-            results.push(path);
+                break;
 
-            func0(path);
+            } else {
 
-            count++;
+                const ps = pathGetIn(p);
+
+                paths.push(...ps);
+
+            };
 
         };
 
@@ -136,11 +244,16 @@ function getComply(t) {
 
         while (paths.length) {
 
-            const path = paths.pop();
+            const p = paths.pop();
+            const ps = pathGetIn(p);
 
-            results.push(path);
+            if (ps) {
 
-            func0(path);
+                paths.push(...ps);
+
+            };
+
+            results.push(p);
 
         };
 
@@ -151,53 +264,171 @@ function getComply(t) {
 };
 
 /**
- * Функция для получения первого по соответствию фрагменту пути.
- * - Версия `0.1.1`
+ * ### pathGet
+ * - Версия `0.3.0`
  * - Цепочка `DVHCa`
- * @arg {string|RegExp} fragment Фрагмент искомого пути.
- * @returns {string}
+ * - Модуль `path`
+ * ***
+ *
+ *
+ *
+ * ***
+ * @arg {number} limit `Предел`
 */
 export function pathGet(fragment) {
 
-    return getDeceit({ fragment, limit: 1 })[0];
+    return getDeceit({ fragment, limit: 1, })[0];
 
 };
 /**
- * Функция для получения первого по соответствию фрагменту пути в указанном массиве.
- * - Версия `0.0.0`
+ * ### pathGetAll
+ * - Версия `0.3.0`
  * - Цепочка `DVHCa`
- * @arg {[string]} paths Пути.
- * @arg {string|RegExp} fragment Фрагмент искомого пути.
- * @returns {string}
+ * - Модуль `path`
+ * ***
+ *
+ * Функция получения всех путей текущего проекта.
+ *
+ * ***
+ * @arg {number?} limit `Предел`
+ * @arg {pathTTFragment} fragment `Фрагмент`
 */
-export function pathGetIn(paths, fragment) {
-
-    return getDeceit({ paths, fragment, limit: 1 })[0];
-
-};
-/**
- * Функция для получения путей к файлам проекта.
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * @arg {string} fragment Фрагмент искомого пути.
- * @returns {[string]}
-*/
-export function pathGetAll(fragment = '.', limit) {
+export function pathGetAll(fragment, limit) {
 
     return getDeceit({ fragment, limit });
 
 };
 
 //#endregion
-//#region getDisk 0.0.0
+//#region getIn 0.0.0
 
-/**
- * @typedef TBgetDisk
+/** ### pathTFGetIn
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `path`
+ * ***
  *
- * @typedef {TBgetDisk} TgetDisk
+ * Результирующие параметры функции `getIn`.
+ *
+ * @typedef {pathTFUGetIn&pathTFragment} pathTFGetIn
+ *
+*/
+/** ### pathTFUGetIn
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `path`
+ *
+ * Уникальные параметры функции `getIn`.
+ *
+ * @typedef pathTFUGetIn
+ * @prop {any} _
 */
 
-/** @arg {TgetDisk} t */
+/** @arg {pathTFGetIn} t */
+function getInDeceit(t) {
+
+    try {
+
+        return getInVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @arg {pathTFGetIn} t */
+function getInVerify(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return getInHandle(t);
+
+};
+/** @arg {pathTFGetIn} t */
+function getInHandle(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return getInComply(t);
+
+};
+/** @arg {pathTFGetIn} t */
+function getInComply(t) {
+
+    const {
+
+        fragment,
+
+    } = t;
+
+    if (existsSync(fragment) && lstatSync(fragment).isDirectory()) {
+
+        return readdirSync(fragment).map(f => pathConcat(fragment, f));
+
+    };
+
+    return null;
+
+};
+
+/**
+ * ### pathGetIn
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * - Модуль `path`
+ * ***
+ *
+ * Функция получения внутренних путей.
+ *
+ * Извлекаются все пути, лежащие в указанном пути.
+ *
+ * ***
+ * @arg {pathTTFragment} fragment `Фрагмент`
+*/
+export function pathGetIn(fragment) {
+
+    return getInDeceit({ fragment });
+
+};
+
+//#endregion
+//#region getDisk 0.0.1
+
+/** ### pathTFGetDisk
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `path`
+ * ***
+ *
+ * Результирующие параметры функции `getDisk`.
+ *
+ * @typedef {pathTFUGetDisk&pathT} pathTFGetDisk
+ *
+*/
+/** ### pathTFUGetDisk
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `path`
+ *
+ * Уникальные параметры функции `getDisk`.
+ *
+ * @typedef pathTFUGetDisk
+ * @prop {any} _
+*/
+
+/** @arg {pathTFGetDisk} t */
 function getDiskDeceit(t) {
 
     try {
@@ -213,7 +444,7 @@ function getDiskDeceit(t) {
     };
 
 };
-/** @arg {TgetDisk} t */
+/** @arg {pathTFGetDisk} t */
 function getDiskVerify(t) {
 
     const {
@@ -225,27 +456,19 @@ function getDiskVerify(t) {
     return getDiskHandle(t);
 
 };
-/** @arg {TgetDisk} t */
+/** @arg {pathTFGetDisk} t */
 function getDiskHandle(t) {
 
-    let {
+    const {
 
 
 
     } = t;
 
-
-
-    t = {
-
-        ...t,
-
-    };
-
     return getDiskComply(t);
 
 };
-/** @arg {TgetDisk} t */
+/** @arg {pathTFGetDisk} t */
 function getDiskComply(t) {
 
     const {
@@ -259,9 +482,16 @@ function getDiskComply(t) {
 };
 
 /**
- * Функция для получения текущего диска расположения проекта.
+ * ### pathGetDisk
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
+ * - Модуль `path`
+ * ***
+ *
+ * Функция получения текущего диска расположения проекта.
+ *
+ * ***
+ *
 */
 export function pathGetDisk() {
 
@@ -270,15 +500,31 @@ export function pathGetDisk() {
 };
 
 //#endregion
-//#region getProject 0.0.0
+//#region getProject 0.0.1
 
-/**
- * @typedef TBgetProject
+/** ### pathTFgetProject
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `path`
+ * ***
  *
- * @typedef {TBgetProject} TgetProject
+ * Результирующие параметры функции `getProject`.
+ *
+ * @typedef {pathTFUgetProject} pathTFgetProject
+ *
+*/
+/** ### pathTFUgetProject
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `path`
+ *
+ * Уникальные параметры функции `getProject`.
+ *
+ * @typedef pathTFUgetProject
+ * @prop {any} _
 */
 
-/** @arg {TgetProject} t */
+/** @arg {pathTFgetProject} t */
 function getProjectDeceit(t) {
 
     try {
@@ -294,7 +540,7 @@ function getProjectDeceit(t) {
     };
 
 };
-/** @arg {TgetProject} t */
+/** @arg {pathTFgetProject} t */
 function getProjectVerify(t) {
 
     const {
@@ -306,27 +552,19 @@ function getProjectVerify(t) {
     return getProjectHandle(t);
 
 };
-/** @arg {TgetProject} t */
+/** @arg {pathTFgetProject} t */
 function getProjectHandle(t) {
 
-    let {
+    const {
 
 
 
     } = t;
 
-
-
-    t = {
-
-        ...t,
-
-    };
-
     return getProjectComply(t);
 
 };
-/** @arg {TgetProject} t */
+/** @arg {pathTFgetProject} t */
 function getProjectComply(t) {
 
     const {
@@ -340,9 +578,16 @@ function getProjectComply(t) {
 };
 
 /**
- * Функция для получения полного пути до проекта.
- * - Версия `0.0.0`
+ * ### pathgetProject
+ * - Версия `0.0.1`
  * - Цепочка `DVHCa`
+ * - Модуль `path`
+ * ***
+ *
+ * Функция получения полного пути до корневой папки текущего проекта.
+ *
+ * ***
+ *
 */
 export function pathGetProject() {
 
@@ -352,15 +597,239 @@ export function pathGetProject() {
 
 //#endregion
 
-//#region decompose 0.0.1
+//#region concat 0.0.0
 
-/**
- * @typedef TBdecompose
- * @prop {...string|RegExp}
- * @typedef {TBdecompose} Tdecompose
+/** ### pathTFConcat
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `path`
+ * ***
+ *
+ * Результирующие параметры функции `concat`.
+ *
+ * @typedef {pathTFUConcat&pathT} pathTFConcat
+ *
+*/
+/** ### pathTFUConcat
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `path`
+ *
+ * Уникальные параметры функции `concat`.
+ *
+ * @typedef pathTFUConcat
+ * @prop {string} concat
 */
 
-/** @arg {Tdecompose} t */
+/** @arg {pathTFConcat} t */
+function concatDeceit(t) {
+
+    try {
+
+        return concatVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @arg {pathTFConcat} t */
+function concatVerify(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return concatHandle(t);
+
+};
+/** @arg {pathTFConcat} t */
+function concatHandle(t) {
+
+    const {
+
+
+
+    } = t;
+
+    [t.path, t.concat] = [t.path, t.concat].map(p => pathNormilize(p));
+
+    return concatComply(t);
+
+};
+/** @arg {pathTFConcat} t */
+function concatComply(t) {
+
+    const {
+
+        path,
+        concat,
+
+    } = t;
+
+    return path + '/' + concat;
+
+};
+
+/**
+ * ### pathConcat
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * - Модуль `path`
+ * ***
+ *
+ * Функция склейки указанных путей.
+ *
+ * Порядок важен: первый путь склеится с первым.
+ *
+ * ***
+ * @arg {string} path
+ * @arg {string} concat
+*/
+export function pathConcat(path, concat) {
+
+    return concatDeceit({ path, concat, });
+
+};
+
+//#endregion
+//#region normalize 0.0.0
+
+/** ### pathTFNormalize
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `path`
+ * ***
+ *
+ * Результирующие параметры функции `normalize`.
+ *
+ * @typedef {pathTFUNormalize&pathT} pathTFNormalize
+ *
+*/
+/** ### pathTFUNormalize
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `path`
+ *
+ * Уникальные параметры функции `normalize`.
+ *
+ * @typedef pathTFUNormalize
+ * @prop {any} _
+*/
+
+/** @arg {pathTFNormalize} t */
+function normalizeDeceit(t) {
+
+    try {
+
+        return normalizeVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @arg {pathTFNormalize} t */
+function normalizeVerify(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return normalizeHandle(t);
+
+};
+/** @arg {pathTFNormalize} t */
+function normalizeHandle(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return normalizeComply(t);
+
+};
+/** @arg {pathTFNormalize} t */
+function normalizeComply(t) {
+
+    let path = stringUnifyBySymbol(t.path, '/');
+
+    if (path[0] === '/') {
+
+        path = path.slice(1);
+
+    };
+
+    if (path.at(-1) === '/') {
+
+        path = path.slice(0, -1);
+
+    };
+
+    return path;
+
+};
+
+/**
+ * ### pathNormilize
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * - Модуль `path`
+ * ***
+ *
+ * Функция нормолизации пути.
+ *
+ * Нормализация убирает возможные дефекты пути, по типу избыточных слешей.
+ *
+ * ***
+ * @arg {string} path `Путь`
+*/
+export function pathNormilize(path) {
+
+    return normalizeDeceit({ path, });
+
+};
+
+//#endregion
+//#region decompose 0.0.2
+
+/** ### pathTFDecompose
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `path`
+ * ***
+ *
+ * Результирующие параметры функции `decompose`.
+ *
+ * @typedef {pathTFUDecompose&pathT} pathTFDecompose
+ *
+*/
+/** ### pathTFUDecompose
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `path`
+ *
+ * Уникальные параметры функции `decompose`.
+ *
+ * @typedef pathTFUDecompose
+ * @prop {any} _
+*/
+
+/** @arg {pathTFDecompose} t */
 function decomposeDeceit(t) {
 
     try {
@@ -376,7 +845,7 @@ function decomposeDeceit(t) {
     };
 
 };
-/** @arg {Tdecompose} t */
+/** @arg {pathTFDecompose} t */
 function decomposeVerify(t) {
 
     const {
@@ -388,28 +857,26 @@ function decomposeVerify(t) {
     return decomposeHandle(t);
 
 };
-/** @arg {Tdecompose} t */
+/** @arg {pathTFDecompose} t */
 function decomposeHandle(t) {
 
-    let {
+    const {
 
 
 
     } = t;
 
-
-
-    t = {
-
-        ...t,
-
-    };
-
     return decomposeComply(t);
 
 };
-/** @arg {Tdecompose} t */
+/** @arg {pathTFDecompose} t */
 function decomposeComply(t) {
+
+    const {
+
+
+
+    } = t;
 
     const {
 
@@ -417,20 +884,24 @@ function decomposeComply(t) {
 
     } = t;
 
-    const path = pathGet(fragment);
-    const parts = path.match(fileREPart);
+    const parts = fragment.match(fileVREPart);
 
     if (parts) return parts.map((e, i, a) => a.slice(0, i + 1).join(''));
-    else return [path.match(fileREName)[1]];
+    else return [path.match(fileVREName)[1]];
 
 };
 
 /**
- * Функция для разложения пути на составные части.
- * - Версия `0.0.0`
+ * ### pathDecompose
+ * - Версия `0.0.2`
  * - Цепочка `DVHCa`
- * @arg {string|RegExp} fragment
- * @returns {[string]}
+ * - Модуль `path`
+ * ***
+ *
+ *
+ *
+ * ***
+ * @arg {pathTTFragment} fragment `Фрагмент`
 */
 export function pathDecompose(fragment) {
 
@@ -439,3 +910,9 @@ export function pathDecompose(fragment) {
 };
 
 //#endregion
+
+/**
+ * @file path.mjs
+ * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
+ * @copyright Yakhin Nikita Artemovich 2023
+*/

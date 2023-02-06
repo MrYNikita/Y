@@ -1,9 +1,10 @@
 {
     "test": {
         "body": [
-            "${1:${RELATIVE_FILEPATH/[^\\d\\w._-]/\\//g}}$0",
-            "${2:${1/\\w/_/g}}",
-            "",
+            // "${1:${RELATIVE_FILEPATH/[^\\d\\w._-]/\\//g}}$0",
+            // "${2:${1/\\w/_/g}}",
+            "${0:t}",
+            "$0",
         ],
         "prefix": "#test"
     },
@@ -445,6 +446,7 @@
         "prefix": "#metadata"
 
     },
+
     "transmit": {
 
         "body": [
@@ -465,6 +467,26 @@
         "prefix": "#t"
 
     },
+    "transmitType": {
+
+        "body": [
+
+            "/** ### ${TM_FILENAME_BASE}TT$2",
+            " * - Тип `TT`",
+            " * - Версия `0.0.0`",
+            " * - Модуль `$TM_FILENAME_BASE`",
+            " * ",
+            " * ",
+            " * ",
+            " * @typedef {$1} ${TM_FILENAME_BASE}TT$2",
+            " * ",
+            "*/",
+
+        ],
+        "prefix": "#t_t"
+
+    },
+
     "property": {
 
         "body": [
@@ -489,7 +511,7 @@
         "body": [
             "//#region $1 0.0.0",
             "",
-            "/** ### ${TM_FILENAME_BASE}TF$1",
+            "/** ### ${TM_FILENAME_BASE}TF${1/(\\w)/${1:/upcase}/}",
             " * - Тип `TF`",
             " * - Версия `0.0.0`",
             " * - Модуль `$TM_FILENAME_BASE`",
@@ -497,21 +519,21 @@
             " * ",
             " * Результирующие параметры функции `$1`.",
             " * ",
-            " * @typedef {${TM_FILENAME_BASE}TFU$1} ${TM_FILENAME_BASE}TF$1",
+            " * @typedef {${TM_FILENAME_BASE}TFU${1/(\\w)/${1:/upcase}/}&${TM_FILENAME_BASE}T} ${TM_FILENAME_BASE}TF${1/(\\w)/${1:/upcase}/}",
             " * ",
             "*/",
-            "/** ### ${TM_FILENAME_BASE}TFU$1",
+            "/** ### ${TM_FILENAME_BASE}TFU${1/(\\w)/${1:/upcase}/}",
             " * - Тип `TFU`",
             " * - Версия `0.0.0`",
             " * - Модуль `$TM_FILENAME_BASE`",
             " * ",
             " * Уникальные параметры функции `$1`.",
             " * ",
-            " * @typedef ${TM_FILENAME_BASE}TFU$1",
+            " * @typedef ${TM_FILENAME_BASE}TFU${1/(\\w)/${1:/upcase}/}",
             " * @prop {any} _",
             "*/",
             "",
-            "/** @arg {${TM_FILENAME_BASE}TF$1} t */",
+            "/** @arg {${TM_FILENAME_BASE}TF${1/(\\w)/${1:/upcase}/}} t */",
             "function $1Deceit(t) {",
             "    ",
             "    try {",
@@ -527,7 +549,7 @@
             "    };",
             "    ",
             "};",
-            "/** @arg {${TM_FILENAME_BASE}TF$1} t */",
+            "/** @arg {${TM_FILENAME_BASE}TF${1/(\\w)/${1:/upcase}/}} t */",
             "function $1Verify(t) {",
             "    ",
             "    const {",
@@ -539,7 +561,7 @@
             "    return $1Handle(t);",
             "   ",
             "};",
-            "/** @arg {${TM_FILENAME_BASE}TF$1} t */",
+            "/** @arg {${TM_FILENAME_BASE}TF${1/(\\w)/${1:/upcase}/}} t */",
             "function $1Handle(t) {",
             "   ",
             "    const {",
@@ -551,7 +573,7 @@
             "    return $1Comply(t);",
             "   ",
             "};",
-            "/** @arg {${TM_FILENAME_BASE}TF$1} t */",
+            "/** @arg {${TM_FILENAME_BASE}TF${1/(\\w)/${1:/upcase}/}} t */",
             "function $1Comply(t) {",
             "   ",
             "    const {",

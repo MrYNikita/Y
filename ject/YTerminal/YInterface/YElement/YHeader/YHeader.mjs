@@ -1,5 +1,5 @@
-import { YString } from "../../../../../string/YString/YString.mjs";
 import { jectFill } from "../../../../ject.mjs";
+import { YString } from "../../../../../string/YString/YString.mjs";
 import { YElement } from "../YElement.mjs";
 
 /**

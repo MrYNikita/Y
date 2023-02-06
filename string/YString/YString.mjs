@@ -1,5 +1,5 @@
-import { YList } from "../../ject/YBasic/YList/YList.mjs";
 import { jectFill } from "../../ject/ject.mjs";
+import { YList } from "../../ject/YBasic/YList/YList.mjs";
 import { YTemplate } from "./YTemplate/YTemplate.mjs";
 import { configString, configYString } from "../../config.mjs";
 import { stringBring, stringBringColumn, stringCastToJect, stringCastToSample, stringCastToYReport, stringFilter, stringFind, stringFindAll, stringFindToJect, stringGetPositionEndPasteWrap, stringGetPositionRowStartByIndex, stringGetRowByIndex, stringGetRowByPosition, stringGetTransducerColor, stringHandle, stringMesuare, stringPad, stringPaste, stringPasteWrap, stringPasteWrapByPosition, stringReflect, stringRemove, stringReplace, stringReplaceAllMore, stringReplaceMore, stringReverse, stringTrim } from "../string.mjs";
@@ -184,7 +184,7 @@ class MString extends IString {
         if (this.postfix instanceof YTemplate) string += this.postfix.get();
         else string += this.postfix;
 
-        this.stylist.pasteColorByString(string, ...this.cursors[0].indexs);
+        this.stylist.pasteColorByString(string, ...this.cursors[0].indexs, true);
         string = colorClear(string);
 
         string = string.replace(/^.+/mg, (this.tabValue ?? this?.over?.tabValue)?.repeat(this.tabIndex ?? this?.over?.tabIndex ?? 0) + '$&');
@@ -325,7 +325,7 @@ export class YString extends FString {
 
     /**
      * ### get
-     * - Версия `0.2.0`
+     * - Версия `0.2.1`
      * - Модуль `YString`
      * ***
      *
@@ -341,7 +341,6 @@ export class YString extends FString {
 
         const r = funcBypass(this.values,
 
-            [stringTrim],
             [stringMesuare, this.rowLength, this.rowEnd],
 
         );
@@ -448,7 +447,7 @@ export class YString extends FString {
     };
     /**
      * ### pasteWrap
-     * - Версия `0.1.0`
+     * - Версия `0.2.0`
      * - Модуль `YString`
      * ***
      *
@@ -458,6 +457,10 @@ export class YString extends FString {
      * Размещенная структура может как заменить собой текст, так и вытеснить его.
      *
      * ***
+     * @arg {boolean} pass `Режим пропуска`
+     *
+     * Если активирован, то все значения ` ` (пробелов) будут заменены символами исходной строки.
+     *
      * @arg {YStringTIPasteWrapSize} size `Размер`
      *
      * Если `вставка` имеет `размер`, то она заменит собой указанное кол-во символов исходной строки.
@@ -466,15 +469,18 @@ export class YString extends FString {
      *
      * - По умолчанию `auto`
      * @arg {string|function():string} paste `Вставка`
+     * @arg {boolean} pass `Режим пропуска`
+     *
+     * - По умолчанию `false`
      * @public
     */
-    pasteWrap(paste, size = 'auto') {
+    pasteWrap(paste, size = 'auto', pass = false) {
 
         this.stylist.pasteColorByStringWrap(paste, ...this.cursors[0].indexs);
 
         paste = colorClear(paste);
 
-        this.values = stringPasteWrap(this.values, paste, ...this.cursors[0].indexs, size);
+        this.values = stringPasteWrap(this.values, paste, ...this.cursors[0].indexs, size, pass);
 
         this.setCursorTo((stringFindAll(paste, /\n/)?.length ?? 0) + this.cursors[0].indexs[0], (stringFind(paste, /\n([^\n]*)$/)?.length ?? 0) + this.cursors[0].indexs[1]);
 
@@ -499,7 +505,7 @@ export class YString extends FString {
 
     /**
      * ### display
-     * - Версия `0.2.0`
+     * - Версия `0.2.1`
      * - Модуль `YString`
      * ***
      *
@@ -517,7 +523,11 @@ export class YString extends FString {
     */
     display(style = true) {
 
-        console.log(this.get(style) + colorGetReset(1, 1) + underlineGetReset());
+        console.log(funcBypass(this.get(style) + colorGetReset(1, 1) + underlineGetReset(),
+
+            [stringTrim]
+
+        ));
 
         return this;
 
@@ -638,15 +648,6 @@ export class YString extends FString {
 
     };
 
-    /**
-     * Метод копирования строки.
-     * @return {YString}
-    */
-    copy() {
-
-        return new YString(this);
-
-    };
     /**
      * Метод дополнения строки до указанной длины указанными символами.
      * @arg {string} string

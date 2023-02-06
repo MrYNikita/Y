@@ -567,26 +567,27 @@ export class YStylistMap extends FStylistMap {
 
     /**
      * ### getPointLast
-     * - Версия `0.0.0`
+     * - Версия `0.1.0`
      * - Модуль `YStylistMap`
      * ***
      *
-     * Метод получения последней вставки в линии по её индексу не распознаной как {@link SStylistMap.ends|эндинг}.
+     * Метод получения последней вставки в линии по её индексу не распознаной как {@link SStylistMap.ends|`эндинг`}.
      *
      * Начнет поиск в указанной линии с указанной позиции.
      *
-     * Реализация учитывает только эндинги текущего класса или унаследованные от родительского в том случае, если для данного класса таковые не были указаны.
+     * Реализация учитывает только `эндинги` текущего класса или унаследованные от родительского в том случае, если для данного класса таковые не были указаны.
      *
      * ***
-     * @arg {number} y `Индекс линии`
+     * @arg {number?} y `Индекс линии`
      *
      * - По умолчанию `0`
-     * @arg {number} x `Индекс позиции`
+     * @arg {number?} x `Индекс позиции`
+     * @arg {boolean} end `Режим включения эндингов`
      *
-     * - По умолчанию `0`
+     * Активированным включает в возможный результат поиска `эндинги`.
      * @public
     */
-    getPointLastByLine(y = 0, x) {
+    getPointLastByLine(y = 0, x, end = false) {
 
         const l = this.lines.find(l => l[0] === y)?.[1];
 
@@ -598,9 +599,9 @@ export class YStylistMap extends FStylistMap {
 
             };
 
-            return l.find(p => {
+            return l.slice().reverse().find(p => {
 
-                if (p.position <= x && !this.checkEnd(p.insert)) {
+                if (p.position <= x && (end || (!end && !this.checkEnd(p.insert)))) {
 
                     return p;
 
@@ -617,7 +618,7 @@ export class YStylistMap extends FStylistMap {
     };
     /**
      * ### getPointLastByPosition
-     * - Версия `0.0.0`
+     * - Версия `0.1.0`
      * - Модуль `YStylistMap`
      * ***
      *
@@ -633,11 +634,21 @@ export class YStylistMap extends FStylistMap {
      * @arg {number} x `Индекс позиции`
      *
      * Если не поределена, то будет взят последний индекс указанной линии.
+     * @arg {boolean} end `Режим включения эндингов`
+     *
+     * Активированным включает в возможный результат поиска `эндинги`.
      * @public
     */
-    getPointLastByPosition(y, x) {
+    getPointLastByPosition(y, x, end = false) {
 
+        let size = NaN;
         let result = null;
+
+        if (x instanceof Array) {
+
+            [size, x] = x.reverse();
+
+        };
 
         if (y || y === 0) {
 
@@ -647,7 +658,7 @@ export class YStylistMap extends FStylistMap {
 
                 for (const point of line[1].slice().reverse()) {
 
-                    if (point.position < x && !this.checkEnd(point.insert)) return point;
+                    if (point.position < x && (end || (!end && !this.checkEnd(point.insert)))) return point;
 
                 };
 
@@ -659,7 +670,7 @@ export class YStylistMap extends FStylistMap {
 
                 for (const point of line[1].slice().reverse()) {
 
-                    if (!this.checkEnd(point.insert)) return point;
+                    if ((point.position < x && (!size || (size && point.position > size))) && (end || (!end && !this.checkEnd(point.insert)))) return point;
 
                 };
 

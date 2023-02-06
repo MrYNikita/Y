@@ -1,9 +1,9 @@
 import { YString } from "./YString/YString.mjs";
 import { YRegExp } from "../regexp/YRegExp/YRegExp.mjs";
-import { config, configString, configYInsert } from "../config.mjs";
-import { arrayGetRandomElement, arrayGetRandomElementMany, arrayReplace, } from "../array/array.mjs";
-import { numberGetRandomReal, numberGetSequence } from "../number/number.mjs";
 import { funcBypass } from "../func/func.mjs";
+import { config, configString, configYInsert } from "../config.mjs";
+import { numberGetRandomReal, numberGetSequence } from "../number/number.mjs";
+import { arrayGetRandomElement, arrayGetRandomElementMany, arrayReplace, } from "../array/array.mjs";
 
 //#region YT
 
@@ -14,18 +14,8 @@ import { funcBypass } from "../func/func.mjs";
  *
  * Основной параметр модуля `string`.
  *
- * @typedef {string} stringT
- *
-*/
-/** ### stringTString
- * - Тип `T`
- * - Версия `0.0.0`
- * - Пространство `string`
- *
- *
- *
- * @typedef stringTString
- * @prop {stringT} string
+ * @typedef stringT
+ * @prop {stringTVString} string
  *
 */
 /** ### stringTLimit
@@ -58,11 +48,145 @@ import { funcBypass } from "../func/func.mjs";
  * @typedef {import("../array/array.mjs").arrayTPosition} stringTPosition
  *
 */
+/** ### stringTIndexD
+ * - Тип `T`
+ * - Версия `0.0.0`
+ * - Модуль `string`
+ *
+ *
+ *
+ * @typedef {import("../array/array.mjs").arrayTIndexD} stringTIndexD
+ *
+*/
+/** ### stringTSize
+ * - Тип `TV`
+ * - Версия `0.0.0`
+ * - Модуль `string`
+ *
+ *
+ *
+ * @typedef {import("../array/array.mjs").arrayTSize} stringTSize
+ *
+*/
+
+/** ### stringTVString
+ * - Тип `TV`
+ * - Версия `0.0.0`
+ * - Модуль `string`
+ *
+ *
+ *
+ * @typedef {string} stringTVString
+ *
+*/
 
 //#endregion
 //#region YV
 
 
+
+//#endregion
+
+//#region get 0.0.0
+
+/** ### stringTFGet
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `string`
+ * ***
+ *
+ * Результирующие параметры функции `get`.
+ *
+ * @typedef {stringTFUGet&stringTIndexD&stringTString} stringTFGet
+ *
+*/
+/** ### stringTFUGet
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `string`
+ *
+ * Уникальные параметры функции `get`.
+ *
+ * @typedef stringTFUGet
+ * @prop {any} _
+*/
+
+/** @arg {stringTFGet} t */
+function getDeceit(t) {
+
+    try {
+
+        return getVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @arg {stringTFGet} t */
+function getVerify(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return getHandle(t);
+
+};
+/** @arg {stringTFGet} t */
+function getHandle(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return getComply(t);
+
+};
+/** @arg {stringTFGet} t */
+function getComply(t) {
+
+    const {
+
+        y,
+        x,
+        string,
+
+    } = t;
+
+    const result = string.split('\n')?.[y]?.[x];
+
+    return result ? result : null;
+
+};
+
+/**
+ * ### stringGet
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * - Модуль `string`
+ * ***
+ *
+ * Метод получения символа в указанной линии и указанной позиции.
+ *
+ * ***
+ * @arg {string} string `Строка`
+ * @arg {number} y `Индекс линии`
+ * @arg {number} x `Индекс позиции`
+*/
+export function stringGet(string, y, x) {
+
+    return getDeceit({ string, y, x });
+
+};
 
 //#endregion
 
@@ -260,6 +384,142 @@ export function stringTrim(string, end = true, start = false) {
 };
 
 //#endregion
+
+//#region unify 0.0.0
+
+/** ### stringTFUnify
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `string`
+ * ***
+ *
+ * Результирующие параметры функции `unify`.
+ *
+ * @typedef {stringTFUUnify&stringT} stringTFUnify
+ *
+*/
+/** ### stringTFUUnify
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `string`
+ *
+ * Уникальные параметры функции `unify`.
+ *
+ * @typedef stringTFUUnify
+ * @prop {string} symbols
+*/
+
+/** @arg {stringTFUnify} t */
+function unifyDeceit(t) {
+
+    try {
+
+        return unifyVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @arg {stringTFUnify} t */
+function unifyVerify(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return unifyHandle(t);
+
+};
+/** @arg {stringTFUnify} t */
+function unifyHandle(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return unifyComply(t);
+
+};
+/** @arg {stringTFUnify} t */
+function unifyComply(t) {
+
+    let {
+
+        string,
+
+    } = t;
+
+    const {
+
+        symbols,
+
+    } = t;
+
+    for (let i = 0; i < string.length; i++) {
+
+        if (string[i + 1] && string[i] === string[i + 1] && (!symbols || (symbols && symbols.includes(string[i])))) {
+
+            string = stringRemove(string, i, 1);
+
+            i--;
+
+        };
+
+    };
+
+    return string;
+
+};
+
+/**
+ * ### stringUnify
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * - Модуль `string`
+ * ***
+ *
+ * Функция унифицирования содержимого строки.
+ *
+ * Унификация исключает дублирование символов идущих подряд, удаляя дубли.
+ *
+ * ***
+ * @arg {string} string `Строка`
+*/
+export function stringUnify(string) {
+
+    return unifyDeceit({ string, });
+
+};
+/**
+ * ### stringUnifyBySymbol
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * - Модуль `string`
+ * ***
+ *
+ * Функция {@link stringUnify|унифицирования} по указанным символам.
+ *
+ * ***
+ * @arg {string} string `Строка`
+ * @arg {string} symbols `Символы`
+*/
+export function stringUnifyBySymbol(string, symbols) {
+
+    return unifyDeceit({ string, symbols, });
+
+};
+
+//#endregion
+
 //#region insert 0.1.0
 
 /** ### stringTFinsert
@@ -2754,18 +3014,31 @@ export function stringBringColumn(string, row, column) {
 
 //#endregion
 
-//#region paste 0.0.1
+//#region paste 0.1.0
 
-/**
- * @typedef TBpaste
- * @prop {number} size
- * @prop {number} index
+/** ### stringTFPaste
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `string`
+ * ***
+ *
+ * Результирующие параметры функции `paste`.
+ *
+ * @typedef {stringTFUPaste&stringTString&stringTIndex&stringTSize} stringTFPaste
+ *
+*/
+/** ### stringTFUPaste
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `string`
+ *
+ * Уникальные параметры функции `paste`.
+ *
+ * @typedef stringTFUPaste
  * @prop {string} paste
- * @prop {string} string
- * @typedef {TBpaste} Tpaste
 */
 
-/** @arg {Tpaste} t */
+/** @arg {stringTFPaste} t */
 function pasteDeceit(t) {
 
     try {
@@ -2781,7 +3054,7 @@ function pasteDeceit(t) {
     };
 
 };
-/** @arg {Tpaste} t */
+/** @arg {stringTFPaste} t */
 function pasteVerify(t) {
 
     const {
@@ -2793,21 +3066,32 @@ function pasteVerify(t) {
     return pasteHandle(t);
 
 };
-/** @arg {Tpaste} t */
+/** @arg {stringTFPaste} t */
 function pasteHandle(t) {
+
+    const {
+
+
+
+    } = t;
 
     return pasteComply(t);
 
 };
-/** @arg {Tpaste} t */
+/** @arg {stringTFPaste} t */
 function pasteComply(t) {
 
     let {
 
-        size,
         index,
-        paste,
         string,
+
+    } = t;
+
+    const {
+
+        size,
+        paste,
 
     } = t;
 
@@ -2827,15 +3111,21 @@ function pasteComply(t) {
 };
 
 /**
- * Функция вставки с замещением указанной индексом и размером области в строку.
- * - Версия `0.0.1`
+ * ### stringPaste
+ * - Версия `0.0.2`
  * - Цепочка `DVHCa`
- * @arg {number} size Размер вставки.
- * @arg {number} index Индекс вставки.
+ * - Модуль `string`
+ * ***
+ *
+ * Функция вставки с замещением указанной индексом и размером области в строку.
+ *
+ * ***
+ * @arg {number} size `Размер`
+ * @arg {number} index `Индекс`
  *
  * - По умолчанию `string.length ?? 0`
- * @arg {string} paste Строка вставки.
- * @arg {string} string Исходная строка.
+ * @arg {string} paste `Вставка`
+ * @arg {string} string `Строка`
 */
 export function stringPaste(string, paste, index = string.length ?? 0, size = 0) {
 
@@ -2844,8 +3134,30 @@ export function stringPaste(string, paste, index = string.length ?? 0, size = 0)
 };
 
 //#endregion
-//#region pasteWrap 0.0.2
+//#region pasteWrap 0.1.0
 
+/** ### stringTFPasteWrap
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `string`
+ * ***
+ *
+ * Результирующие параметры функции `pasteWrap`.
+ *
+ * @typedef {stringTFUPasteWrap&stringTString&stringTIndexD&stringTSize} stringTFPasteWrap
+ *
+*/
+/** ### stringTFUPasteWrap
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `string`
+ *
+ * Уникальные параметры функции `pasteWrap`.
+ *
+ * @typedef stringTFUPasteWrap
+ * @prop {string} paste
+ * @prop {boolean} pass
+*/
 /** ### stringTpasteWrapSize
  * - Тип `T`
  * - Версия `0.0.0`
@@ -2857,18 +3169,7 @@ export function stringPaste(string, paste, index = string.length ?? 0, size = 0)
  *
 */
 
-/**
- * @typedef TBpasteWrap
- * @prop {number} y
- * @prop {number} x
- * @prop {number} size
- * @prop {string} paste
- * @prop {string} string
- * @prop {number} position
- * @typedef {TBpasteWrap&Tpaste} TpasteWrap
-*/
-
-/** @arg {TpasteWrap} t */
+/** @arg {stringTFPasteWrap} t */
 function pasteWrapDeceit(t) {
 
     try {
@@ -2884,45 +3185,38 @@ function pasteWrapDeceit(t) {
     };
 
 };
-/** @arg {TpasteWrap} t */
+/** @arg {stringTFPasteWrap} t */
 function pasteWrapVerify(t) {
 
+    const {
 
+
+
+    } = t;
 
     return pasteWrapHandle(t);
 
 };
-/** @arg {TpasteWrap} t */
+/** @arg {stringTFPasteWrap} t */
 function pasteWrapHandle(t) {
 
-    if (t.position) {
+    const {
 
-        t.x = t.position;
-        t.y = 0;
 
-        for (const s of t.string.split('\n')) {
 
-            if (s.length <= t.x) {
-
-                t.y += 1;
-                t.x -= s.length;
-
-            } else break;
-
-        };
-
-    };
+    } = t;
 
     return pasteWrapComply(t);
 
 };
-/** @arg {TpasteWrap} t */
+/** @arg {stringTFPasteWrap} t */
 function pasteWrapComply(t) {
 
     let {
 
         x,
         y,
+        pass,
         size,
         paste,
         string,
@@ -2931,7 +3225,7 @@ function pasteWrapComply(t) {
 
     let result = string;
 
-    paste.split('\n').forEach(p => {
+    paste.split('\n').forEach((p, pi) => {
 
         let s = stringGetRowByIndex(result, y);
 
@@ -2939,6 +3233,22 @@ function pasteWrapComply(t) {
 
             result += '\n'.repeat(y - result.split('\n').length + 1);
             s = stringGetRowByIndex(result, y);
+
+        };
+
+        if (!s[x]) {
+
+            result = stringReplaceRowByIndex(result, y, s = s.padEnd(x, ' '));
+
+        };
+
+        if (pass) {
+
+            Array.from(p.matchAll(/ /g)).reverse().forEach(c => {
+
+                p = stringPaste(p, stringGet(string, y + pi, x + c.index), c.index, 1);
+
+            });
 
         };
 
@@ -2955,6 +3265,12 @@ function pasteWrapComply(t) {
 };
 
 /**
+ * ### stringPasteWrap
+ * - Версия `0.2.0`
+ * - Цепочка `DVHCa`
+ * - Модуль `string`
+ * ***
+ *
  * Функция вставки с переносом позиции.
  *
  * Вставляет значения вставки, как обычные значения.
@@ -2963,31 +3279,47 @@ function pasteWrapComply(t) {
  * Иначе строка будет все равно дополнена до указанной позиции, после чего вставка продолжится.
  *
  * Использует в своей работе простую вставку.
- * - Версия `0.1.0`
- * - Цепочка `DVHCa`
- * @arg {number} y Индекс строки.
- * @arg {number} x Индекс столбца.
- * @arg {string} paste Строка вставки.
- * @arg {string} string Исходная строка.
- * @arg {number|'auto'} size Размер области вставки.
+ *
+ * ***
+ * @arg {number} y `Индекс линии`
+ * @arg {number} x `Индекс позиции`
+ * @arg {string} paste `Вставка`
+ * @arg {string} string `Строка`
+ * @arg {number|'auto'} size `Размер`
+ *
+ * Определяет кол-во символов, которое заменит собой данная вставка в исходной строке.
+ *
+ * Значение `auto` замещает ровно то кол-во символов, которое занимает `вставка` без учета символов переноса.
+ *
  * - по умолчанию `auto`
+ * @arg {boolean} pass `Режим пропуска`
+ *
+ * Если активирован, то все значения ` ` (пробелов) будут заменены на значения исходной строки.
+ *
+ * - По умолчанию `false`
 */
-export function stringPasteWrap(string, paste, y, x, size = 'auto') {
+export function stringPasteWrap(string, paste, y, x, size = 'auto', pass) {
 
-    return pasteWrapDeceit({ string, paste, y, x, size, });
+    return pasteWrapDeceit({ string, paste, y, x, size, pass, });
 
 };
 /**
- * Функция вставки с переносом позиции относительно позиции в исходной строке.
- * - Версия `0.0.0`
+ * ### stringPasteWrapByPosition
+ * - Версия `0.1.0`
  * - Цепочка `DVHCa`
- * @arg {string} paste Вставка.
- * @arg {string} string Исходная строка.
- * @arg {number} position Позиция.
- * @arg {number|'auto'} size Размер области вставки.
- * - по умолчанию `auto`
+ * - Модуль `string`
+ * ***
+ *
+ * Функция {@link stringPasteWrap|вставки с переносом} относительно позиции в исходной строке.
+ *
+ * ***
+ * @arg {string} paste `Вставка`
+ * @arg {string} string `Строка`
+ * @arg {number} position `Позиция`
+ * @arg {number|'auto'} size `Размер`
+ * @arg {boolean} pass `Режим пропуска`
 */
-export function stringPasteWrapByPosition(string, paste, position, size = 'auto') {
+export function stringPasteWrapByPosition(string, paste, position, size = 'auto', pass) {
 
     return pasteWrapDeceit({ string, paste, position, size, });
 
@@ -3924,7 +4256,7 @@ export function stringCastToSample(string) {
 };
 
 //#endregion
-//#region castToYReport 0.0.1
+//#region castToYReport 0.0.2
 
 /**
  * @typedef TBcastToYReport
@@ -3991,7 +4323,7 @@ function castToYReportComply(t) {
 
     return new YString(string)
 
-        .handle(s => stringRepaint(s, 'c'), /[.,:;~\-\[\]\/#]/g)
+        .handle(s => s, /[.,:;~\-\[\]\/#]/g)
         .replaceAll(
 
             ['+', /true/],

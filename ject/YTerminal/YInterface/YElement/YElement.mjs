@@ -1,5 +1,5 @@
-import { YJect } from "../../../YJect/YJect.mjs";
 import { jectFill } from "../../../ject.mjs";
+import { YJect } from "../../../YJect/YJect.mjs";
 import { YTerminal } from "../../YTerminal.mjs";
 import { YInterface } from "../YInterface.mjs";
 
@@ -47,6 +47,16 @@ class SElement extends YJect {
 class DElement extends SElement {
 
     /**
+     * ### label
+     *
+     * Метка.
+     *
+     * ***
+     * @type {string?}
+     * @public
+    */
+    label = null;
+    /**
      * ### coords
      *
      * Координаты размещения элемента.
@@ -56,6 +66,18 @@ class DElement extends SElement {
      * @public
     */
     coords = [1, 1];
+    /**
+     * ### permanent
+     *
+     * Постояноство.
+     *
+     * Постоянные элементы не удаляются при переходе между интерфейсами.
+     *
+     * ***
+     * @type {boolean}
+     * @public
+    */
+    permanent = true;
 
 };
 class IElement extends DElement {
@@ -214,6 +236,31 @@ export class YElement extends FElement {
     getLayout() {
 
         return '';
+
+    };
+
+    /**
+     * ### setInterface
+     * - Версия `0.0.0`
+     * - Модуль `YElement`
+     * ***
+     *
+     * Метод установки интерфейса для элемента.
+     *
+     * ***
+     * @arg {YInterface} intf `Интерфейс`
+     * @public
+    */
+    setInterface(intf) {
+
+        if (intf) {
+
+            this.terminal = intf.terminal;
+            this.interface = intf;
+
+        };
+
+        return this;
 
     };
 

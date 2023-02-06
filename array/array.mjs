@@ -47,6 +47,128 @@ import { numberGetRandomReal } from "../number/number.mjs";
  * @prop {number[]} positions
  *
 */
+/** ### arrayTIndexD
+ * - Тип `T`
+ * - Версия `0.0.0`
+ * - Модуль `array`
+ *
+ *
+ *
+ * @typedef arrayTIndexD
+ * @prop {number} y `Индекс линии`
+ * @prop {number} x `Индекс позиции`
+ *
+*/
+/** ### arrayTSize
+ * - Тип `T`
+ * - Версия `0.0.0`
+ * - Модуль `array`
+ *
+ *
+ *
+ * @typedef arrayTSize
+ * @prop {number} size
+ *
+*/
+
+//#endregion
+
+//#region clear 0.0.0
+
+/** ### arrayTFClear
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `array`
+ * ***
+ *
+ * Результирующие параметры функции `clear`.
+ *
+ * @typedef {arrayTFUClear&arrayT} arrayTFClear
+ *
+*/
+/** ### arrayTFUClear
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `array`
+ *
+ * Уникальные параметры функции `clear`.
+ *
+ * @typedef arrayTFUClear
+ * @prop {any} _
+*/
+
+/** @arg {arrayTFClear} t */
+function clearDeceit(t) {
+
+    try {
+
+        return clearVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @arg {arrayTFClear} t */
+function clearVerify(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return clearHandle(t);
+
+};
+/** @arg {arrayTFClear} t */
+function clearHandle(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return clearComply(t);
+
+};
+/** @arg {arrayTFClear} t */
+function clearComply(t) {
+
+    const {
+
+        array,
+
+    } = t;
+
+    return array.splice(0);
+
+};
+
+/**
+ * ### arrayClear
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * - Модуль `array`
+ * ***
+ *
+ * Функция очистки указанных массивов.
+ *
+ * ***
+ * @arg {TJ} array
+ * @return {TJ}
+ * @template {Array} TJ
+*/
+export function arrayClear(array) {
+
+    return clearDeceit({ array, });
+
+};
 
 //#endregion
 
@@ -650,119 +772,6 @@ export function arrayReplace(array, value, ...replaces) {
 };
 
 //#endregion
-//#region rearrange 0.0.0
-
-/**
- * @typedef TBrearrange
- * @prop {any} elementOne
- * @prop {any} elementTwo
- * @prop {number} indexOne
- * @prop {number} indexTwo
- * @prop {Array<any>} array
- * @typedef {TBrearrange} Trearrange
-*/
-
-/** @arg {Trearrange} t */
-function rearrangeDeceit(t) {
-
-    try {
-
-        return rearrangeVerify(t);
-
-    } catch (e) {
-
-        if (config.strict) throw e;
-
-        return undefined;
-
-    };
-
-};
-/** @arg {Trearrange} t */
-function rearrangeVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return rearrangeHandle(t);
-
-};
-/** @arg {Trearrange} t */
-function rearrangeHandle(t) {
-
-    let {
-
-
-
-    } = t;
-
-    if (t.indexOne !== 0 && !t.indexOne) t.indexOne = -1;
-    if (t.indexTwo !== 0 && !t.indexTwo) t.indexTwo = -1;
-
-    if (t.elementOne) t.indexOne = t.array.find(e => e === t.elementOne);
-    if (t.elementTwo) t.indexTwo = t.array.find(e => e === t.elementTwo);
-
-    t = {
-
-        ...t,
-
-    };
-
-    return rearrangeComply(t);
-
-};
-/** @arg {Trearrange} t */
-function rearrangeComply(t) {
-
-    const {
-
-        array,
-        indexOne,
-        indexTwo,
-
-    } = t;
-
-    if (indexOne === -1 || indexTwo === -1 || indexOne === indexTwo) return;
-
-    [array[indexOne], array[indexTwo]] = [array[indexTwo], array[indexOne]];
-
-    return array;
-
-};
-
-/**
- * Функция для перестановки элементов массива по индексам.
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * @arg {Array<any>} array Исходный массив.
- * @arg {number} indexOne Индекс первого элемента.
- * @arg {number} indexTwo Индекс второго элемента.
-*/
-export function arrayRearrangeByIndex(array, indexOne, indexTwo) {
-
-    return rearrangeDeceit({ array, indexOne, indexTwo, });
-
-};
-/**
- * Функция для перестановки элементов массива по явному указанию.
- * Данную функцию следует использовать для массивов, содержащих элементы ссылочного типа или уникальные значения.
- * В противном случае следует использовать функцию перестановки по индексу.
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * @arg {Array<any>} array Исходный массив.
- * @arg {any} elementOne Первый элемент.
- * @arg {any} elementTwo Второй элемент.
-*/
-export function arrayRearrangeByElement(array, elementOne, elementTwo) {
-
-    return rearrangeDeceit({ array, elementOne, elementTwo, });
-
-};
-
-//#endregion
 //#region countSignificant 0.0.0
 
 /**
@@ -1229,6 +1238,142 @@ function appendMissComply(t) {
 export function arrayAppendMiss(array, ...elements) {
 
     return appendMissDeceit({ array, elements, });
+
+};
+
+//#endregion
+
+//#region rearrange 0.1.0
+
+/** ### arrayTFRearrange
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `array`
+ * ***
+ *
+ * Результирующие параметры функции `rearrange`.
+ *
+ * @typedef {arrayTFURearrange&arrayT} arrayTFRearrange
+ *
+*/
+/** ### arrayTFURearrange
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `array`
+ *
+ * Уникальные параметры функции `rearrange`.
+ *
+ * @typedef arrayTFURearrange
+ * @prop {any} elementOne
+ * @prop {any} elementTwo
+ * @prop {number} indexOne
+ * @prop {number} indexTwo
+*/
+
+/** @arg {arrayTFRearrange} t */
+function rearrangeDeceit(t) {
+
+    try {
+
+        return rearrangeVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @arg {arrayTFRearrange} t */
+function rearrangeVerify(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return rearrangeHandle(t);
+
+};
+/** @arg {arrayTFRearrange} t */
+function rearrangeHandle(t) {
+
+    const {
+
+
+
+    } = t;
+
+    if (t.elementOne && t.elementTwo) {
+
+        t.indexOne = t.array.findIndex(e => e === t.elementOne);
+        t.indexTwo = t.array.findIndex(e => e === t.elementTwo);
+
+    };
+
+    return rearrangeComply(t);
+
+};
+/** @arg {arrayTFRearrange} t */
+function rearrangeComply(t) {
+
+    const {
+
+        array,
+        indexOne,
+        indexTwo,
+
+    } = t;
+
+    [array[indexOne], array[indexTwo]] = [array[indexTwo], array[indexOne]];
+
+    return array;
+
+};
+
+/**
+ * ### arrayRearrangeByIndex
+ * - Версия `0.1.0`
+ * - Цепочка `DVHCa`
+ * - Модуль `array`
+ * ***
+ *
+ * Функция перестановки элементов массива по указанным индексам.
+ *
+ * ***
+ * @arg {TA} array `Массив`
+ * @arg {number} indexOne `Первый индекс`
+ * @arg {number} indexTwo `Второй индекс`
+ * @return {TA}
+ * @template {Array} TA
+*/
+export function arrayRearrangeByIndex(array, indexOne, indexTwo) {
+
+    return rearrangeDeceit({array, indexOne, indexTwo});
+
+};
+/**
+ * ### arrayRearrangeByElement
+ * - Версия `0.1.0`
+ * - Цепочка `DVHCa`
+ * - Модуль `array`
+ * ***
+ *
+ * Функция для перестановки элементов
+ *
+ * ***
+ * @arg {TA} array `Массив`
+ * @arg {any} elementOne `Первый элемент`
+ * @arg {any} elementTwo `Второй элемент`
+ * @return {TA}
+ * @template {TA}
+*/
+export function arrayRearrangeByElement(array, elementOne, elementTwo) {
+
+    return rearrangeDeceit({ array, elementOne, elementTwo, });
 
 };
 

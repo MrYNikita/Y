@@ -181,7 +181,7 @@ export class YText extends FText {
 
     getLayout() {
 
-        return this.text;
+        return this.text instanceof Function ? this.text() : this.text;
 
     };
 

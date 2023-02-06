@@ -4,6 +4,7 @@ import { jectFill } from "../ject.mjs";
 import { YListener } from "./YListener/YListener.mjs";
 import { YInterface } from "./YInterface/YInterface.mjs";
 import { configYTerminal } from "../../config.mjs";
+import { arrayRearrangeByElement } from "../../array/array.mjs";
 
 //#region YT
 
@@ -36,12 +37,54 @@ import { configYTerminal } from "../../config.mjs";
  *
  * @typedef YTerminalTU
  * @prop {[number,number]} sizes
+ * @prop {import("./YInterface/YInterface.mjs").YInterfaceT} interface
+ * @prop {import("../../string/ansi/color/color.mjs").colorTVColor} colorF
+ * @prop {import("../../string/ansi/color/color.mjs").colorTVColor} colorB
  *
 */
 
 //#endregion
 
 class STerminal extends YJect {
+
+    /**
+     * ### binds
+     *
+     * Общедоступные привязки.
+     *
+     * ***
+     * @type {[(string|string[]),function(YTerminal):void,boolean][]}
+     * @protected
+    */
+    static binds = [
+
+        ['\b',
+
+            y => {
+
+                y.back();
+
+            }
+
+        ]
+
+    ];
+
+    /**
+     * Общая разметка терминалов.
+     * @type {YString}
+    */
+    static layout = new YString()
+
+        .setColor('cyan', 'blueDark')
+        .paste(
+
+            '╔' + '═'.repeat(configYTerminal.sizes[0] - 2) + '╗\n',
+            ('║' + ' '.repeat(configYTerminal.sizes[0] - 2) + '║\n').repeat(configYTerminal.sizes[1] - 2),
+            '╚' + '═'.repeat(configYTerminal.sizes[0] - 2) + '╝',
+
+        )
+
 
     static reportBlocks = [
 
@@ -73,77 +116,142 @@ class STerminal extends YJect {
 
     ];
 
-    /**
-     * Общая разметка терминалов.
-     * @type {YString}
-    */
-    static layout = new YString()
-
-        .setColor('cyan', 'blueDark')
-        .paste(
-
-            '╔' + '═'.repeat(configYTerminal.sizes[0] - 2) + '╗\n',
-            ('║' + ' '.repeat(configYTerminal.sizes[0] - 2) + '║\n').repeat(configYTerminal.sizes[1] - 2),
-            '╚' + '═'.repeat(configYTerminal.sizes[0] - 2) + '╝',
-
-        )
-
 };
 class DTerminal extends STerminal {
 
-
-
-};
-class ITerminal extends DTerminal {
-
+    /**
+     * ### binds
+     *
+     * Привязки.
+     *
+     * ***
+     * @type {[(string|string[]),function(YTerminal):void,boolean][]}
+     * @public
+    */
+    binds = [];
     /**
      * Разметка.
      * @type {YString?}
     */
     layout = null;
     /**
+     * ### colorF
+     *
+     * Цвет символов.
+     *
+     * ***
+     * @type {import("../../string/ansi/color/color.mjs").colorTVColor?}
+     * @public
+    */
+    colorF;
+    /**
+     * ### colorB
+     *
+     * Цвет фона.
+     *
+     * ***
+     * @type {import("../../string/ansi/color/color.mjs").colorTVColor?}
+     * @public
+    */
+    colorB;
+    /**
+     * ### interface
+     *
+     * Начальный интерфейс.
+     *
+     * ***
+     * @type {YInterface?}
+     * @public
+    */
+    interface = null;
+
+};
+class ITerminal extends DTerminal {
+
+    /**
      * Прослушиватель пользовательского ввода.
      * @type {YListener}
     */
     listener = new YListener(this);
     /**
-     * Интерфейсы.
-     * @type {YInterface[]}
-    */
-    interfaces = [];
-    /**
      * Инструкции.
      * @type {[string, function():void][]}
     */
     instructions = [];
+    /**
+     * ### interfaceActive
+     *
+     * Активный интерфейс.
+     *
+     * ***
+     * @type {YInterface?}
+     * @public
+    */
+    interfaceActive = null;
 
 };
 class MTerminal extends ITerminal {
 
     /**
-     * Метод сигнализирования о получении нового значения.
-     * - Версия `0.0.0`
-     * @protected
+     * ### signal
+     * - Версия `0.1.0`
+     * - Модуль `YTerminal`
+     * ***
      *
+     * Метод сигнализирования о получении нового значения.
+     *
+     * ***
+     *
+     * @protected
     */
     signal() {
 
-        if (this.interfaces?.[0]) this.interfaces[0].receive();
+        if (this.interfaceActive) {
+
+            this.interfaceActive.receive();
+
+        };
 
         return this;
 
     };
     /**
-     * Метод принятия данных от прослушивателя.
-     * - Версия `0.0.0`
-     * @protected
+     * ### receive
+     * - Версия `0.1.0`
+     * - Модуль `YTerminal`
+     * ***
      *
+     * Метод принятия данных от прослушивателя.
+     *
+     * ***
+     *
+     * @protected
     */
-    receive() {
+    receive(string = this.listener.code) {
 
-        if (!this.interfaces?.[0]?.interactor) return this;
+        let b = [...this.binds, ...this.constructor.binds].find(b => b[0] === string || (b[0] instanceof Array && b[0].includes(string)));
 
-        this.interfaces[0]?.interactor.receive();
+        if (b) {
+
+            b?.[1]?.(this);
+
+        } else if (b = [...this.binds, ...this.constructor.binds].find(b => b[0] === 'default')) {
+
+            b?.[1]?.(this);
+
+        } else {
+
+            if (this.interfaceActive) {
+
+                this.signal();
+
+            };
+
+        };
+
+        if (b && b[2]) this.terminal.display();
+
+        return this;
 
     };
 
@@ -228,6 +336,12 @@ class FTerminal extends MTerminal {
     /** @arg {YTerminalT} t @this {YTerminal} */
     static #handle(t) {
 
+        if (t.interface instanceof Object && !(t.interface instanceof YInterface)) {
+
+            t.interface = new YInterface({ ...t.interface });
+
+        };
+
         if (!t.sizes) {
 
             t.sizes = [...configYTerminal.sizes];
@@ -251,7 +365,11 @@ class FTerminal extends MTerminal {
 
         jectFill(this, t);
 
+        this.interfaceActive = this.interface ?? null;
+
         this.listener.on();
+
+        this.interface.setTerminal(this);
 
     };
 
@@ -260,7 +378,7 @@ class FTerminal extends MTerminal {
 /**
  * ### YTerminal
  * - Тип `SDIMFY`
- * - Версия `0.1.0`
+ * - Версия `0.2.0`
  * - Модуль `YTerminal`
  * - Цепочка `BDVHC`
  * ***
@@ -273,6 +391,77 @@ class FTerminal extends MTerminal {
  * По умолчанию, первым видимым для пользователя отображением будет первое назначенное отображение.
 */
 export class YTerminal extends FTerminal {
+
+    /**
+     * ### back
+     * - Версия `0.0.0`
+     * - Модуль `YTerminal`
+     * ***
+     *
+     * Метод возврата от указанного интерфейса.
+     *
+     * ***
+     * @arg {boolean} drop `Режим сброса предыдущего интерфейса`
+     * @public
+    */
+    back(drop) {
+
+        if (this.interfaceActive.interface) {
+
+            if (drop) {
+
+                this.interfaceActive.interface.drop();
+
+            };
+
+            /** @type {YInterface?} */
+            this.interfaceActive = this.interfaceActive.interface;
+
+            this.display();
+
+        };
+
+        return this;
+
+    };
+
+    /**
+     * ### goByLabel
+     * - Версия `0.0.0`
+     * - Модуль `YTerminal`
+     * ***
+     *
+     * Метод перехода к интерфейсу по указанной метке.
+     *
+     * Переход осуществялется только в том случае, если интерфейс с меткой существует.
+     *
+     * ***
+     * @arg {string} label `Метка`
+     * @arg {boolean} drop `Режим сброса следующего интерфейса`
+     * @public
+    */
+    goByLabel(label, drop) {
+
+        /** @type {YInterface?} */
+        const f = this.interfaceActive.interfaces.find(i => i.label === label);
+
+        if (f) {
+
+            if (drop) {
+
+                f.drop();
+
+            };
+
+            this.interfaceActive = f;
+
+            this.display();
+
+        };
+
+        return this;
+
+    };
 
     /**
      * ### display
@@ -294,13 +483,19 @@ export class YTerminal extends FTerminal {
 
             .exec(y => {
 
-                if (!this.interfaces[0]) {
+                if (this.colorF || this.colorB) {
+
+                    y.stylist.setColor(this.colorF, this.colorB, 0, 0);
+
+                };
+
+                if (!this.interfaceActive) {
 
                     return;
 
                 } else {
 
-                    [...this.interfaces[0].elements, this.interfaces[0]?.interactor].filter(e => e).forEach(e => {
+                    [...this.interfaceActive.elements, this.interfaceActive?.interactor].filter(e => e).forEach(e => {
 
                         y.setCursorTo(...e.coords)
                         y.pasteWrap(e.getLayout())
@@ -311,48 +506,6 @@ export class YTerminal extends FTerminal {
 
             })
             .display();
-
-        return this;
-
-    };
-
-    /**
-     * ### appendInterface
-     * - Версия `0.0.1`
-     * - Модуль `YTerminal`
-     * ***
-     *
-     * Метод добавления интерфейсов для терминала.
-     *
-     * ***
-     * @arg {...import("./YInterface/YInterface.mjs").YInterfaceT} interfaces
-     * @public
-    */
-    appendInterface(...interfaces) {
-
-        this.interfaces.push(...interfaces.filter(i => [Object, YInterface].includes(i.constructor)).map(i => i instanceof Object ? new YInterface(i) : i).map(i => {
-
-            i.terminal = this;
-
-            if (i.interactor) {
-
-                i.interactor.terminal = this;
-                i.interactor.interface = i;
-
-                if (i.interactor.interactors) i.interactor.interactors.forEach(ic => ic[1].terminal = this);
-
-            };
-
-            [...i.elements, i.interactor].filter(e => e).forEach(e => {
-
-                e.terminal = this;
-                e.interface = i;
-
-            });
-
-            return i;
-
-        }));
 
         return this;
 

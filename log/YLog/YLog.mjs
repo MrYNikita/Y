@@ -206,7 +206,7 @@ export class YLog extends FLog {
      * Метод для копирования журнала.
      * - Версия `0.0.0`
     */
-    copy() {
+    clone() {
 
         return new YLog(this);
 
