@@ -50,7 +50,7 @@ class DText extends SText {
      * Текст.
      *
      * ***
-     * @type {string}
+     * @type {string|function():string}
      * @public
     */
     text = '';
