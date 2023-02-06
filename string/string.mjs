@@ -3554,8 +3554,15 @@ function replaceAllComply(t) {
 
     Array.from(string.matchAll(t.fragment)).reverse().forEach(m => {
 
-        if (m.groups?.r || m.groups?.r === '') result = stringPaste(stringRemove(result, m.index, m[0].length), m[0].replace(m.groups.r, replace), m.index);
-        else result = stringPaste(stringRemove(result, m.index, m[0].length), replace, m.index);
+        if (m.groups?.r || m.groups?.r === '') {
+
+            result = stringPaste(stringRemove(result, m.index, m[0].length), m[0].replace(m.groups.r, replace), m.index);
+
+        } else {
+
+            result = stringPaste(stringRemove(result, m.index, m[0].length), replace, m.index);
+
+        };
 
     });
 

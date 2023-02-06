@@ -79,9 +79,9 @@ class STerminal extends YJect {
         .setColor('cyan', 'blueDark')
         .paste(
 
-            '╔' + '═'.repeat(configYTerminal.sizes[0] - 2) + '╗\n',
-            ('║' + ' '.repeat(configYTerminal.sizes[0] - 2) + '║\n').repeat(configYTerminal.sizes[1] - 2),
-            '╚' + '═'.repeat(configYTerminal.sizes[0] - 2) + '╝',
+            '╔' + '═'.repeat(configYTerminal.sizes[1] - 2) + '╗\n',
+            ('║' + ' '.repeat(configYTerminal.sizes[1] - 2) + '║\n').repeat(configYTerminal.sizes[0] - 2),
+            '╚' + '═'.repeat(configYTerminal.sizes[1] - 2) + '╝',
 
         )
 
@@ -119,6 +119,16 @@ class STerminal extends YJect {
 };
 class DTerminal extends STerminal {
 
+    /**
+     * ### sizes
+     *
+     * Размер.
+     *
+     * ***
+     * @type {[number,number]}
+     * @public
+    */
+    sizes = [];
     /**
      * ### binds
      *
@@ -479,21 +489,11 @@ export class YTerminal extends FTerminal {
 
         console.clear();
 
-        new YString(this.layout ? this.layout.get(true) : YTerminal.layout.get(true))
+        if (this.interfaceActive.layout) {
 
-            .exec(y => {
+            new YString(this.interfaceActive.layout.get(true))
 
-                if (this.colorF || this.colorB) {
-
-                    y.stylist.setColor(this.colorF, this.colorB, 0, 0);
-
-                };
-
-                if (!this.interfaceActive) {
-
-                    return;
-
-                } else {
+                .exec(y => {
 
                     [...this.interfaceActive.elements, this.interfaceActive?.interactor].filter(e => e).forEach(e => {
 
@@ -502,10 +502,48 @@ export class YTerminal extends FTerminal {
 
                     });
 
-                };
+                })
+                .display();
 
-            })
-            .display();
+        } else {
+
+            new YString(this.layout ? this.layout.get(true) : YTerminal.layout.get(true))
+
+                .exec(y => {
+
+                    if (this.colorF || this.colorB) {
+
+                        y.stylist.setColor(this.colorF, this.colorB, 0, 0);
+
+                    };
+
+                    if (!this.interfaceActive) {
+
+                        return;
+
+                    } else {
+
+                        if (this.interfaceActive.layout) {
+
+                            y
+                                .setCursorTo(0, 0)
+                                .pasteWrap(this.interfaceActive.layout.get(true));
+
+                        };
+
+                        [...this.interfaceActive.elements, this.interfaceActive?.interactor].filter(e => e).forEach(e => {
+
+                            y.setCursorTo(...e.coords)
+                            y.pasteWrap(e.getLayout())
+
+                        });
+
+                    };
+
+                })
+                .display();
+
+        };
 
         return this;
 

@@ -445,7 +445,13 @@ export class YInterface extends FInterface {
 
         if (interfaces.length) {
 
-            this.interfaces.push(...interfaces);
+            this.interfaces.push(...interfaces.map(i => {
+
+                i.setInterface(this);
+
+                return i;
+
+            }));
 
         };
 

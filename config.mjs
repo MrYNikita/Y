@@ -72,7 +72,7 @@ export const configYTerminal = {
      * Размер терминала по умолчанию.
      * @type {[number,number]}
     */
-    sizes: [120, 30],
+    sizes: [30, 120],
     /**
      * Символ свободного пространства.
      * @type {string}

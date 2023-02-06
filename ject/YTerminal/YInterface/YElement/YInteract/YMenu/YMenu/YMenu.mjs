@@ -61,6 +61,17 @@ class SMenu extends YInteract {
 
     ];
 
+    /**
+     * ### colorFFocus
+     *
+     * Общий цвет переднего плана.
+     *
+     * ***
+     * @type {import("../../../../../../../string/ansi/color/color.mjs").colorTVColor}
+     * @public
+    */
+    static colorFFocus = 'yellow';
+
 };
 class DMenu extends SMenu {
 
@@ -74,6 +85,26 @@ class DMenu extends SMenu {
      * @public
     */
     points = [];
+    /**
+     * ### colorF
+     *
+     * Цвет символов.
+     *
+     * ***
+     * @type {import("../../../../../../../string/ansi/color/color.mjs").colorTVColor?}
+     * @public
+    */
+    colorFFocus = null;
+    /**
+     * ### colorB
+     *
+     * Цвет фона.
+     *
+     * ***
+     * @type {import("../../../../../../../string/ansi/color/color.mjs").colorTVColor?}
+     * @public
+    */
+    colorBFocus = null;
 
 };
 class IMenu extends DMenu {
@@ -242,7 +273,7 @@ export class YMenu extends FMenu {
             .changePostfix('\n')
             .paste(...this.points.map(p => p.label + colorGetReset(1, 1)))
             .setCursorTo(this.index, 0)
-            .setColor('yellow')
+            .setColor(this.colorFFocus ?? this.constructor.colorFFocus, this.colorBFocus)
             .get(true)
 
     };
