@@ -1,7 +1,7 @@
 import { config } from "../config.mjs";
 import { YBasic } from "./YBasic/YBasic.mjs";
 import { stringFind } from "../string/string.mjs";
-import { arrayRemoveByElement } from "../array/array.mjs";
+import { arrayClear, arrayRemoveByElement } from "../array/array.mjs";
 
 //#region YT
 
@@ -12,18 +12,18 @@ import { arrayRemoveByElement } from "../array/array.mjs";
  *
  * Основной параметр модуля `ject`.
  *
- * @typedef jectT
- * @prop {jectTJect} ject
+ * @typedef {{}} jectT
  *
 */
-/** ### jectTject
+/** ### jectTJect
  * - Тип `T`
- * - Версия `0.0.0`
+ * - Версия `0.0.1`
  * - Модуль `ject`
  *
  *
  *
- * @typedef {{}} jectTJect
+ * @typedef jectTJect
+ * @prop {jectT} ject
  *
 */
 
@@ -34,21 +34,36 @@ import { arrayRemoveByElement } from "../array/array.mjs";
 
 //#endregion
 
+//#region fill 0.2.0
 
-//#region fill 0.1.0
-
-/**
- * @typedef Tfill
- * @prop {{}} ject
- * @prop {{}} filler
+/** ### jectTFFill
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `ject`
+ * ***
+ *
+ * Результирующие параметры функции `fill`.
+ *
+ * @typedef {jectTFUFill&jectT} jectTFFill
+ *
+*/
+/** ### jectTFUFill
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `ject`
+ *
+ * Уникальные параметры функции `fill`.
+ *
+ * @typedef jectTFUFill
+ * @prop {jectTJect} filler
 */
 
-/** @arg {Tfill} t */
+/** @arg {jectTFFill} t */
 function fillDeceit(t) {
 
     try {
 
-        fillVerify(t);
+        return fillVerify(t);
 
     } catch (e) {
 
@@ -59,7 +74,7 @@ function fillDeceit(t) {
     };
 
 };
-/** @arg {Tfill} t */
+/** @arg {jectTFFill} t */
 function fillVerify(t) {
 
     const {
@@ -68,28 +83,22 @@ function fillVerify(t) {
 
     } = t;
 
-    fillHandle(t);
+    return fillHandle(t);
 
 };
-/** @arg {Tfill} t */
+/** @arg {jectTFFill} t */
 function fillHandle(t) {
 
-    let {
+    const {
 
 
 
     } = t;
 
-    t = {
-
-        ...t,
-
-    };
-
     return fillComply(t);
 
 };
-/** @arg {Tfill} t */
+/** @arg {jectTFFill} t */
 function fillComply(t) {
 
     const {
@@ -99,32 +108,60 @@ function fillComply(t) {
 
     } = t;
 
-    Object.keys(ject).forEach(s => (filler[s] !== undefined) ? ject[s] = filler[s] : 0);
+    Object.keys(ject).forEach(s => filler[s] !== undefined && (ject[s] = filler[s]));
+
+    return ject;
 
 };
 
 /**
- * Функция для заполнения `полей`, заданных в `конструкторе`, данными из `объекта передачи аргументов` с помощью приёма `универсального заполнения`.
- * - Версия: `1.0.0`
- * @arg {object} j Объект заполнения.
- * @arg {object} t Объект передачи аргументов.
+ * ### jectFill
+ * - Версия `0.2.0`
+ * - Цепочка `DVHCa`
+ * - Модуль `ject`
+ * ***
+ *
+ * Функция для заполнения полей указанного `объекта` полями из `заполнителя`.
+ *
+ * ***
+ * @arg {TJ} ject `Объект`
+ * @arg {TJ} filler `Заполнитель`
+ * @return {TJ}
+ * @template TJ
 */
 export function jectFill(ject, filler) {
 
-    fillDeceit({ ject, filler });
+    fillDeceit({ ject, filler, });
 
 };
 
 //#endregion
+
 //#region equal 0.0.0
 
-/**
- * @typedef TBequal
- * @prop {[Object]} jects
- * @typedef {TBequal} Tequal
+/** ### jectTFEqual
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `ject`
+ * ***
+ *
+ * Результирующие параметры функции `equal`.
+ *
+ * @typedef {jectTFUEqual&jectTJect} jectTFEqual
+ *
+*/
+/** ### jectTFUEqual
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `ject`
+ *
+ * Уникальные параметры функции `equal`.
+ *
+ * @typedef jectTFUEqual
+ * @prop {jectT} equal
 */
 
-/** @arg {Tequal} t */
+/** @arg {jectTFEqual} t */
 function equalDeceit(t) {
 
     try {
@@ -140,7 +177,7 @@ function equalDeceit(t) {
     };
 
 };
-/** @arg {Tequal} t */
+/** @arg {jectTFEqual} t */
 function equalVerify(t) {
 
     const {
@@ -152,58 +189,799 @@ function equalVerify(t) {
     return equalHandle(t);
 
 };
-/** @arg {Tequal} t */
+/** @arg {jectTFEqual} t */
 function equalHandle(t) {
 
-    let {
+    const {
 
 
 
     } = t;
-
-
-
-    t = {
-
-        ...t,
-
-    };
 
     return equalComply(t);
 
 };
-/** @arg {Tequal} t */
+/** @arg {jectTFEqual} t */
 function equalComply(t) {
 
     const {
 
-        jects,
+        ject,
+        equal,
 
     } = t;
 
-    while (jects.length) {
+    if (ject === equal) {
 
-        const j = jects.pop();
-
-
+        return true;
 
     };
+
+    const u = [ject, equal];
+    const s = [[ject, equal]];
+
+    while (s.length) {
+
+        const [j, e] = s.pop();
+        const [jks, eks] = [j, e].map(e => Object.keys(e));
+
+        if (jks.length !== eks.length) {
+
+            return false;
+
+        };
+
+        for (const p of jks) {
+
+            if (j[p] instanceof Object) {
+
+                if (j[p].constructor === e[p].constructor) {
+
+                    if (u.every(u => u[0] !== j[p] && u[1] !== e[p])) {
+
+                        const a = [j[p], e[p]];
+
+                        [s, u].forEach(e => e.push(a));
+
+                    };
+
+                } else {
+
+                    return false;
+
+                };
+
+            } else {
+
+                if (j[p] !== e[p]) {
+
+                    return false;
+
+                };
+
+            };
+
+        };
+
+    };
+
+    return true;
 
 };
 
 /**
- * Функция для проверки объектов на идентичность.
+ * ### jectEqual
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @arg {...Object} jects
+ * - Модуль `ject`
+ * ***
+ *
+ * Функция сравнения объектов.
+ *
+ * ***
+ * @arg {TJ} ject `Объект`
+ * @arg {TJE} equal `Эквивалент`
+ * @template TJ,TJE
 */
-export function jectEqual(...jects) {
+export function jectEqual(ject, equal) {
 
-    return equalDeceit({ jects });
+    return equalDeceit({ ject, equal, });
 
 };
 
 //#endregion
+
+//#region getProperty 0.0.0
+
+/** ### jectTFGetProperty
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `ject`
+ * ***
+ *
+ * Результирующие параметры функции `getProperty`.
+ *
+ * @typedef {jectTFUGetProperty&jectTJect} jectTFGetProperty
+ *
+*/
+/** ### jectTFUGetProperty
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `ject`
+ *
+ * Уникальные параметры функции `getProperty`.
+ *
+ * @typedef jectTFUGetProperty
+ * @prop {string} property
+*/
+
+/** @arg {jectTFGetProperty} t */
+function getPropertyDeceit(t) {
+
+    try {
+
+        return getPropertyVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @arg {jectTFGetProperty} t */
+function getPropertyVerify(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return getPropertyHandle(t);
+
+};
+/** @arg {jectTFGetProperty} t */
+function getPropertyHandle(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return getPropertyComply(t);
+
+};
+/** @arg {jectTFGetProperty} t */
+function getPropertyComply(t) {
+
+    const {
+
+        ject,
+        property,
+
+    } = t;
+
+    const structures = [ject];
+
+    while (structures.length) {
+
+        const s = structures.pop();
+
+        if (s.hasOwnProperty(property)) {
+
+            return s[property];
+
+        } else {
+
+            for (const v of Object.values(s)) {
+
+                if (typeof v === 'object') {
+
+                    structures.push(v);
+
+                };
+
+            };
+
+        };
+
+    };
+
+    return undefined;
+
+};
+
+/**
+ * ### jectGetProperty
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * - Модуль `ject`
+ * ***
+ *
+ * Функция для извлечения свойства указанного объекта.
+ *
+ * ***
+ * @arg {{}} ject `Объект`
+ * @arg {string} property `Свойство`
+*/
+export function jectGetProperty(ject, property) {
+
+    return getPropertyDeceit({ ject, property, });
+
+};
+
+//#endregion
+//#region getPropertyByPath 0.0.0
+
+/** ### jectTPropertyPath
+ * - Тип `TT`
+ * - Версия `0.0.0`
+ * - Модуль `ject`
+ *
+ *
+ *
+ * @typedef {('*'|'f'|'l')[]|string[]} jectTPropertyPath
+ *
+*/
+/** ### jectTFGetPropertyByPath
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `ject`
+ * ***
+ *
+ * Результирующие параметры функции `getPropertyByPath`.
+ *
+ * @typedef {jectTFUGetPropertyByPath&jectTJect} jectTFGetPropertyByPath
+ *
+*/
+/** ### jectTFUGetPropertyByPath
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `ject`
+ *
+ * Уникальные параметры функции `getPropertyByPath`.
+ *
+ * @typedef jectTFUGetPropertyByPath
+ * @prop {jectTPropertyPath} path
+*/
+
+/** @arg {jectTFGetPropertyByPath} t */
+function getPropertyByPathDeceit(t) {
+
+    try {
+
+        return getPropertyByPathVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @arg {jectTFGetPropertyByPath} t */
+function getPropertyByPathVerify(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return getPropertyByPathHandle(t);
+
+};
+/** @arg {jectTFGetPropertyByPath} t */
+function getPropertyByPathHandle(t) {
+
+    const {
+
+
+
+    } = t;
+
+    t.path = t.path.split(' ').reverse();
+
+    return getPropertyByPathComply(t);
+
+};
+/** @arg {jectTFGetPropertyByPath} t */
+function getPropertyByPathComply(t) {
+
+    const {
+
+        path,
+        ject,
+
+    } = t;
+
+    let c = 0;
+    let u = [];
+    let r = [ject];
+
+    const l = path.length - 1;
+
+    while (c !== l && r.length) {
+
+        const p = path.pop();
+
+        for (const j of r) {
+
+            u.push(j);
+
+            switch (p) {
+
+                case 'f': {
+
+                    const f = Object.values(j).find(v => v instanceof Object && !u.includes(v));
+
+                    if (f) {
+
+                        r = [f];
+
+                        u.push(f);
+                        break;
+
+                    };
+
+                }; break;
+                case 'l': {
+
+                    const f = Object.values(j).reverse().find(v => v instanceof Object && !u.includes(v));
+
+                    if (f) {
+
+                        r = [f];
+
+                        u.push(f);
+                        break;
+
+                    };
+
+                }; break;
+                case '*': {
+
+                    r.push(...Object.values(j).filter(v => v instanceof Object && !u.includes(v)));
+
+                }; break;
+                default: {
+
+                    if (j[p] instanceof Object) {
+
+                        r = [j[p]];
+                        break;
+
+                    };
+
+                }; break;
+
+            };
+
+        };
+
+        if (!r) return undefined;
+
+        c++;
+
+    };
+
+    for (const j of r) {
+
+        switch (path[0]) {
+
+            default: {
+
+                if (j[path[0]]) {
+
+                    return j[path[0]];
+
+                };
+
+
+            }; break;
+
+        };
+
+    };
+
+    return undefined;
+
+};
+
+/**
+ * ### jectGetPropertyByPath
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * - Модуль `ject`
+ * ***
+ *
+ * Функция для глубокого поиска по указанному пути.
+ *
+ * ***
+ * @arg {{}} ject `Объект`
+ * @arg {string} path `Путь`
+ *
+ * Путь до свойства.
+ *
+ * Задать путь можно с помощью переходов. Каждый переход может быть представлен строкой или символьной инструкцией.
+ * Строки воспринимаются как названия свойств, в которых следует продолжать поиск.
+ *
+ * Список инструкций:
+ * - `*` - Все свойства. Собирает все найденные структуры.
+ * - `f` - Первое свойство. Продолжает поиск в первой обнаруженной структуре пропуская прочие.
+ * - `l` - Последнее свойство. Продолжает поиск в последней обнаруженной структуре пропуская прочие.
+ * - `string` - Точное название свойства. Ищет указанное название среди перечня свойств.
+ *
+ * Для разделения инструкций необходимо использовать ` ` (пробел).
+*/
+export function jectGetPropertyByPath(ject, path) {
+
+    return getPropertyByPathDeceit({ ject, path, });
+
+};
+
+//#endregion
+//#region getPropertyByPathMany 0.0.0
+
+/** ### jectTFGetPropertyByPathMany
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `ject`
+ * ***
+ *
+ * Результирующие параметры функции `getPropertyByPathMany`.
+ *
+ * @typedef {jectTFUGetPropertyByPathMany&jectTFGetPropertyByPath} jectTFGetPropertyByPathMany
+ *
+*/
+/** ### jectTFUGetPropertyByPathMany
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `ject`
+ *
+ * Уникальные параметры функции `getPropertyByPathMany`.
+ *
+ * @typedef jectTFUGetPropertyByPathMany
+ * @prop {any} _
+*/
+
+/** @arg {jectTFGetPropertyByPathMany} t */
+function getPropertyByPathManyDeceit(t) {
+
+    try {
+
+        return getPropertyByPathManyVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @arg {jectTFGetPropertyByPathMany} t */
+function getPropertyByPathManyVerify(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return getPropertyByPathManyHandle(t);
+
+};
+/** @arg {jectTFGetPropertyByPathMany} t */
+function getPropertyByPathManyHandle(t) {
+
+    const {
+
+
+
+    } = t;
+
+    t.path = t.path.split(' ').reverse();
+
+    return getPropertyByPathManyComply(t);
+
+};
+/** @arg {jectTFGetPropertyByPathMany} t */
+function getPropertyByPathManyComply(t) {
+
+    const {
+
+
+
+    } = t;
+
+    const {
+
+        path,
+        ject,
+
+    } = t;
+
+    let c = 0;
+    let u = [];
+    let s = [ject];
+
+    const l = path.length - 1;
+
+    while (c !== l && s.length) {
+
+        const p = path.pop();
+
+        for (const j of s) {
+
+            u.push(j);
+
+            switch (p) {
+
+                case 'f': {
+
+                    const f = Object.values(j).find(v => v instanceof Object && !u.includes(v));
+
+                    if (f) {
+
+                        s = [f];
+
+                        u.push(f);
+                        break;
+
+                    };
+
+                }; break;
+                case 'l': {
+
+                    const f = Object.values(j).reverse().find(v => v instanceof Object && !u.includes(v));
+
+                    if (f) {
+
+                        s = [f];
+
+                        u.push(f);
+                        break;
+
+                    };
+
+                }; break;
+                case '*': {
+
+                    s.push(...Object.values(j).filter(v => v instanceof Object && !u.includes(v)));
+
+                }; break;
+                default: {
+
+                    if (j[p] instanceof Object) {
+
+                        s = [j[p]];
+                        break;
+
+                    };
+
+                }; break;
+
+            };
+
+        };
+
+        if (!s) return undefined;
+
+        c++;
+
+    };
+
+    const r = [];
+
+    for (const j of s) {
+
+        switch (path[0]) {
+
+            default: {
+
+                if (j[path[0]]) {
+
+                    r.push(j[path[0]]);
+
+                };
+
+
+            }; break;
+
+        };
+
+    };
+
+    return r;
+
+};
+
+/**
+ * ### jectGetPropertyByPathMany
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * - Модуль `ject`
+ * ***
+ *
+ * Функция для множественного {@link jectGetPropertyByPath|глубокого поиска} по указанному пути.
+ *
+ * Возвращает в качестве результата массив найденных по указанному пути свойств.
+ *
+ * ***
+ * @arg {{}} ject `Объект`
+ * @arg {string} path `Путь`
+ *
+ * Путь до свойств.
+ *
+ * Задать путь можно с помощью переходов. Каждый переход может быть представлен строкой или символьной инструкцией.
+ * Строки воспринимаются как названия свойств, в которых следует продолжать поиск.
+ *
+ * Список инструкций:
+ * - `*` - Все свойства. Собирает все найденные структуры.
+ * - `f` - Первое свойство. Продолжает поиск в первой обнаруженной структуре пропуская прочие.
+ * - `l` - Последнее свойство. Продолжает поиск в последней обнаруженной структуре пропуская прочие.
+ * - `string` - Точное название свойства. Ищет указанное название среди перечня свойств.
+ *
+ * Для разделения инструкций необходимо использовать ` ` (пробел).
+ *
+*/
+export function jectGetPropertyByPathMany(ject, path) {
+
+    return getPropertyByPathManyDeceit({ ject, path, });
+
+};
+
+//#endregion
+
+//#region clone 0.2.0
+
+/** ### jectTFClone
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `ject`
+ * ***
+ *
+ * Результирующие параметры функции `clone`.
+ *
+ * @typedef {jectTFUClone&jectTJect} jectTFClone
+ *
+*/
+/** ### jectTFUClone
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `ject`
+ *
+ * Уникальные параметры функции `clone`.
+ *
+ * @typedef jectTFUClone
+ * @prop {boolean} link
+*/
+
+/** @arg {jectTFClone} t */
+function cloneDeceit(t) {
+
+    try {
+
+        return cloneVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @arg {jectTFClone} t */
+function cloneVerify(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return cloneHandle(t);
+
+};
+/** @arg {jectTFClone} t */
+function cloneHandle(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return cloneComply(t);
+
+};
+/** @arg {jectTFClone} t */
+function cloneComply(t) {
+
+    const {
+
+        ject,
+        link,
+
+    } = t;
+
+    if (ject) {
+
+        const result = new ject.constructor();
+        const mirror = [[result, ject]];
+        const subjects = [];
+
+        const f = (n, p, v) => {
+
+            const f = subjects.find(s => s[0] === v);
+
+            if (link && f) {
+
+                n[p] = f[1];
+
+            } else if (v instanceof Object) {
+
+                n[p] = new v.constructor();
+
+                mirror.push([n[p], v]);
+                subjects.push([v, n[p]]);
+
+            } else {
+
+                n[p] = v;
+
+            };
+
+        };
+
+        while (mirror.length) {
+
+            const [n, o] = mirror.pop();
+
+            if (o instanceof Array) o.forEach((e, ei) => f(n, ei, e));
+            else Object.entries(o).forEach(e => f(n, e[0], e[1]));
+
+        };
+
+        return result;
+
+    } else return ject;
+
+};
+
+/**
+ * ### jectClone
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * - Модуль `ject`
+ * ***
+ *
+ * Функция клонирования объекта.
+ *
+ * ***
+ * @arg {typeG} ject `Объект`
+ * @arg {boolean?} link `Режим сохранения ссылочной структуры`
+ * @return {typeG}
+ * @template typeG
+*/
+export function jectClone(ject, link) {
+
+    return cloneDeceit({ ject, link });
+
+};
+
+//#endregion
+
 //#region display 0.0.0
 
 /**
@@ -365,96 +1143,6 @@ export function jectSupplement(ject, supplement) {
 
 //#endregion
 
-//#region getDeep 0.0.0
-
-/**
- * @typedef TBgetDeep
- * @prop {{}} ject
- * @prop {string} property
- * @typedef {TBgetDeep} TgetDeep
-*/
-
-/** @arg {TgetDeep} t */
-function getDeepDeceit(t) {
-
-    try {
-
-        return getDeepVerify(t);
-
-    } catch (e) {
-
-        if (config.strict) throw e;
-
-        return undefined;
-
-    };
-
-};
-/** @arg {TgetDeep} t */
-function getDeepVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return getDeepHandle(t);
-
-};
-/** @arg {TgetDeep} t */
-function getDeepHandle(t) {
-
-    let {
-
-
-
-    } = t;
-
-    t = {
-
-        ...t,
-
-    };
-
-    return getDeepComply(t);
-
-};
-/** @arg {TgetDeep} t */
-function getDeepComply(t) {
-
-    const {
-
-        ject,
-        property,
-
-    } = t;
-
-    const structures = [ject];
-
-    for (; structures.length;) {
-
-        const s = structures.pop();
-
-        if (s.hasOwnProperty(property)) return s[property];
-        else for (const v of Object.values(s)) if (typeof v === 'object') structures.push(v);
-
-    };
-
-};
-
-/**
- * Функция для извлечения вложенного свойства из объекта.
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
-*/
-export function jectGetDeep(ject, property) {
-
-    return getDeepDeceit({ ject, property });
-
-};
-
-//#endregion
 //#region getByPath 0.0.0
 
 /**
@@ -651,145 +1339,6 @@ function setDeepComply(t) {
 export function jectSetDeep(ject, property, value, all = false) {
 
     return setDeepDeceit({ ject, property, value, all });
-
-};
-
-//#endregion
-//#region copyDeep 0.0.0
-
-/** ### jectTFcopyDeep
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `ject`
- * ***
- *
- * Результирующие параметры функции `copyDeep`.
- *
- * @typedef {jectTFUcopyDeep&jectT} jectTFcopyDeep
- *
-*/
-/** ### jectTFUcopyDeep
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `ject`
- *
- * Уникальные параметры функции `copyDeep`.
- *
- * @typedef jectTFUcopyDeep
- * @prop {boolean} link
-*/
-
-/** @arg {jectTFcopyDeep} t */
-function copyDeepDeceit(t) {
-
-    try {
-
-        return copyDeepVerify(t);
-
-    } catch (e) {
-
-        if (config.strict) throw e;
-
-        return undefined;
-
-    };
-
-};
-/** @arg {jectTFcopyDeep} t */
-function copyDeepVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return copyDeepHandle(t);
-
-};
-/** @arg {jectTFcopyDeep} t */
-function copyDeepHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return copyDeepComply(t);
-
-};
-/** @arg {jectTFcopyDeep} t */
-function copyDeepComply(t) {
-
-    const {
-
-        ject,
-        link,
-
-    } = t;
-
-    if (ject) {
-
-        const result = new ject.constructor();
-        const mirror = [[result, ject]];
-        const subjects = [];
-
-        const f = (n, p, v) => {
-
-            const f = subjects.find(s => s[0] === v);
-
-            if (link && f) {
-
-                n[p] = f[1];
-
-            } else if (v instanceof Object) {
-
-                n[p] = new v.constructor();
-
-                mirror.push([n[p], v]);
-                subjects.push([v, n[p]]);
-
-            } else n[p] = v;
-
-        };
-
-        while (mirror.length) {
-
-            const [n, o] = mirror.pop();
-
-            if (o instanceof Array) o.forEach((e, ei) => f(n, ei, e));
-            else Object.entries(o).forEach(e => f(n, e[0], e[1]));
-
-        };
-
-        return result;
-
-    } else return ject;
-
-};
-
-/**
- * ### jectCopyDeep
- * - Версия `0.1.0`
- * - Цепочка `DVHCa`
- * - Модуль `ject`
- * ***
- *
- * Функция глубокого копирования объектов.
- *
- * Функция создает копии всех свойств исходного объекта и размещает их на тех же местах в новом объекте, который возвращается в качестве результата.
- * Она также не просто копирует его значения, но и повторяет при необходимости ссылочную структуру объекта с помощью режима сохранения ссылочной структуры.
- *
- * ***
- * @arg {typeG} ject `Исходный объект`
- * @arg {boolean?} link `Режим сохранения ссылочной структуры`
- * @template typeG
- * @return {typeG}
-*/
-export function jectCopyDeep(ject, link = true) {
-
-    return copyDeepDeceit({ ject, link, });
 
 };
 

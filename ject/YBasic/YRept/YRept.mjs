@@ -2,7 +2,7 @@ import { configYRept } from "../../../config.mjs";
 import { YRegExp } from "../../../regexp/YRegExp/YRegExp.mjs";
 import { stringFind, stringFindAll, stringReplace, stringReplaceAll } from "../../../string/string.mjs";
 import { YString } from "../../../string/YString/YString.mjs";
-import { jectFill, jectGetByPath } from "../../ject.mjs";
+import { jectFill, jectGetByPath, jectGetProperty } from "../../ject.mjs";
 import { YBasic } from "../../YBasic/YBasic.mjs";
 import { YReptBlock } from "./YReptBlock/YReptBlock.mjs";
 
@@ -286,7 +286,7 @@ export class YRept extends FRept {
 
                             t = t instanceof Function ? t(this.target) : t;
 
-                            stringFindAll(t, /yt\.(?<f>(\w|_|\.|\(|\))+)/).forEach(f => t = stringReplaceAll(t, jectGetByPath(this.target, f) ?? `!YX`, `yt.${f}`));
+                            stringFindAll(t, /yt\.(?<f>(\w|_|\.|\(|\))+)/).forEach(f => t = stringReplaceAll(t, jectGetProperty(this.target, f) ?? `!YX`, `yt.${f}`));
 
                             y.paste(`${t}\n`);
 

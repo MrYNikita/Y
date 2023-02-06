@@ -1,7 +1,7 @@
-import { config, configStringANSI, configStringANSIColor } from "../../../config.mjs";
 import { stringFilter, stringPaste } from "../../string.mjs";
-import { YRegExp } from "../../../regexp/YRegExp/YRegExp.mjs";
+import { config, configStringANSI, configStringANSIColor } from "../../../config.mjs";
 import { YStylistMap } from "../../style/YStylist/YStylistMap/YStylistMap.mjs";
+import { YRegExp } from "../../../regexp/YRegExp/YRegExp.mjs";
 
 //#region YT
 
@@ -398,13 +398,14 @@ function getMapWrapComply(t) {
 
         if (last) {
 
+            console.log(last);
             result.paste(last.insert, 1, si, biasX);
 
         };
 
-        result.append(colorGetReset(1, 1), si, biasX + s.length);
+        last = result.getPointLastByPosition(si, [biasX, biasX + s.length]) ?? last;
 
-        last = result.getPointLastByLine(si) ?? last;
+        result.append(colorGetReset(1, 1), si, biasX + s.length);
 
     });
 

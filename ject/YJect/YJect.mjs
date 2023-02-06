@@ -1,4 +1,3 @@
-import { arrayUnique } from "../../array/array.mjs";
 import { configYJect } from "../../config.mjs";
 import { YDate } from "../../date/YDate/YDate.mjs";
 import { YLog } from "../../log/YLog/YLog.mjs";
@@ -9,17 +8,48 @@ import { YBasic } from "../YBasic/YBasic.mjs";
 import { YRept } from "../YBasic/YRept/YRept.mjs";
 import { YReptBlock } from "../YBasic/YRept/YReptBlock/YReptBlock.mjs";
 
-/**
- * @typedef TBJect
- * @prop {any} _
- * @typedef {DJect&TBJect} TJect
+//#region YT
+
+/** ### YJectT
+ * - Тип `T`
+ * - Версия `0.0.0`
+ * - Модуль `YJect`
+ *
+ * Основной параметр модуля `YJect`.
+ *
+ * @typedef {YJectTE&YJectTU} YJectT
+ *
 */
+/** ### YJectTE
+ * - Тип `TE`
+ * - Версия `0.0.0`
+ * - Модуль `YJect`
+ *
+ * Параметр наследования `YJect`.
+ *
+ * @typedef {{[p in Exclude<keyof DJect,keyof SJect>|Exclude<keyof SJect,keyof DJect>]:(DJect[p]&SJect[p])}} YJectTE
+ *
+*/
+/** ### YJectTU
+ * - Тип `TU`
+ * - Версия `0.0.0`
+ * - Модуль `YJect`
+ *
+ * Уникальные параметры `YJect`.
+ *
+ * @typedef YJectTU
+ * @prop {any} _
+ *
+*/
+
+//#endregion
 
 class SJect extends YBasic {
 
     /**
      * Общедоступные блоки отчета.
-     * @type {[string|function():void,number|"f"|"l",string][]}
+     * @type {[string|function():string,number|"f"|"l",string,string[]][]}
+     * @static
     */
     static reportBlocks = [
 
@@ -81,19 +111,19 @@ class IJect extends DJect {
      * @protected
      * @type {YLog?}
     */
-    log = (configYJect.log) ? new YLog() : null;
+    log = configYJect.log ? new YLog() : null;
     /**
      * Дата.
      * @protected
      * @type {YDate?}
     */
-    date = (configYJect.date) ? new YDate() : null;
+    date = configYJect.date ? new YDate() : null;
     /**
      * Отчет.
      * @protected
      * @type {YRept?}
     */
-    rept = (configYJect.report) ? new YRept(this) : null;
+    rept = configYJect.report ? new YRept(this) : null;
 
 };
 class MJect extends IJect {
@@ -104,10 +134,14 @@ class MJect extends IJect {
 class FJect extends MJect {
 
     /**
-     * Контсруктор класса `YJect`
+     * ### YJect.constructor
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
-     *  @arg {TJect} t
+     *
+     *
+     *
+     * ***
+     *  @arg {YJectT} t
     */
     constructor(t = {}) {
 
@@ -121,17 +155,19 @@ class FJect extends MJect {
 
     };
 
-    /** @arg {Array<any>} t */
+    /** @arg {any[]} t */
     static #before(t) {
 
-        if (t?.length === 1 && [Object, YJect].includes(t[0]?.constructor)) {
+        if (t?.length === 1 && [Object, YJect].includes(t[0]?.constructor) && !Object.getOwnPropertyNames(t[0]).includes('_ytp')) {
 
             return t[0];
 
         } else if (t?.length) {
 
-            /** @type {TJect&DJect} */
+            /** @type {YJectT} */
             const r = {};
+
+            if (t[0]?._ytp) t = [...t[0]._ytp];
 
             switch (t.length) {
 
@@ -141,12 +177,12 @@ class FJect extends MJect {
 
             };
 
-            return r;
+            return Object.values(r).length ? r : { _ytp: t };
 
         } else return {};
 
     };
-    /** @arg {TJect} t @this {YJect} */
+    /** @arg {YJectT} t @this {YJect} */
     static #deceit(t) {
 
         try {
@@ -160,7 +196,7 @@ class FJect extends MJect {
         };
 
     };
-    /** @arg {TJect} t @this {YJect} */
+    /** @arg {YJectT} t @this {YJect} */
     static #verify(t) {
 
         const {
@@ -172,13 +208,13 @@ class FJect extends MJect {
         FJect.#handle(t);
 
     };
-    /** @arg {TJect} t @this {YJect} */
+    /** @arg {YJectT} t @this {YJect} */
     static #handle(t) {
 
 
 
     };
-    /** @arg {TJect} t @this {YJect} */
+    /** @arg {YJectT} t @this {YJect} */
     static #create(t) {
 
         const {
@@ -196,12 +232,15 @@ class FJect extends MJect {
 };
 
 /**
- * Класс `YJect`
- *
- * Базовый класс `YModules`, наследуемый прочими классами модулей.
+ * ### YJect
  * - Тип `SDIMFY`
- * - Версия `0.1.0`
+ * - Версия `0.2.0`
+ * - Модуль `YJect`
  * - Цепочка `BDVHC`
+ * ***
+ * Класс объектов.
+ *
+ * В своей работе использует классы построенные на `YBasic`.
 */
 export class YJect extends FJect {
 

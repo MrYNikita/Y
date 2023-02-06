@@ -1,44 +1,166 @@
 import { pathGet, pathGetProject } from "../path/path.mjs";
 import { existsSync, readFileSync, renameSync, unlinkSync, writeFileSync } from "fs";
-import { config, configOS, configOSFile } from "../../config.mjs";
+import { config, configOSFile } from "../../config.mjs";
 import { arrayAppend } from "../../array/array.mjs";
-import { jectChangeDeep } from "../../ject/ject.mjs";
+import { YPath } from "../path/YPath/YPath.mjs";
+
+//#region YT
+
+/** ### fileT
+ * - Тип `T`
+ * - Версия `0.0.0`
+ * - Модуль `file`
+ *
+ * Основной параметр модуля `file`.
+ *
+ * @typedef fileT
+ * @prop {any} _
+ *
+*/
+/** ### fileTData
+ * - Тип `T`
+ * - Версия `0.0.0`
+ * - Модуль `file`
+ *
+ *
+ *
+ * @typedef fileTData
+ * @prop {fileTTData} data
+ *
+*/
+/** ### fileTExpand
+ * - Тип `T`
+ * - Версия `0.0.0`
+ * - Модуль `file`
+ *
+ *
+ *
+ * @typedef fileTExpand
+ * @prop {fileTTExpand} expand
+ *
+*/
+/** ### fileTFragment
+ * - Тип `T`
+ * - Версия `0.0.0`
+ * - Модуль `file`
+ *
+ *
+ *
+ * @typedef fileTFragment
+ * @prop {fileTTFragment} fragment
+ *
+*/
+
+/** ### fileTTData
+ * - Тип `TT`
+ * - Версия `0.0.0`
+ * - Модуль `file`
+ *
+ *
+ *
+ * @typedef {string|[]|[][]|{}} fileTTData
+ *
+*/
+/** ### fileTTExpand
+ * - Тип `TT`
+ * - Версия `0.0.0`
+ * - Модуль `file`
+ *
+ *
+ *
+ * @typedef {'csv'|'txt'|'json'} fileTTExpand
+ *
+*/
+/** ### fileTTFragment
+ * - Тип `TT`
+ * - Версия `0.0.0`
+ * - Модуль `file`
+ *
+ *
+ *
+ * @typedef {import("../path/path.mjs").pathTTFragment} fileTTFragment
+ *
+*/
+
+//#endregion
+//#region YV
 
 /**
+ * ### fileVREName
+ * - Тип `VE`
+ * - Версия `0.0.2`
+ * - Модуль `file`
+ *
  * Регулярное выражение для извлечения имени файла.
- * - Версия `0.0.1`
+ *
+ * ***
  * @type {RegExp}
 */
-export const fileREName =  /.*?([.\w]+?)(?:\.|$)/;
+export const fileVREName = /.*?([.\w]+?)(?:\.|$)/;
 /**
+ * ### fileVREPart
+ * - Тип `VE`
+ * - Версия `0.0.2`
+ * - Модуль `file`
+ *
  * Регулярное выражение для извлечения вложенного пути.
- * - Версия `0.0.1`
+ *
+ * ***
  * @type {RegExp}
 */
-export const fileREPart = /.+?(\/|$)/g;
+export const fileVREPart = /.+?(\/|$)/g;
 /**
+ * ### fileVREExpand
+ * - Тип `VE`
+ * - Версия `0.1.0`
+ * - Модуль `file`
+ *
  * Регулярное выражение для извлечения расширения файла.
- * - Версия `0.0.1`
+ *
+ * ***
  * @type {RegExp}
 */
-export const fileREExpand = /(?:\.)([^.]+)$/;
+export const fileVREExpand = /(?:\.)(.+)$/;
 /**
+ * ### fileVRELocation
+ * - Тип `VE`
+ * - Версия `0.0.2`
+ * - Модуль `file`
+ *
  * Регулярное выражение для извлечения места размещения файла.
- * - Версия `0.0.1`
+ *
+ * ***
  * @type {RegExp}
 */
-export const fileRELocation = /(.+)(?:\/)/;
+export const fileVRELocation = /(.+)(?:\/)/;
 
-//#region read 0.0.0
+//#endregion
 
-/**
- * @typedef TBread
- * @prop {string} expand
- * @prop {string|RegExp} fragment
- * @typedef {TBread} Tread
+//#region read 0.1.0
+
+/** ### fileTFRead
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `file`
+ * ***
+ *
+ * Результирующие параметры функции `read`.
+ *
+ * @typedef {fileTFURead&fileT&fileTFragment&fileTExpand} fileTFRead
+ *
+*/
+/** ### fileTFURead
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `file`
+ *
+ * Уникальные параметры функции `read`.
+ *
+ * @typedef fileTFURead
+ * @prop {any} _
 */
 
-/** @arg {Tread} t */
+/** @arg {fileTFRead} t */
 function readDeceit(t) {
 
     try {
@@ -54,7 +176,7 @@ function readDeceit(t) {
     };
 
 };
-/** @arg {Tread} t */
+/** @arg {fileTFRead} t */
 function readVerify(t) {
 
     const {
@@ -66,19 +188,19 @@ function readVerify(t) {
     return readHandle(t);
 
 };
-/** @arg {Tread} t */
+/** @arg {fileTFRead} t */
 function readHandle(t) {
 
-    if (t.fragment) {
+    const {
 
-        if (!t.fragment.includes(pathGetProject())) t.fragment = pathGetProject() + '/' + t.fragment;
 
-    };
+
+    } = t;
 
     return readComply(t);
 
 };
-/** @arg {Tread} t */
+/** @arg {fileTFRead} t */
 function readComply(t) {
 
     const {
@@ -88,66 +210,94 @@ function readComply(t) {
 
     } = t;
 
-    const r = readFileSync(fragment, 'utf8');
+    const r = readFileSync(pathGet(fragment), 'utf8');
 
     switch (expand) {
 
-        case 'json': return JSON.parse(r);
-        default: return r;
+        case 'json': {
+
+            return JSON.parse(r);
+
+        };
+        default: {
+
+            return r;
+
+        };
 
     };
 
 };
 
 /**
- * Функция для считывания данных файла как текста.
- * - Версия `0.0.1`
+ * ### fileRead
+ * - Версия `0.1.0`
  * - Цепочка `DVHCa`
- * @arg {string} expand
- * @arg {string|RegExp} fragment
- * @returns {{}|string}
+ * - Модуль `file`
+ * ***
+ *
+ * Функция считывания файла по указанному фрагменту пути.
+ *
+ * Для файла также указывается одно из допустимых расширений.
+ *
+ * Если расширение указано, как допустимое, то это означает, что можно получить файл в особом формате.
+ * Например, для `json` расширения это будет объект, а для `csv` - многомерный массив.
+ *
+ * В проивном случае, если расширение не указано или не допустимо, то файл будет считан как текст, подобно расширению `csv`.
+ *
+ * ***
+ * @arg {fileTTExpand} expand `Расширение`
+ * @arg {fileTTFragment} fragment `Фрагмент`
 */
 export function fileRead(fragment, expand) {
 
-    return readDeceit({ fragment, expand });
+    return readDeceit({ fragment, expand, });
 
 };
 /**
- * Функция для считывания данных файла как текста.
- * - Версия `0.0.1`
+ * ### fileReadJson
+ * - Версия `0.1.0`
  * - Цепочка `DVHCa`
- * @arg {string|RegExp} fragment
- * @returns {{}|string}
-*/
-export function fileReadText(fragment) {
-
-    return readDeceit({ fragment, });
-
-};
-/**
- * Функция для считывания данных файла как json.
- * - Версия `0.0.1`
- * - Цепочка `DVHCa`
- * @arg {string}
- * @returns {{}|[]|string}
+ * - Модуль `file`
+ * ***
+ *
+ * Функция {@link fileRead|считывания} `JSON` файла по указанному фрагменту пути.
+ *
+ * ***
+ * @arg {fileTTFragment} fragment `Фрагмент`
 */
 export function fileReadJson(fragment) {
 
-    return readDeceit({ fragment, expand: 'json' });
+    return readDeceit({ fragment, expand: 'json', });
 
 };
 
 //#endregion
-//#region move 0.0.0
+//#region move 0.1.0
 
-/**
- * @typedef TBmove
- * @prop {string|RegExp} fragment
- * @prop {string|RegExp} location
- * @typedef {TBmove} Tmove
+/** ### fileTFMove
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `file`
+ * ***
+ *
+ * Результирующие параметры функции `move`.
+ *
+ * @typedef {fileTFUMove&fileT&fileTFragment} fileTFMove
+ *
+*/
+/** ### fileTFUMove
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `file`
+ *
+ * Уникальные параметры функции `move`.
+ *
+ * @typedef fileTFUMove
+ * @prop {fileTTFragment} location
 */
 
-/** @arg {Tmove} t */
+/** @arg {fileTFMove} t */
 function moveDeceit(t) {
 
     try {
@@ -163,7 +313,7 @@ function moveDeceit(t) {
     };
 
 };
-/** @arg {Tmove} t */
+/** @arg {fileTFMove} t */
 function moveVerify(t) {
 
     const {
@@ -175,70 +325,93 @@ function moveVerify(t) {
     return moveHandle(t);
 
 };
-/** @arg {Tmove} t */
+/** @arg {fileTFMove} t */
 function moveHandle(t) {
 
-    let {
+    const {
 
-
+        fragment,
+        location,
 
     } = t;
 
-
-
-    t = {
-
-        ...t,
-
-    };
+    t.fragment = pathGet(t.fragment) ?? t.fragment;
+    t.location = pathGet(t.location) ?? t.fragment;
 
     return moveComply(t);
 
 };
-/** @arg {Tmove} t */
+/** @arg {fileTFMove} t */
 function moveComply(t) {
 
     const {
 
-        location,
         fragment,
+        location,
 
     } = t;
 
-    let l = location;
-    const path1 = pathGet(fragment);
+    const l = new YPath(location);
 
-    if (!existsSync(l)) l = pathGet(l);
+    if (l.check()) {
 
-    renameSync(path1, path1.replace(path1.match(fileRELocation)[0], l + '/'));
+        const ln = fragment.replace(fragment.match(fileVRELocation)[0], l.get() + '/');
+
+        renameSync(fragment, ln);
+
+        return ln;
+
+    };
+
+    return l.get();
 
 };
 
 /**
- * Функция для перемещения файла.
- * - Версия `0.0.0`
+ * ### fileMove
+ * - Версия `0.1.0`
  * - Цепочка `DVHCa`
- * @arg {string|RegExp} location
- * @arg {string|RegExp} fragment
+ * - Модуль `file`
+ * ***
+ *
+ * Функция перемещения файла.
+ *
+ * ***
+ * @arg {fileTTFragment} fragment `Фрагмент`
+ * @arg {fileTTFragment} location `Размещение`
 */
 export function fileMove(fragment, location) {
 
-    moveDeceit({ fragment, location });
+    return moveDeceit({ fragment, location });
 
 };
 
 //#endregion
-//#region write 0.0.0
+//#region write 0.1.0
 
-/**
- * @typedef TBwrite
- * @prop {string} expand
- * @prop {[string|{}]} data
- * @prop {string|RegExp} fragment
- * @typedef {TBwrite} Twrite
+/** ### fileTFWrite
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `file`
+ * ***
+ *
+ * Результирующие параметры функции `write`.
+ *
+ * @typedef {fileTFUWrite&fileT&fileTExpand&fileTFragment} fileTFWrite
+ *
+*/
+/** ### fileTFUWrite
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `file`
+ *
+ * Уникальные параметры функции `write`.
+ *
+ * @typedef fileTFUWrite
+ * @prop {{}|[]|[][]|string} data
 */
 
-/** @arg {Twrite} t */
+/** @arg {fileTFWrite} t */
 function writeDeceit(t) {
 
     try {
@@ -254,7 +427,7 @@ function writeDeceit(t) {
     };
 
 };
-/** @arg {Twrite} t */
+/** @arg {fileTFWrite} t */
 function writeVerify(t) {
 
     const {
@@ -266,27 +439,21 @@ function writeVerify(t) {
     return writeHandle(t);
 
 };
-/** @arg {Twrite} t */
+/** @arg {fileTFWrite} t */
 function writeHandle(t) {
 
-    let {
+    const {
 
 
 
     } = t;
 
-
-
-    t = {
-
-        ...t,
-
-    };
+    t.fragment = pathGet(t.fragment) ?? t.fragment;
 
     return writeComply(t);
 
 };
-/** @arg {Twrite} t */
+/** @arg {fileTFWrite} t */
 function writeComply(t) {
 
     const {
@@ -301,68 +468,109 @@ function writeComply(t) {
 
         case 'json': {
 
-            writeFileSync(pathGetProject() + '/' + pathGet(fragment), (data.length === 1) ? JSON.stringify(data[0], null, 4) : JSON.stringify(data, null, 4));
+            writeFileSync(fragment, JSON.stringify(data, null, 4));
 
         }; break;
         default: {
 
-            writeFileSync(pathGetProject() + '/' + pathGet(fragment), data.join('\n'));
+            writeFileSync(fragment, data, 'utf8');
 
-        } break;
+        }; break;
 
     };
 
+    return fragment;
+
 };
 
 /**
- * Функция для перезаписывания файла текстовыми данными.
- * - Версия `0.0.0`
+ * ### fileWrite
+ * - Версия `0.1.0`
  * - Цепочка `DVHCa`
- * @arg {...string} data
- * @arg {string|RegExp} fragment
+ * - Модуль `file`
+ * ***
+ *
+ * Функция записи в файл в формат поддерживаемого расширения.
+ *
+ * При обычном вызове без указания данных, очистит файл.
+ *
+ * Если расширение не было указано или не поддерживается, то данные будут записаны как текст.
+ *
+ * ***
+ * @arg {string} data `Данные`
+ * @arg {fileTTExpand} expand `Расширение`
+ * @arg {fileTTFragment} fragment `Фрагмент`
 */
-export function fileWrite(fragment, expand, ...data) {
+export function fileWrite(fragment, data, expand) {
 
-    writeDeceit({ fragment, expand, data });
+    return writeDeceit({ fragment, data, expand });
 
 };
 /**
- * Функция для перезаписывания файла текстовыми данными.
- * - Версия `0.0.0`
+ * ### fileWriteCSV
+ * - Версия `0.1.0`
  * - Цепочка `DVHCa`
- * @arg {...string} data
- * @arg {string|RegExp} fragment
+ * - Модуль `file`
+ * ***
+ *
+ * Функция записи в файл данных в формате csv.
+ *
+ * ***
+ * @arg {[]|[][]|string} data `данные`
+ * @arg {fileTTFragment} fragment `Фрагмент`
 */
-export function fileWriteText(fragment, ...data) {
+export function fileWriteCsv(fragment, data) {
 
-    writeDeceit({ fragment, data });
+    return writeDeceit({ data, fragment, expand: 'csv', });
 
 };
 /**
- * Функция для перезаписывания файла в формате json.
+ * ### fileWriteJSON
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @arg {...string} data
- * @arg {string|RegExp} fragment
+ * - Модуль `file`
+ * ***
+ *
+ * Функция записи в файл данных формата `JSON`.
+ *
+ * В качестве данных требуется указание объекта.
+ *
+ * ***
+ * @arg {{}|Object} data `Данные`
+ * @arg {fileTTFragment} fragment `Фрагмент`
 */
-export function fileWriteJson(fragment, ...data) {
+export function fileWriteJson(fragment, data) {
 
-    writeDeceit({ fragment, data, expand: 'json' });
+    return writeDeceit({ fragment, data, expand: 'json' });
 
 };
 
 //#endregion
-//#region append 0.0.0
+//#region append 0.1.0
 
-/**
- * @typedef TBappend
- * @prop {string} expand
- * @prop {[{}|string]} data
- * @prop {string|RegExp} fragment
- * @typedef {TBappend} Tappend
+/** ### fileTFAppend
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `file`
+ * ***
+ *
+ * Результирующие параметры функции `append`.
+ *
+ * @typedef {fileTFUAppend&fileT&fileTFragment&fileTExpand&fileTData} fileTFAppend
+ *
+*/
+/** ### fileTFUAppend
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `file`
+ *
+ * Уникальные параметры функции `append`.
+ *
+ * @typedef fileTFUAppend
+ * @prop {any} _
 */
 
-/** @arg {Tappend} t */
+/** @arg {fileTFAppend} t */
 function appendDeceit(t) {
 
     try {
@@ -378,7 +586,7 @@ function appendDeceit(t) {
     };
 
 };
-/** @arg {Tappend} t */
+/** @arg {fileTFAppend} t */
 function appendVerify(t) {
 
     const {
@@ -390,27 +598,19 @@ function appendVerify(t) {
     return appendHandle(t);
 
 };
-/** @arg {Tappend} t */
+/** @arg {fileTFAppend} t */
 function appendHandle(t) {
 
-    let {
+    const {
 
 
 
     } = t;
 
-
-
-    t = {
-
-        ...t,
-
-    };
-
     return appendComply(t);
 
 };
-/** @arg {Tappend} t */
+/** @arg {fileTFAppend} t */
 function appendComply(t) {
 
     const {
@@ -423,71 +623,98 @@ function appendComply(t) {
 
     switch (expand) {
 
-        case 'json': {
-
-            const dataLast = fileReadJson(fragment);
-
-            if (Array.isArray(dataLast)) arrayAppend(dataLast, ...data);
-            else jectDeepChange(dataLast, ...data);
-
-            fileWriteJson(fragment, dataLast);
-
-        }; break;
         default: {
 
-            fileWriteText(fragment, fileReadText(fragment), ...data);
+            fileWrite(fragment, fileRead(fragment) + data);
 
         }; break;
 
     };
 
+    return fragment;
+
 };
 
 /**
- * Функция для дополнения указанного файла новыми данными.
+ * ### fileAppend
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
+ * - Модуль `file`
+ * ***
+ *
+ * Функция дополнения данных файла по указанному фргаменту пути.
+ *
+ * ***
+ * @arg {fileTTExpand} expand `Расширение`
+ * @arg {string|[]|[][]|{}} data `Данные`
+ * @arg {fileTTFragment} fragment `Фрагмент`
 */
-export function fileAppend(fragment, expand, ...data) {
+export function fileAppend(fragment, data, expand) {
 
-    return appendDeceit({ fragment, expand, data });
+    return appendDeceit({ fragment, data, expand, });
 
 };
 /**
- * Функция для дополнения файла как текста.
+ * ### fileAppendCsv
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @arg {...string} data
- * @arg {string|RegExp} fragment
+ * - Модуль `file`
+ * ***
+ *
+ *
+ *
+ * ***
+ *
 */
-export function fileAppendText(fragment, ...data) {
+export function fileAppendCsv() {
 
-    return appendDeceit({ fragment, data });
+
 
 };
 /**
- * Функция для дополнения файлка как json.
+ * ### fileAppendJson
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
- * @arg {...string} data
- * @arg {string|RegExp} fragment
+ * - Модуль `file`
+ * ***
+ *
+ *
+ *
+ * ***
+ *
 */
-export function fileAppendJson(fragment, ...data) {
+export function fileAppendJson() {
 
-    return appendDeceit({ fragment, data, expand: 'json' });
+
 
 };
 
 //#endregion
-//#region delete 0.0.0
+//#region delete 0.1.0
 
-/**
- * @typedef TBdelete
- * @prop {string|RegExp} fragment
- * @typedef {TBdelete} Tdelete
+/** ### fileTFDelete
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `file`
+ * ***
+ *
+ * Результирующие параметры функции `delete`.
+ *
+ * @typedef {fileTFUDelete&fileTFragment} fileTFDelete
+ *
+*/
+/** ### fileTFUDelete
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `file`
+ *
+ * Уникальные параметры функции `delete`.
+ *
+ * @typedef fileTFUDelete
+ * @prop {any} _
 */
 
-/** @arg {Tdelete} t */
+/** @arg {fileTFDelete} t */
 function deleteDeceit(t) {
 
     try {
@@ -503,7 +730,7 @@ function deleteDeceit(t) {
     };
 
 };
-/** @arg {Tdelete} t */
+/** @arg {fileTFDelete} t */
 function deleteVerify(t) {
 
     const {
@@ -515,27 +742,21 @@ function deleteVerify(t) {
     return deleteHandle(t);
 
 };
-/** @arg {Tdelete} t */
+/** @arg {fileTFDelete} t */
 function deleteHandle(t) {
 
-    let {
+    const {
 
 
 
     } = t;
 
-
-
-    t = {
-
-        ...t,
-
-    };
+    t.fragment = pathGet(t.fragment);
 
     return deleteComply(t);
 
 };
-/** @arg {Tdelete} t */
+/** @arg {fileTFDelete} t */
 function deleteComply(t) {
 
     const {
@@ -544,35 +765,60 @@ function deleteComply(t) {
 
     } = t;
 
-    const path = pathGet(fragment);
+    if (existsSync(fragment)) {
 
-    if (!configOSFile.protects.includes(path)) unlinkSync(pathGet(fragment));
+        unlinkSync(fragment);
+
+    };
+
+    return fragment;
 
 };
 
 /**
- * Функция для удаления файла.
- * - Версия `0.0.0`
+ * ### fileDelete
+ * - Версия `0.1.0`
  * - Цепочка `DVHCa`
- * @arg {string|RegExp} fragment
+ * - Модуль `file`
+ * ***
+ *
+ * Функция удаления указанного файла по фрагменту пути.
+ *
+ * ***
+ * @arg {fileTTFragment} fragment `Фрагмент`
 */
 export function fileDelete(fragment) {
 
-    deleteDeceit({ fragment, });
+    return deleteDeceit({ fragment });
 
 };
 
 //#endregion
-//#region rename 0.0.0
+//#region rename 0.1.0
 
-/**
- * @typedef TBrename
+/** ### fileTFRename
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `file`
+ * ***
+ *
+ * Результирующие параметры функции `rename`.
+ *
+ * @typedef {fileTFURename&fileTFragment} fileTFRename
+ *
+*/
+/** ### fileTFURename
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `file`
+ *
+ * Уникальные параметры функции `rename`.
+ *
+ * @typedef fileTFURename
  * @prop {string} name
- * @prop {string|RegExp} fragment
- * @typedef {TBrename} Trename
 */
 
-/** @arg {Trename} t */
+/** @arg {fileTFRename} t */
 function renameDeceit(t) {
 
     try {
@@ -588,7 +834,7 @@ function renameDeceit(t) {
     };
 
 };
-/** @arg {Trename} t */
+/** @arg {fileTFRename} t */
 function renameVerify(t) {
 
     const {
@@ -600,56 +846,64 @@ function renameVerify(t) {
     return renameHandle(t);
 
 };
-/** @arg {Trename} t */
+/** @arg {fileTFRename} t */
 function renameHandle(t) {
 
-    let {
+    const {
 
 
 
     } = t;
 
-
-
-    t = {
-
-        ...t,
-
-    };
+    t.fragment = pathGet(t.fragment) ?? t.fragment;
 
     return renameComply(t);
 
 };
-/** @arg {Trename} t */
+/** @arg {fileTFRename} t */
 function renameComply(t) {
 
     const {
 
         name,
-        fragment,
+        fragment
 
     } = t;
 
-    const path = pathGet(fragment);
-    const expand = path.match(fileREExpand)[1];
-    const nameLast = path.match(fileREName)[1];
-    const location = path.match(fileRELocation)[0];
+    const expand = fragment.match(fileVREExpand)[1];
+    const location = fragment.match(fileVRELocation)[0];
 
-    renameSync(location + nameLast + '.' + expand, location + name + '.' + expand);
+    const result = location + name + '.' + expand;
+
+    renameSync(t.fragment, result);
+
+    return result;
 
 };
 
 /**
- * Функция для переименования файла.
- * - Версия `0.0.0`
+ * ### fileRename
+ * - Версия `0.1.0`
  * - Цепочка `DVHCa`
- * @arg {string} name
- * @arg {string|RegExp} fragment
+ * - Модуль `file`
+ * ***
+ *
+ * Функция переименования файла.
+ *
+ * ***
+ * @arg {string} name `Наименование`
+ * @arg {fileTTFragment} fragment `Фргамент`
 */
 export function fileRename(fragment, name) {
 
-    renameDeceit({ fragment, name });
+    return renameDeceit({ fragment, name });
 
 };
 
 //#endregion
+
+/**
+ * @file file.mjs
+ * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
+ * @copyright Yakhin Nikita Artemovich 2023
+*/

@@ -1,6 +1,6 @@
 import { jectFill } from "../../../../../ject/ject.mjs";
-import { YStylistMap } from "../YStylistMap.mjs";
 import { colorClear, colorGetMap, colorGetMapWrap, colorVEREReset } from "../../../../ansi/color/color.mjs";
+import { YStylistMap } from "../YStylistMap.mjs";
 import { YStylistPoint } from "../YStylistPoint/YStylistPoint.mjs";
 
 //#region YT
@@ -236,7 +236,7 @@ export class YStylistMapColor extends FStylistMapColor {
         if (string) {
 
             const m = colorGetMapWrap(string, y, x);
-            const r = m.map(l => this.getPointLastByPosition(l[0], x)?.insert);
+            const r = m.map(l => this.getPointLastByPosition(l[0], x, true)?.insert);
 
             if (m.length) {
 

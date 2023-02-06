@@ -442,9 +442,11 @@ export class YStylist extends FStylist {
      * Метод добавления новой цветовой точки на основе указанной строчки.
      *
      * ***
-     * @arg {number} y `Индекс линии`.
-     * @arg {number} x `Индекс позиции`.
-     * @arg {string} string `Строка вствки`.
+     * @arg {number} y `Индекс линии`
+     * @arg {number} x `Индекс позиции`
+     * @arg {string} string `Строка вствки`
+     *
+     * Активированным включает в возможный результат поиска `эндинги`.
      * @public
     */
     pasteColorByString(string, y = 0, x = 0) {

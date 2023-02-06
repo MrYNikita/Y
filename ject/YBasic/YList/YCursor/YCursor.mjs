@@ -125,7 +125,7 @@ class FCursor extends MCursor {
     /** @arg {TCursor} t @this {YCursor} */
     static #handle(t) {
 
-        if (!t.indexs || !t.indexs.length) t.indexs = new Array(t.list.dimension ?? t.list.constructor.dimension).fill(0);
+        if ((!t.indexs || !t.indexs.length) && t.list) t.indexs = new Array(t.list.dimension ?? t.list.constructor.dimension ?? 1).fill(0);
 
     };
     /** @arg {TCursor} t @this {YCursor} */

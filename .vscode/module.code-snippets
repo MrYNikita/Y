@@ -471,14 +471,14 @@
 
         "body": [
 
-            "/** ### ${TM_FILENAME_BASE}T$1",
+            "/** ### ${TM_FILENAME_BASE}TT$2",
             " * - Тип `TT`",
             " * - Версия `0.0.0`",
             " * - Модуль `$TM_FILENAME_BASE`",
             " * ",
             " * ",
             " * ",
-            " * @typedef {$1} ${TM_FILENAME_BASE}T$2",
+            " * @typedef {$1} ${TM_FILENAME_BASE}TT$2",
             " * ",
             "*/",
 
@@ -519,7 +519,7 @@
             " * ",
             " * Результирующие параметры функции `$1`.",
             " * ",
-            " * @typedef {${TM_FILENAME_BASE}TFU${1/(\\w)/${1:/upcase}/}} ${TM_FILENAME_BASE}TF${1/(\\w)/${1:/upcase}/}",
+            " * @typedef {${TM_FILENAME_BASE}TFU${1/(\\w)/${1:/upcase}/}&${TM_FILENAME_BASE}T} ${TM_FILENAME_BASE}TF${1/(\\w)/${1:/upcase}/}",
             " * ",
             "*/",
             "/** ### ${TM_FILENAME_BASE}TFU${1/(\\w)/${1:/upcase}/}",

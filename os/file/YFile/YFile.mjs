@@ -1,18 +1,350 @@
 import { jectFill } from "../../../ject/ject.mjs";
-import { fileAppend, fileDelete, fileMove, fileRead, fileReadText, fileREExpand, fileRELocation, fileREName, fileRename, fileWrite } from "../file.mjs";
-import { stat, statSync } from "fs";
-import { pathGet } from "../../path/path.mjs";
-import { YString } from "../../../string/YString/YString.mjs";
+import { fileAppend, fileDelete, fileMove, fileRead, fileVREExpand, fileVRELocation, fileVREName, fileRename, fileWrite } from "../file.mjs";
+import { YBasic } from "../../../ject/YBasic/YBasic.mjs";
+import { YPath } from "../../path/YPath/YPath.mjs";
 
-/**
- * @typedef TBFile
- * @prop {string} name
- * @prop {string} expand
- * @prop {string} location
- * @typedef {DFile&TBFile} TFile
+// /**
+//  * @typedef TBFile
+//  * @prop {string} name
+//  * @prop {string} expand
+//  * @prop {string} location
+//  * @typedef {DFile&TBFile} TFile
+// */
+
+// class SFile {
+
+
+
+// };
+// class DFile extends SFile {
+
+//     /**
+//      * Наименование файла.
+//      * @type {string}
+//     */
+//     name = '';
+//     /**
+//      * Тип файла.
+//      * @type {string}
+//     */
+//     expand = '';
+//     /**
+//      * Состояние удаления.
+//      * @type {boolean}
+//     */
+//     deleted = false;
+//     /**
+//      * Расположение файла.
+//      * @type {string}
+//     */
+//     location = '';
+
+// };
+// class FFile extends DFile {
+
+//     /**
+//      *
+//      * - Версия `0.0.0`
+//      * - Цепочка `BDVHC`
+//      *  @arg {TFile} t
+//     */
+//     constructor(t = {}) {
+
+//         t = FFile.#before(...arguments);
+
+//         FFile.#deceit(t);
+
+//         super(t);
+
+//         FFile.#create.apply(this, [t]);
+
+//     };
+
+//     /** @arg {TFile} t @this {[]} */
+//     static #before(t) {
+
+//         if (t?.constructor === String) {
+
+//             t = pathGet(t);
+
+//             return {
+
+//                 name: t.match(fileREName)[1],
+//                 expand: t.match(fileREExpand)?.[1],
+//                 location: t.match(fileRELocation)?.[0],
+
+
+//             };
+
+//         } else if (t instanceof Array) {
+
+
+
+//         } else return {};
+
+//     };
+//     /** @arg {TFile} t @this {YFile} */
+//     static #deceit(t) {
+
+//         try {
+
+//             FFile.#verify(t);
+
+//         } catch (e) {
+
+//             throw e;
+
+//         };
+
+//     };
+//     /** @arg {TFile} t @this {YFile} */
+//     static #verify(t) {
+
+//         const {
+
+
+
+//         } = t;
+
+//         FFile.#handle(t);
+
+//     };
+//     /** @arg {TFile} t @this {YFile} */
+//     static #handle(t) {
+
+//         let {
+
+
+
+//         } = t;
+
+
+
+//         t = {
+
+//             ...t,
+
+//         };
+
+//     };
+//     /** @arg {TFile} t @this {YFile} */
+//     static #create(t) {
+
+//         const {
+
+
+
+//         } = t;
+
+//         jectFill(this, t);
+
+//     };
+
+// };
+
+// /**
+//  *
+//  * - Тип `SDFY`
+//  * - Версия `0.0.0`
+//  * - Цепочка `BDVHC`
+// */
+// export class YBFile extends FFile {
+
+//     /**
+//      * Метод для изменения местоположения файла.
+//      * @arg {string|RegExp} location
+//     */
+//     move(location) {
+
+//         if (!this.deleted) {
+
+//             const l = pathGet(location);
+
+//             fileMove(this.getPath(), l);
+
+//             this.location = l;
+
+//         };
+
+//         return this;
+
+//     };
+//     /**
+//      * Метод отображения информации.
+//      * - Версия `0.0.0`
+//     */
+//     report() {
+
+//         new YString(this.getReport())
+
+//             .castToYReport()
+//             .display()
+
+//         return this;
+
+//     };
+//     /**
+//      * Метод для переименования файла.
+//      * @arg {string} name
+//     */
+//     rename(name) {
+
+//         if (this.deleted) {
+
+//             fileRename(this.getPath(), name);
+
+//             this.name = name;
+
+//         };
+
+//         return this;
+
+//     };
+//     /**
+//      * Метод для удаления файла.
+//     */
+//     delete() {
+
+//         if (!this.deleted) {
+
+//             fileDelete(this.getPath());
+
+//             this.deleted = true;
+
+//         };
+
+//         return this;
+
+//     };
+//     /**
+//      * Метод для получения полного пути до файла.
+//     */
+//     getPath() {
+
+//         const {
+
+//             name,
+//             expand,
+//             location,
+
+//         } = this;
+
+//         if (location) return `${location}/${name}.${expand}`;
+//         else return `${name}.${expand}`;
+
+//     };
+//     /**
+//      * Метод получения информации отображения в виде строки.
+//      * - Версия `0.0.0`
+//     */
+//     getReport() {
+
+//         const d = statSync(this.location + this.getNameFull());
+
+//         return new YString()
+
+//             .changePostfix(';\n')
+//             .paste(
+
+//                 `Наименование: ${this.name}`,
+//                 `Расширение: ${this.expand}`,
+//                 `Размещение: ${this.location}`,
+//                 `Удален: ${this.deleted}`,
+//                 `Размер: ${d.size}KB`,
+
+//             )
+//             .get()
+
+//     };
+//     /**
+//      * Метод для получения полного имени файла с расширением.
+//     */
+//     getNameFull() {
+
+//         const {
+
+//             name,
+//             expand,
+
+//         } = this;
+
+//         return `${name}.${expand}`;
+
+//     };
+
+// };
+// export class YFile extends YBFile {
+
+//     /**
+//      * Метод считывания данных из файла.
+//     */
+//     read() {
+
+//         if (!this.deleted) return fileRead(new RegExp(this.getPath()), this.expand);
+
+//     };
+//     /**
+//      * Метод записи данных в файл.
+//      * @arg {...string} data
+//     */
+//     write(...data) {
+
+//         if (!this.deleted) fileWrite(this.getPath(), this.expand, ...data);
+
+//         return this;
+
+//     };
+//     /**
+//      * Метод дополнения файла новыми данными.
+//      * @arg {string} data
+//     */
+//     append(...data) {
+
+//         if (this.deleted) fileAppend(this.getPath(), this.expand, ...data);
+
+//         return this;
+
+//     };
+
+// };
+
+//#region YT
+
+/** ### YFileT
+ * - Тип `T`
+ * - Версия `0.0.0`
+ * - Модуль `YFile`
+ *
+ * Основной параметр модуля `YFile`.
+ *
+ * @typedef {YFileTE&YFileTU} YFileT
+ *
+*/
+/** ### YFileTE
+ * - Тип `TE`
+ * - Версия `0.0.0`
+ * - Модуль `YFile`
+ *
+ * Параметр наследования `YFile`.
+ *
+ * @typedef {{[p in Exclude<keyof DFile,keyof SFile>|Exclude<keyof SFile,keyof DFile>]:(DFile[p]&SFile[p])}} YFileTE
+ *
+*/
+/** ### YFileTU
+ * - Тип `TU`
+ * - Версия `0.0.0`
+ * - Модуль `YFile`
+ *
+ * Уникальные параметры `YFile`.
+ *
+ * @typedef YFileTU
+ * @prop {any} _
+ *
 */
 
-class SFile {
+//#endregion
+
+class SFile extends YBasic {
 
 
 
@@ -20,38 +352,42 @@ class SFile {
 class DFile extends SFile {
 
     /**
-     * Наименование файла.
-     * @type {string}
+     * ### path
+     *
+     * Путь до файла.
+     *
+     * ***
+     * @type {YPath?}
+     * @public
     */
-    name = '';
-    /**
-     * Тип файла.
-     * @type {string}
-    */
-    expand = '';
-    /**
-     * Состояние удаления.
-     * @type {boolean}
-    */
-    deleted = false;
-    /**
-     * Расположение файла.
-     * @type {string}
-    */
-    location = '';
+    path;
 
 };
-class FFile extends DFile {
+class IFile extends DFile {
+
+
+
+};
+class MFile extends IFile {
+
+
+
+};
+class FFile extends MFile {
 
     /**
-     *
+     * ### YFile.constructor
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
-     *  @arg {TFile} t
+     *
+     *
+     *
+     * ***
+     *  @arg {YFileT} t
     */
     constructor(t = {}) {
 
-        t = FFile.#before(...arguments);
+        t = FFile.#before(Object.values(arguments));
 
         FFile.#deceit(t);
 
@@ -61,30 +397,34 @@ class FFile extends DFile {
 
     };
 
-    /** @arg {TFile} t @this {[]} */
+    /** @arg {any[]} t */
     static #before(t) {
 
-        if (t?.constructor === String) {
+        if (t?.length === 1 && [Object, YFile].includes(t[0]?.constructor) && !Object.getOwnPropertyNames(t[0]).includes('_ytp')) {
 
-            t = pathGet(t);
+            return t[0];
 
-            return {
+        } else if (t?.length) {
 
-                name: t.match(fileREName)[1],
-                expand: t.match(fileREExpand)?.[1],
-                location: t.match(fileRELocation)?.[0],
+            /** @type {YFileT} */
+            const r = {};
 
+            if (t[0]?._ytp) t = [...t[0]._ytp];
+
+            switch (t.length) {
+
+                case 3:
+                case 2:
+                case 1: r.path = t[0];
 
             };
 
-        } else if (t instanceof Array) {
-
-
+            return Object.values(r).length ? r : { _ytp: t };
 
         } else return {};
 
     };
-    /** @arg {TFile} t @this {YFile} */
+    /** @arg {YFileT} t @this {YFile} */
     static #deceit(t) {
 
         try {
@@ -98,7 +438,7 @@ class FFile extends DFile {
         };
 
     };
-    /** @arg {TFile} t @this {YFile} */
+    /** @arg {YFileT} t @this {YFile} */
     static #verify(t) {
 
         const {
@@ -110,25 +450,17 @@ class FFile extends DFile {
         FFile.#handle(t);
 
     };
-    /** @arg {TFile} t @this {YFile} */
+    /** @arg {YFileT} t @this {YFile} */
     static #handle(t) {
 
-        let {
+        if (t.path && t.path.constructor === String) {
 
-
-
-        } = t;
-
-
-
-        t = {
-
-            ...t,
+            t.path = new YPath(t.path);
 
         };
 
     };
-    /** @arg {TFile} t @this {YFile} */
+    /** @arg {YFileT} t @this {YFile} */
     static #create(t) {
 
         const {
@@ -139,169 +471,220 @@ class FFile extends DFile {
 
         jectFill(this, t);
 
+
+
     };
 
 };
 
 /**
- *
- * - Тип `SDFY`
+ * ### YBFile
+ * - Тип `SDIMFY`
  * - Версия `0.0.0`
+ * - Модуль `YFile`
  * - Цепочка `BDVHC`
+ * ***
+ *
 */
 export class YBFile extends FFile {
 
     /**
-     * Метод для изменения местоположения файла.
-     * @arg {string|RegExp} location
-    */
-    move(location) {
-
-        if (!this.deleted) {
-
-            const l = pathGet(location);
-
-            fileMove(this.getPath(), l);
-
-            this.location = l;
-
-        };
-
-        return this;
-
-    };
-    /**
-     * Метод отображения информации.
+     * ### getName
      * - Версия `0.0.0`
+     * - Модуль `YFile`
+     * ***
+     *
+     * Метод полкчения наименования файла.
+     *
+     * ***
+     *
+     * @public
     */
-    report() {
+    getName() {
 
-        new YString(this.getReport())
-
-            .castToYReport()
-            .display()
-
-        return this;
+        return this.path.get().match(fileVREName)[1];
 
     };
     /**
-     * Метод для переименования файла.
-     * @arg {string} name
-    */
-    rename(name) {
-
-        if (this.deleted) {
-
-            fileRename(this.getPath(), name);
-
-            this.name = name;
-
-        };
-
-        return this;
-
-    };
-    /**
-     * Метод для удаления файла.
-    */
-    delete() {
-
-        if (!this.deleted) {
-
-            fileDelete(this.getPath());
-
-            this.deleted = true;
-
-        };
-
-        return this;
-
-    };
-    /**
-     * Метод для получения полного пути до файла.
-    */
-    getPath() {
-
-        const {
-
-            name,
-            expand,
-            location,
-
-        } = this;
-
-        if (location) return `${location}/${name}.${expand}`;
-        else return `${name}.${expand}`;
-
-    };
-    /**
-     * Метод получения информации отображения в виде строки.
+     * ### getExpand
      * - Версия `0.0.0`
+     * - Модуль `YFile`
+     * ***
+     *
+     * Метод получения расширения файла.
+     *
+     * ***
+     *
+     * @public
     */
-    getReport() {
+    getExpand() {
 
-        const d = statSync(this.location + this.getNameFull());
-
-        return new YString()
-
-            .changePostfix(';\n')
-            .paste(
-
-                `Наименование: ${this.name}`,
-                `Расширение: ${this.expand}`,
-                `Размещение: ${this.location}`,
-                `Удален: ${this.deleted}`,
-                `Размер: ${d.size}KB`,
-
-            )
-            .get()
+        return this.path.get().match(fileVREExpand)[1] ?? null;
 
     };
     /**
-     * Метод для получения полного имени файла с расширением.
+     * ### getLocation
+     * - Версия `0.0.0`
+     * - Модуль `YFile`
+     * ***
+     *
+     * Метод получения пути размещения файла.
+     *
+     * ***
+     *
+     * @public
     */
-    getNameFull() {
+    getLocation() {
 
-        const {
-
-            name,
-            expand,
-
-        } = this;
-
-        return `${name}.${expand}`;
+        return this.path.get().match(fileVRELocation)[0].slice(0, -1);
 
     };
 
 };
+/**
+ * ### YFile
+ * - Тип `SDIMFY`
+ * - Версия `0.0.0`
+ * - Модуль `YFile`
+ * - Цепочка `BDVHC`
+ * ***
+ *
+*/
 export class YFile extends YBFile {
 
     /**
-     * Метод считывания данных из файла.
+     * ### read
+     * - Версия `0.0.0`
+     * - Модуль `YFile`
+     * ***
+     *
+     *
+     *
+     * ***
+     *
+     * @public
     */
     read() {
 
-        if (!this.deleted) return fileRead(new RegExp(this.getPath()), this.expand);
+        if (this.path.check()) {
+
+            return fileRead(this.path.get());
+
+        } else {
+
+            return undefined;
+
+        };
 
     };
-    /**
-     * Метод записи данных в файл.
-     * @arg {...string} data
-    */
-    write(...data) {
 
-        if (!this.deleted) fileWrite(this.getPath(), this.expand, ...data);
+    /**
+     * ### move
+     * - Версия `0.0.0`
+     * - Модуль `YFile`
+     * ***
+     *
+     * Метод перемещения файла в указанную локацию.
+     *
+     * ***
+     * @arg {import("../file.mjs").fileTTFragment} location `Локация`
+     * @public
+    */
+    move(location) {
+
+        this.path.set(fileMove(this.path.get(), location));
 
         return this;
 
     };
-    /**
-     * Метод дополнения файла новыми данными.
-     * @arg {string} data
-    */
-    append(...data) {
 
-        if (this.deleted) fileAppend(this.getPath(), this.expand, ...data);
+    /**
+     * ### write
+     * - Версия `0.0.0`
+     * - Модуль `YFile`
+     * ***
+     *
+     * Метод записи в файл.
+     *
+     * ***
+     * @arg {string} data `данные`
+     * @public
+    */
+    write(data) {
+
+        fileWrite(this.path.get(), data);
+
+        return this;
+
+    };
+
+    /**
+     * ### append
+     * - Версия `0.0.0`
+     * - Модуль `YFile`
+     * ***
+     *
+     * Метод дополнения данных файла.
+     *
+     * ***
+     * @arg {import("../file.mjs").fileTTData} data `Данные`
+     * @public
+    */
+    append(data) {
+
+        if (data && this.path.check()) {
+
+            fileAppend(this.path.get(), data);
+
+        };
+
+        return this;
+
+    };
+
+    /**
+     * ### delete
+     * - Версия `0.0.0`
+     * - Модуль `YFile`
+     * ***
+     *
+     * Метод для удаления файла.
+     *
+     * ***
+     *
+     * @public
+    */
+    delete() {
+
+        if (this.path.check()) {
+
+            fileDelete(this.path.get());
+
+        };
+
+        return this;
+
+    };
+
+    /**
+     * ### rename
+     * - Версия `0.0.0`
+     * - Модуль `YFile`
+     * ***
+     *
+     * Метод переименования файла.
+     *
+     * ***
+     * @arg {string} name `Наименование`
+     * @public
+    */
+    rename(name) {
+
+        if (name && name.constructor === String && this.path.check()) {
+
+            this.path.set(fileRename(this.path.get(), name));
+
+        };
 
         return this;
 

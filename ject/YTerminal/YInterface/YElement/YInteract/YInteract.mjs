@@ -1,20 +1,54 @@
 import { jectFill } from "../../../../ject.mjs";
 import { YElement } from "../YElement.mjs";
 
-/**
- * @typedef TBInteract
- * @prop {any} _
- * @typedef {{[p in Exclude<keyof DInteract,keyof SInteract>|Exclude<keyof SInteract,keyof DInteract>]:(DInteract[p]&SInteract[p])}} TDInteract
- * @typedef {TDInteract&TBInteract&import("../YElement.mjs").TElement} TInteract
+//#region YT
+
+/** ### YInteractT
+ * - Тип `T`
+ * - Версия `0.0.0`
+ * - Модуль `YInteract`
+ *
+ * Основной параметр модуля `YInteract`.
+ *
+ * @typedef {YInteractTE&YInteractTU&import("../YElement.mjs").YElementT} YInteractT
+ *
 */
+/** ### YInteractTE
+ * - Тип `TE`
+ * - Версия `0.0.0`
+ * - Модуль `YInteract`
+ *
+ * Параметр наследования `YInteract`.
+ *
+ * @typedef {{[p in Exclude<keyof DInteract,keyof SInteract>|Exclude<keyof SInteract,keyof DInteract>]:(DInteract[p]&SInteract[p])}} YInteractTE
+ *
+*/
+/** ### YInteractTU
+ * - Тип `TU`
+ * - Версия `0.0.0`
+ * - Модуль `YInteract`
+ *
+ * Уникальные параметры `YInteract`.
+ *
+ * @typedef YInteractTU
+ * @prop {any} _
+ *
+*/
+
+//#endregion
 
 class SInteract extends YElement {
 
     /**
+     * ### binds
+     *
      * Общие привязки.
      *
      * Используются всеми интерактивными элементами.
+     *
+     * ***
      * @type {[(string|string[]),boolean,function(YInteract):void][]}
+     * @public
     */
     static binds = [];
 
@@ -22,14 +56,20 @@ class SInteract extends YElement {
 class DInteract extends SInteract {
 
     /**
+     * ### binds
+     *
      * Привязки.
      *
      * Это коды или обозначения клавиш или их комбинаций вида `[[code|symbol],boolean,func]`, встречая которые интерактор выполняет указанную функцию.
      * Для одной функции может быть указано несколько кодов/символов.
      * В случае, если привязка указывается для единственного кода/символа, можно указать её без занесения в массив.
+     *
+     * ***
      * @type {[(string|string[]),function(YInteract):void][]}
+     * @public
     */
     binds = [];
+
 
 };
 class IInteract extends DInteract {
@@ -40,9 +80,16 @@ class IInteract extends DInteract {
 class MInteract extends IInteract {
 
     /**
-     * Метод получения информации от прослушивателя через терминал.
+     * ### receive
      * - Версия `0.0.0`
-     * @arg {string} string Ключ-код/символ привязки.
+     * - Модуль `YInteract`
+     * ***
+     *
+     * Метод получения информации от прослушивателя через терминал.
+     *
+     * ***
+     * @arg {string} string `Ключ-код/символ привязки`
+     * @protected
     */
     receive(string = this.terminal.listener.code) {
 
@@ -61,10 +108,14 @@ class MInteract extends IInteract {
 class FInteract extends MInteract {
 
     /**
-     * Контсруктор класса `YInteract`
+     * ### YInteract.constructor
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
-     *  @arg {TInteract} t
+     *
+     *
+     *
+     * ***
+     *  @arg {YInteractT} t
     */
     constructor(t = {}) {
 
@@ -87,10 +138,10 @@ class FInteract extends MInteract {
 
         } else if (t?.length) {
 
-            /** @type {TInteract&DInteract} */
+            /** @type {YInteractT} */
             const r = {};
 
-            if (t[0]._ytp) t = [...t[0]._ytp];
+            if (t[0]?._ytp) t = [...t[0]._ytp];
 
             switch (t.length) {
 
@@ -105,7 +156,7 @@ class FInteract extends MInteract {
         } else return {};
 
     };
-    /** @arg {TInteract} t @this {YInteract} */
+    /** @arg {YInteractT} t @this {YInteract} */
     static #deceit(t) {
 
         try {
@@ -119,7 +170,7 @@ class FInteract extends MInteract {
         };
 
     };
-    /** @arg {TInteract} t @this {YInteract} */
+    /** @arg {YInteractT} t @this {YInteract} */
     static #verify(t) {
 
         const {
@@ -131,13 +182,13 @@ class FInteract extends MInteract {
         FInteract.#handle(t);
 
     };
-    /** @arg {TInteract} t @this {YInteract} */
+    /** @arg {YInteractT} t @this {YInteract} */
     static #handle(t) {
 
 
 
     };
-    /** @arg {TInteract} t @this {YInteract} */
+    /** @arg {YInteractT} t @this {YInteract} */
     static #create(t) {
 
         const {
@@ -148,34 +199,51 @@ class FInteract extends MInteract {
 
         jectFill(this, t);
 
+
+
     };
 
 };
 
 /**
- * Класс `YInteract`
- *
- *
+ * ### YInteract
  * - Тип `SDIMFY`
- * - Версия `0.0.0`
- * - Модуль ``
+ * - Версия `0.1.0`
+ * - Модуль `ject.terminal.YInteract`
  * - Цепочка `BDVHC`
+ * ***
+ *
 */
 export class YInteract extends FInteract {
 
     /**
-     * Метод получения текущего состояния значения.
+     * ### get
      * - Версия `0.0.0`
+     * - Модуль `YInteract`
+     * ***
+     *
+     * Метод получения текущего состояния значения.
+     *
+     * ***
+     *
+     * @public
     */
     get() {
 
-        return;
+
 
     };
     /**
-     * Метод последовательного вызова указанных привязок.
+     * ### bind
      * - Версия `0.0.0`
-     * @arg {...string} strings Ключ-коды/символы привязок.
+     * - Модуль `YInteract`
+     * ***
+     *
+     * Метод последовательного вызова указанных привязок.
+     *
+     * ***
+     * @arg {...string} strings `Ключ-коды/символы привязок`
+     * @public
     */
     bind(...strings) {
 

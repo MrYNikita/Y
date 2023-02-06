@@ -244,6 +244,22 @@ export const configOSPath = {
 export const configOSFile = {
 
     /**
+     * ### expands
+     *
+     * Массив поддерживаемых расширений.
+     *
+     * ***
+     * @public
+    */
+    expands: [
+
+        'txt',
+        'csv',
+        'json',
+
+    ],
+
+    /**
      * Режим частной отладки.
      *
      * Активирует режим отладки для указанного модуля.
@@ -304,6 +320,20 @@ export const configOSYDir = {
 
 };
 export const configOSYFile = {
+
+};
+export const configOSYPath = {
+
+    /**
+     * ### defaultValue
+     *
+     * Путь по умолчнаию.
+     *
+     * ***
+     * @type {string?}
+     * @public
+    */
+    defaultValue: null,
 
 };
 
@@ -560,8 +590,8 @@ export const configStringANSIColor = {
 
         white: 231,
 
-        brown: 94,
-        brownDark: 52,
+        brown: 136,
+        brownDark: 94,
         brownLight: 137,
 
         orange: 208,
