@@ -336,6 +336,7 @@ export class YString extends FString {
      *
      * Активация режима приведт к возвращению строки с применением стилей.
      * @public
+     * @return {string}
     */
     get(style) {
 

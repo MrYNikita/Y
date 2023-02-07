@@ -4,7 +4,9 @@ import { jectFill } from "../ject.mjs";
 import { YListener } from "./YListener/YListener.mjs";
 import { YInterface } from "./YInterface/YInterface.mjs";
 import { configYTerminal } from "../../config.mjs";
-import { arrayRearrangeByElement } from "../../array/array.mjs";
+import { YElement } from "./YInterface/YElement/YElement.mjs";
+import { YPath } from "../../os/path/YPath/YPath.mjs";
+import { fileReadJson, fileWriteJson } from "../../os/file/file.mjs";
 
 //#region YT
 
@@ -63,6 +65,15 @@ class STerminal extends YJect {
             y => {
 
                 y.back();
+
+            }
+
+        ],
+        ['\x1B',
+
+            y => {
+
+                y.save();
 
             }
 
@@ -174,18 +185,84 @@ class DTerminal extends STerminal {
      * @public
     */
     interface = null;
+    /**
+     * ### pathCache
+     *
+     * Путь до файла кэша.
+     *
+     * ***
+     * @type {YPath?}
+     * @public
+    */
+    pathCache = null;
+
+    /**
+     * ### modeSave
+     *
+     * Режим сохранения.
+     *
+     * ***
+     * @type {boolean}
+     * @public
+    */
+    modeSave = false;
+    /**
+     * ### modeLoad
+     *
+     * Режим загрузки.
+     *
+     * ***
+     * @type {boolean}
+     * @public
+    */
+    modeLoad = false;
+
+    /**
+     * ### handlersGo
+     *
+     * Массив обработчиков перехода.
+     *
+     * Размещенные здесь функции поочередно вызываются в случае перехода с активного интерфейса в любой вложенный.
+     *
+     * ***
+     * @type {(function(YTerminal):void)[]}
+     * @public
+    */
+    handlersGo = [];
+    /**
+     * ### handlersBack
+     *
+     * Массив обработчиков возврата.
+     *
+     * Размещенные здесь функции поочередно вызываются в случае возврата из активного интерфейса.
+     *
+     * ***
+     * @type {(function(YTerminal):void)[]}
+     * @public
+    */
+    handlersBack = [];
 
 };
 class ITerminal extends DTerminal {
 
     /**
-     * Прослушиватель пользовательского ввода.
+     * ### listener
+     *
+     * Прослушиватель.
+     *
+     * ***
      * @type {YListener}
+     * @public
     */
     listener = new YListener(this);
     /**
+     * ### instructions
+     *
      * Инструкции.
-     * @type {[string, function():void][]}
+     *
+     * ***
+     * @type {[string, function():void]}
+     * @public
     */
     instructions = [];
     /**
@@ -198,10 +275,80 @@ class ITerminal extends DTerminal {
      * @public
     */
     interfaceActive = null;
+    /**
+     * ### transfers
+     *
+     * Передаваемые элементы.
+     *
+     * ***
+     * @type {YElement[]}
+     * @protected
+    */
+    transferElements = [];
 
 };
 class MTerminal extends ITerminal {
 
+    /**
+     * ### load
+     * - Версия `0.0.0`
+     * - Модуль `YTerminal`
+     * ***
+     *
+     * Метод загрузки данных.
+     *
+     * ***
+     *
+     * @protected
+    */
+    load() {
+
+        if (this.modeLoad && this.pathCache.check()) {
+
+            const data = fileReadJson(this.pathCache.get());
+
+            this.goByLabel(data.location);
+
+        };
+
+        return this;
+
+    };
+    /**
+     * ### save
+     * - Версия `0.0.0`
+     * - Модуль `YTerminal`
+     * ***
+     *
+     * Метод сохранения данных терминала.
+     *
+     * ***
+     *
+     * @protected
+    */
+    save() {
+
+        if (this.modeSave) {
+
+            const location = [this.interfaceActive];
+
+            while (location.at(-1).interface && location.at(-1).interface.label) {
+
+                location.push(location.at(-1).interface);
+
+            };
+
+            fileWriteJson(this.pathCache.get(), {
+
+                location: location.reverse().map(i => i.label).filter(s => s),
+
+            });
+
+        };
+
+        return this;
+
+    };
     /**
      * ### signal
      * - Версия `0.1.0`
@@ -363,6 +510,16 @@ class FTerminal extends MTerminal {
 
         };
 
+        if (t.pathCache) {
+
+            if (t.pathCache.constructor === String) {
+
+                t.pathCache = new YPath(t.pathCache);
+
+            };
+
+        };
+
     };
     /** @arg {YTerminalT} t @this {YTerminal} */
     static #create(t) {
@@ -380,6 +537,8 @@ class FTerminal extends MTerminal {
         this.listener.on();
 
         this.interface.setTerminal(this);
+
+        this.load();
 
     };
 
@@ -427,6 +586,10 @@ export class YTerminal extends FTerminal {
             /** @type {YInterface?} */
             this.interfaceActive = this.interfaceActive.interface;
 
+            this.transferElements = this.transferElements.filter(e => !this.interfaceActive.elements.includes(e));
+
+            this.handlersBack.forEach(h => h(this));
+
             this.display();
 
         };
@@ -437,7 +600,7 @@ export class YTerminal extends FTerminal {
 
     /**
      * ### goByLabel
-     * - Версия `0.0.0`
+     * - Версия `0.1.0`
      * - Модуль `YTerminal`
      * ***
      *
@@ -446,24 +609,50 @@ export class YTerminal extends FTerminal {
      * Переход осуществялется только в том случае, если интерфейс с меткой существует.
      *
      * ***
-     * @arg {string} label `Метка`
+     * @arg {string|string[]} label `Метка`
+     *
+     * Может быть обозначена как единственная метка или массив меток.
+     *
+     * В случае единственного обозначения будет осуществлен разовый переход на доступный интерфейс.
+     *
+     * В случае массива переход будет осуществляться до тех пор, пока удается находить нужные интерфейсы.
+     *
      * @arg {boolean} drop `Режим сброса следующего интерфейса`
      * @public
     */
     goByLabel(label, drop) {
 
-        /** @type {YInterface?} */
-        const f = this.interfaceActive.interfaces.find(i => i.label === label);
 
-        if (f) {
+        if (label.constructor === String) {
 
-            if (drop) {
+            label = [label];
 
-                f.drop();
+        };
 
-            };
+        if (label instanceof Array) {
 
-            this.interfaceActive = f;
+            label.filter(l => l).forEach(l => {
+
+                /** @type {YInterface?} */
+                const f = this.interfaceActive.interfaces.find(i => i.label === l);
+
+                if (f) {
+
+                    if (drop) {
+
+                        f.drop();
+
+                    };
+
+                    this.transferElements.push(...this.interfaceActive.elements.filter(e => e.transfer));
+
+                    this.interfaceActive = f;
+
+                    this.handlersGo.forEach(h => h(this));
+
+                };
+
+            });
 
             this.display();
 
@@ -531,7 +720,7 @@ export class YTerminal extends FTerminal {
 
                         };
 
-                        [...this.interfaceActive.elements, this.interfaceActive?.interactor].filter(e => e).forEach(e => {
+                        [...this.transferElements, ...this.interfaceActive.elements, this.interfaceActive?.interactor].filter(e => e).forEach(e => {
 
                             y.setCursorTo(...e.coords)
                             y.pasteWrap(e.getLayout())
@@ -542,6 +731,33 @@ export class YTerminal extends FTerminal {
 
                 })
                 .display();
+
+        };
+
+        return this;
+
+    };
+
+    /**
+     * ### appendHandler
+     * - Версия `0.0.0`
+     * - Модуль `YTerminal`
+     * ***
+     *
+     * Метод добавления обработчика.
+     *
+     * ***
+     * @arg {'go'|'back'} type `Тип`
+     * @arg {function(YTerminal):void} handle `Обработчик`
+     * @public
+    */
+    appendHandler(type, handle) {
+
+        type = 'handlers' + type[0].toUpperCase() + type.slice(1);
+
+        if (this[type] && handle instanceof Function) {
+
+            this[type].push(handle);
 
         };
 

@@ -280,15 +280,33 @@ export class YListener extends FListener {
                 this.value = c ? c.toString() : c;
                 this.code = k.sequence;
 
-                if (k.ctrl) this.ctrl = true;
-                else false;
+                if (k.ctrl) {
 
-                if (k.shift) this.shift = true;
-                else this.shift = false;
+                    this.ctrl = true;
+
+                } else {
+
+                    this.ctrl = false;
+
+                };
+
+                if (k.shift) {
+
+                    this.shift = true;
+
+                } else {
+
+                    this.shift = false;
+
+                };
 
                 this.signal();
 
-                if (k.sequence === '\x1B') this.off();
+                if (k.sequence === '\x1B') {
+
+                    this.off();
+
+                };
 
             }
 

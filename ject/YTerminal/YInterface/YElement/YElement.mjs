@@ -41,7 +41,16 @@ import { YInterface } from "../YInterface.mjs";
 
 class SElement extends YJect {
 
-
+    /**
+     * ### handlersSetInterface
+     *
+     * Общие обработчики установки интерфейса.
+     *
+     * ***
+     * @type {(function(YInterface):void)[]}
+     * @public
+    */
+    static handlersSetInterface = [];
 
 };
 class DElement extends SElement {
@@ -66,6 +75,22 @@ class DElement extends SElement {
      * @public
     */
     coords = [1, 1];
+    /**
+     * ### transfer
+     *
+     * Передача.
+     *
+     * Помечает элемент, как (не) передаваемый.
+     *
+     * Передаваемые элементы сохраняются при переходе между интерфейсами.
+     *
+     * Передаваемый элемент перестанет отображаться после того, как произойдет откат за один интерфейс от того, который его объявил.
+     *
+     * ***
+     * @type {boolean}
+     * @public
+    */
+    transfer = false;
     /**
      * ### permanent
      *
