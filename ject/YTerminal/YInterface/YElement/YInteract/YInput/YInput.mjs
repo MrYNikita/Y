@@ -1,6 +1,7 @@
 import { YInteract } from "../YInteract.mjs";
 import { YString } from "../../../../../../string/YString/YString.mjs";
 import { jectFill } from "../../../../../ject.mjs";
+import { YTerminal } from "../../../../YTerminal.mjs";
 
 /**
  * @typedef TBInput
@@ -30,7 +31,19 @@ class SInput extends YInteract {
         ],
         ['\b',
             /** @arg {YInput} y */
-            y => y.value = y.value.remove(),
+            y => {
+
+                if (y.value.get().length) {
+
+                    y.value = y.value.remove();
+
+                } else {
+
+                    y.terminal.bind('\b');
+
+                };
+
+            },
             true,
         ],
         [['\t'],
@@ -39,7 +52,40 @@ class SInput extends YInteract {
         ],
         ['default',
             /** @arg {YInput} y */
-            y => (y.terminal.listener.value && y.value.values.length < y.sizes[0] * y.sizes[1]) ? y.value.paste(y.terminal.listener.value) : 0,
+            y => {
+
+                const l = y.terminal.listener;
+                const c = l.code;
+                const n = l.name === 'space' ? ' ' : l.name;
+
+                if (l.ctrl) {
+
+                    switch (l.name) {
+
+                        case 'r': {
+
+                            y.value.set('');
+
+                        }; break;
+                        case 'z': {
+
+                            y.value.remove();
+
+                        }; break;
+
+                    };
+
+                } else {
+
+                    if (y.value.get().length < y.sizes[0] * y.sizes[1]) {
+
+                        y.value.paste(l.shift ? c.toUpperCase() : c);
+
+                    };
+
+                };
+
+            },
             true,
         ],
 
@@ -81,13 +127,7 @@ class IInput extends DInput {
 };
 class MInput extends IInput {
 
-    receive(string) {
 
-        SInput.prototype.receive.apply(this, [string]);
-
-        return this;
-
-    };
 
 };
 class FInput extends MInput {

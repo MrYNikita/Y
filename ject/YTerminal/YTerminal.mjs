@@ -69,6 +69,21 @@ class STerminal extends YJect {
             }
 
         ],
+
+    ];
+    /**
+     * ### bindsImportant
+     *
+     * Общие привязки первостепенного назначения.
+     *
+     * Данные привязки срабатывают до сигнализации в интерфейсы.
+     *
+     * ***
+     * @type {[(string|string[]),function(YTerminal):void,boolean][]}
+     * @public
+    */
+    static bindsImportant = [
+
         ['\x1B',
 
             y => {
@@ -77,7 +92,7 @@ class STerminal extends YJect {
 
             }
 
-        ]
+        ],
 
     ];
 
@@ -365,11 +380,11 @@ class MTerminal extends ITerminal {
 
         if (this.interfaceActive) {
 
-            this.interfaceActive.receive();
+            return this.interfaceActive.receive();
 
         };
 
-        return this;
+        return false;
 
     };
     /**
@@ -381,34 +396,49 @@ class MTerminal extends ITerminal {
      * Метод принятия данных от прослушивателя.
      *
      * ***
-     *
+     * @arg {string} string `Код`
+     * @arg {boolean} signal `Сигнал`
      * @protected
     */
-    receive(string = this.listener.code) {
+    receive(string = this.listener.code, signal = this.signal()) {
 
-        let b = [...this.binds, ...this.constructor.binds].find(b => b[0] === string || (b[0] instanceof Array && b[0].includes(string)));
+        const bi = YTerminal.bindsImportant.find(b => b[0] === string || (b[0] instanceof Array && b[0].includes(string)));
 
-        if (b) {
+        if (bi) {
 
-            b?.[1]?.(this);
+            bi?.[1]?.(this);
 
-        } else if (b = [...this.binds, ...this.constructor.binds].find(b => b[0] === 'default')) {
+            return true;
 
-            b?.[1]?.(this);
+        } else if (!signal) {
 
-        } else {
+            const binds = [...this.binds, ...this.constructor.binds];
 
-            if (this.interfaceActive) {
+            let b = binds.find(b => b[0] === string || (b[0] instanceof Array && b[0].includes(string)));
 
-                this.signal();
+            if (b) {
+
+                b?.[1]?.(this);
+
+            } else if (b = binds.find(b => b[0] === 'default')) {
+
+                b?.[1]?.(this);
+
+            } else {
+
+                return false;
 
             };
 
+            this.display();
+
+        } else {
+
+            this.display();
+
         };
 
-        if (b && b[2]) this.terminal.display();
-
-        return this;
+        return true;
 
     };
 
@@ -562,6 +592,26 @@ class FTerminal extends MTerminal {
 export class YTerminal extends FTerminal {
 
     /**
+     * ### bind
+     * - Версия `0.0.0`
+     * - Модуль `YTerminal`
+     * ***
+     *
+     * Метод последовательного вызова указанных привязок.
+     *
+     * ***
+     * @arg {...string} strings `Ключ-коды/символы привязок`
+     * @public
+    */
+    bind(...strings) {
+
+        strings.filter(s => s && s.constructor === String).forEach(s => this.receive(s, false))
+
+        return this;
+
+    };
+
+    /**
      * ### back
      * - Версия `0.0.0`
      * - Модуль `YTerminal`
@@ -649,6 +699,7 @@ export class YTerminal extends FTerminal {
                     this.interfaceActive = f;
 
                     this.handlersGo.forEach(h => h(this));
+                    this.interfaceActive.handlersActive.forEach(h => h(this.interfaceActive));
 
                 };
 

@@ -1,3 +1,4 @@
+import { arrayUnique } from "../../../../../array/array.mjs";
 import { jectFill } from "../../../../ject.mjs";
 import { YElement } from "../YElement.mjs";
 
@@ -47,10 +48,18 @@ class SInteract extends YElement {
      * Используются всеми интерактивными элементами.
      *
      * ***
-     * @type {[(string|string[]),boolean,function(YInteract):void][]}
+     * @type {[(string|string[]),function(YInteract):void][]}
      * @public
     */
-    static binds = [];
+    static binds = [
+
+        ['default', y => {
+
+            y.terminal.bind();
+
+        }],
+
+    ];
 
 };
 class DInteract extends SInteract {
@@ -88,19 +97,35 @@ class MInteract extends IInteract {
      * Метод получения информации от прослушивателя через терминал.
      *
      * ***
-     * @arg {string} string `Ключ-код/символ привязки`
+     * @arg {string} code `Ключ-код/символ привязки`
      * @protected
     */
-    receive(string = this.terminal.listener.code) {
+    receive(code = this.terminal.listener.code) {
 
-        let b = [...this.binds, ...this.constructor.binds].find(b => b[0] === string || (b[0] instanceof Array && b[0].includes(string)));
+        const name = this.terminal.listener.name;
+        const binds = [...this.binds, ...this.constructor.binds];
 
-        if (b) b?.[1]?.(this);
-        else if (b = [...this.binds, ...this.constructor.binds].find(b => b[0] === 'default')) b?.[1]?.(this);
+        let b = binds.find(b => b[0] === code || (b[0] instanceof Array && b[0].includes(code)));
 
-        if (b && b[2]) this.terminal.display();
+        if (b) {
 
-        return this;
+            b?.[1]?.(this);
+
+        } else if (b = binds.find(b => b[0] === name || (b[0] instanceof Array && b[0].includes(name)))) {
+
+            b?.[1]?.(this);
+
+        } else if (b = binds.find(b => b[0] === 'default')) {
+
+            b?.[1]?.(this);
+
+        } else {
+
+            return false;
+
+        };
+
+        return true;
 
     };
 
@@ -235,7 +260,7 @@ export class YInteract extends FInteract {
     };
     /**
      * ### bind
-     * - Версия `0.0.0`
+     * - Версия `0.1.0`
      * - Модуль `YInteract`
      * ***
      *
@@ -247,7 +272,15 @@ export class YInteract extends FInteract {
     */
     bind(...strings) {
 
-        strings.filter(s => s && s.constructor === String).forEach(s => this.receive(s))
+        if (strings.length) {
+
+            strings.filter(s => s && s.constructor === String).forEach(s => this.receive(s));
+
+        } else {
+
+            this.receive();
+
+        };
 
         return this;
 

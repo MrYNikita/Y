@@ -1,12 +1,51 @@
 import { jectFill } from "../../ject/ject.mjs";
 import { YBasic } from "../../ject/YBasic/YBasic.mjs";
 import { stringCastToDate } from "../../string/string.mjs";
+import { dateChange, dateGetMesuares } from "../date.mjs";
 
-/**
- * @typedef TBDate
- * @prop {any} _
- * @typedef {DDate&TBDate} TDate
+//#region YT
+
+/** ### YDateT
+ * - Тип `T`
+ * - Версия `0.0.0`
+ * - Модуль `YDate`
+ *
+ * Основной параметр модуля `YDate`.
+ *
+ * @typedef {YDateTE&YDateTU} YDateT
+ *
 */
+/** ### YDateTE
+ * - Тип `TE`
+ * - Версия `0.0.0`
+ * - Модуль `YDate`
+ *
+ * Параметр наследования `YDate`.
+ *
+ * @typedef {{[p in Exclude<keyof DDate,keyof SDate>|Exclude<keyof SDate,keyof DDate>]:(DDate[p]&SDate[p])}} YDateTE
+ *
+*/
+/** ### YDateTU
+ * - Тип `TU`
+ * - Версия `0.0.0`
+ * - Модуль `YDate`
+ *
+ * Уникальные параметры `YDate`.
+ *
+ * @typedef YDateTU
+ * @prop {Date} date
+ * @prop {number} day
+ * @prop {number} year
+ * @prop {number} hour
+ * @prop {number} month
+ * @prop {number} second
+ * @prop {number} minute
+ * @prop {number} setYear
+ * @prop {number} milisecond
+ *
+*/
+
+//#endregion
 
 class SDate extends YBasic {
 
@@ -15,17 +54,21 @@ class SDate extends YBasic {
 };
 class DDate extends SDate {
 
-    /**
-     * Дата.
-     * @protected
-     * @type {Date}
-    */
-    value = new Date();
+
 
 };
 class IDate extends DDate {
 
-
+    /**
+     * ### value
+     *
+     * Значение.
+     *
+     * ***
+     * @type {Date}
+     * @protected
+    */
+    value;
 
 };
 class MDate extends IDate {
@@ -36,10 +79,14 @@ class MDate extends IDate {
 class FDate extends MDate {
 
     /**
-     * Контсруктор класса `YDate`
+     * ### YDate.constructor
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
-     *  @arg {TDate} t
+     *
+     *
+     *
+     * ***
+     *  @arg {YDateT} t
     */
     constructor(t = {}) {
 
@@ -53,17 +100,19 @@ class FDate extends MDate {
 
     };
 
-    /** @arg {Array<any>} t */
+    /** @arg {any[]} t */
     static #before(t) {
 
-        if (t?.length === 1 && t[0]?.constructor === Object) {
+        if (t?.length === 1 && [Object, YDate].includes(t[0]?.constructor) && !Object.getOwnPropertyNames(t[0]).includes('_ytp')) {
 
             return t[0];
 
         } else if (t?.length) {
 
-            /** @type {TDate&DDate} */
+            /** @type {YDateT} */
             const r = {};
+
+            if (t[0]?._ytp) t = [...t[0]._ytp];
 
             switch (t.length) {
 
@@ -73,12 +122,12 @@ class FDate extends MDate {
 
             };
 
-            return r;
+            return Object.values(r).length ? r : { _ytp: t };
 
         } else return {};
 
     };
-    /** @arg {TDate} t @this {YDate} */
+    /** @arg {YDateT} t @this {YDate} */
     static #deceit(t) {
 
         try {
@@ -92,7 +141,7 @@ class FDate extends MDate {
         };
 
     };
-    /** @arg {TDate} t @this {YDate} */
+    /** @arg {YDateT} t @this {YDate} */
     static #verify(t) {
 
         const {
@@ -104,13 +153,26 @@ class FDate extends MDate {
         FDate.#handle(t);
 
     };
-    /** @arg {TDate} t @this {YDate} */
+    /** @arg {YDateT} t @this {YDate} */
     static #handle(t) {
 
+        if (!t.date) {
 
+            if (t.setYear) {
+
+                t.date = new Date(t.setYear + 1, 0, 0);
+                t.date = new Date(t.date.getFullYear(), 0, 1);
+
+            } else {
+
+                t.date = new Date();
+
+            };
+
+        };
 
     };
-    /** @arg {TDate} t @this {YDate} */
+    /** @arg {YDateT} t @this {YDate} */
     static #create(t) {
 
         const {
@@ -121,113 +183,105 @@ class FDate extends MDate {
 
         jectFill(this, t);
 
+    };
 
+};
+
+/**
+ * ### YDate
+ * - Тип `SDIMFY`
+ * - Версия `0.1.0`
+ * - Модуль `YDate`
+ * - Цепочка `BDVHC`
+ * ***
+ * Класс Дат.
+ *
+ * Данный класс предназначен для расширенного взаимодействия с Date классом.
+*/
+export class YDate extends FDate {
+
+    /**
+     * ### change
+     * - Версия `0.0.0`
+     * - Модуль `YDate`
+     * ***
+     *
+     * Метод {@link dateChange|изменения} даты.
+     *
+     * ***
+     * @arg {number} day `Дни`
+     * @arg {number} hour `Часы`
+     * @arg {number} year `Года`
+     * @arg {number} month `Месяца`
+     * @arg {number} second `Секунды`
+     * @arg {number} minute `Минуты`
+     * @arg {number} milisecond `Милисекунды`
+     * @public
+    */
+    change(year, month, day, hour, minute, second, milisecond) {
+
+        this.value = dateChange(this.value, year, month, day, hour, minute, second, milisecond);
+
+        return this;
+
+    };
+
+    /**
+     * ### toDate
+     * - Версия `0.0.0`
+     * - Модуль `YDate`
+     * ***
+     *
+     * Метод получения даты.
+     *
+     * ***
+     *
+     * @public
+    */
+    getDate() {
+
+        return this.value;
+
+    };
+    /**
+     * ### getString
+     * - Версия `0.0.0`
+     * - Модуль `YDate`
+     * ***
+     *
+     * Метод получения строки.
+     *
+     * ***
+     *
+     * @public
+    */
+    getString() {
+
+        return stringCastToDate(this.getDate());
+
+    };
+    /**
+     * ### getMesuares
+     * - Версия `0.0.0`
+     * - Модуль `YDate`
+     * ***
+     *
+     * Метод получения всех единиц измерения в порядке убывания.
+     *
+     * ***
+     *
+     * @public
+    */
+    getMesuares() {
+
+        return dateGetMesuares(this.getDate());
 
     };
 
 };
 
 /**
- * Класс `YDate`
- *
- * Данный класс предназначен для работы с датами.
- * - Тип `SDIMFY-1`
- * - Версия `0.0.1`
- * - Цепочка `BDVHC`
+ * @file YDate.mjs
+ * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
+ * @copyright Yakhin Nikita Artemovich 2023
 */
-export class YDate extends FDate {
-
-    /**
-     * Метод получения всех единиц измерения времени от меньшей к большей.
-     * - Версия `0.0.0`
-    */
-    get() {
-
-        return [
-
-            this.getMilesecond(),
-            this.getSecond(),
-            this.getMinute(),
-            this.getHour(),
-            this.getDay(),
-            this.getMonth(),
-            this.getYear(),
-
-        ];
-
-    };
-    /**
-     * Метод получения дня.
-     * - Версия `0.0.0`
-    */
-    getDay() {
-
-        return this.value.getDate();
-
-    };
-    /**
-     * Метод получения года.
-     * - Версия `0.0.0`
-    */
-    getYear() {
-
-        return this.value.getFullYear();
-
-    };
-    /**
-     * Метод получения часа.
-     * - Версия `0.0.0`
-    */
-    getHour() {
-
-        return this.value.getHours();
-
-    };
-    /**
-     * Метод получения месяца.
-     * - Версия `0.0.0`
-    */
-    getMonth() {
-
-        return this.value.getMonth() + 1;
-
-    };
-    /**
-     * Метод получения секунды.
-     * - Версия `0.0.0`
-    */
-    getSecond() {
-
-        return this.value.getSeconds();
-
-    };
-    /**
-     * Метод получения минуты.
-     * - Версия `0.0.0`
-    */
-    getMinute() {
-
-        return this.value.getMinutes();
-
-    };
-    /**
-     * Метод получения милесекунд.
-     * - Версия `0.0.0`
-    */
-    getMilesecond() {
-
-        return this.getMilesecond();
-
-    };
-
-    /**
-     * Метод получения даты в формате локали.
-     * - Версия `0.0.0`
-    */
-    getString() {
-
-        return stringCastToDate(this.value);
-
-    };
-
-};

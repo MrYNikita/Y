@@ -86,6 +86,16 @@ class IListener extends DListener {
     */
     code = '';
     /**
+     * ### name
+     *
+     * Наименование.
+     *
+     * ***
+     * @type {string}
+     * @public
+    */
+    name = '';
+    /**
      * ### shift
      *
      * Значение нажатия Shift.
@@ -95,16 +105,6 @@ class IListener extends DListener {
      * @protected
     */
     shift = false;
-    /**
-     * ### value
-     *
-     * Значение ввода.
-     *
-     * ***
-     * @type {string}
-     * @protected
-    */
-    value = '';
     /**
      * ### active
      *
@@ -243,7 +243,7 @@ class FListener extends MListener {
 /**
  * ### YListener
  * - Тип `SDIMFY`
- * - Версия `0.2.0`
+ * - Версия `0.2.1`
  * - Модуль `ject.terminal.YListener`
  * - Цепочка `BDVHC`
  * ***
@@ -276,9 +276,8 @@ export class YListener extends FListener {
             */
             (c, k) => {
 
-
-                this.value = c ? c.toString() : c;
                 this.code = k.sequence;
+                this.name = k.name;
 
                 if (k.ctrl) {
 

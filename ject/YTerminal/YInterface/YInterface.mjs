@@ -120,6 +120,17 @@ class DInterface extends SInterface {
     */
     interfaces = [];
 
+    /**
+     * ### hendlersActive
+     *
+     * Обработчики активации интерфейса.
+     *
+     * ***
+     * @type {(function(YInterface):void)[]}
+     * @public
+    */
+    handlersActive = [];
+
 };
 class IInterface extends DInterface {
 
@@ -144,11 +155,11 @@ class MInterface extends IInterface {
 
         if (this.interactor) {
 
-            this.interactor.receive();
+            return this.interactor.receive();
 
         };
 
-        return this;
+        return false;
 
     };
     /**
@@ -165,9 +176,7 @@ class MInterface extends IInterface {
     */
     receive() {
 
-        this.signal();
-
-        return this;
+        return this.signal();
 
     };
 
@@ -396,6 +405,32 @@ export class YInterface extends FInterface {
 
     };
 
+    /**
+     * ### appendHandler
+     * - Версия `0.0.0`
+     * - Модуль `YTerminal`
+     * ***
+     *
+     * Метод добавления обработчика.
+     *
+     * ***
+     * @arg {'active'} type `Тип`
+     * @arg {function(YTerminal):void} handle `Обработчик`
+     * @public
+    */
+    appendHandler(type, handle) {
+
+        type = 'handlers' + type[0].toUpperCase() + type.slice(1);
+
+        if (this[type] && handle instanceof Function) {
+
+            this[type].push(handle);
+
+        };
+
+        return this;
+
+    };
     /**
      * ### appendElements
      * - Версия `0.0.1`

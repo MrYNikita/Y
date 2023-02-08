@@ -123,12 +123,7 @@ class IMenu extends DMenu {
 };
 class MMenu extends IMenu {
 
-    /** @arg {string} string Ключ-код/символ привязки. */
-    receive(string) {
 
-        SMenu.prototype.receive.apply(this, [string]);
-
-    };
 
 };
 class FMenu extends MMenu {

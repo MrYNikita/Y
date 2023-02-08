@@ -1,13 +1,45 @@
-import { YInteract } from "../YInteract.mjs";
 import { YString } from "../../../../../../string/YString/YString.mjs";
 import { jectFill } from "../../../../../ject.mjs";
+import { YInteract } from "../YInteract.mjs";
+import { YTerminal } from "../../../../YTerminal.mjs";
+import { YInterface } from "../../../YInterface.mjs";
+import { colorGet, colorRepaint } from "../../../../../../string/ansi/color/color.mjs";
 
-/**
- * @typedef TBForm
- * @prop {any} _
- * @typedef {{[p in Exclude<keyof DForm,keyof SForm>|Exclude<keyof SForm,keyof DForm>]:(DForm[p]&SForm[p])}} TDForm
- * @typedef {TDForm&TBForm&import("../YInteract.mjs").TInteract} TForm
+//#region YT
+
+/** ### YFormT
+ * - Тип `T`
+ * - Версия `0.0.0`
+ * - Модуль `YForm`
+ *
+ * Основной параметр модуля `YForm`.
+ *
+ * @typedef {YFormTE&YFormTU} YFormT
+ *
 */
+/** ### YFormTE
+ * - Тип `TE`
+ * - Версия `0.0.0`
+ * - Модуль `YForm`
+ *
+ * Параметр наследования `YForm`.
+ *
+ * @typedef {{[p in Exclude<keyof DForm,keyof SForm>|Exclude<keyof SForm,keyof DForm>]:(DForm[p]&SForm[p])}} YFormTE
+ *
+*/
+/** ### YFormTU
+ * - Тип `TU`
+ * - Версия `0.0.0`
+ * - Модуль `YForm`
+ *
+ * Уникальные параметры `YForm`.
+ *
+ * @typedef YFormTU
+ * @prop {any} _
+ *
+*/
+
+//#endregion
 
 class SForm extends YInteract {
 
@@ -21,7 +53,7 @@ class SForm extends YInteract {
 
                 y.interactors.forEach(i => t[i[0]] = i[1].get());
 
-                y.func?.(t)
+                y.func?.(t);
 
             },
         ],
@@ -44,11 +76,18 @@ class SForm extends YInteract {
 class DForm extends SForm {
 
     /**
+     * ### func
+     *
      * Результирующая функция формы.
-     * @type {function({}):void}
+     *
+     * ***
+     * @type {function(YTerminal):void}
+     * @public
     */
     func;
     /**
+     * ### interactors
+     *
      * Поля формы.
      *
      * Каждое поле обозначается меткой и представлено интерактором.
@@ -56,7 +95,10 @@ class DForm extends SForm {
      * с ключами в виде меток.
      *
      * В случае, если метка и название поля должны быть разными, то достаточно указать нужное название третьим аргументом.
+     *
+     * ***
      * @type {[string,YInteract,string][]}
+     * @public
     */
     interactors = [];
 
@@ -64,32 +106,33 @@ class DForm extends SForm {
 class IForm extends DForm {
 
     /**
+     * ### index
+     *
      * Индекс.
      *
-     * Определяет активное поле формы.
+     * ***
      * @type {number}
+     * @protected
     */
     index = 0;
 
 };
 class MForm extends IForm {
 
-    receive(string) {
 
-        SForm.prototype.receive.apply(this, [string]);
-
-        return this;
-
-    };
 
 };
 class FForm extends MForm {
 
     /**
-     * Контсруктор класса `YForm`
+     * ### YForm.constructor
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
-     *  @arg {TForm} t
+     *
+     *
+     *
+     * ***
+     *  @arg {YFormT} t
     */
     constructor(t = {}) {
 
@@ -112,7 +155,7 @@ class FForm extends MForm {
 
         } else if (t?.length) {
 
-            /** @type {TForm&DForm} */
+            /** @type {YFormT} */
             const r = {};
 
             if (t[0]?._ytp) t = [...t[0]._ytp];
@@ -130,7 +173,7 @@ class FForm extends MForm {
         } else return {};
 
     };
-    /** @arg {TForm} t @this {YForm} */
+    /** @arg {YFormT} t @this {YForm} */
     static #deceit(t) {
 
         try {
@@ -144,7 +187,7 @@ class FForm extends MForm {
         };
 
     };
-    /** @arg {TForm} t @this {YForm} */
+    /** @arg {YFormT} t @this {YForm} */
     static #verify(t) {
 
         const {
@@ -156,13 +199,13 @@ class FForm extends MForm {
         FForm.#handle(t);
 
     };
-    /** @arg {TForm} t @this {YForm} */
+    /** @arg {YFormT} t @this {YForm} */
     static #handle(t) {
 
 
 
     };
-    /** @arg {TForm} t @this {YForm} */
+    /** @arg {YFormT} t @this {YForm} */
     static #create(t) {
 
         const {
@@ -173,29 +216,54 @@ class FForm extends MForm {
 
         jectFill(this, t);
 
-
+        this.setInterface(this.interface);
 
     };
 
 };
 
 /**
- * Класс `YForm`
- *
- *
+ * ### YForm
  * - Тип `SDIMFY`
- * - Версия `0.0.0`
- * - Модуль ``
+ * - Версия `0.0.1`
+ * - Модуль `YForm`
  * - Цепочка `BDVHC`
+ * ***
+ *
 */
 export class YForm extends FForm {
+
+    /** @arg {YInterface} itnf `Интерфейс` */
+    setInterface(intf) {
+
+        SForm.prototype.setInterface.apply(this, [intf]);
+
+        if (this.interface) {
+
+            this.interactors.forEach(i => {
+
+                i[1].setInterface(this.interface);
+
+            });
+
+        };
+
+        return this;
+
+    };
 
     getLayout() {
 
         return new YString()
 
-            .exec(y => this.interactors.forEach(i => y.pasteTemplate('lh', ['h', i[2] ?? i[0]]).paste(i[1].getLayout() + '\n')))
-            .get()
+            .exec(y => this.interactors.forEach((i, ii) => {
+
+                const h = i[2] ?? i[0];
+
+                y.pasteTemplate('lh', ['h', h]).paste(i[1].getLayout() + '\n');
+
+            }))
+            .get(true)
 
     };
 
