@@ -363,7 +363,7 @@ export class YStylistMap extends FStylistMap {
 
     /**
      * ### append
-     * - Версия `0.1.0`
+     * - Версия `0.1.1`
      * - Модуль `YStylistMap`
      * ***
      *
@@ -402,7 +402,11 @@ export class YStylistMap extends FStylistMap {
 
         };
 
-        if (insert) this.appendByPoint(new YStylistPoint(insert, x), y);
+        if (insert) {
+
+            this.appendByPoint(new YStylistPoint(insert, x), y);
+
+        };
 
         return this;
 
@@ -474,7 +478,11 @@ export class YStylistMap extends FStylistMap {
 
             let m = this.getLineByIndex(y);
 
-            if (!m) this.lines.push(m = [y, []]);
+            if (!m) {
+
+                this.lines.push(m = [y, []]);
+
+            };
 
             m[1].push(point);
 

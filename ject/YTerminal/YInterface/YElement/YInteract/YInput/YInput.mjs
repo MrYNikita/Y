@@ -35,7 +35,9 @@ class SInput extends YInteract {
 
                 if (y.value.get().length) {
 
-                    y.value = y.value.remove();
+                    console.log('WW');
+
+                    y.value.remove();
 
                 } else {
 
@@ -77,7 +79,7 @@ class SInput extends YInteract {
 
                 } else {
 
-                    if (y.value.get().length < y.sizes[0] * y.sizes[1]) {
+                    if (y.value.get().length < y.sizes[0] * y.sizes[1] && c.length === 1) {
 
                         y.value.paste(l.shift ? c.toUpperCase() : c);
 

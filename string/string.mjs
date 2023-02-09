@@ -68,6 +68,28 @@ import { arrayGetRandomElement, arrayGetRandomElementMany, arrayReplace, } from 
  * @typedef {import("../array/array.mjs").arrayTSize} stringTSize
  *
 */
+/** ### stringTBack
+ * - Тип `T`
+ * - Версия `0.0.0`
+ * - Модуль `string`
+ *
+ * Параметр обратного режима.
+ *
+ * @typedef stringTBack
+ * @prop {boolean} back
+ *
+*/
+/** ### stringTLength
+ * - Тип `T`
+ * - Версия `0.0.0`
+ * - Модуль `string`
+ *
+ *
+ *
+ * @typedef stringTLength
+ * @prop {number} length
+ *
+*/
 
 /** ### stringTVString
  * - Тип `TV`
@@ -1319,6 +1341,186 @@ function reflectComply(t) {
 export function stringReflect(string, every = false, ...mirrors) {
 
     return reflectDeceit({ string, every, mirrors });
+
+};
+
+//#endregion
+
+//#region substring 0.0.0
+
+/** ### stringTFSubstring
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `string`
+ * ***
+ *
+ * Результирующие параметры функции `substring`.
+ *
+ * @typedef {stringTFUSubstring&stringT&stringTBack&stringTLength&stringTIndex&stringTIndexD} stringTFSubstring
+ *
+*/
+/** ### stringTFUSubstring
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `string`
+ *
+ * Уникальные параметры функции `substring`.
+ *
+ * @typedef stringTFUSubstring
+ * @prop {any} _
+*/
+
+/** @arg {stringTFSubstring} t */
+function substringDeceit(t) {
+
+    try {
+
+        return substringVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @arg {stringTFSubstring} t */
+function substringVerify(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return substringHandle(t);
+
+};
+/** @arg {stringTFSubstring} t */
+function substringHandle(t) {
+
+    const {
+
+
+
+    } = t;
+
+    if (!t.index || t.index < 0) {
+
+        t.index = 0;
+
+    } else if (t.index > t.string?.length) {
+
+        t.index = t.string.length - 1;
+
+    };
+
+    if (!t.length) {
+
+        t.length = t.string.length - t.index;
+
+    } else if (t.length < 0) {
+
+        t.back = true;
+        t.length *= -1;
+
+    };
+
+    if (t.y && t.x) {
+
+        t.index = stringGetPositionRowStartByIndex(t.string, t.y) + t.x;
+
+    };
+
+    return substringComply(t);
+
+};
+/** @arg {stringTFSubstring} t */
+function substringComply(t) {
+
+    const {
+
+        back,
+        index,
+        string,
+        length,
+
+    } = t;
+
+    console.log(string, index, length, back, 'parm');
+
+    if ((index === 0 && !length) || ((t.index === 0 || (t.index === t.string.length - 1 && back)) && t.string.length === length)) {
+
+        return string;
+
+    } else if (length === 0) {
+
+        return '';
+
+    };
+
+    if (back) {
+
+        return string.slice(0, index + 1).slice(-length);
+
+    } else {
+
+        return string.slice(index, index + length);
+
+    };
+
+};
+
+/**
+ * ### stringSubstring
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * - Модуль `string`
+ * ***
+ *
+ * Функция извлечения подстроки из указанной строки начиная с указанного индекса и до указанной длины.
+ *
+ * ***
+ * @arg {boolean} back `Обратный режим`
+ *
+ * При активации берет символы начиная с указанного индекса, до указанной длины по направлению к началу строке.
+ *
+ * Если не определен, то работает в стандартном режиме.
+ *
+ * @arg {string} string `Строка`
+ * @arg {number?} length `Длина`
+ *
+ * Длина определяет кол-во символов начиная с указанного индекса, которое необходимо взять в подстроку.
+ *
+ * Если не определена, то будут взяты все символы начиная с указанного индекса и до конца строки.
+ * @arg {number} index `Индекс`
+*/
+export function stringSubstring(string, index, length, back) {
+
+    return substringDeceit({ string, index, length, back });
+
+};
+/**
+ * ### stringSubstringByPosition
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * - Модуль `string`
+ * ***
+ *
+ * Функция {@link stringSubstring|извлечения подстроки} из указанной строки начиная с указанной позиции и до указанной длины.
+ *
+ * ***
+ * @arg {number} y `Линия`
+ * @arg {number} x `Позиция`
+ * @arg {number} length `Длина`
+ * @arg {string} string `Строка`
+ * @arg {boolean} back `Обратный режим`
+*/
+export function stringSubstringByPosition(string, length, y, x, back) {
+
+    return substringDeceit({ string, length, y, x, back, });
 
 };
 

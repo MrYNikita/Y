@@ -260,7 +260,9 @@ export class YForm extends FForm {
 
                 const h = i[2] ?? i[0];
 
-                y.pasteTemplate('lh', ['h', h]).paste(i[1].getLayout() + '\n');
+                y
+                    .pasteTemplate('lh', ['h', this.index === ii ? colorGet('yellow') + h : h])
+                    .paste(i[1].getLayout() + '\n');
 
             }))
             .get(true)

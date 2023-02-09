@@ -328,7 +328,7 @@ export class YStylist extends FStylist {
 
     /**
      * ### setColor
-     * - Версия `0.0.1`
+     * - Версия `0.0.2`
      * - Модуль `YStylist`
      * ***
      *
@@ -357,7 +357,11 @@ export class YStylist extends FStylist {
     */
     setColor(foreground, background, y = 0, x = 0) {
 
-        if (foreground || background) this.mapColor.append(colorGet(foreground, background), y, x);
+        if (foreground || background) {
+
+            this.mapColor.append(colorGet(foreground, background), y, x);
+
+        };
 
         return this;
 

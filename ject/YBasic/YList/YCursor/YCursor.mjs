@@ -3,12 +3,41 @@ import { YList } from "../YList.mjs";
 import { jectFill } from "../../../ject.mjs";
 import { arrayRemoveByElement } from "../../../../array/array.mjs";
 
-/**
- * @typedef TBCursor
- * @prop {number} dimension
- * @typedef {{[p in Exclude<keyof DCursor,keyof SCursor>|Exclude<keyof SCursor,keyof DCursor>]:(DCursor[p]&SCursor[p])}} TDCursor
- * @typedef {TDCursor&TBCursor} TCursor
+//#region YT
+
+/** ### YCursorT
+ * - Тип `T`
+ * - Версия `0.0.0`
+ * - Модуль `YCursor`
+ *
+ * Основной параметр модуля `YCursor`.
+ *
+ * @typedef {YCursorTE&YCursorTU} YCursorT
+ *
 */
+/** ### YCursorTE
+ * - Тип `TE`
+ * - Версия `0.0.0`
+ * - Модуль `YCursor`
+ *
+ * Параметр наследования `YCursor`.
+ *
+ * @typedef {{[p in Exclude<keyof DCursor,keyof SCursor>|Exclude<keyof SCursor,keyof DCursor>]:(DCursor[p]&SCursor[p])}} YCursorTE
+ *
+*/
+/** ### YCursorTU
+ * - Тип `TU`
+ * - Версия `0.0.0`
+ * - Модуль `YCursor`
+ *
+ * Уникальные параметры `YCursor`.
+ *
+ * @typedef YCursorTU
+ * @prop {any} _
+ *
+*/
+
+//#endregion
 
 class SCursor extends YBasic {
 
@@ -52,10 +81,14 @@ class MCursor extends ICursor {
 class FCursor extends MCursor {
 
     /**
-     * Контсруктор класса `YCursor`
+     * ### YCursor.constructor
      * - Версия `0.0.0`
      * - Цепочка `BDVHC`
-     *  @arg {TCursor} t
+     *
+     *
+     *
+     * ***
+     *  @arg {YCursorT} t
     */
     constructor(t = {}) {
 
@@ -78,10 +111,10 @@ class FCursor extends MCursor {
 
         } else if (t?.length) {
 
-            /** @type {TCursor&DCursor} */
+            /** @type {YCursorT} */
             const r = {};
 
-            if (t[0]._ytp) t = [...t[0]._ytp];
+            if (t[0]?._ytp) t = [...t[0]._ytp];
 
             switch (t.length) {
 
@@ -96,7 +129,7 @@ class FCursor extends MCursor {
         } else return {};
 
     };
-    /** @arg {TCursor} t @this {YCursor} */
+    /** @arg {YCursorT} t @this {YCursor} */
     static #deceit(t) {
 
         try {
@@ -110,7 +143,7 @@ class FCursor extends MCursor {
         };
 
     };
-    /** @arg {TCursor} t @this {YCursor} */
+    /** @arg {YCursorT} t @this {YCursor} */
     static #verify(t) {
 
         const {
@@ -122,13 +155,13 @@ class FCursor extends MCursor {
         FCursor.#handle(t);
 
     };
-    /** @arg {TCursor} t @this {YCursor} */
+    /** @arg {YCursorT} t @this {YCursor} */
     static #handle(t) {
 
         if ((!t.indexs || !t.indexs.length) && t.list) t.indexs = new Array(t.list.dimension ?? t.list.constructor.dimension ?? 1).fill(0);
 
     };
-    /** @arg {TCursor} t @this {YCursor} */
+    /** @arg {YCursorT} t @this {YCursor} */
     static #create(t) {
 
         const {
@@ -139,74 +172,108 @@ class FCursor extends MCursor {
 
         jectFill(this, t);
 
+
+
     };
 
 };
 
 /**
- * Класс `YCursor`
- *
- * Курсоры - индексаторы для `YList`.
+ * ### YCursor
  * - Тип `SDIMFY`
- * - Версия `0.3.0`
- * - Модуль `ject.list`
+ * - Версия `0.4.0`
+ * - Модуль `YCursor`
  * - Цепочка `BDVHC`
+ * ***
+ *
 */
 export class YCursor extends FCursor {
 
     /**
+     * ### move
+     * - Версия `0.1.0`
+     * - Модуль `YCursor`
+     * ***
+     *
      * Метод смещения курсора.
-     * Работает только при истином значении сдвига.
-     * - Версия `0.0.0`
-     * @arg {number} bias Значение смещения курсора.
+     *
+     * Сдвигает курсор по его измерениям.
+     *
+     * ***
+     * @arg {...number} bias `Смещения`
+     * @public
     */
-    move(bias) {
+    move(...bias) {
 
-        const li = this.indexs.length - 1;
+        if (bias.length) {
 
-        bias = this.indexs[li] + bias;
+            bias.filter(b => b.constructor === Number).forEach((b, bi) => {
 
-        if (bias < 0) this.indexs[li] = 0;
-        else if (bias >= this.list.values.length) this.indexs[li] = this.list.values.length;
-        else this.indexs[li] = bias;
+                b = this.indexs[bi] + b;
+
+                if (b < 0 || b === NaN) {
+
+                    this.indexs[bi] = 0;
+
+                } else {
+
+                    this.indexs[bi] = b;
+
+                };
+
+            });
+
+        };
 
         return this;
 
     };
-    /**
-     * Метод для увеличения размера курсора.
-     * - Версия `0.0.0`
-     * @arg {number} bias Значение изменения размера курсора.
-     * - По умолчанию `1`
-    */
-    resize(bias = 1) {
 
-        if (this.size !== 'auto') this.size += bias;
+    /**
+     * ### setSize
+     * - Версия `0.1.0`
+     * - Модуль `YCursor`
+     * ***
+     *
+     * Метод установки размера курсора.
+     *
+     * ***
+     * @arg {number} size Размер
+     * @public
+    */
+    setSize(size) {
+
+        if (size.constructor === Number && this.size >= 0) {
+
+            this.size = size;
+
+        };
 
         return this;
 
     };
+
     /**
-     * Метод для удаления курсора.
-     * - Версия `0.0.0`
+     * ### changeSize
+     * - Версия `0.1.0`
+     * - Модуль `YCursor`
+     * ***
+     *
+     * Метод изменения размера курсора на указанное значение.
+     *
+     * ***
+     * @arg {number} size `Размер`
+     *
+     * - Дефолт: `1`
+     * @public
     */
-    delete() {
+    changeSize(size = 1) {
 
-        arrayRemoveByElement(this.list.cursors, this);
+        if (size.constructor === Number) {
 
-        this.size = undefined;
-        this.list = undefined;
-        this.indexs = [];
+            this.size += size;
 
-    };
-    /**
-     * Метод для установки значения размера курсора.
-     * - Версия `0.0.0`
-     * @arg {number} size Значение размера курсора.
-    */
-    changeSize(size) {
-
-        this.size = size;
+        };
 
         return this;
 

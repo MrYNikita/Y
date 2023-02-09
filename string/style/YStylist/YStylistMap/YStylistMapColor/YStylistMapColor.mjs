@@ -213,7 +213,7 @@ export class YStylistMapColor extends FStylistMapColor {
     };
     /**
      * ### pasteByStringWrap
-     * - Версия `0.0.0`
+     * - Версия `0.0.1`
      * - Модуль `YStylistMapColor`
      * ***
      *
@@ -240,7 +240,7 @@ export class YStylistMapColor extends FStylistMapColor {
 
             if (m.length) {
 
-                colorClear(string).split('\n').forEach(s => this.move(s.length, y, x));
+                colorClear(string).split('\n').forEach(s => this.move(s.length, y, x + 1));
                 m.forEach((l, li) => {
 
                     l[1].forEach((p, pi) => {

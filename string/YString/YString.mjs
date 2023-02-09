@@ -152,47 +152,6 @@ class IString extends DString {
 class MString extends IString {
 
     /**
-     * ### handlePaste
-     * - Версия `0.0.0`
-     * - Модуль `YString`
-     * ***
-     *
-     * Метод обработки вставки.
-     *
-     * Данный метод учитывает вставку, изменяя на её основе внутренние свойства строки.
-     *
-     * ***
-     * @arg {string} string `Строка`
-     * @protected
-    */
-    handlePaste(string) {
-
-        if (string instanceof Function) {
-
-            string = string();
-
-        } else if (string instanceof YString) {
-
-            string.over = this;
-            string = string.get();
-
-        };
-
-        if (this.prefix instanceof YTemplate) string = this.prefix.get() + string;
-        else string = this.prefix + string;
-
-        if (this.postfix instanceof YTemplate) string += this.postfix.get();
-        else string += this.postfix;
-
-        this.stylist.pasteColorByString(string, ...this.cursors[0].indexs, true);
-        string = colorClear(string);
-
-        string = string.replace(/^.+/mg, (this.tabValue ?? this?.over?.tabValue)?.repeat(this.tabIndex ?? this?.over?.tabIndex ?? 0) + '$&');
-
-        return string;
-
-    };
-    /**
      * Метод вычисления позиции по координатам вставки.
      * - Версия `0.0.0`
      * @protected
@@ -426,9 +385,16 @@ export class YString extends FString {
     };
 
     /**
-     * Метод для вставки значения.
-     * - Версия `0.3.0`
-     * @arg {...string|Function} strings Строка вставки.
+     * ### paste
+     * - Версия `0.4.0`
+     * - Модуль `YString`
+     * ***
+     *
+     * Метод вставки новых значений.
+     *
+     * ***
+     * @arg {...(string|YString|function():string)} strings `Вставки`
+     * @public
     */
     paste(...strings) {
 
@@ -436,10 +402,47 @@ export class YString extends FString {
 
         while (strings.length) {
 
-            const sp = this.handlePaste(strings.pop());
+            let string = strings.pop();
 
-            this.cursors.forEach(c => this.values = stringPaste(this.values, sp, this.calculateIndex(), c.size));
-            this.moveCursors(sp.length);
+            if (string instanceof Function) {
+
+                string = string();
+
+            } else if (string instanceof YString) {
+
+                string.over = this;
+                string = string.get();
+
+            };
+
+            if (this.prefix instanceof YTemplate) {
+
+                string = this.prefix.get() + string;
+
+            } else {
+
+                string = this.prefix + string;
+
+            };
+
+            if (this.postfix instanceof YTemplate) {
+
+                string += this.postfix.get();
+
+            } else {
+
+                string += this.postfix;
+
+            };
+
+            this.stylist.pasteColorByString(string, ...this.cursors[0].indexs, true);
+            string = colorClear(string);
+
+            string = string.replace(/^.+/mg, (this.tabValue ?? this?.over?.tabValue)?.repeat(this.tabIndex ?? this?.over?.tabIndex ?? 0) + '$&');
+
+            this.cursors.forEach(c => this.values = stringPaste(this.values, string, this.calculateIndex(), c.size));
+
+            this.moveCursors(string.match(/\n/g)?.length ?? 0, string.split('\n').at(-1).length);
 
         };
 
@@ -662,20 +665,30 @@ export class YString extends FString {
         return this;
 
     };
+
     /**
-     * Метод для обрезания строки.
-     * @arg {number} length Длина обрезки.
-     * @arg {boolean} left Сторона обрезки.
+     * ### remove
+     * - Версия `0.0.0`
+     * - Модуль `YString`
+     * ***
+     *
+     * Метод обрезания строки.
+     *
+     * ***
+     * @arg {number} length `Длина`
+     * @arg {boolean} left `Сторона`
+     * @public
     */
-    remove(length = -1) {
+    remove(length = -1, left) {
 
         this.values = stringRemove(this.values, this.cursors[0].indexs[1] - 1, length);
 
-        this.moveCursors(length);
+        this.moveCursors(0, length);
 
         return this;
 
     };
+
     /**
      * Метод для фильтрации строки.
      * @arg {...string|RegExp} fragments Строки и шаблоны фильтрации.
