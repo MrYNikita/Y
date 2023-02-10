@@ -1449,8 +1449,6 @@ function substringComply(t) {
 
     } = t;
 
-    console.log(t);
-
     if ((index === 0 && !length) || ((t.index === 0 || (t.index === t.string.length - 1 && back)) && t.string.length === length)) {
 
         return string;
