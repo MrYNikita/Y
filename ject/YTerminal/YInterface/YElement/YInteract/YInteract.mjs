@@ -48,7 +48,7 @@ class SInteract extends YElement {
      * Используются всеми интерактивными элементами.
      *
      * ***
-     * @type {[(string|string[]),function(YInteract):void][]}
+     * @type {[(string|string[]),function(YInteract):void,boolean][]}
      * @public
     */
     static binds = [
@@ -74,7 +74,7 @@ class DInteract extends SInteract {
      * В случае, если привязка указывается для единственного кода/символа, можно указать её без занесения в массив.
      *
      * ***
-     * @type {[(string|string[]),function(YInteract):void][]}
+     * @type {[(string|string[]),function(YInteract):void,boolean][]}
      * @public
     */
     binds = [];

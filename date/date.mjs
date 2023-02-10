@@ -1,4 +1,4 @@
-import { config } from "../config.mjs";
+import { config, configDate } from "../config.mjs";
 
 //#region YT
 
@@ -30,11 +30,176 @@ import { config } from "../config.mjs";
  * @prop {number} milisecond
  *
 */
+/** ### dateTMesuareModes
+ * - Тип `T`
+ * - Версия `0.0.0`
+ * - Модуль `date`
+ *
+ *
+ *
+ * @typedef dateTMesuareModes
+ * @prop {boolean} day
+ * @prop {boolean} year
+ * @prop {boolean} hour
+ * @prop {boolean} month
+ * @prop {boolean} second
+ * @prop {boolean} minute
+ * @prop {boolean} milisecond
+ *
+*/
 
 //#endregion
 //#region YV
 
 
+
+//#endregion
+
+//#region drop 0.0.0
+
+/** ### dateTFDrop
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `date`
+ * ***
+ *
+ * Результирующие параметры функции `drop`.
+ *
+ * @typedef {dateTFUDrop&dateT&dateTMesuareModes} dateTFDrop
+ *
+*/
+/** ### dateTFUDrop
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `date`
+ *
+ * Уникальные параметры функции `drop`.
+ *
+ * @typedef dateTFUDrop
+ * @prop {any} _
+*/
+
+/** @arg {dateTFDrop} t */
+function dropDeceit(t) {
+
+    try {
+
+        return dropVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @arg {dateTFDrop} t */
+function dropVerify(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return dropHandle(t);
+
+};
+/** @arg {dateTFDrop} t */
+function dropHandle(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return dropComply(t);
+
+};
+/** @arg {dateTFDrop} t */
+function dropComply(t) {
+
+    const {
+
+        day,
+        date,
+        hour,
+        year,
+        month,
+        second,
+        minute,
+        milisecond,
+
+    } = t;
+
+    const md = [year, month, day, hour, minute, second, milisecond];
+
+    return new Date(...dateGetMesuares(date).map((m, mi) => {
+
+        if (md[mi]) {
+
+            switch (mi) {
+
+                case 0: {
+
+                    return configDate.defaultYear ?? 0;
+
+                };
+                case 2: {
+
+                    return 1;
+
+                };
+                default: {
+
+                    return 0;
+
+                };
+
+            };
+
+        } else {
+
+            return m;
+
+        };
+
+    }));
+
+};
+
+/**
+ * ### dateDrop
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * - Модуль `date`
+ * ***
+ *
+ * Функция сброса даты.
+ *
+ * Сброс изменяет указанные меры даты. Для года происходит установка значения из конфигуратора,
+ * месяц и день равняются 1, а оставшиеся секунды, минуты, часы и милисекунды обнуляются.
+ *
+ * Если значение не было указано, как сбрасываемое, то оно будет сохранено.
+ *
+ * ***
+ * @arg {Date} date `Дата`
+ * @arg {boolean} day `Сброс дней`
+ * @arg {boolean} year `Сброс лет`
+ * @arg {boolean} hour `Сброс часов`
+ * @arg {boolean} month `Сброс месяцев`
+ * @arg {boolean} second `Сброс секунд`
+ * @arg {boolean} minute `Сброс минут`
+ * @arg {boolean} milisecond `Сброс милисекунд`
+*/
+export function dateDrop(date, year, month, day, hour, minute, second, milisecond) {
+
+    return dropDeceit({ date, year, month, day, hour, minute, second, milisecond });
+
+};
 
 //#endregion
 

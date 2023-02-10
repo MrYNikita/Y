@@ -4318,17 +4318,9 @@ function castToDateVerify(t) {
 /** @arg {TcastToDate} t */
 function castToDateHandle(t) {
 
-    let {
+    if (t.date?.constructor !== Date) {
 
-
-
-    } = t;
-
-
-
-    t = {
-
-        ...t,
+        t.date = new Date();
 
     };
 
@@ -4345,37 +4337,32 @@ function castToDateComply(t) {
 
     } = t;
 
-    switch (local) {
+    const f = configString.castToDate[local] ?? configString.castToDate.ru;
 
-        case 'ru': {
+    return stringReplaceAllMore(f,
 
-            return stringReplaceAllMore(configString.castToDate.ru,
+        [date.getDate().toString().padStart(2, 0), /<d>/],
+        [(date.getMonth() + 1).toString().padStart(2, 0), /<m>/],
+        [date.getFullYear(), /<y>/],
+        [date.getHours().toString().padStart(2, 0), /<hh>/],
+        [date.getMinutes().toString().padStart(2, 0), /<mm>/],
+        [date.getSeconds().toString().padStart(2, 0), /<ss>/],
 
-                [date.getDate().toString().padStart(2, 0), /<d>/],
-                [(date.getMonth() + 1).toString().padStart(2, 0), /<m>/],
-                [date.getFullYear(), /<y>/],
-                [date.getHours().toString().padStart(2, 0), /<hh>/],
-                [date.getMinutes().toString().padStart(2, 0), /<mm>/],
-                [date.getSeconds().toString().padStart(2, 0), /<ss>/],
-
-            );
-
-        };
-
-    };
+    );
 
 };
 
 /**
  * Функция для преобразования даты в строку текущей локали.
- * - Версия `0.0.1`
+ * - Версия `0.1.0`
  * - Цепочка `DVHCa`
  * @arg {Date} date Дата.
  * - По умолчанию `new Date()`
+ * @arg {string?} local `Локаль`
 */
-export function stringCastToDate(date = new Date()) {
+export function stringCastToDate(date, local) {
 
-    return castToDateDeceit({ date, local: config.local });
+    return castToDateDeceit({ date, local: local ?? config.local });
 
 };
 /**
@@ -4388,6 +4375,24 @@ export function stringCastToDate(date = new Date()) {
 export function stringCastToDateRu(date = new Date()) {
 
     return castToDateDeceit({ date, local: 'ru' });
+
+};
+/**
+ * ### stringCastToDateJp
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * - Модуль `string`
+ * ***
+ *
+ * Функция получения строкового формата даты в японской локали.
+ *
+ * ***
+ * @arg {Date} date `Дата`
+ * - Дефолт: `new Date()`
+*/
+export function stringCastToDateJp(date = new Date()) {
+
+    return castToDateDeceit({ date, local: 'jp', });
 
 };
 

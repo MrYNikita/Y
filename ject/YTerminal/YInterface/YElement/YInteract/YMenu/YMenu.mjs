@@ -1,7 +1,7 @@
-import { colorGetReset } from "../../../../../../../string/ansi/color/color.mjs";
-import { YString } from "../../../../../../../string/YString/YString.mjs";
-import { jectFill } from "../../../../../../ject.mjs";
-import { YInteract } from "../../YInteract.mjs";
+import { colorGetReset } from "../../../../../../string/ansi/color/color.mjs";
+import { YString } from "../../../../../../string/YString/YString.mjs";
+import { jectFill } from "../../../../../ject.mjs";
+import { YInteract } from "../YInteract.mjs";
 import { YPointMenu } from "./YMenuPoint/YPointMenu.mjs";
 
 //#region YT
@@ -13,7 +13,7 @@ import { YPointMenu } from "./YMenuPoint/YPointMenu.mjs";
  *
  * Основной параметр модуля `YMenu`.
  *
- * @typedef {YMenuTE&YMenuTU&import("../../YInteract.mjs").YInteractT} YMenuT
+ * @typedef {YMenuTE&YMenuTU&import("../YInteract.mjs").YInteractT} YMenuT
  *
 */
 /** ### YMenuTE
@@ -67,7 +67,7 @@ class SMenu extends YInteract {
      * Общий цвет переднего плана.
      *
      * ***
-     * @type {import("../../../../../../../string/ansi/color/color.mjs").colorTVColor}
+     * @type {import("../../../../../../string/ansi/color/color.mjs").colorTVColor}
      * @public
     */
     static colorFFocus = 'yellow';
@@ -91,7 +91,7 @@ class DMenu extends SMenu {
      * Цвет символов.
      *
      * ***
-     * @type {import("../../../../../../../string/ansi/color/color.mjs").colorTVColor?}
+     * @type {import("../../../../../../string/ansi/color/color.mjs").colorTVColor?}
      * @public
     */
     colorFFocus = null;
@@ -101,7 +101,7 @@ class DMenu extends SMenu {
      * Цвет фона.
      *
      * ***
-     * @type {import("../../../../../../../string/ansi/color/color.mjs").colorTVColor?}
+     * @type {import("../../../../../../string/ansi/color/color.mjs").colorTVColor?}
      * @public
     */
     colorBFocus = null;

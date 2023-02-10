@@ -1,7 +1,8 @@
+import { configDate } from "../../config.mjs";
 import { jectFill } from "../../ject/ject.mjs";
 import { YBasic } from "../../ject/YBasic/YBasic.mjs";
 import { stringCastToDate } from "../../string/string.mjs";
-import { dateChange, dateGetMesuares } from "../date.mjs";
+import { dateChange, dateDrop, dateGetMesuares } from "../date.mjs";
 
 //#region YT
 
@@ -54,7 +55,16 @@ class SDate extends YBasic {
 };
 class DDate extends SDate {
 
-
+    /**
+     * ### valueDrop
+     *
+     * Значение сброса.
+     *
+     * ***
+     * @type {Date?}
+     * @public
+    */
+    valueDrop;
 
 };
 class IDate extends DDate {
@@ -171,6 +181,8 @@ class FDate extends MDate {
 
         };
 
+        t.value = t.date;
+
     };
     /** @arg {YDateT} t @this {YDate} */
     static #create(t) {
@@ -201,6 +213,40 @@ class FDate extends MDate {
 export class YDate extends FDate {
 
     /**
+     * ### drop
+     * - Версия `0.0.0`
+     * - Модуль `YDate`
+     * ***
+     *
+     * Метод сброса мер времени.
+     *
+     * ***
+     * @arg {boolean} day `Сброс дней`
+     * @arg {boolean} year `Сброс лет`
+     * @arg {boolean} hour `Сброс часов`
+     * @arg {boolean} month `Сброс месяцев`
+     * @arg {boolean} second `Сброс секунд`
+     * @arg {boolean} minute `Сброс минут`
+     * @arg {boolean} milisecond `Сброс милисекунд`
+     * @public
+    */
+    drop(year, month, day, hour, minute, second, milisecond) {
+
+        if (this.valueDrop) {
+
+            this.value = this.valueDrop;
+
+        } else {
+
+            this.value = dateDrop(this.value, year, month, day, hour, minute, second, milisecond);
+
+        };
+
+        return this;
+
+    };
+
+    /**
      * ### change
      * - Версия `0.0.0`
      * - Модуль `YDate`
@@ -228,15 +274,15 @@ export class YDate extends FDate {
 
     /**
      * ### toDate
-     * - Версия `0.0.0`
+     * - Версия `0.0.1`
      * - Модуль `YDate`
      * ***
      *
      * Метод получения даты.
      *
      * ***
-     *
      * @public
+     * @return {Date}
     */
     getDate() {
 
@@ -252,12 +298,13 @@ export class YDate extends FDate {
      * Метод получения строки.
      *
      * ***
-     *
+     * @arg {string?} local `Локаль`
+     * - Дефолт: `ru`
      * @public
     */
-    getString() {
+    getString(local = 'ru') {
 
-        return stringCastToDate(this.getDate());
+        return stringCastToDate(this.getDate(), local);
 
     };
     /**

@@ -1,9 +1,8 @@
 import { YString } from "../../../../../../string/YString/YString.mjs";
 import { jectFill } from "../../../../../ject.mjs";
 import { YInteract } from "../YInteract.mjs";
-import { YTerminal } from "../../../../YTerminal.mjs";
 import { YInterface } from "../../../YInterface.mjs";
-import { colorGet, colorRepaint } from "../../../../../../string/ansi/color/color.mjs";
+import { colorGet } from "../../../../../../string/ansi/color/color.mjs";
 
 //#region YT
 
@@ -51,9 +50,17 @@ class SForm extends YInteract {
 
                 const t = {};
 
-                y.interactors.forEach(i => t[i[0]] = i[1].get());
+                y.interactors.forEach(i => {
 
-                y.func?.(t);
+                    if (i[1].get()) {
+
+                        t[i[0]] = i[1].get();
+
+                    };
+
+                });
+
+                y.func?.(y, t);
 
             },
         ],
@@ -80,8 +87,12 @@ class DForm extends SForm {
      *
      * Результирующая функция формы.
      *
+     * Принимает на вход два аргумента:
+     * - Первый - для взаимодействия с формой.
+     * - Второй - для взаимодействия с полями. Представлен как объект передачи с полями, названными первыми индексами интеракторов.
+     *
      * ***
-     * @type {function(YTerminal):void}
+     * @type {function(YForm, {}):void}
      * @public
     */
     func;

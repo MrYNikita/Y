@@ -180,6 +180,17 @@ export const configYSection = {
 
 export const configDate = {
 
+    /**
+     * ### defaultYear
+     *
+     * Дефолт годового значения.
+     *
+     * ***
+     * @type {number}
+     * @public
+    */
+    defaultYear: 2022,
+
 };
 export const configYDate = {
 
@@ -479,6 +490,7 @@ export const configString = {
     castToDate: {
 
         ru: '<d>.<m>.<y>-<hh>:<mm>:<ss>',
+        jp: '<y>.<m>.<d>-<hh>:<mm>:<ss>',
 
     },
     castToNumber: {

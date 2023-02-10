@@ -2,7 +2,7 @@ import { jectFill } from "../../ject/ject.mjs";
 import { YList } from "../../ject/YBasic/YList/YList.mjs";
 import { YTemplate } from "./YTemplate/YTemplate.mjs";
 import { configString, configYString } from "../../config.mjs";
-import { stringBring, stringBringColumn, stringCastToJect, stringCastToSample, stringCastToYReport, stringFilter, stringFind, stringFindAll, stringFindToJect, stringGetPositionEndPasteWrap, stringGetPositionRowStartByIndex, stringGetRowByIndex, stringGetRowByPosition, stringGetTransducerColor, stringHandle, stringMesuare, stringPad, stringPaste, stringPasteWrap, stringPasteWrapByPosition, stringReflect, stringRemove, stringReplace, stringReplaceAllMore, stringReplaceMore, stringReverse, stringTrim } from "../string.mjs";
+import { stringBring, stringBringColumn, stringCastToJect, stringCastToSample, stringCastToYReport, stringFilter, stringFind, stringFindAll, stringFindToJect, stringGetPositionEndPasteWrap, stringGetPositionRowStartByIndex, stringGetRowByIndex, stringGetRowByPosition, stringGetTransducerColor, stringHandle, stringMesuare, stringPad, stringPaste, stringPasteWrap, stringPasteWrapByPosition, stringReflect, stringRemove, stringReplace, stringReplaceAllMore, stringReplaceMore, stringReverse, stringSubstring, stringSubstringByPosition, stringTrim } from "../string.mjs";
 import { colorClear, colorGet, colorGetMap, colorGetReset, colorReset } from "../ansi/color/color.mjs";
 import { YStylist } from "../style/YStylist/YStylist.mjs";
 import { underlineGetReset } from "../ansi/underline/underline.mjs";
@@ -668,7 +668,7 @@ export class YString extends FString {
 
     /**
      * ### remove
-     * - Версия `0.0.0`
+     * - Версия `0.1.0`
      * - Модуль `YString`
      * ***
      *
@@ -681,9 +681,11 @@ export class YString extends FString {
     */
     remove(length = -1, left) {
 
+        const row = stringSubstringByPosition(this.values, length, ...this.cursors[0].indexs, true).match(/\n/g)?.length ?? 0;
+
         this.values = stringRemove(this.values, this.cursors[0].indexs[1] - 1, length);
 
-        this.moveCursors(0, length);
+        this.moveCursors(row, length);
 
         return this;
 

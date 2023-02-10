@@ -1,4 +1,5 @@
 import { YDate } from "../../../../../../date/YDate/YDate.mjs";
+import { numberGetSequence } from "../../../../../../number/number.mjs";
 import { YString } from "../../../../../../string/YString/YString.mjs";
 import { jectFill } from "../../../../../ject.mjs";
 import { YInteract } from "../YInteract.mjs";
@@ -41,7 +42,72 @@ import { YInteract } from "../YInteract.mjs";
 
 class SSelectDate extends YInteract {
 
+    /** @type {[(string|string[]),function(YSelectDate):void,boolean][]} */
+    static binds = [
 
+        ['\x1b[A', y => {
+
+            const l = y.terminal.listener;
+            const a = numberGetSequence(6, 0, 0);
+
+            a[y.index] += y.modificator;
+
+            y.value.change(...a);
+
+        }],
+        ['\x1b[B', y => {
+
+            const l = y.terminal.listener;
+            const a = numberGetSequence(6, 0, 0);
+
+            a[y.index] -= y.modificator;
+
+            y.value.change(...a);
+
+        }],
+        ['\x1b[D', y => {
+
+            if (--y.index < 0) {
+
+                y.index = 5;
+
+            };
+
+        }, true],
+        ['\x1b[C', y => {
+
+            if (++y.index > 5) {
+
+                y.index = 0;
+
+            };
+
+        }, true],
+        ['-', y => {
+
+            if (--y.modificator < 1) {
+
+                y.modificator = 1;
+
+            };
+
+        }],
+        ['=', y => {
+
+            if (++y.modificator > 10) {
+
+                y.modificator = 10;
+
+            };
+
+        }],
+        ['d', y => {
+
+            y.value.drop(1, 1, 1, 1, 1, 1);
+
+        }],
+
+    ];
 
 };
 class DSelectDate extends SSelectDate {
@@ -61,6 +127,26 @@ class ISelectDate extends DSelectDate {
      * @public
     */
     value = new YDate();
+    /**
+     * ### index
+     *
+     * Индекс.
+     *
+     * ***
+     * @type {number}
+     * @protected
+    */
+    index = 2;
+    /**
+     * ### modificator
+     *
+     *
+     *
+     * ***
+     * @type {number}
+     * @public
+    */
+    modificator = 1;
 
 };
 class MSelectDate extends ISelectDate {
@@ -166,8 +252,6 @@ class FSelectDate extends MSelectDate {
 
         jectFill(this, t);
 
-
-
     };
 
 };
@@ -183,10 +267,34 @@ class FSelectDate extends MSelectDate {
 */
 export class YSelectDate extends FSelectDate {
 
+    /** @return {Date} */
+    get() {
+
+        return this.value.getDate();
+
+    };
+
     getLayout() {
 
         return new YString()
 
+            .paste(
+
+                this.value.getString('jp'),
+                ` | ${this.modificator}`,
+
+            )
+            .exec(y => {
+
+                const ds = Array.from(this.value.getString('jp').matchAll(/\d+/g));
+
+                y
+                    .setCursorTo(0, ds[this.index].index)
+                    .setColor('yellow')
+                    .setCursorTo(0, ds[this.index].index + ds[this.index][0].length)
+                    .resetColor(1, 1);
+
+            })
             .get(true);
 
     };
