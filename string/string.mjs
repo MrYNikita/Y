@@ -1361,7 +1361,7 @@ export function stringReflect(string, every = false, ...mirrors) {
 */
 /** ### stringTFUSubstring
  * - Тип `TFU`
- * - Версия `0.0.0`
+ * - Версия `0.0.1`
  * - Модуль `string`
  *
  * Уникальные параметры функции `substring`.
@@ -1417,7 +1417,7 @@ function substringHandle(t) {
 
     };
 
-    if (!t.length) {
+    if (!t.length && t.length !== 0) {
 
         t.length = t.string.length - t.index;
 
@@ -1428,7 +1428,7 @@ function substringHandle(t) {
 
     };
 
-    if (t.y && t.x) {
+    if ((t.y || t.y === 0) && (t.x || t.x === 0)) {
 
         t.index = stringGetPositionRowStartByIndex(t.string, t.y) + t.x;
 
@@ -1449,7 +1449,7 @@ function substringComply(t) {
 
     } = t;
 
-    console.log(string, index, length, back, 'parm');
+    console.log(t);
 
     if ((index === 0 && !length) || ((t.index === 0 || (t.index === t.string.length - 1 && back)) && t.string.length === length)) {
 
@@ -2204,7 +2204,11 @@ function getPositionRowStartByIndexComply(t) {
 
     for (const s of string.split('\n')) {
 
-        if (i++ === index) return result;
+        if (i++ === index) {
+
+            return result;
+
+        };
 
         result += s.length + (wrap ? 0 : 1);
 
