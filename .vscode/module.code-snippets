@@ -381,8 +381,11 @@
 
         "body": [
 
-            "import { config } from \"\";",
+            "//#region YI",
             "",
+            "import { config$1 } from \"\";",
+            "",
+            "//#endregion",
             "//#region YT",
             "",
             "/** ### ${TM_FILENAME_BASE}T",
@@ -404,6 +407,7 @@
             "",
             "//#endregion",
             "",
+            "$0",
 
         ],
         "prefix": "#m"
