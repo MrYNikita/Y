@@ -223,7 +223,7 @@ class FJect extends MJect {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
 
 

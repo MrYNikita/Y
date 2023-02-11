@@ -121,7 +121,7 @@ class FHeader extends MHeader {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
     };
 

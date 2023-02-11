@@ -137,7 +137,7 @@ class FData extends MData {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
 
 

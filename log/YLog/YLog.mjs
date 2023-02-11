@@ -132,7 +132,7 @@ class FLog extends MLog {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
 
 

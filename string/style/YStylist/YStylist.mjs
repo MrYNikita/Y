@@ -186,7 +186,7 @@ class FStylist extends MStylist {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
         if (t.string) this.mapColor = colorGetMap(t.string);
 

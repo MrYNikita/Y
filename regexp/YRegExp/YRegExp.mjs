@@ -152,7 +152,7 @@ class FRegExp extends MRegExp {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
         this.value = new RegExp(this.value, t.flags);
 

@@ -196,7 +196,7 @@ class FSelect extends MSelect {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
 
 

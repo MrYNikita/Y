@@ -159,7 +159,7 @@ class FPaint extends MPaint {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
 
 

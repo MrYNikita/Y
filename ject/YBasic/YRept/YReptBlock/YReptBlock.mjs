@@ -145,7 +145,7 @@ class FReptBlock extends MReptBlock {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
 
 

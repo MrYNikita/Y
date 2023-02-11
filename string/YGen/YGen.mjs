@@ -149,7 +149,7 @@ class FGen extends MGen {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
 
 

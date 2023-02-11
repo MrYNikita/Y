@@ -1,6 +1,7 @@
 import { arrayAppend, arrayRemoveByElement } from "../../../../array/array.mjs";
 import { configYLog } from "../../../../config.mjs";
 import { jectAdopt } from "../../../../ject/ject.mjs";
+import { YBasic } from "../../../../ject/YBasic/YBasic.mjs";
 import { stringCastToDate, stringCastToSample, stringReplace, stringReplaceAllMore, stringReplaceMore } from "../../../../string/string.mjs";
 import { YNotice } from "../YNotice.mjs";
 
@@ -9,7 +10,7 @@ import { YNotice } from "../YNotice.mjs";
  * @prop {any} _
  * @typedef {DSection&TBSection} TSection
 */
-class SSection {
+class SSection extends YBasic {
 
 
 
@@ -136,7 +137,7 @@ class FSection extends DSection {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
         this.list.forEach(n => n.section = this);
 

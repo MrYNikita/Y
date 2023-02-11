@@ -120,7 +120,7 @@ class FScaner extends MScaner {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
 
 

@@ -165,7 +165,7 @@ class FPath extends MPath {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
 
 

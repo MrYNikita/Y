@@ -170,7 +170,7 @@ class FStylistMapLine extends MStylistMapLine {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
 
 

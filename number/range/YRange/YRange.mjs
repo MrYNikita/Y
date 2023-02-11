@@ -136,7 +136,7 @@ class FRange extends IRange {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
 
 

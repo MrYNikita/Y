@@ -177,7 +177,7 @@ class FClient extends MClient {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
         this.socket = new WebSocket(`ws://${this.url}`);
 

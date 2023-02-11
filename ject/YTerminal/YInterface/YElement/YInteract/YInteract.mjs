@@ -222,7 +222,7 @@ class FInteract extends MInteract {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
 
 

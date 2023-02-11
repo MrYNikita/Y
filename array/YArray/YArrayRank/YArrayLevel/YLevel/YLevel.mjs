@@ -114,7 +114,7 @@ class FLevel extends MLevel {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
 
 

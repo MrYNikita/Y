@@ -193,7 +193,7 @@ class FDate extends MDate {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
     };
 

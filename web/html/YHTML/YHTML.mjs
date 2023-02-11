@@ -144,7 +144,7 @@ class FHTML extends MHTML {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
 
 

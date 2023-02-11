@@ -560,7 +560,7 @@ class FTerminal extends MTerminal {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
         this.interfaceActive = this.interface ?? null;
 

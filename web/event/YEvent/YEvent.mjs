@@ -131,7 +131,7 @@ class FEvent extends MEvent {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
         this.on();
 

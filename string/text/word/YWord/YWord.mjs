@@ -260,7 +260,7 @@ class FWord extends MWord {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
 
 

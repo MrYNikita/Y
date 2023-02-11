@@ -1,5 +1,6 @@
 import { configString } from "../../../config.mjs";
 import { jectAdopt } from "../../../ject/ject.mjs";
+import { YBasic } from "../../../ject/YBasic/YBasic.mjs";
 import { stringReplace, stringReplaceAllMore } from "../../string.mjs";
 import { YString } from "../YString.mjs";
 import { YInsert } from "./YInsert/YInsert.mjs";
@@ -10,7 +11,7 @@ import { YInsert } from "./YInsert/YInsert.mjs";
  * @typedef {DTemplate&TBTemplate} TTemplate
 */
 
-class STemplate {
+class STemplate extends YBasic {
 
 
 
@@ -130,7 +131,7 @@ class FTemplate extends ITemplate {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
 
 

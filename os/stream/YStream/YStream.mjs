@@ -117,7 +117,7 @@ class FStream extends DStream {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
 
 

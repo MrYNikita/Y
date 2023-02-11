@@ -174,7 +174,7 @@ class FSequence extends DSequence {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
         this.сount();
 

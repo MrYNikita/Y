@@ -155,7 +155,7 @@ class FFunc extends DFunc {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
 
 

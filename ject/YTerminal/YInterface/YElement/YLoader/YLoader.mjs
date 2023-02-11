@@ -222,7 +222,7 @@ class FLoader extends MLoader {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
 
 

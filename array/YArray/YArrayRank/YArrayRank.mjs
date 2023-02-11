@@ -122,7 +122,7 @@ class FArrayRank extends MArrayRank {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
 
 

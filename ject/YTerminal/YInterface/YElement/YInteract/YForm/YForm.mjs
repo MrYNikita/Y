@@ -225,7 +225,7 @@ class FForm extends MForm {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
         this.setInterface(this.interface);
 

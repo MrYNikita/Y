@@ -127,7 +127,7 @@ class FLayer extends MLayer {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
 
 

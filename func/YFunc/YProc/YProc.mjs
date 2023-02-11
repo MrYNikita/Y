@@ -159,7 +159,7 @@ class FProc extends DProc {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
         jectReplaceDeep(this.func.card, this.label, this, true);
 
         this.index = this.func.procedures.length;

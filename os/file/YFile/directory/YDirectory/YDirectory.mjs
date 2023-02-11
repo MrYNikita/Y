@@ -130,7 +130,7 @@ class FDirectory extends DDirectory {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
         this.paths = pathGetAll(this.getPath());
 

@@ -120,7 +120,7 @@ class FArrayLevel extends MArrayLevel {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
         this.values = arrayLevel(this.values, ...t.levels);
 

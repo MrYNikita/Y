@@ -113,7 +113,7 @@ class FLevelEdge extends MLevelEdge {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
 
 

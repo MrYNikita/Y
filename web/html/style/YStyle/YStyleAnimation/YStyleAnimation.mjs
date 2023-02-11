@@ -121,7 +121,7 @@ class FStyleAnimation extends MStyleAnimation {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
 
 

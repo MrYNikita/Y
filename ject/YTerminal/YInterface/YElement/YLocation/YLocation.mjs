@@ -164,7 +164,7 @@ class FLocation extends MLocation {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
 
 

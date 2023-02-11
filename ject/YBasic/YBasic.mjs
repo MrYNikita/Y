@@ -148,7 +148,7 @@ class FBasic extends MBasic {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
 
 

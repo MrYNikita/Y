@@ -161,7 +161,7 @@ class FClock extends MClock {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
         if (this.interface) {
 

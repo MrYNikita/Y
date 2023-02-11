@@ -140,7 +140,7 @@ class FNeuron extends MNeuron {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
 
 

@@ -260,7 +260,7 @@ class FString extends MString {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
         this.stylist.pasteColorByString(this.values);
 

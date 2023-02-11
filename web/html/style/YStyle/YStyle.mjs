@@ -159,7 +159,7 @@ class FStyle extends MStyle {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
         this.location.push(this);
 

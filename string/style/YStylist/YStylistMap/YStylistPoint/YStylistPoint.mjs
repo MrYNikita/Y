@@ -172,7 +172,7 @@ class FStylistPoint extends MStylistPoint {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
 
 

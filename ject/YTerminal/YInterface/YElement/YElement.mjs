@@ -226,7 +226,7 @@ class FElement extends MElement {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
 
 

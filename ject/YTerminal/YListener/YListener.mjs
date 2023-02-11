@@ -232,7 +232,7 @@ class FListener extends MListener {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
 
 

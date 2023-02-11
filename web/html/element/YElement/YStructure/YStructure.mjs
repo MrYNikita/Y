@@ -113,7 +113,7 @@ class FStructure extends MStructure {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
 
 

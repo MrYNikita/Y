@@ -202,7 +202,7 @@ class FStylistMap extends MStylistMap {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
 
 

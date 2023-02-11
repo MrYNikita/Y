@@ -136,7 +136,7 @@ import { YPath } from "../../path/YPath/YPath.mjs";
 
 //         } = t;
 
-//         jectAdopt(this, t);
+//         this.adopt(t);
 
 //     };
 
@@ -469,7 +469,7 @@ class FFile extends MFile {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
 
 

@@ -129,7 +129,7 @@ class FRept extends MRept {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
 
 

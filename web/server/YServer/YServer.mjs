@@ -175,7 +175,7 @@ class FServer extends MServer {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
         this.serv = http.createServer();
 

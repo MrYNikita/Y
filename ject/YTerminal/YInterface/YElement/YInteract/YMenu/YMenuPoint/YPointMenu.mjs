@@ -168,7 +168,7 @@ class FPointMenu extends MPointMenu {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
 
 

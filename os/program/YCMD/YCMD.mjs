@@ -2,6 +2,7 @@ import { exec, fork, spawn } from "child_process";
 import { config } from "process";
 import { configOSPath } from "../../../config.mjs";
 import { jectAdopt } from "../../../ject/ject.mjs";
+import { YBasic } from "../../../ject/YBasic/YBasic.mjs";
 import { YLog } from "../../../log/YLog/YLog.mjs";
 import { YString } from "../../../string/YString/YString.mjs";
 import { YTemplate } from "../../../string/YString/YTemplate/YTemplate.mjs";
@@ -13,7 +14,7 @@ import { pathGetProject } from "../../path/path.mjs";
  * @typedef {DCMD&TBCMD} TCMD
 */
 
-class SCMD {
+class SCMD extends YBasic {
 
 
 
@@ -142,7 +143,7 @@ class FCMD extends DCMD {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
         this.connect = spawn('cmd.exe', { cwd: this.pathBegin, detached: this.detached });
 

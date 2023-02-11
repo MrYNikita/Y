@@ -132,7 +132,7 @@ class FInteractGroup extends MInteractGroup {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
 
 

@@ -220,7 +220,7 @@ class FInput extends MInput {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
         this.value.rowLength = this.sizes[1];
 

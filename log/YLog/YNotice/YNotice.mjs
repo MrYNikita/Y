@@ -2,6 +2,7 @@ import { jectAdopt } from "../../../ject/ject.mjs";
 import { configYLog } from "../../../config.mjs";
 import { stringCastToDate, stringCastToSample, stringReplace, stringReplaceAllMore, stringReplaceMore } from "../../../string/string.mjs";
 import { YSection } from "./YSection/YSection.mjs";
+import { YBasic } from "../../../ject/YBasic/YBasic.mjs";
 
 /**
  * @typedef TBNotice
@@ -9,7 +10,7 @@ import { YSection } from "./YSection/YSection.mjs";
  * @typedef {DNotice&TBNotice} TNotice
 */
 
-class SNotice {
+class SNotice extends YBasic {
 
 
 
@@ -121,7 +122,7 @@ class FNotice extends DNotice {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
         this.date = new Date();
 

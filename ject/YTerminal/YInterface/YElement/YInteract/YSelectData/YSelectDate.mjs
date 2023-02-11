@@ -250,7 +250,7 @@ class FSelectDate extends MSelectDate {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
     };
 

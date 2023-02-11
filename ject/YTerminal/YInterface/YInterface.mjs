@@ -273,7 +273,7 @@ class FInterface extends MInterface {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
         if (this.terminal) {
 

@@ -143,7 +143,7 @@ class FArray extends MArray {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
 
 

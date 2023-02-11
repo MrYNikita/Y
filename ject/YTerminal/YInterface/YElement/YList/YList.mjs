@@ -179,7 +179,7 @@ class FList extends MList {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
 
 

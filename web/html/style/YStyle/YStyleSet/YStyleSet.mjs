@@ -111,7 +111,7 @@ class FStyleSet extends DStyleSet {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
 
 

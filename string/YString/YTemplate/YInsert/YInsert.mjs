@@ -1,5 +1,6 @@
 import { configString, configYInsert } from "../../../../config.mjs";
 import { jectAdopt } from "../../../../ject/ject.mjs";
+import { YBasic } from "../../../../ject/YBasic/YBasic.mjs";
 import { YRegExp } from "../../../../regexp/YRegExp/YRegExp.mjs";
 
 /**
@@ -8,7 +9,7 @@ import { YRegExp } from "../../../../regexp/YRegExp/YRegExp.mjs";
  * @typedef {DInsert&TBInsert} TInsert
 */
 
-class SInsert {
+class SInsert extends YBasic {
 
 
 
@@ -131,7 +132,7 @@ class FInsert extends MInsert {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
 
 

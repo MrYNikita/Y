@@ -141,7 +141,7 @@ class FNeuralNetwork extends MNeuralNetwork {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
         this.rept
 

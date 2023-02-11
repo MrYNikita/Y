@@ -237,7 +237,7 @@ class FMenu extends MMenu {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
 
 

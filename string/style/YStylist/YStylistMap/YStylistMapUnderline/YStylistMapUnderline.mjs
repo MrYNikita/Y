@@ -149,7 +149,7 @@ class FStylistMapUnderline extends MStylistMapUnderline {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
 
 

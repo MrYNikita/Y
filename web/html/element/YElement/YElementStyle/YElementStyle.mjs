@@ -205,7 +205,7 @@ class FElementStyle extends MElementStyle {
 
         } = t;
 
-        jectAdopt(this, t);
+        this.adopt(t);
 
 
 
