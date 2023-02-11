@@ -4,7 +4,7 @@
  * @typedef {DRegExpVariate&TBRegExpVariate} TRegExpVariate
 */
 
-import { jectFill } from "../../../ject/ject.mjs";
+import { jectAdopt } from "../../../ject/ject.mjs";
 import { YRegExpBracket } from "./YRegExpBracket/YRegExpBracket.mjs";
 import { YRegExpSymbol } from "./YRegExpSymbol/YRegExpSymbol.mjs";
 
@@ -105,7 +105,7 @@ class FRegExpVariate extends DRegExpVariate {
 
         } = t;
 
-        jectFill.apply(this, [t]);
+        jectAdopt.apply(this, [t]);
 
 
 

@@ -1,4 +1,4 @@
-import { jectFill } from "../../../ject/ject.mjs";
+import { jectAdopt } from "../../../ject/ject.mjs";
 import { YJect } from "../../../ject/YJect/YJect.mjs";
 import { YLog } from "../../../log/YLog/YLog.mjs";
 import { YString } from "../../../string/YString/YString.mjs";
@@ -177,7 +177,7 @@ class FClient extends MClient {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
         this.socket = new WebSocket(`ws://${this.url}`);
 

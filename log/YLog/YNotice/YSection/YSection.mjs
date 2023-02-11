@@ -1,6 +1,6 @@
 import { arrayAppend, arrayRemoveByElement } from "../../../../array/array.mjs";
 import { configYLog } from "../../../../config.mjs";
-import { jectFill } from "../../../../ject/ject.mjs";
+import { jectAdopt } from "../../../../ject/ject.mjs";
 import { stringCastToDate, stringCastToSample, stringReplace, stringReplaceAllMore, stringReplaceMore } from "../../../../string/string.mjs";
 import { YNotice } from "../YNotice.mjs";
 
@@ -136,7 +136,7 @@ class FSection extends DSection {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
         this.list.forEach(n => n.section = this);
 

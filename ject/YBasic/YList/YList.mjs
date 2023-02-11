@@ -1,6 +1,6 @@
 import { YBasic } from "../YBasic.mjs";
 import { YCursor } from "./YCursor/YCursor.mjs";
-import { jectFill } from "../../ject.mjs";
+import { jectAdopt } from "../../ject.mjs";
 import { configYList } from "../../../config.mjs";
 import { arraySupplement, arraySupplementFill } from "../../../array/array.mjs";
 
@@ -212,7 +212,7 @@ class FList extends MList {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
         this.cursors = [new YCursor({ list: this, })];
 

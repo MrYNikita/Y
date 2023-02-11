@@ -1,4 +1,4 @@
-import { jectFill } from "../../../../../ject/ject.mjs";
+import { jectAdopt } from "../../../../../ject/ject.mjs";
 import { YBasic } from "../../../../../ject/YBasic/YBasic.mjs";
 
 //#region YT
@@ -172,7 +172,7 @@ class FStylistPoint extends MStylistPoint {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
 
 

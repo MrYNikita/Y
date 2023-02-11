@@ -1,5 +1,5 @@
 import { YBasic } from "../../ject/YBasic/YBasic.mjs";
-import { jectFill } from "../../ject/ject.mjs";
+import { jectAdopt } from "../../ject/ject.mjs";
 import { arrayRemoveByElement, arrayUnique } from "../../array/array.mjs";
 import { regexpInsert } from "../regexp.mjs";
 
@@ -152,7 +152,7 @@ class FRegExp extends MRegExp {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
         this.value = new RegExp(this.value, t.flags);
 

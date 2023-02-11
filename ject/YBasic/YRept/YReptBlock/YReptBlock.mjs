@@ -1,5 +1,5 @@
 import { YBasic } from "../../YBasic.mjs";
-import { jectFill } from "../../../ject.mjs";
+import { jectAdopt } from "../../../ject.mjs";
 
 /**
  * @typedef TBReptBlock
@@ -145,7 +145,7 @@ class FReptBlock extends MReptBlock {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
 
 

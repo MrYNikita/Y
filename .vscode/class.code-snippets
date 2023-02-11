@@ -100,7 +100,7 @@
 			"            ",
 			"        } = t;",
 			"        ",
-			"        jectFill.apply(this, [t]);",
+			"        jectAdopt.apply(this, [t]);",
 			"        ",
 			"        ",
 			"        ",
@@ -124,7 +124,7 @@
 	},
 	"SDFY-2.0": {
 		"body": [
-			"import { jectFill } from \"\"",
+			"import { jectAdopt } from \"\"",
 			"",
 			"/**",
 			" * @typedef TB$1",
@@ -233,7 +233,7 @@
 			"            ",
 			"        } = t;",
 			"        ",
-			"        jectFill(this, t);",
+			"        jectAdopt(this, t);",
 			"        ",
 			"        ",
 			"        ",
@@ -257,7 +257,7 @@
 	},
 	"SDIFY-1.0": {
 		"body": [
-			"import { jectFill } from \"\"",
+			"import { jectAdopt } from \"\"",
 			"",
 			"/**",
 			" * @typedef TB$1",
@@ -371,7 +371,7 @@
 			"            ",
 			"        } = t;",
 			"        ",
-			"        jectFill(this, t);",
+			"        jectAdopt(this, t);",
 			"        ",
 			"        ",
 			"        ",
@@ -396,7 +396,7 @@
     "SDIMFY-1.0": {
 
         "body": [
-			"import { jectFill } from \"\"",
+			"import { jectAdopt } from \"\"",
 			"",
 			"/**",
 			" * @typedef TB$1",
@@ -513,7 +513,7 @@
 			"            ",
 			"        } = t;",
 			"        ",
-			"        jectFill(this, t);",
+			"        jectAdopt(this, t);",
 			"        ",
 			"        ",
 			"        ",

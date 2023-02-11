@@ -1,4 +1,4 @@
-import { jectFill, jectGetInheritance } from "../../../../ject/ject.mjs";
+import { jectAdopt, jectGetInheritance } from "../../../../ject/ject.mjs";
 import { arrayChangeSize, arrayLevel } from "../../../array.mjs";
 import { YArrayRank } from "../YArrayRank.mjs";
 import { YLevel } from "./YLevel/YLevel.mjs";
@@ -120,7 +120,7 @@ class FArrayLevel extends MArrayLevel {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
         this.values = arrayLevel(this.values, ...t.levels);
 

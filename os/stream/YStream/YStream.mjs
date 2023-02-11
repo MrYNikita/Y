@@ -1,5 +1,5 @@
 import { Duplex } from 'stream';
-import { jectFill } from "../../../ject/ject.mjs";
+import { jectAdopt } from "../../../ject/ject.mjs";
 import { YLog } from '../../../log/YLog/YLog.mjs';
 import { YString } from '../../../string/YString/YString.mjs';
 
@@ -117,7 +117,7 @@ class FStream extends DStream {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
 
 

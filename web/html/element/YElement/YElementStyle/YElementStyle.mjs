@@ -1,5 +1,5 @@
 import { YElement } from "../YElement.mjs";
-import { jectFill } from "../../../../../ject/ject.mjs";
+import { jectAdopt } from "../../../../../ject/ject.mjs";
 import { stringReplace, stringReplaceAll, stringReplaceAllMore } from "../../../../../string/string.mjs";
 import { arrayRemoveByElement } from "../../../../../array/array.mjs";
 import { YStyle } from "../../../style/YStyle/YStyle.mjs";
@@ -205,7 +205,7 @@ class FElementStyle extends MElementStyle {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
 
 

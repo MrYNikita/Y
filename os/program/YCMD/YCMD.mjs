@@ -1,7 +1,7 @@
 import { exec, fork, spawn } from "child_process";
 import { config } from "process";
 import { configOSPath } from "../../../config.mjs";
-import { jectFill } from "../../../ject/ject.mjs";
+import { jectAdopt } from "../../../ject/ject.mjs";
 import { YLog } from "../../../log/YLog/YLog.mjs";
 import { YString } from "../../../string/YString/YString.mjs";
 import { YTemplate } from "../../../string/YString/YTemplate/YTemplate.mjs";
@@ -142,7 +142,7 @@ class FCMD extends DCMD {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
         this.connect = spawn('cmd.exe', { cwd: this.pathBegin, detached: this.detached });
 

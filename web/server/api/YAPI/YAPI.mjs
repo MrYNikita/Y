@@ -4,7 +4,7 @@ import { YRout } from "../rout/YRout/YRout.mjs";
 import { YServer } from "../../YServer/YServer.mjs";
 import { YString } from "../../../../string/YString/YString.mjs";
 import { pathGet } from "../../../../os/path/path.mjs";
-import { jectFill } from "../../../../ject/ject.mjs";
+import { jectAdopt } from "../../../../ject/ject.mjs";
 import { fileReadText, fileREExpand } from "../../../../os/file/file.mjs";
 import { serverDefineContentType } from "../../server.mjs";
 
@@ -117,7 +117,7 @@ class FAPI extends DAPI {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
 
 

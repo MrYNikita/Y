@@ -1,4 +1,4 @@
-import { jectFill } from "../../../../../ject.mjs";
+import { jectAdopt } from "../../../../../ject.mjs";
 import { YString } from "../../../../../../string/YString/YString.mjs";
 import { YInteract } from "../YInteract.mjs";
 
@@ -196,7 +196,7 @@ class FSelect extends MSelect {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
 
 

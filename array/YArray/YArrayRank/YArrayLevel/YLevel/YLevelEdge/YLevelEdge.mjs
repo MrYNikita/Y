@@ -1,4 +1,4 @@
-import { jectFill } from "../../../../../../ject/ject.mjs";
+import { jectAdopt } from "../../../../../../ject/ject.mjs";
 import { YLevel } from "../YLevel.mjs";
 
 /**
@@ -113,7 +113,7 @@ class FLevelEdge extends MLevelEdge {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
 
 

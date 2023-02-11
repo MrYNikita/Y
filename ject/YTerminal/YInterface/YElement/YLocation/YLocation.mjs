@@ -1,5 +1,5 @@
 import { YString } from "../../../../../string/YString/YString.mjs";
-import { jectFill } from "../../../../ject.mjs";
+import { jectAdopt } from "../../../../ject.mjs";
 import { YInterface } from "../../YInterface.mjs";
 import { YElement } from "../YElement.mjs";
 
@@ -164,7 +164,7 @@ class FLocation extends MLocation {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
 
 

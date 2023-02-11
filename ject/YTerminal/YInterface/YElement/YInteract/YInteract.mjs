@@ -1,5 +1,5 @@
 import { arrayUnique } from "../../../../../array/array.mjs";
-import { jectFill } from "../../../../ject.mjs";
+import { jectAdopt } from "../../../../ject.mjs";
 import { YElement } from "../YElement.mjs";
 
 //#region YT
@@ -222,7 +222,7 @@ class FInteract extends MInteract {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
 
 

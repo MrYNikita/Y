@@ -1,6 +1,6 @@
 import { YJect } from "../../YJect/YJect.mjs";
 import { YString } from "../../../string/YString/YString.mjs";
-import { jectFill } from "../../ject.mjs";
+import { jectAdopt } from "../../ject.mjs";
 import { YTerminal } from "../YTerminal.mjs";
 import { YElement } from "./YElement/YElement.mjs";
 
@@ -273,7 +273,7 @@ class FInterface extends MInterface {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
         if (this.terminal) {
 

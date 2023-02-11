@@ -1,5 +1,5 @@
 import { configString, configYInsert } from "../../../../config.mjs";
-import { jectFill } from "../../../../ject/ject.mjs";
+import { jectAdopt } from "../../../../ject/ject.mjs";
 import { YRegExp } from "../../../../regexp/YRegExp/YRegExp.mjs";
 
 /**
@@ -131,7 +131,7 @@ class FInsert extends MInsert {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
 
 

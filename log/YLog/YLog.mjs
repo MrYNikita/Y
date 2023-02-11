@@ -1,5 +1,5 @@
 import { configYLog } from "../../config.mjs";
-import { jectFill } from "../../ject/ject.mjs";
+import { jectAdopt } from "../../ject/ject.mjs";
 import { YBasic } from "../../ject/YBasic/YBasic.mjs";
 import { YNotice } from "./YNotice/YNotice.mjs";
 import { YSection } from "./YNotice/YSection/YSection.mjs";
@@ -132,7 +132,7 @@ class FLog extends MLog {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
 
 

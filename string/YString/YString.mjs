@@ -1,4 +1,4 @@
-import { jectFill } from "../../ject/ject.mjs";
+import { jectAdopt } from "../../ject/ject.mjs";
 import { YList } from "../../ject/YBasic/YList/YList.mjs";
 import { YTemplate } from "./YTemplate/YTemplate.mjs";
 import { configString, configYString } from "../../config.mjs";
@@ -260,7 +260,7 @@ class FString extends MString {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
         this.stylist.pasteColorByString(this.values);
 

@@ -1,4 +1,4 @@
-import { jectFill } from "../../../ject.mjs";
+import { jectAdopt } from "../../../ject.mjs";
 import { YJect } from "../../../YJect/YJect.mjs";
 import { YTerminal } from "../../YTerminal.mjs";
 import { YInterface } from "../YInterface.mjs";
@@ -226,7 +226,7 @@ class FElement extends MElement {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
 
 

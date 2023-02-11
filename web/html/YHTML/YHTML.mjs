@@ -1,5 +1,5 @@
 import { YString } from "../../../string/YString/YString.mjs";
-import { jectFill } from "../../../ject/ject.mjs";
+import { jectAdopt } from "../../../ject/ject.mjs";
 import { configWebYHTML, configWeb } from "../../../config.mjs";
 import { YElementStyle } from "../element/YElement/YElementStyle/YElementStyle.mjs";
 import { fileRead, fileReadJson, fileReadText } from "../../../os/file/file.mjs";
@@ -144,7 +144,7 @@ class FHTML extends MHTML {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
 
 

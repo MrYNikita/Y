@@ -4,7 +4,7 @@
  * @typedef {DRegExpSymbol&TBRegExpSymbol} TRegExpSymbol
 */
 
-import { jectFill } from "../../../../ject/ject.mjs";
+import { jectAdopt } from "../../../../ject/ject.mjs";
 
 class SRegExpSymbol {
 
@@ -138,7 +138,7 @@ class FRegExpSymbol extends DRegExpSymbol {
 
         } = t;
 
-        jectFill.apply(this, [t]);
+        jectAdopt.apply(this, [t]);
 
 
 

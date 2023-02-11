@@ -2,7 +2,7 @@ import { configYRept } from "../../../config.mjs";
 import { YRegExp } from "../../../regexp/YRegExp/YRegExp.mjs";
 import { stringFind, stringFindAll, stringReplace, stringReplaceAll } from "../../../string/string.mjs";
 import { YString } from "../../../string/YString/YString.mjs";
-import { jectFill, jectGetByPath, jectGetProperty } from "../../ject.mjs";
+import { jectAdopt, jectGetByPath, jectGetProperty } from "../../ject.mjs";
 import { YBasic } from "../../YBasic/YBasic.mjs";
 import { YReptBlock } from "./YReptBlock/YReptBlock.mjs";
 
@@ -129,7 +129,7 @@ class FRept extends MRept {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
 
 

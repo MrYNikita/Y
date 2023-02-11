@@ -1,5 +1,5 @@
 import { YBasic } from '../../../ject/YBasic/YBasic.mjs';
-import { jectFill } from '../../../ject/ject.mjs';
+import { jectAdopt } from '../../../ject/ject.mjs';
 import { stringFindAll, stringGetTranducer, stringPaste, stringPasteWrap } from '../../string.mjs';
 import { arrayAppend, arrayPaste } from '../../../array/array.mjs';
 import { colorClear, colorGet, colorGetMap, colorGetReset, colorReset, colorVEREReset } from '../../ansi/color/color.mjs';
@@ -186,7 +186,7 @@ class FStylist extends MStylist {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
         if (t.string) this.mapColor = colorGetMap(t.string);
 

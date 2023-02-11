@@ -1,5 +1,5 @@
 import { YArray } from "../YArray.mjs";
-import { jectFill } from "../../../ject/ject.mjs";
+import { jectAdopt } from "../../../ject/ject.mjs";
 import { arrayAppendMiss, arraySupplement } from "../../array.mjs";
 
 /**
@@ -122,7 +122,7 @@ class FArrayRank extends MArrayRank {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
 
 

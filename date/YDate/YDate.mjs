@@ -1,5 +1,5 @@
 import { configDate } from "../../config.mjs";
-import { jectFill } from "../../ject/ject.mjs";
+import { jectAdopt } from "../../ject/ject.mjs";
 import { YBasic } from "../../ject/YBasic/YBasic.mjs";
 import { stringCastToDate } from "../../string/string.mjs";
 import { dateChange, dateDrop, dateGetMesuares } from "../date.mjs";
@@ -193,7 +193,7 @@ class FDate extends MDate {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
     };
 

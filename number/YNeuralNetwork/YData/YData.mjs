@@ -1,4 +1,4 @@
-import { jectFill } from "../../../ject/ject.mjs";
+import { jectAdopt } from "../../../ject/ject.mjs";
 import { YBasic } from "../../../ject/YBasic/YBasic.mjs";
 
 /**
@@ -137,7 +137,7 @@ class FData extends MData {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
 
 

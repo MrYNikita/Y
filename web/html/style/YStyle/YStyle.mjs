@@ -1,5 +1,5 @@
 import { YString } from "../../../../string/YString/YString.mjs";
-import { jectFill } from "../../../../ject/ject.mjs";
+import { jectAdopt } from "../../../../ject/ject.mjs";
 import { YElementStyle } from "../../element/YElement/YElementStyle/YElementStyle.mjs";
 import { stringFind, stringReplace, stringShield } from "../../../../string/string.mjs";
 import { YStyleSet } from "./YStyleSet/YStyleSet.mjs";
@@ -159,7 +159,7 @@ class FStyle extends MStyle {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
         this.location.push(this);
 

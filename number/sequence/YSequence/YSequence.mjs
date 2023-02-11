@@ -1,4 +1,4 @@
-import { jectFill } from "../../../ject/ject.mjs";
+import { jectAdopt } from "../../../ject/ject.mjs";
 import { YString } from "../../../string/YString/YString.mjs";
 import { numberGetSequence } from "../../number.mjs";
 import { sequenceCheckEntry, sequenceOrder } from "../sequence.mjs";
@@ -174,7 +174,7 @@ class FSequence extends DSequence {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
         this.сount();
 

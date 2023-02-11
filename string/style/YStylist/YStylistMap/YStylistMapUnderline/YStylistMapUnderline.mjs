@@ -1,4 +1,4 @@
-import { jectFill } from "../../../../../ject/ject.mjs";
+import { jectAdopt } from "../../../../../ject/ject.mjs";
 import { YStylistMap } from "../YStylistMap.mjs";
 
 //#region YT
@@ -149,7 +149,7 @@ class FStylistMapUnderline extends MStylistMapUnderline {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
 
 

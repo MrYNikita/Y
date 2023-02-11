@@ -1,4 +1,4 @@
-import { jectFill } from "../../../../../ject/ject.mjs";
+import { jectAdopt } from "../../../../../ject/ject.mjs";
 import { serverDefineContentType } from "../../../server.mjs";
 import { YServer } from "../../../YServer/YServer.mjs";
 import { YAPI } from "../../YAPI/YAPI.mjs";
@@ -126,7 +126,7 @@ class FRout extends DRout {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
 
 

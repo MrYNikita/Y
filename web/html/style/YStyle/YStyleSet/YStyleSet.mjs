@@ -1,4 +1,4 @@
-import { jectFill } from "../../../../../ject/ject.mjs";
+import { jectAdopt } from "../../../../../ject/ject.mjs";
 import { stringConvertCamelCaseToDelimetr } from "../../../../../string/string.mjs";
 
 /**
@@ -111,7 +111,7 @@ class FStyleSet extends DStyleSet {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
 
 

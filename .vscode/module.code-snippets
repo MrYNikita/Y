@@ -12,11 +12,12 @@
     "class": {
 
         "body": [
-			"import { jectFill } from \"\"",
-			"",
+			"//#region YI",
+            "",
+            "//#endregion",
 			"//#region YT",
 			"",
-			"/** ### Y${1:${TM_FILENAME_BASE/\\w//}}T",
+			"/** ### Y${1:${TM_FILENAME_BASE/(\\w)/${1:/upcase}/}}T",
             " * - Тип `T`",
             " * - Версия `0.0.0`",
             " * - Модуль `Y$1`",
@@ -50,7 +51,7 @@
 			"",
 			"//#endregion",
 			"",
-			"class S$1 {",
+			"class S$1 $2 {",
 			"    ",
 			"    ",
 			"    ",
@@ -162,7 +163,7 @@
 			"            ",
 			"        } = t;",
 			"        ",
-			"        jectFill(this, t);",
+			"        this.adopt(t);",
 			"        ",
 			"        ",
 			"        ",
@@ -191,7 +192,7 @@
     "classData": {
 
         "body": [
-            "import { jectFill } from \"\"",
+            "import { jectAdopt } from \"\"",
 			"",
 			"//#region YT",
 			"",
@@ -338,7 +339,7 @@
 			"            ",
 			"        } = t;",
 			"        ",
-			"        jectFill(this, t);",
+			"        jectAdopt(this, t);",
 			"        ",
 			"        ",
 			"        ",

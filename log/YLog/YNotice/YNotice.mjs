@@ -1,4 +1,4 @@
-import { jectFill } from "../../../ject/ject.mjs";
+import { jectAdopt } from "../../../ject/ject.mjs";
 import { configYLog } from "../../../config.mjs";
 import { stringCastToDate, stringCastToSample, stringReplace, stringReplaceAllMore, stringReplaceMore } from "../../../string/string.mjs";
 import { YSection } from "./YSection/YSection.mjs";
@@ -121,7 +121,7 @@ class FNotice extends DNotice {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
         this.date = new Date();
 

@@ -1,4 +1,4 @@
-import { jectFill } from "../../../../ject/ject.mjs";
+import { jectAdopt } from "../../../../ject/ject.mjs";
 import { YJect } from "../../../../ject/YJect/YJect.mjs";
 import { YString } from "../../../YString/YString.mjs";
 
@@ -260,7 +260,7 @@ class FWord extends MWord {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
 
 

@@ -1,6 +1,6 @@
 import { colorGetReset } from "../../../../../../string/ansi/color/color.mjs";
 import { YString } from "../../../../../../string/YString/YString.mjs";
-import { jectFill } from "../../../../../ject.mjs";
+import { jectAdopt } from "../../../../../ject.mjs";
 import { YInteract } from "../YInteract.mjs";
 import { YPointMenu } from "./YMenuPoint/YPointMenu.mjs";
 
@@ -237,7 +237,7 @@ class FMenu extends MMenu {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
 
 

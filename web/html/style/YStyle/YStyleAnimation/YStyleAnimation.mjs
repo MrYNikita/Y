@@ -1,6 +1,6 @@
 import { YStyle } from "../YStyle.mjs";
 import { YString } from "../../../../../string/YString/YString.mjs";
-import { jectFill } from "../../../../../ject/ject.mjs";
+import { jectAdopt } from "../../../../../ject/ject.mjs";
 import { YStyleSet } from "../YStyleSet/YStyleSet.mjs";
 import { stringFind, stringReplace } from "../../../../../string/string.mjs";
 
@@ -121,7 +121,7 @@ class FStyleAnimation extends MStyleAnimation {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
 
 

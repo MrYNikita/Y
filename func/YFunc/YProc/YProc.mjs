@@ -1,4 +1,4 @@
-import { jectFill, jectGetPathDeepByValue, jectReplaceDeep } from "../../../ject/ject.mjs";
+import { jectAdopt, jectGetPathDeepByValue, jectReplaceDeep } from "../../../ject/ject.mjs";
 import { YFunc } from "../YFunc.mjs";
 
 /**
@@ -159,7 +159,7 @@ class FProc extends DProc {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
         jectReplaceDeep(this.func.card, this.label, this, true);
 
         this.index = this.func.procedures.length;

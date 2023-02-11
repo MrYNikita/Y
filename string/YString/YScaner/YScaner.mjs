@@ -1,4 +1,4 @@
-import { jectFill } from "../../../ject/ject.mjs";
+import { jectAdopt } from "../../../ject/ject.mjs";
 import { YJect } from "../../../ject/YJect/YJect.mjs";
 
 /**
@@ -120,7 +120,7 @@ class FScaner extends MScaner {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
 
 

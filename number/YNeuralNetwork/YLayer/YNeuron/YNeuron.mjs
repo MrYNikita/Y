@@ -1,4 +1,4 @@
-import { jectFill } from "../../../../ject/ject.mjs";
+import { jectAdopt } from "../../../../ject/ject.mjs";
 import { YJect } from "../../../../ject/YJect/YJect.mjs";
 
 /**
@@ -140,7 +140,7 @@ class FNeuron extends MNeuron {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
 
 

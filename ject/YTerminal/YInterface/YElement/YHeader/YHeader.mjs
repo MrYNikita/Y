@@ -1,4 +1,4 @@
-import { jectFill } from "../../../../ject.mjs";
+import { jectAdopt } from "../../../../ject.mjs";
 import { YString } from "../../../../../string/YString/YString.mjs";
 import { YElement } from "../YElement.mjs";
 
@@ -121,7 +121,7 @@ class FHeader extends MHeader {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
     };
 

@@ -1,4 +1,4 @@
-import { jectFill } from "../../../../../ject/ject.mjs";
+import { jectAdopt } from "../../../../../ject/ject.mjs";
 import { YBasic } from "../../../../../ject/YBasic/YBasic.mjs";
 import { YStylistPoint } from "../YStylistPoint/YStylistPoint.mjs";
 
@@ -170,7 +170,7 @@ class FStylistMapLine extends MStylistMapLine {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
 
 
@@ -192,6 +192,6 @@ class FStylistMapLine extends MStylistMapLine {
 */
 export class YStylistMapLine extends FStylistMapLine {
 
-    
+
 
 };

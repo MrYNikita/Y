@@ -1,4 +1,4 @@
-import { jectFill } from "../../../../../ject.mjs";
+import { jectAdopt } from "../../../../../ject.mjs";
 import { YInteract } from "../YInteract.mjs";
 
 /**
@@ -132,7 +132,7 @@ class FInteractGroup extends MInteractGroup {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
 
 

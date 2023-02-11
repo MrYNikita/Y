@@ -1,6 +1,6 @@
 import { YDate } from "../../../../../date/YDate/YDate.mjs";
 import { stringCastToDateRu } from "../../../../../string/string.mjs";
-import { jectFill } from "../../../../ject.mjs";
+import { jectAdopt } from "../../../../ject.mjs";
 import { YInterface } from "../../YInterface.mjs";
 import { YElement } from "../YElement.mjs";
 
@@ -161,7 +161,7 @@ class FClock extends MClock {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
         if (this.interface) {
 

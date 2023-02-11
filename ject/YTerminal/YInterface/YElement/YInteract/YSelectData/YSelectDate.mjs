@@ -1,7 +1,7 @@
 import { YDate } from "../../../../../../date/YDate/YDate.mjs";
 import { numberGetSequence } from "../../../../../../number/number.mjs";
 import { YString } from "../../../../../../string/YString/YString.mjs";
-import { jectFill } from "../../../../../ject.mjs";
+import { jectAdopt } from "../../../../../ject.mjs";
 import { YInteract } from "../YInteract.mjs";
 
 //#region YT
@@ -250,7 +250,7 @@ class FSelectDate extends MSelectDate {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
     };
 

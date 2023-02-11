@@ -1,29 +1,29 @@
 import { config } from "../config.mjs";
 import { YBasic } from "./YBasic/YBasic.mjs";
 import { stringFind } from "../string/string.mjs";
-import { arrayClear, arrayRemoveByElement } from "../array/array.mjs";
+import { arrayRemoveByElement } from "../array/array.mjs";
 
 //#region YT
 
 /** ### jectT
  * - Тип `T`
- * - Версия `0.0.0`
+ * - Версия `0.1.0`
  * - Модуль `ject`
  *
  * Основной параметр модуля `ject`.
  *
- * @typedef {{}} jectT
+ * @typedef jectT
+ * @prop {jectTTJect} ject
  *
 */
 /** ### jectTJect
  * - Тип `T`
- * - Версия `0.0.1`
+ * - Версия `0.1.0`
  * - Модуль `ject`
  *
  *
  *
- * @typedef jectTJect
- * @prop {jectT} ject
+ * @typedef {{}} jectTTJect
  *
 */
 
@@ -31,6 +31,111 @@ import { arrayClear, arrayRemoveByElement } from "../array/array.mjs";
 //#region YV
 
 
+
+//#endregion
+
+//#region adopt 0.0.0
+
+/** ### jectTFAdopt
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `ject`
+ * ***
+ *
+ * Результирующие параметры функции `adopt`.
+ *
+ * @typedef {jectTFUAdopt&jectT} jectTFAdopt
+ *
+*/
+/** ### jectTFUAdopt
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `ject`
+ *
+ * Уникальные параметры функции `adopt`.
+ *
+ * @typedef jectTFUAdopt
+ * @prop {jectTTJect} owner
+*/
+
+/** @arg {jectTFAdopt} t */
+function adoptDeceit(t) {
+
+    try {
+
+        return adoptVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @arg {jectTFAdopt} t */
+function adoptVerify(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return adoptHandle(t);
+
+};
+/** @arg {jectTFAdopt} t */
+function adoptHandle(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return adoptComply(t);
+
+};
+/** @arg {jectTFAdopt} t */
+function adoptComply(t) {
+
+    const {
+
+        ject,
+        owner,
+
+    } = t;
+
+    Object.keys(ject).forEach(s => owner[s] !== undefined && (ject[s] = owner[s]));
+
+    return ject;
+
+};
+
+/**
+ * ### jectAdopt
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * - Модуль `ject`
+ * ***
+ *
+ * Функция перенятия общих свойств от обладателя до получателя.
+ *
+ * Заменяет свойства получателя на свойства обладателя, если они совподают по ключу.
+ *
+ * ***
+ * @arg {} ject `Получатель`
+ * @arg {} owner `Обладатель`
+ * @return {TJ}
+ * @template TJ
+*/
+export function jectAdopt(ject, owner) {
+
+    return adoptDeceit({ ject, owner });
+
+};
 
 //#endregion
 
@@ -55,7 +160,7 @@ import { arrayClear, arrayRemoveByElement } from "../array/array.mjs";
  * Уникальные параметры функции `fill`.
  *
  * @typedef jectTFUFill
- * @prop {jectTJect} filler
+ * @prop {jectTTJect} filler
 */
 
 /** @arg {jectTFFill} t */
@@ -115,7 +220,7 @@ function fillComply(t) {
 };
 
 /**
- * ### jectFill
+ * ### jectAdopt
  * - Версия `0.2.0`
  * - Цепочка `DVHCa`
  * - Модуль `ject`
@@ -147,7 +252,7 @@ export function jectFill(ject, filler) {
  *
  * Результирующие параметры функции `equal`.
  *
- * @typedef {jectTFUEqual&jectTJect} jectTFEqual
+ * @typedef {jectTFUEqual&jectTTJect} jectTFEqual
  *
 */
 /** ### jectTFUEqual
@@ -301,7 +406,7 @@ export function jectEqual(ject, equal) {
  *
  * Результирующие параметры функции `getProperty`.
  *
- * @typedef {jectTFUGetProperty&jectTJect} jectTFGetProperty
+ * @typedef {jectTFUGetProperty&jectTTJect} jectTFGetProperty
  *
 */
 /** ### jectTFUGetProperty
@@ -435,7 +540,7 @@ export function jectGetProperty(ject, property) {
  *
  * Результирующие параметры функции `getPropertyByPath`.
  *
- * @typedef {jectTFUGetPropertyByPath&jectTJect} jectTFGetPropertyByPath
+ * @typedef {jectTFUGetPropertyByPath&jectTTJect} jectTFGetPropertyByPath
  *
 */
 /** ### jectTFUGetPropertyByPath
@@ -851,7 +956,7 @@ export function jectGetPropertyByPathMany(ject, path) {
  *
  * Результирующие параметры функции `clone`.
  *
- * @typedef {jectTFUClone&jectTJect} jectTFClone
+ * @typedef {jectTFUClone&jectTTJect} jectTFClone
  *
 */
 /** ### jectTFUClone

@@ -1,4 +1,4 @@
-import { jectFill } from "../../../../../ject/ject.mjs";
+import { jectAdopt } from "../../../../../ject/ject.mjs";
 import { YElement } from "../YElement.mjs";
 
 /**
@@ -113,7 +113,7 @@ class FStructure extends MStructure {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
 
 

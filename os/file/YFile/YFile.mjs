@@ -1,4 +1,4 @@
-import { jectFill } from "../../../ject/ject.mjs";
+import { jectAdopt } from "../../../ject/ject.mjs";
 import { fileAppend, fileDelete, fileMove, fileRead, fileVREExpand, fileVRELocation, fileVREName, fileRename, fileWrite } from "../file.mjs";
 import { YBasic } from "../../../ject/YBasic/YBasic.mjs";
 import { YPath } from "../../path/YPath/YPath.mjs";
@@ -136,7 +136,7 @@ import { YPath } from "../../path/YPath/YPath.mjs";
 
 //         } = t;
 
-//         jectFill(this, t);
+//         jectAdopt(this, t);
 
 //     };
 
@@ -469,7 +469,7 @@ class FFile extends MFile {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
 
 

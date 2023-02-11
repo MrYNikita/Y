@@ -1,4 +1,4 @@
-import { jectFill } from "../../../ject/ject.mjs";
+import { jectAdopt } from "../../../ject/ject.mjs";
 import { YJect } from "../../../ject/YJect/YJect.mjs";
 import { mathSigmoid } from "../../math/math.mjs";
 import { YNeuron } from "./YNeuron/YNeuron.mjs";
@@ -127,7 +127,7 @@ class FLayer extends MLayer {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
 
 

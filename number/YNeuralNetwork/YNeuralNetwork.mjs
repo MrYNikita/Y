@@ -1,5 +1,5 @@
 import { YJect } from "../../ject/YJect/YJect.mjs";
-import { jectFill } from "../../ject/ject.mjs";
+import { jectAdopt } from "../../ject/ject.mjs";
 import { YString } from "../../string/YString/YString.mjs";
 import { YNeuron } from "./YLayer/YNeuron/YNeuron.mjs";
 import { YLayer } from "./YLayer/YLayer.mjs";
@@ -141,7 +141,7 @@ class FNeuralNetwork extends MNeuralNetwork {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
         this.rept
 

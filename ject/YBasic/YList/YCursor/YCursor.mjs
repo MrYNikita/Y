@@ -1,6 +1,6 @@
 import { YBasic } from "../../YBasic.mjs";
 import { YList } from "../YList.mjs";
-import { jectFill } from "../../../ject.mjs";
+import { jectAdopt } from "../../../ject.mjs";
 import { arrayRemoveByElement } from "../../../../array/array.mjs";
 
 //#region YT
@@ -170,7 +170,7 @@ class FCursor extends MCursor {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
 
 

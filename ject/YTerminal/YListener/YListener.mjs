@@ -1,5 +1,5 @@
 import { YJect } from "../../YJect/YJect.mjs";
-import { jectFill } from "../../ject.mjs";
+import { jectAdopt } from "../../ject.mjs";
 import { emitKeypressEvents } from "readline";
 import { YTerminal } from "../YTerminal.mjs";
 
@@ -232,7 +232,7 @@ class FListener extends MListener {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
 
 

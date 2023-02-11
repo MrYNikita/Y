@@ -1,6 +1,6 @@
 import { arrayUnique } from "../../../../array/array.mjs";
 import { funcBypass } from "../../../../func/func.mjs";
-import { jectFill } from "../../../../ject/ject.mjs";
+import { jectAdopt } from "../../../../ject/ject.mjs";
 import { YBasic } from "../../../../ject/YBasic/YBasic.mjs";
 import { YRegExp } from "../../../../regexp/YRegExp/YRegExp.mjs";
 import { stringCastToSample, stringShield } from "../../../string.mjs";
@@ -202,7 +202,7 @@ class FStylistMap extends MStylistMap {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
 
 

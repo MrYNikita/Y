@@ -1,5 +1,5 @@
 import { YString } from "../../../../../../string/YString/YString.mjs";
-import { jectFill } from "../../../../../ject.mjs";
+import { jectAdopt } from "../../../../../ject.mjs";
 import { YInteract } from "../YInteract.mjs";
 import { YInterface } from "../../../YInterface.mjs";
 import { colorGet } from "../../../../../../string/ansi/color/color.mjs";
@@ -225,7 +225,7 @@ class FForm extends MForm {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
         this.setInterface(this.interface);
 

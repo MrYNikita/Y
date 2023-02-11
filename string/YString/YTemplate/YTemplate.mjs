@@ -1,5 +1,5 @@
 import { configString } from "../../../config.mjs";
-import { jectFill } from "../../../ject/ject.mjs";
+import { jectAdopt } from "../../../ject/ject.mjs";
 import { stringReplace, stringReplaceAllMore } from "../../string.mjs";
 import { YString } from "../YString.mjs";
 import { YInsert } from "./YInsert/YInsert.mjs";
@@ -130,7 +130,7 @@ class FTemplate extends ITemplate {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
 
 

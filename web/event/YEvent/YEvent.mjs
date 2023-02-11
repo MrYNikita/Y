@@ -1,4 +1,4 @@
-import { jectFill } from "../../../ject/ject.mjs";
+import { jectAdopt } from "../../../ject/ject.mjs";
 
 /**
  * @typedef TBEvent
@@ -131,7 +131,7 @@ class FEvent extends MEvent {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
         this.on();
 

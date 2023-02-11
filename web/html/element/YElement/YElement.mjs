@@ -1,4 +1,4 @@
-import { jectFill, jectSupplement } from "../../../../ject/ject.mjs";
+import { jectAdopt, jectSupplement } from "../../../../ject/ject.mjs";
 import { YJect } from "../../../../ject/YJect/YJect.mjs";
 import { YEvent } from "../../../event/YEvent/YEvent.mjs";
 import { elementCreate, elementDecomposeString } from "../element.mjs";
@@ -180,7 +180,7 @@ class FElement extends MElement {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
     };
 

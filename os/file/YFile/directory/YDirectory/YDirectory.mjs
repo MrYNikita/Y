@@ -1,5 +1,5 @@
 import { YBFile, YFile } from "../../YFile.mjs";
-import { jectFill } from "../../../../../ject/ject.mjs";
+import { jectAdopt } from "../../../../../ject/ject.mjs";
 import { pathDecompose, pathGet, pathGetAll } from "../../../../path/path.mjs";
 import { directoryGetDir, directoryGetFile } from "../directory.mjs";
 import { fileREExpand, fileRELocation, fileREName } from "../../../file.mjs";
@@ -130,7 +130,7 @@ class FDirectory extends DDirectory {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
         this.paths = pathGetAll(this.getPath());
 

@@ -4,7 +4,7 @@
  * @typedef {DRegExpBracket&TBRegExpBracket} TRegExpBracket
 */
 
-import { jectFill } from "../../../../ject/ject.mjs";
+import { jectAdopt } from "../../../../ject/ject.mjs";
 
 
 
@@ -101,7 +101,7 @@ class FRegExpBracket extends DRegExpBracket {
 
         } = t;
 
-        jectFill.apply(this, [t]);
+        jectAdopt.apply(this, [t]);
 
 
 

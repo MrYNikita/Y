@@ -1,6 +1,6 @@
 import { YJect } from "../YJect/YJect.mjs";
 import { YString } from "../../string/YString/YString.mjs";
-import { jectFill } from "../ject.mjs";
+import { jectAdopt } from "../ject.mjs";
 import { YListener } from "./YListener/YListener.mjs";
 import { YInterface } from "./YInterface/YInterface.mjs";
 import { configYTerminal } from "../../config.mjs";
@@ -560,7 +560,7 @@ class FTerminal extends MTerminal {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
         this.interfaceActive = this.interface ?? null;
 

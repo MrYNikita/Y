@@ -1,5 +1,5 @@
 import { YLog } from "../../log/YLog/YLog.mjs";
-import { jectFill, jectReplaceDeep, jectSetDeep } from "../../ject/ject.mjs";
+import { jectAdopt, jectReplaceDeep, jectSetDeep } from "../../ject/ject.mjs";
 import { YProc } from "./YProc/YProc.mjs";
 import { arrayUnique } from "../../array/array.mjs";
 import { YString } from "../../string/YString/YString.mjs";
@@ -155,7 +155,7 @@ class FFunc extends DFunc {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
 
 

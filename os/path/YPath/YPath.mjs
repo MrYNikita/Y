@@ -1,5 +1,5 @@
 import { configOSYPath } from "../../../config.mjs";
-import { jectFill } from "../../../ject/ject.mjs";
+import { jectAdopt } from "../../../ject/ject.mjs";
 import { YBasic } from "../../../ject/YBasic/YBasic.mjs";
 import { stringUnifyBySymbol } from "../../../string/string.mjs";
 import { existsSync } from "fs";
@@ -165,7 +165,7 @@ class FPath extends MPath {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
 
 

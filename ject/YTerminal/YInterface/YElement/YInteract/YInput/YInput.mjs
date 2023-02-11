@@ -1,6 +1,6 @@
 import { YInteract } from "../YInteract.mjs";
 import { YString } from "../../../../../../string/YString/YString.mjs";
-import { jectFill } from "../../../../../ject.mjs";
+import { jectAdopt } from "../../../../../ject.mjs";
 import { YTerminal } from "../../../../YTerminal.mjs";
 
 /**
@@ -220,7 +220,7 @@ class FInput extends MInput {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
         this.value.rowLength = this.sizes[1];
 

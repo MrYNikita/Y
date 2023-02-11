@@ -1,4 +1,4 @@
-import { jectClone, jectEqual, jectFill, jectGetProperty, jectGetPropertyByPath, jectGetPropertyByPathMany } from "../ject.mjs";
+import { jectClone, jectEqual, jectAdopt, jectGetProperty, jectGetPropertyByPath, jectGetPropertyByPathMany } from "../ject.mjs";
 
 //#region YT
 
@@ -148,7 +148,7 @@ class FBasic extends MBasic {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
 
 
@@ -168,12 +168,32 @@ class FBasic extends MBasic {
 export class YBasic extends FBasic {
 
     /**
-     * ### copy
+     * ### adopt
+     * - Версия `0.0.0`
+     * - Модуль `YBasic`
+     * ***
+     *
+     *
+     *
+     * ***
+     * @arg {{}} owner `Обладатель`
+     * @public
+    */
+    adopt(owner) {
+
+        jectAdopt(this, owner);
+
+        return this;
+
+    };
+
+    /**
+     * ### clone
      * - Версия `0.1.0`
      * - Модуль `YBasic`
      * ***
      *
-     * Метод {@link jectClone|глубокого копирования объекта}.
+     * Метод {@link jectClone|клонирования объекта}.
      *
      * ***
      * @arg {boolean} link `Режим сохранения ссылочной структуры`

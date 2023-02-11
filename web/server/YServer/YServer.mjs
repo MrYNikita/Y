@@ -5,7 +5,7 @@ import { YJect } from "../../../ject/YJect/YJect.mjs";
 import { Duplex } from "stream";
 import { osGetIP } from "../../../os/os.mjs";
 import { YString } from "../../../string/YString/YString.mjs";
-import { jectFill } from "../../../ject/ject.mjs";
+import { jectAdopt } from "../../../ject/ject.mjs";
 import { YDirectory } from "../../../os/file/YFile/directory/YDirectory/YDirectory.mjs";
 import { config, configWebServer, configWeb } from "../../../config.mjs";
 
@@ -175,7 +175,7 @@ class FServer extends MServer {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
         this.serv = http.createServer();
 

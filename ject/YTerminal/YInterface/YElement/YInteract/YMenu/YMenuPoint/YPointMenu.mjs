@@ -1,4 +1,4 @@
-import { jectFill } from "../../../../../../ject.mjs";
+import { jectAdopt } from "../../../../../../ject.mjs";
 import { YBasic } from "../../../../../../YBasic/YBasic.mjs";
 
 //#region YT
@@ -168,7 +168,7 @@ class FPointMenu extends MPointMenu {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
 
 

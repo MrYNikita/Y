@@ -1,4 +1,4 @@
-import { jectFill } from "../../../../ject.mjs";
+import { jectAdopt } from "../../../../ject.mjs";
 import { YElement } from "../YElement.mjs";
 
 //#region YT
@@ -158,7 +158,7 @@ class FText extends MText {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
 
 

@@ -1,4 +1,4 @@
-import { jectFill } from "../../ject/ject.mjs";
+import { jectAdopt } from "../../ject/ject.mjs";
 import { YJect } from "../../ject/YJect/YJect.mjs";
 
 //#region YT
@@ -149,7 +149,7 @@ class FGen extends MGen {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
 
 

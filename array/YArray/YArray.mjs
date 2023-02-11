@@ -1,4 +1,4 @@
-import { jectFill } from "../../ject/ject.mjs";
+import { jectAdopt } from "../../ject/ject.mjs";
 import { YList } from "../../ject/YBasic/YList/YList.mjs";
 import { arrayChangeSize, arrayLevel } from "../array.mjs";
 
@@ -143,7 +143,7 @@ class FArray extends MArray {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
 
 

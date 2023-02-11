@@ -1,4 +1,4 @@
-import { jectFill } from "../../../../../ject/ject.mjs";
+import { jectAdopt } from "../../../../../ject/ject.mjs";
 import { colorClear, colorGetMap, colorGetMapWrap, colorVEREReset } from "../../../../ansi/color/color.mjs";
 import { YStylistMap } from "../YStylistMap.mjs";
 import { YStylistPoint } from "../YStylistPoint/YStylistPoint.mjs";
@@ -151,7 +151,7 @@ class FStylistMapColor extends MStylistMapColor {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
 
 

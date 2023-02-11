@@ -1,5 +1,5 @@
 import { YBasic } from "../../../ject/YBasic/YBasic.mjs";
-import { jectFill } from "../../../ject/ject.mjs";
+import { jectAdopt } from "../../../ject/ject.mjs";
 import { YString } from "../../../string/YString/YString.mjs";
 import { arrayRearrangeByIndex, arrayUnique } from "../../../array/array.mjs";
 import { rangeCast } from "../range.mjs";
@@ -136,7 +136,7 @@ class FRange extends IRange {
 
         } = t;
 
-        jectFill(this, t);
+        jectAdopt(this, t);
 
 
 
