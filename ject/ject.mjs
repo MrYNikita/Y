@@ -1,7 +1,4 @@
 import { config } from "../config.mjs";
-import { YBasic } from "./YBasic/YBasic.mjs";
-import { stringFind } from "../string/string.mjs";
-import { arrayRemoveByElement } from "../array/array.mjs";
 
 //#region YT
 
@@ -1248,736 +1245,736 @@ export function jectSupplement(ject, supplement) {
 
 //#endregion
 
-//#region getByPath 0.0.0
+// //#region getByPath 0.0.0
 
-/**
- * @typedef TBgetByPath
- * @prop {{}} ject
- * @prop {string[]} properties
- * @typedef {TBgetByPath} TgetByPath
-*/
+// /**
+//  * @typedef TBgetByPath
+//  * @prop {{}} ject
+//  * @prop {string[]} properties
+//  * @typedef {TBgetByPath} TgetByPath
+// */
 
-/** @arg {TgetByPath} t */
-function getByPathDeceit(t) {
+// /** @arg {TgetByPath} t */
+// function getByPathDeceit(t) {
 
-    try {
+//     try {
 
-        return getByPathVerify(t);
+//         return getByPathVerify(t);
 
-    } catch (e) {
+//     } catch (e) {
 
-        if (config.strict) throw e;
+//         if (config.strict) throw e;
 
-        return undefined;
+//         return undefined;
 
-    };
+//     };
 
-};
-/** @arg {TgetByPath} t */
-function getByPathVerify(t) {
+// };
+// /** @arg {TgetByPath} t */
+// function getByPathVerify(t) {
 
 
 
-    return getByPathHandle(t);
+//     return getByPathHandle(t);
 
-};
-/** @arg {TgetByPath} t */
-function getByPathHandle(t) {
+// };
+// /** @arg {TgetByPath} t */
+// function getByPathHandle(t) {
 
-    t.properties = t.properties.reverse();
+//     t.properties = t.properties.reverse();
 
-    return getByPathComply(t);
+//     return getByPathComply(t);
 
-};
-/** @arg {TgetByPath} t */
-function getByPathComply(t) {
+// };
+// /** @arg {TgetByPath} t */
+// function getByPathComply(t) {
 
-    const {
+//     const {
 
-        ject,
-        properties,
+//         ject,
+//         properties,
 
-    } = t;
+//     } = t;
 
-    let r = ject;
+//     let r = ject;
 
-    while (r && properties.length) {
+//     while (r && properties.length) {
 
-        const p = properties.pop();
+//         const p = properties.pop();
 
-        if (p.includes('.')) properties.push(...p.split('.').filter(p => p).reverse());
-        else r = p.includes('(') ? r[stringFind(p, /[^\(\)]+/)]() : r[p];
+//         if (p.includes('.')) properties.push(...p.split('.').filter(p => p).reverse());
+//         else r = p.includes('(') ? r[stringFind(p, /[^\(\)]+/)]() : r[p];
 
-    };
+//     };
 
-    return r;
+//     return r;
 
-};
+// };
 
-/**
- * Функция для получения свйосвта по указанным свойствам.
- * Будет переходить по таким свойствам до тех пор, пока это возможно.
- * В качестве ответа вернет последнее указанное вложенное свойство.
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * @arg {{}} ject Исходный объект.
- * @arg {...string} properties Свойства.
- * Допускается передача свойств строкой, где разделителем между словами выступает точка.
- * Такие строки будет преобразованы в свойства и добавлены в последовательность.
-*/
-export function jectGetByPath(ject, ...properties) {
+// /**
+//  * Функция для получения свйосвта по указанным свойствам.
+//  * Будет переходить по таким свойствам до тех пор, пока это возможно.
+//  * В качестве ответа вернет последнее указанное вложенное свойство.
+//  * - Версия `0.0.0`
+//  * - Цепочка `DVHCa`
+//  * @arg {{}} ject Исходный объект.
+//  * @arg {...string} properties Свойства.
+//  * Допускается передача свойств строкой, где разделителем между словами выступает точка.
+//  * Такие строки будет преобразованы в свойства и добавлены в последовательность.
+// */
+// export function jectGetByPath(ject, ...properties) {
 
-    return getByPathDeceit({ ject, properties, });
+//     return getByPathDeceit({ ject, properties, });
 
-};
+// };
 
-//#endregion
+// //#endregion
 
-//#region setDeep 0.0.1
+// //#region setDeep 0.0.1
 
-/**
- * @typedef TBsetDeep
- * @prop {any} value
- * @prop {boolean} all
- * @typedef {TBsetDeep&TgetDeep} TsetDeep
-*/
+// /**
+//  * @typedef TBsetDeep
+//  * @prop {any} value
+//  * @prop {boolean} all
+//  * @typedef {TBsetDeep&TgetDeep} TsetDeep
+// */
 
-/** @arg {TsetDeep} t */
-function setDeepDeceit(t) {
+// /** @arg {TsetDeep} t */
+// function setDeepDeceit(t) {
 
-    try {
+//     try {
 
-        return setDeepVerify(t);
+//         return setDeepVerify(t);
 
-    } catch (e) {
+//     } catch (e) {
 
-        if (config.strict) throw e;
+//         if (config.strict) throw e;
 
-        return undefined;
+//         return undefined;
 
-    };
+//     };
 
-};
-/** @arg {TsetDeep} t */
-function setDeepVerify(t) {
+// };
+// /** @arg {TsetDeep} t */
+// function setDeepVerify(t) {
 
-    const {
+//     const {
 
 
 
-    } = t;
+//     } = t;
 
-    return setDeepHandle(t);
+//     return setDeepHandle(t);
 
-};
-/** @arg {TsetDeep} t */
-function setDeepHandle(t) {
+// };
+// /** @arg {TsetDeep} t */
+// function setDeepHandle(t) {
 
-    let {
+//     let {
 
 
 
-    } = t;
+//     } = t;
 
-    t = {
+//     t = {
 
-        ...t,
+//         ...t,
 
-    };
+//     };
 
-    return setDeepComply(t);
+//     return setDeepComply(t);
 
-};
-/** @arg {TsetDeep} t */
-function setDeepComply(t) {
+// };
+// /** @arg {TsetDeep} t */
+// function setDeepComply(t) {
 
-    const {
+//     const {
 
-        all,
-        ject,
-        value,
-        property,
+//         all,
+//         ject,
+//         value,
+//         property,
 
-    } = t;
+//     } = t;
 
-    const structures = [ject];
-    const su = [...structures];
+//     const structures = [ject];
+//     const su = [...structures];
 
-    for (; structures.length;) {
+//     for (; structures.length;) {
 
-        const s = structures.pop();
+//         const s = structures.pop();
 
-        if (s.hasOwnProperty(property)) {
+//         if (s.hasOwnProperty(property)) {
 
-            s[property] = value;
+//             s[property] = value;
 
-            if (!all) return ject;
+//             if (!all) return ject;
 
-        };
+//         };
 
-        for (const v of arrayRemoveByElement(Object.values(s), value)) if (typeof v === 'object' && v !== property && !su.includes(v)) {
+//         for (const v of arrayRemoveByElement(Object.values(s), value)) if (typeof v === 'object' && v !== property && !su.includes(v)) {
 
-            su.push(v);
-            structures.push(v);
+//             su.push(v);
+//             structures.push(v);
 
-        };
+//         };
 
-    };
+//     };
 
-    return ject;
+//     return ject;
 
-};
+// };
 
-/**
- * Функция для глубокой установки вложенного свойства.
- * - Версия `0.1.0`
- * - Цепочка `DVHCa`
- * @arg {{}} ject Объект глубокой установки.
- * @arg {any} value Значение для свойства глубокой установки.
- * @arg {string} property Свойство глубокой установки.
- * @arg {boolean} all Логическое значение, определяющее полноту заполнения.
- * Если `true`, то все вложенные совпадения будут изменены на данное.
- * Если `false`, то заменено будет только первое совпадение.
- * - По умолчанию `false`
- * @return {void}
-*/
-export function jectSetDeep(ject, property, value, all = false) {
+// /**
+//  * Функция для глубокой установки вложенного свойства.
+//  * - Версия `0.1.0`
+//  * - Цепочка `DVHCa`
+//  * @arg {{}} ject Объект глубокой установки.
+//  * @arg {any} value Значение для свойства глубокой установки.
+//  * @arg {string} property Свойство глубокой установки.
+//  * @arg {boolean} all Логическое значение, определяющее полноту заполнения.
+//  * Если `true`, то все вложенные совпадения будут изменены на данное.
+//  * Если `false`, то заменено будет только первое совпадение.
+//  * - По умолчанию `false`
+//  * @return {void}
+// */
+// export function jectSetDeep(ject, property, value, all = false) {
 
-    return setDeepDeceit({ ject, property, value, all });
+//     return setDeepDeceit({ ject, property, value, all });
 
-};
+// };
 
-//#endregion
+// //#endregion
 
-//#region changeDeep 0.0.0
+// //#region changeDeep 0.0.0
 
-/**
- * @typedef TBchangeDeep
- * @prop {{}} ject
- * @prop {[{}]} changeDeeps
- * @typedef {TBchangeDeep} TchangeDeep
-*/
+// /**
+//  * @typedef TBchangeDeep
+//  * @prop {{}} ject
+//  * @prop {[{}]} changeDeeps
+//  * @typedef {TBchangeDeep} TchangeDeep
+// */
 
-/** @arg {TchangeDeep} t */
-function changeDeepDeceit(t) {
+// /** @arg {TchangeDeep} t */
+// function changeDeepDeceit(t) {
 
-    try {
+//     try {
 
-        return changeDeepVerify(t);
+//         return changeDeepVerify(t);
 
-    } catch (e) {
+//     } catch (e) {
 
-        if (config.strict) throw e;
+//         if (config.strict) throw e;
 
-        return undefined;
+//         return undefined;
 
-    };
+//     };
 
-};
-/** @arg {TchangeDeep} t */
-function changeDeepVerify(t) {
+// };
+// /** @arg {TchangeDeep} t */
+// function changeDeepVerify(t) {
 
-    const {
+//     const {
 
 
 
-    } = t;
+//     } = t;
 
-    return changeDeepHandle(t);
+//     return changeDeepHandle(t);
 
-};
-/** @arg {TchangeDeep} t */
-function changeDeepHandle(t) {
+// };
+// /** @arg {TchangeDeep} t */
+// function changeDeepHandle(t) {
 
-    let {
+//     let {
 
 
 
-    } = t;
+//     } = t;
 
 
 
-    t = {
+//     t = {
 
-        ...t,
+//         ...t,
 
-    };
+//     };
 
-    return changeDeepComply(t);
+//     return changeDeepComply(t);
 
-};
-/** @arg {TchangeDeep} t */
-function changeDeepComply(t) {
+// };
+// /** @arg {TchangeDeep} t */
+// function changeDeepComply(t) {
 
-    const {
+//     const {
 
-        ject,
-        changeDeeps,
+//         ject,
+//         changeDeeps,
 
-    } = t;
+//     } = t;
 
-    changeDeeps.forEach(c => Object.entries(c).forEach(p => ject[p[0]] = p[1]));
+//     changeDeeps.forEach(c => Object.entries(c).forEach(p => ject[p[0]] = p[1]));
 
-};
+// };
 
-/**
- * Функция для изменения исходного объекта свойствами остаточных объектов.
- *
- * Изменение происходит за счет свойств остаточных объектов.
- * Если свойство есть у остаточного объекта, то его значение будет перезаписано исходному.
- * @arg {{}} ject Исходный объект.
- * @arg {...{}} changeDeeps Остаточные объекты изменения.
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
-*/
-export function jectChangeDeep(ject, ...changeDeeps) {
+// /**
+//  * Функция для изменения исходного объекта свойствами остаточных объектов.
+//  *
+//  * Изменение происходит за счет свойств остаточных объектов.
+//  * Если свойство есть у остаточного объекта, то его значение будет перезаписано исходному.
+//  * @arg {{}} ject Исходный объект.
+//  * @arg {...{}} changeDeeps Остаточные объекты изменения.
+//  * - Версия `0.0.0`
+//  * - Цепочка `DVHCa`
+// */
+// export function jectChangeDeep(ject, ...changeDeeps) {
 
-    changeDeepDeceit({ ject, changeDeeps, });
+//     changeDeepDeceit({ ject, changeDeeps, });
 
-};
+// };
 
-//#endregion
-//#region replaceDeep 0.0.0
+// //#endregion
+// //#region replaceDeep 0.0.0
 
-/**
- * @typedef TBreplaceDeep
- * @prop {{}} ject
- * @prop {any} value
- * @prop {any} replace
- * @prop {boolean} all
- * @typedef {TBreplaceDeep} TreplaceDeep
-*/
+// /**
+//  * @typedef TBreplaceDeep
+//  * @prop {{}} ject
+//  * @prop {any} value
+//  * @prop {any} replace
+//  * @prop {boolean} all
+//  * @typedef {TBreplaceDeep} TreplaceDeep
+// */
 
-/** @arg {TreplaceDeep} t */
-function replaceDeepDeceit(t) {
+// /** @arg {TreplaceDeep} t */
+// function replaceDeepDeceit(t) {
 
-    try {
+//     try {
 
-        return replaceDeepVerify(t);
+//         return replaceDeepVerify(t);
 
-    } catch (e) {
+//     } catch (e) {
 
-        if (config.strict) throw e;
+//         if (config.strict) throw e;
 
-        return undefined;
+//         return undefined;
 
-    };
+//     };
 
-};
-/** @arg {TreplaceDeep} t */
-function replaceDeepVerify(t) {
+// };
+// /** @arg {TreplaceDeep} t */
+// function replaceDeepVerify(t) {
 
-    const {
+//     const {
 
 
 
-    } = t;
+//     } = t;
 
-    return replaceDeepHandle(t);
+//     return replaceDeepHandle(t);
 
-};
-/** @arg {TreplaceDeep} t */
-function replaceDeepHandle(t) {
+// };
+// /** @arg {TreplaceDeep} t */
+// function replaceDeepHandle(t) {
 
-    let {
+//     let {
 
 
 
-    } = t;
+//     } = t;
 
 
 
-    t = {
+//     t = {
 
-        ...t,
+//         ...t,
 
-    };
+//     };
 
-    return replaceDeepComply(t);
+//     return replaceDeepComply(t);
 
-};
-/** @arg {TreplaceDeep} t */
-function replaceDeepComply(t) {
+// };
+// /** @arg {TreplaceDeep} t */
+// function replaceDeepComply(t) {
 
-    const {
+//     const {
 
-        all,
-        ject,
-        value,
-        replace,
+//         all,
+//         ject,
+//         value,
+//         replace,
 
-    } = t;
+//     } = t;
 
-    const structures = [ject];
-    const su = [...structures];
+//     const structures = [ject];
+//     const su = [...structures];
 
-    for (let c = 0; structures.length;) {
+//     for (let c = 0; structures.length;) {
 
-        const s = structures.pop();
+//         const s = structures.pop();
 
-        if (s) {
+//         if (s) {
 
-            for (const p of Object.entries(s)) {
+//             for (const p of Object.entries(s)) {
 
-                if (p[1] !== value) continue;
+//                 if (p[1] !== value) continue;
 
-                s[p[0]] = replace;
+//                 s[p[0]] = replace;
 
-                if (!all) return;
+//                 if (!all) return;
 
-            };
+//             };
 
-            for (const v of Object.values(s)) if (v && typeof v === 'object' && v !== replace && !su.includes(v)) {
+//             for (const v of Object.values(s)) if (v && typeof v === 'object' && v !== replace && !su.includes(v)) {
 
-                su.push(v);
-                structures.push(v);
+//                 su.push(v);
+//                 structures.push(v);
 
-            };
+//             };
 
-        };
+//         };
 
-    };
+//     };
 
-    return ject;
+//     return ject;
 
-};
+// };
 
-/**
- * Функция для замены исходного значения указанного объекта на приведенное.
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * @arg {{}} ject Исходный объект.
- * @arg {any} value Исходное значение.
- * @arg {any} replace Заменяющее значение.
- * @arg {boolean} all Логическое значение определяющее полноту замены.
- * Если `true`, то все вложенные совпадения будут изменены на данное.
- * Если `false`, то заменено будет только первое совпадение.
- * - По умолчанию `false`
-*/
-export function jectReplaceDeep(ject, value, replace, all = false) {
+// /**
+//  * Функция для замены исходного значения указанного объекта на приведенное.
+//  * - Версия `0.0.0`
+//  * - Цепочка `DVHCa`
+//  * @arg {{}} ject Исходный объект.
+//  * @arg {any} value Исходное значение.
+//  * @arg {any} replace Заменяющее значение.
+//  * @arg {boolean} all Логическое значение определяющее полноту замены.
+//  * Если `true`, то все вложенные совпадения будут изменены на данное.
+//  * Если `false`, то заменено будет только первое совпадение.
+//  * - По умолчанию `false`
+// */
+// export function jectReplaceDeep(ject, value, replace, all = false) {
 
-    return replaceDeepDeceit({ ject, value, replace, all, });
+//     return replaceDeepDeceit({ ject, value, replace, all, });
 
-};
+// };
 
-//#endregion
-//#region getPathDeep 0.0.0
+// //#endregion
+// //#region getPathDeep 0.0.0
 
-/**
- * @typedef TBgetPathDeep
- * @prop {{}} ject
- * @prop {any} value
- * @prop {string} property
- * @prop {string} target
- * @typedef {TBgetPathDeep} TgetPathDeep
-*/
+// /**
+//  * @typedef TBgetPathDeep
+//  * @prop {{}} ject
+//  * @prop {any} value
+//  * @prop {string} property
+//  * @prop {string} target
+//  * @typedef {TBgetPathDeep} TgetPathDeep
+// */
 
-/** @arg {TgetPathDeep} t */
-function getPathDeepDeceit(t) {
+// /** @arg {TgetPathDeep} t */
+// function getPathDeepDeceit(t) {
 
-    try {
+//     try {
 
-        return getPathDeepVerify(t);
+//         return getPathDeepVerify(t);
 
-    } catch (e) {
+//     } catch (e) {
 
-        if (config.strict) throw e;
+//         if (config.strict) throw e;
 
-        return undefined;
+//         return undefined;
 
-    };
+//     };
 
-};
-/** @arg {TgetPathDeep} t */
-function getPathDeepVerify(t) {
+// };
+// /** @arg {TgetPathDeep} t */
+// function getPathDeepVerify(t) {
 
-    const {
+//     const {
 
 
 
-    } = t;
+//     } = t;
 
-    return getPathDeepHandle(t);
+//     return getPathDeepHandle(t);
 
-};
-/** @arg {TgetPathDeep} t */
-function getPathDeepHandle(t) {
+// };
+// /** @arg {TgetPathDeep} t */
+// function getPathDeepHandle(t) {
 
-    let {
+//     let {
 
 
 
-    } = t;
+//     } = t;
 
 
 
-    t = {
+//     t = {
 
-        ...t,
+//         ...t,
 
-    };
+//     };
 
-    return getPathDeepComply(t);
+//     return getPathDeepComply(t);
 
-};
-/** @arg {TgetPathDeep} t */
-function getPathDeepComply(t) {
+// };
+// /** @arg {TgetPathDeep} t */
+// function getPathDeepComply(t) {
 
-    const {
+//     const {
 
-        ject,
-        value,
-        target,
-        property,
+//         ject,
+//         value,
+//         target,
+//         property,
 
-    } = t;
+//     } = t;
 
-    const f = (s, e = []) => Object.entries(s).map(p => [[...e, p[0]], p[1]]);
-    /** @type {Array<[Array<string>,any]>} */
-    const sn = f(ject);
-    const su = [ject];
-    const r = [];
+//     const f = (s, e = []) => Object.entries(s).map(p => [[...e, p[0]], p[1]]);
+//     /** @type {Array<[Array<string>,any]>} */
+//     const sn = f(ject);
+//     const su = [ject];
+//     const r = [];
 
-    while (sn.length) {
+//     while (sn.length) {
 
-        const s = sn.pop();
+//         const s = sn.pop();
 
-        switch (target) {
+//         switch (target) {
 
-            case 'value': {
+//             case 'value': {
 
-                if (s[1] === value || !value) r.push(s[0]);
+//                 if (s[1] === value || !value) r.push(s[0]);
 
-            }; break;
-            case 'property': {
+//             }; break;
+//             case 'property': {
 
-                if (s[0].at(-1) === property || !property) r.push(s[0]);
+//                 if (s[0].at(-1) === property || !property) r.push(s[0]);
 
-            }; break;
+//             }; break;
 
-        };
+//         };
 
-        if (s[1] && s[1] instanceof Object && !su.includes(s[1])) {
+//         if (s[1] && s[1] instanceof Object && !su.includes(s[1])) {
 
-            sn.push(...f(s[1], [s[0][0]]))
-            su.push(s[1]);
+//             sn.push(...f(s[1], [s[0][0]]))
+//             su.push(s[1]);
 
-        };
+//         };
 
-    };
+//     };
 
-    return r;
+//     return r;
 
-};
+// };
 
-/**
- * Функция для получения путей до указанных значений объекта.
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * @arg {{}} ject Исходный объект.
- * @arg {any} value Искомое значение.
- * Если указана строка свойства, то функция будет искать пути до указанных свойств.
- * В противном случае функция вернет все возможные пути.
-*/
-export function jectGetPathDeepByValue(ject, value) {
+// /**
+//  * Функция для получения путей до указанных значений объекта.
+//  * - Версия `0.0.0`
+//  * - Цепочка `DVHCa`
+//  * @arg {{}} ject Исходный объект.
+//  * @arg {any} value Искомое значение.
+//  * Если указана строка свойства, то функция будет искать пути до указанных свойств.
+//  * В противном случае функция вернет все возможные пути.
+// */
+// export function jectGetPathDeepByValue(ject, value) {
 
-    return getPathDeepDeceit({ ject, value, target: 'value' })
+//     return getPathDeepDeceit({ ject, value, target: 'value' })
 
-};
-/**
- * Функция для получения путей до указанных свойств объекта.
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * @arg {{}} ject Исходный объект.
- * @arg {string} property Искомое свойство.
- * Если указано значение, то функция будет искать пути до совпадений.
- * В противном случае функция вернет все возможные пути.
-*/
-export function jectGetPathDeepByProperty(ject, property) {
+// };
+// /**
+//  * Функция для получения путей до указанных свойств объекта.
+//  * - Версия `0.0.0`
+//  * - Цепочка `DVHCa`
+//  * @arg {{}} ject Исходный объект.
+//  * @arg {string} property Искомое свойство.
+//  * Если указано значение, то функция будет искать пути до совпадений.
+//  * В противном случае функция вернет все возможные пути.
+// */
+// export function jectGetPathDeepByProperty(ject, property) {
 
-    return getPathDeepDeceit({ ject, property, target: 'property' });
+//     return getPathDeepDeceit({ ject, property, target: 'property' });
 
-};
+// };
 
-//#endregion
-//#region supplementDeep 0.0.0
+// //#endregion
+// //#region supplementDeep 0.0.0
 
-/**
- * @typedef TBsupplementDeep
- * @prop {{}} ject
- * @prop {[{}]} supplementDeeps
- * @typedef {TBsupplementDeep} TsupplementDeep
-*/
+// /**
+//  * @typedef TBsupplementDeep
+//  * @prop {{}} ject
+//  * @prop {[{}]} supplementDeeps
+//  * @typedef {TBsupplementDeep} TsupplementDeep
+// */
 
-/** @arg {TsupplementDeep} t */
-function supplementDeepDeceit(t) {
+// /** @arg {TsupplementDeep} t */
+// function supplementDeepDeceit(t) {
 
-    try {
+//     try {
 
-        return supplementDeepVerify(t);
+//         return supplementDeepVerify(t);
 
-    } catch (e) {
+//     } catch (e) {
 
-        if (config.strict) throw e;
+//         if (config.strict) throw e;
 
-        return undefined;
+//         return undefined;
 
-    };
+//     };
 
-};
-/** @arg {TsupplementDeep} t */
-function supplementDeepVerify(t) {
+// };
+// /** @arg {TsupplementDeep} t */
+// function supplementDeepVerify(t) {
 
-    const {
+//     const {
 
 
 
-    } = t;
+//     } = t;
 
-    return supplementDeepHandle(t);
+//     return supplementDeepHandle(t);
 
-};
-/** @arg {TsupplementDeep} t */
-function supplementDeepHandle(t) {
+// };
+// /** @arg {TsupplementDeep} t */
+// function supplementDeepHandle(t) {
 
-    let {
+//     let {
 
 
 
-    } = t;
+//     } = t;
 
 
 
-    t = {
+//     t = {
 
-        ...t,
+//         ...t,
 
-    };
+//     };
 
-    return supplementDeepComply(t);
+//     return supplementDeepComply(t);
 
-};
-/** @arg {TsupplementDeep} t */
-function supplementDeepComply(t) {
+// };
+// /** @arg {TsupplementDeep} t */
+// function supplementDeepComply(t) {
 
-    const {
+//     const {
 
-        ject,
-        supplementDeeps,
+//         ject,
+//         supplementDeeps,
 
-    } = t;
+//     } = t;
 
-    supplementDeeps.forEach(s => {
+//     supplementDeeps.forEach(s => {
 
-        Object.entries(s).forEach(p => {
+//         Object.entries(s).forEach(p => {
 
-            if (!ject.hasOwnProperty(p[0])) ject[p[0]] = p[1];
+//             if (!ject.hasOwnProperty(p[0])) ject[p[0]] = p[1];
 
-        });
+//         });
 
-    });
+//     });
 
-};
+// };
 
-/**
- * Функция дополнения объекта недостоющими свойствами указанных объектов.
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * @arg {{}} ject Исходный объект.
- * @arg {...{}} supplementDeeps Объекты дополнения.
-*/
-export function jectSupplementDeep(ject, ...supplementDeeps) {
+// /**
+//  * Функция дополнения объекта недостоющими свойствами указанных объектов.
+//  * - Версия `0.0.0`
+//  * - Цепочка `DVHCa`
+//  * @arg {{}} ject Исходный объект.
+//  * @arg {...{}} supplementDeeps Объекты дополнения.
+// */
+// export function jectSupplementDeep(ject, ...supplementDeeps) {
 
-    supplementDeepDeceit({ ject, supplementDeeps });
+//     supplementDeepDeceit({ ject, supplementDeeps });
 
-};
+// };
 
-//#endregion
+// //#endregion
 
-//#region getInheritance 0.0.0
+// //#region getInheritance 0.0.0
 
-/**
- * @typedef TBgetInheritance
- * @prop {any} ject
- * @typedef {TBgetInheritance} TgetInheritance
-*/
+// /**
+//  * @typedef TBgetInheritance
+//  * @prop {any} ject
+//  * @typedef {TBgetInheritance} TgetInheritance
+// */
 
-/** @arg {TgetInheritance} t */
-function getInheritanceDeceit(t) {
+// /** @arg {TgetInheritance} t */
+// function getInheritanceDeceit(t) {
 
-    try {
+//     try {
 
-        return getInheritanceVerify(t);
+//         return getInheritanceVerify(t);
 
-    } catch (e) {
+//     } catch (e) {
 
-        if (config.strict) throw e;
+//         if (config.strict) throw e;
 
-        return undefined;
+//         return undefined;
 
-    };
+//     };
 
-};
-/** @arg {TgetInheritance} t */
-function getInheritanceVerify(t) {
+// };
+// /** @arg {TgetInheritance} t */
+// function getInheritanceVerify(t) {
 
 
 
-    return getInheritanceHandle(t);
+//     return getInheritanceHandle(t);
 
-};
-/** @arg {TgetInheritance} t */
-function getInheritanceHandle(t) {
+// };
+// /** @arg {TgetInheritance} t */
+// function getInheritanceHandle(t) {
 
 
 
-    return getInheritanceComply(t);
+//     return getInheritanceComply(t);
 
-};
-/** @arg {TgetInheritance} t */
-function getInheritanceComply(t) {
+// };
+// /** @arg {TgetInheritance} t */
+// function getInheritanceComply(t) {
 
-    let ject = t.ject.constructor;
+//     let ject = t.ject.constructor;
 
-    const results = [];
-    const limit = Object.getPrototypeOf(Object);
+//     const results = [];
+//     const limit = Object.getPrototypeOf(Object);
 
-    while (ject !== limit) {
+//     while (ject !== limit) {
 
-        results.push(ject);
+//         results.push(ject);
 
-        ject = Object.getPrototypeOf(ject);
+//         ject = Object.getPrototypeOf(ject);
 
-    };
+//     };
 
-    return results;
+//     return results;
 
-};
+// };
 
-/**
- * Метод получения линии наследования для указанного объекта.
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * @arg {any} ject Исходный объект.
-*/
-export function jectGetInheritance(ject) {
+// /**
+//  * Метод получения линии наследования для указанного объекта.
+//  * - Версия `0.0.0`
+//  * - Цепочка `DVHCa`
+//  * @arg {any} ject Исходный объект.
+// */
+// export function jectGetInheritance(ject) {
 
-    return getInheritanceDeceit({ ject, });
+//     return getInheritanceDeceit({ ject, });
 
-};
-/**
- * Метод получения линии наследования для указанного объекта со всеми `S` звеньями.
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * @arg {any} ject Исходный объект.
-*/
-export function jectGetInheritanceYS(ject) {
+// };
+// /**
+//  * Метод получения линии наследования для указанного объекта со всеми `S` звеньями.
+//  * - Версия `0.0.0`
+//  * - Цепочка `DVHCa`
+//  * @arg {any} ject Исходный объект.
+// */
+// export function jectGetInheritanceYS(ject) {
 
-    return getInheritanceDeceit({ ject, }).filter(c => c.prototype instanceof YBasic && c.name[0] === 'S');
+//     return getInheritanceDeceit({ ject, }).filter(c => c.prototype instanceof YBasic && c.name[0] === 'S');
 
-};
+// };
 
-//#endregion
+// //#endregion
 
 /**
  * @file ject.mjs

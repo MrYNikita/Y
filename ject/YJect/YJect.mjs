@@ -1,13 +1,15 @@
+//#region YI
+
 import { configYJect } from "../../config.mjs";
 import { YDate } from "../../date/YDate/YDate.mjs";
 import { YLog } from "../../log/YLog/YLog.mjs";
 import { stringCastToDate } from "../../string/string.mjs";
 import { YString } from "../../string/YString/YString.mjs";
-import { jectAdopt, jectGetInheritance, jectGetInheritanceYS } from "../ject.mjs";
 import { YBasic } from "../YBasic/YBasic.mjs";
 import { YRept } from "../YBasic/YRept/YRept.mjs";
 import { YReptBlock } from "../YBasic/YRept/YReptBlock/YReptBlock.mjs";
 
+//#endregion
 //#region YT
 
 /** ### YJectT

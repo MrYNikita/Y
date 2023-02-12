@@ -139,6 +139,27 @@ export const configYInsert = {
 export const configYLog = {
 
     /**
+     * ### defaultLimit
+     *
+     * Дефолт лимит.
+     *
+     * ***
+     * @type {number}
+     * @public
+    */
+    defaultLimit: 100,
+    /**
+     * ### defaultSizePage
+     *
+     * Дефолт размер страницы.
+     *
+     * ***
+     * @type {number}
+     * @public
+    */
+    defaultSizePage: 10,
+
+    /**
      * Видимость.
      *
      * Определяет количество первых записей в журнале доступных для отображения.
@@ -159,6 +180,36 @@ export const configYLog = {
     ],
 
 };
+export const configYLogTag = {
+
+
+
+};
+export const configYLogRecord = {
+
+    /**
+     * ### template
+     *
+     * Шаблон.
+     *
+     * ***
+     * @type {string}
+     * @public
+    */
+    template: `${configYInsert.borderL}s${configYInsert.borderR} - ${configYInsert.borderL}d${configYInsert.borderR} - ${configYInsert.borderL}t${configYInsert.borderR}`,
+    /**
+     * ### defaultPriority
+     *
+     * Дефолт приоритет.
+     *
+     * ***
+     * @type {number}
+     * @public
+    */
+    defaultPriority: 0,
+
+};
+
 export const configYNotice = {
 
     /**

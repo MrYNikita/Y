@@ -1,6 +1,5 @@
 import { YBasic } from "../YBasic.mjs";
 import { YCursor } from "./YCursor/YCursor.mjs";
-import { jectAdopt } from "../../ject.mjs";
 import { configYList } from "../../../config.mjs";
 import { arraySupplement, arraySupplementFill } from "../../../array/array.mjs";
 
