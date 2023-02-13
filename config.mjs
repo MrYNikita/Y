@@ -196,7 +196,7 @@ export const configYLogRecord = {
      * @type {string}
      * @public
     */
-    template: `${configYInsert.borderL}s${configYInsert.borderR} - ${configYInsert.borderL}d${configYInsert.borderR} - ${configYInsert.borderL}t${configYInsert.borderR}`,
+    template: `${configYInsert.borderL}d${configYInsert.borderR} - ${configYInsert.borderL}s${configYInsert.borderR} - ${configYInsert.borderL}t${configYInsert.borderR}`,
     /**
      * ### defaultPriority
      *
@@ -465,7 +465,7 @@ export const configString = {
          * Определяет знак-разделитель для разбиения строки вставки на значения вставки.
          * @type {string}
         */
-        delimiter: '-',
+        delimiter: '/',
         /**
          * Значение по умолчанию.
          *

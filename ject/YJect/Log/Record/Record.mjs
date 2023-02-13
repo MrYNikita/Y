@@ -1,8 +1,9 @@
 //#region YI
 
+import { YTag } from "../Tag/Tag.mjs";
+import { YBasic } from "../../../YBasic/YBasic.mjs";
 import { configYLogRecord } from "../../../../config.mjs";
 import { stringCastToDateJp, stringInsert } from "../../../../string/string.mjs";
-import { YBasic } from "../../../YBasic/YBasic.mjs";
 
 //#endregion
 //#region YT
@@ -64,7 +65,7 @@ class DRecord extends SRecord {
      * Теги.
      *
      * ***
-     * @type {string[]}
+     * @type {YTag[]}
      * @public
     */
     tags = [];
@@ -198,6 +199,16 @@ class FRecord extends MRecord {
 
         };
 
+        if (t.tags) {
+
+            if (t.tags.constructor === String) {
+
+                t.tags = [t.tags];
+
+            };
+
+        };
+
     };
     /** @arg {YRecordT} t @this {YRecord} */
     static #create(t) {
@@ -229,7 +240,7 @@ export class YRecord extends FRecord {
 
     /**
      * ### castString
-     * - Версия `0.0.0`
+     * - Версия `0.1.0`
      * - Модуль `Record`
      * ***
      *
@@ -241,7 +252,17 @@ export class YRecord extends FRecord {
     */
     castString() {
 
-        return stringInsert(configYLogRecord.template, `d-${stringCastToDateJp(this.date)}`, `t-${this.text}`).split(' - ').filter(s => s).join(' - ');
+        const f = this.tags.find(t => t.section)?.section;
+
+        if (f) {
+
+            return stringInsert(configYLogRecord.template, `d/${stringCastToDateJp(this.date)}`, `t/${this.text}`, `s/${f.symbol ?? f.label}`);
+
+        } else {
+
+            return stringInsert(configYLogRecord.template, `d/${stringCastToDateJp(this.date)}`, `t/${this.text}`).slice(3);
+
+        };
 
     };
 

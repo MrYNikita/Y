@@ -4,6 +4,9 @@ import { YTag } from "./Tag/Tag.mjs";
 import { YBasic } from "../../YBasic/YBasic.mjs";
 import { YRecord } from "./Record/Record.mjs";
 import { configYLog } from "../../../config.mjs";
+import { YSection } from "./Section/Section.mjs";
+import { YFile } from "../../../os/file/YFile/YFile.mjs";
+import { YString } from "../../../string/YString/YString.mjs";
 
 //#endregion
 //#region YT
@@ -51,7 +54,16 @@ class SLog extends YBasic {
 };
 class DLog extends SLog {
 
-
+    /**
+     * ### sections
+     *
+     * Секции.
+     *
+     * ***
+     * @type {YSection[]}
+     * @public
+    */
+    sections = [];
 
 };
 class ILog extends DLog {
@@ -253,6 +265,32 @@ export class YLog extends FLog {
     };
 
     /**
+     * ### save
+     * - Версия `0.0.0`
+     * - Модуль `Log`
+     * ***
+     *
+     * Метод сохранения журнала, как файла, по указанному пути.
+     *
+     * ***
+     * @arg {string} fragment `Фрагмент`
+     * @public
+    */
+    save(fragment) {
+
+        new YFile(fragment).write(new YString()
+
+            .changePostfix('\n')
+            .paste(...this.records.map(r => r.castString()))
+            .get()
+
+        );
+
+        return this;
+
+    };
+
+    /**
      * ### clear
      * - Версия `0.0.0`
      * - Модуль `Log`
@@ -275,15 +313,17 @@ export class YLog extends FLog {
 
     /**
      * ### write
-     * - Версия `0.0.0`
+     * - Версия `0.0.1`
      * - Модуль `Log`
      * ***
      *
      * Метод записи в журнал.
      *
      * ***
+     * @arg {Date} date `Дата`
      * @arg {string} text `Содержимое`
      * @arg {string} label `Метка`
+     * @arg {number} priority `Приоритет`
      * @arg {string[]} tags `Теги`
      * @public
     */
@@ -299,7 +339,7 @@ export class YLog extends FLog {
 
         if (record) {
 
-            this.appendReport(record);
+            this.appendRecords(record);
 
         };
 
@@ -327,8 +367,27 @@ export class YLog extends FLog {
     };
 
     /**
-     * ### appendReport
+     * ### appendTags
      * - Версия `0.0.0`
+     * - Модуль `Log`
+     * ***
+     *
+     * Метод добавления тега.
+     *
+     * ***
+     * @arg {...string|YTag} tags `Теги`
+     * @public
+    */
+    appendTags(...tags) {
+
+        this.tags.push(...tags.filter(t => this.tags.every(tt => tt.label !== t && tt !== t)).map(t => t instanceof YTag ? t : new YTag(t)));
+
+        return this;
+
+    };
+    /**
+     * ### appendRecords
+     * - Версия `0.1.0`
      * - Модуль `Log`
      * ***
      *
@@ -338,21 +397,42 @@ export class YLog extends FLog {
      * @arg {...YRecord} records `Запись`
      * @public
     */
-    appendReport(...records) {
+    appendRecords(...records) {
 
         records.filter(r => r instanceof YRecord).slice(0, this.limit - this.records.length).forEach(r => {
 
             if (r.tags.every(t => !this.filtersByTag.includes(t))) {
 
-                this.tags.push(...r.tags.filter(t => this.tags.every(tt => tt.label !== t)).map(t => new YTag(t)));
+                this.appendTags(...r.tags);
 
                 this.tags.filter(t => r.tags.includes(t.label)).forEach(t => t.appendRecords(r));
 
                 this.records.push(r);
 
+                r.tags = this.tags.filter(t => r.tags.includes(t.label));
+
             };
 
         });
+
+        return this;
+
+    };
+    /**
+     * ### appendSections
+     * - Версия `0.0.0`
+     * - Модуль `Log`
+     * ***
+     *
+     *
+     *
+     * ***
+     * @arg {...[string, string, (string[]|string), number]} sections `Секции`
+     * @public
+    */
+    appendSections(...sections) {
+
+        sections.forEach(s => this.sections.push(new YSection(this, ...s)));
 
         return this;
 

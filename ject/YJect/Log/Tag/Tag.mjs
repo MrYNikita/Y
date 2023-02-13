@@ -2,6 +2,7 @@
 
 import { YBasic } from "../../../YBasic/YBasic.mjs";
 import { YRecord } from "../Record/Record.mjs";
+import { YSection } from "../Section/Section.mjs";
 
 //#endregion
 //#region YT
@@ -58,25 +59,15 @@ class DTag extends STag {
     */
     label;
     /**
-     * ### symbol
+     * ### section
      *
-     * Символ.
-     *
-     * ***
-     * @type {string?}
-     * @public
-    */
-    symbol = null;
-    /**
-     * ### priority
-     *
-     * Приоритет.
+     * Секция.
      *
      * ***
-     * @type {number}
+     * @type {YSection?}
      * @public
     */
-    priority = 0;
+    section = null;
 
 };
 class ITag extends DTag {
@@ -139,7 +130,7 @@ class FTag extends MTag {
             switch (t.length) {
 
                 case 3:
-                case 2:
+                case 2: r.section = t[1];
                 case 1: r.label = t[0];
 
             };
@@ -178,15 +169,7 @@ class FTag extends MTag {
     /** @arg {YTagT} t @this {YTag} */
     static #handle(t) {
 
-        if (t.label) {
 
-            const p = t.label.split(',');
-
-            t.label = p[0];
-            t.symbol = t.symbol ? t.symbol : p[1];
-            t.priority = t.priority ? t.priority : p[2];
-
-        };
 
     };
     /** @arg {YTagT} t @this {YTag} */
@@ -199,8 +182,6 @@ class FTag extends MTag {
         } = t;
 
         this.adopt(t);
-
-
 
     };
 

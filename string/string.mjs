@@ -542,7 +542,7 @@ export function stringUnifyBySymbol(string, symbols) {
 
 //#endregion
 
-//#region insert 0.1.0
+//#region insert 0.2.0
 
 /** ### stringTFinsert
  * - Тип `TF`
@@ -593,11 +593,19 @@ function insertVerify(t) {
 /** @arg {stringTFinsert} t */
 function insertHandle(t) {
 
-    if (!t.defaultValue) t.defaultValue = configString.insert.defaultValue;
+    if (!t.defaultValue) {
+
+        t.defaultValue = configString.insert.defaultValue;
+
+    };
 
     t.inserts.forEach((e, ei, a) => {
 
-        if (e.constructor === String) a[ei] = e.split(configString.insert.delimiter);
+        if (e.constructor === String) {
+
+            a[ei] = e.split(configString.insert.delimiter);
+
+        };
 
     });
 
