@@ -1,5 +1,4 @@
-import { jectAdopt } from "../../ject/ject.mjs";
-import { YList } from "../../ject/YBasic/YList/YList.mjs";
+import { YMany } from "../../ject/many/Many/Many.mjs";
 import { arrayChangeSize, arrayLevel } from "../array.mjs";
 
 /**
@@ -10,7 +9,7 @@ import { arrayChangeSize, arrayLevel } from "../array.mjs";
  * @typedef {TDArray&TBArray} TArray
 */
 
-class SArray extends YList {
+class SArray extends YMany {
 
 
 

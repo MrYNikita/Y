@@ -1,12 +1,11 @@
-import { jectAdopt } from "../../ject/ject.mjs";
-import { YList } from "../../ject/YBasic/YList/YList.mjs";
 import { YTemplate } from "./YTemplate/YTemplate.mjs";
 import { configString, configYString } from "../../config.mjs";
-import { stringBring, stringBringColumn, stringCastToJect, stringCastToSample, stringCastToYReport, stringFilter, stringFind, stringFindAll, stringFindToJect, stringGetPositionEndPasteWrap, stringGetPositionRowStartByIndex, stringGetRowByIndex, stringGetRowByPosition, stringGetTransducerColor, stringHandle, stringMesuare, stringPad, stringPaste, stringPasteWrap, stringPasteWrapByPosition, stringReflect, stringRemove, stringReplace, stringReplaceAllMore, stringReplaceMore, stringReverse, stringSubstring, stringSubstringByPosition, stringTrim } from "../string.mjs";
-import { colorClear, colorGet, colorGetMap, colorGetReset, colorReset } from "../ansi/color/color.mjs";
+import { stringBring, stringBringColumn, stringCastToJect, stringCastToYReport, stringFilter, stringFind, stringFindAll, stringFindToJect, stringGetPositionRowStartByIndex, stringHandle, stringMesuare, stringPad, stringPaste, stringPasteWrap, stringReflect, stringRemove, stringReplaceAllMore, stringReplaceMore, stringReverse, stringSubstringByPosition, stringTrim } from "../string.mjs";
+import { colorClear, colorGetReset } from "../ansi/color/color.mjs";
 import { YStylist } from "../style/YStylist/YStylist.mjs";
 import { underlineGetReset } from "../ansi/underline/underline.mjs";
 import { funcBypass } from "../../func/func.mjs";
+import { YMany } from "../../ject/many/Many/Many.mjs";
 
 //#region YT
 
@@ -55,7 +54,7 @@ import { funcBypass } from "../../func/func.mjs";
 
 //#endregion
 
-class SString extends YList {
+class SString extends YMany {
 
     static dimension = 2;
 

@@ -562,11 +562,14 @@ class FTerminal extends MTerminal {
 
         this.adopt(t);
 
-        this.interfaceActive = this.interface ?? null;
+        if (this.interface) {
+
+            this.interfaceActive = this.interface ?? null;
+            this.interface.setTerminal(this);
+
+        };
 
         this.listener.on();
-
-        this.interface.setTerminal(this);
 
         this.load();
 
@@ -638,6 +641,7 @@ export class YTerminal extends FTerminal {
 
             this.transferElements = this.transferElements.filter(e => !this.interfaceActive.elements.includes(e));
 
+            this.interfaceActive.handlersDisable.forEach(h => h(this));
             this.handlersBack.forEach(h => h(this));
 
             this.display();
@@ -650,7 +654,7 @@ export class YTerminal extends FTerminal {
 
     /**
      * ### goByLabel
-     * - Версия `0.1.0`
+     * - Версия `0.1.1`
      * - Модуль `YTerminal`
      * ***
      *
@@ -672,40 +676,43 @@ export class YTerminal extends FTerminal {
     */
     goByLabel(label, drop) {
 
+        if (this.interfaceActive && this.interfaceActive.interfaces.length) {
 
-        if (label.constructor === String) {
+            if (label.constructor === String) {
 
-            label = [label];
+                label = [label];
 
-        };
+            };
 
-        if (label instanceof Array) {
+            if (label instanceof Array && label.length) {
 
-            label.filter(l => l).forEach(l => {
+                label.filter(l => l).forEach(l => {
 
-                /** @type {YInterface?} */
-                const f = this.interfaceActive.interfaces.find(i => i.label === l);
+                    /** @type {YInterface?} */
+                    const f = this.interfaceActive.interfaces.find(i => i.label === l);
 
-                if (f) {
+                    if (f) {
 
-                    if (drop) {
+                        if (drop) {
 
-                        f.drop();
+                            f.drop();
+
+                        };
+
+                        this.transferElements.push(...this.interfaceActive.elements.filter(e => e.transfer));
+
+                        this.interfaceActive = f;
+
+                        this.handlersGo.forEach(h => h(this));
+                        this.interfaceActive.handlersActive.forEach(h => h(this.interfaceActive));
 
                     };
 
-                    this.transferElements.push(...this.interfaceActive.elements.filter(e => e.transfer));
+                });
 
-                    this.interfaceActive = f;
+                this.display();
 
-                    this.handlersGo.forEach(h => h(this));
-                    this.interfaceActive.handlersActive.forEach(h => h(this.interfaceActive));
-
-                };
-
-            });
-
-            this.display();
+            };
 
         };
 
@@ -715,7 +722,7 @@ export class YTerminal extends FTerminal {
 
     /**
      * ### display
-     * - Версия `0.0.1`
+     * - Версия `0.0.2`
      * - Модуль `YTerminal`
      * ***
      *
@@ -729,7 +736,7 @@ export class YTerminal extends FTerminal {
 
         console.clear();
 
-        if (this.interfaceActive.layout) {
+        if (this.interfaceActive?.layout) {
 
             new YString(this.interfaceActive.layout.get(true))
 
@@ -747,7 +754,7 @@ export class YTerminal extends FTerminal {
 
         } else {
 
-            new YString(this.layout ? this.layout.get(true) : YTerminal.layout.get(true))
+            new YString(this.layout ? this.layout.get(true) : this.constructor.layout.get(true))
 
                 .exec(y => {
 
@@ -757,11 +764,7 @@ export class YTerminal extends FTerminal {
 
                     };
 
-                    if (!this.interfaceActive) {
-
-                        return;
-
-                    } else {
+                    if (this.interfaceActive) {
 
                         if (this.interfaceActive.layout) {
 

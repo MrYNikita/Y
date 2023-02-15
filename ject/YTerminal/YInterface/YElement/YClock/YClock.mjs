@@ -1,6 +1,4 @@
-import { YDate } from "../../../../../date/YDate/YDate.mjs";
-import { stringCastToDateRu } from "../../../../../string/string.mjs";
-import { jectAdopt } from "../../../../ject.mjs";
+import { stringCastToDateJp } from "../../../../../string/string.mjs";
 import { YInterface } from "../../YInterface.mjs";
 import { YElement } from "../YElement.mjs";
 
@@ -243,7 +241,7 @@ export class YClock extends FClock {
 
     getLayout() {
 
-        return stringCastToDateRu();
+        return stringCastToDateJp();
 
     };
 
@@ -265,8 +263,6 @@ export class YClock extends FClock {
                 this.on();
 
             });
-
-            this.on();
 
         };
 

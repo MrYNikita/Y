@@ -1,5 +1,5 @@
-import { YBasic } from "../../YBasic.mjs";
-import { YList } from "../YList.mjs";
+import { YMany } from "../Many/Many.mjs";
+import { YBasic } from "../../YBasic/YBasic.mjs";
 
 //#region YT
 
@@ -56,9 +56,9 @@ class DCursor extends SCursor {
     size = 0;
     /**
      * Массив.
-     * @type {YList}
+     * @type {YMany}
     */
-    list = null;
+    Many = null;
     /**
      * Индексы курсора в списке.
      * @type {number[]}
@@ -118,7 +118,7 @@ class FCursor extends MCursor {
 
                 case 3:
                 case 2:
-                case 1: r.list = t[0];
+                case 1: r.Many = t[0];
 
             };
 
@@ -156,7 +156,7 @@ class FCursor extends MCursor {
     /** @arg {YCursorT} t @this {YCursor} */
     static #handle(t) {
 
-        if ((!t.indexs || !t.indexs.length) && t.list) t.indexs = new Array(t.list.dimension ?? t.list.constructor.dimension ?? 1).fill(0);
+        if ((!t.indexs || !t.indexs.length) && t.Many) t.indexs = new Array(t.Many.dimension ?? t.Many.constructor.dimension ?? 1).fill(0);
 
     };
     /** @arg {YCursorT} t @this {YCursor} */
@@ -278,3 +278,9 @@ export class YCursor extends FCursor {
     };
 
 };
+
+/**
+ * @file Cursor.mjs
+ * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
+ * @copyright Yakhin Nikita Artemovich 2023
+*/

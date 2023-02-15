@@ -69,7 +69,23 @@ class ILocation extends DLocation {
 };
 class MLocation extends ILocation {
 
+    /**
+     * ### calculate
+     * - Версия `0.0.0`
+     * - Модуль `YLocation`
+     * ***
+     *
+     *
+     *
+     * ***
+     *
+     * @protected
+    */
+    calculate() {
 
+        return this;
+
+    };
 
 };
 class FLocation extends MLocation {
@@ -226,6 +242,15 @@ export class YLocation extends FLocation {
 
     };
 
+    getLayout() {
+
+        return new YString()
+
+            .paste(this.path.join(' / '))
+            .get(true);
+
+    };
+
     /**
      * @arg {YInterface} intf `Интерфейс`
     */
@@ -244,15 +269,6 @@ export class YLocation extends FLocation {
         });
 
         return this;
-
-    };
-
-    getLayout() {
-
-        return new YString()
-
-            .paste(this.path.join(' / '))
-            .get(true);
 
     };
 

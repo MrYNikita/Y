@@ -3,6 +3,10 @@
 import { YString } from "../../../string/YString/YString.mjs";
 import { YTerminal } from "../YTerminal.mjs";
 import { configYTerminal } from "../../../config.mjs";
+import { YList } from "../YInterface/YElement/YList/YList.mjs";
+import { YHeader } from "../YInterface/YElement/YHeader/YHeader.mjs";
+import { YLocation } from "../YInterface/YElement/YLocation/YLocation.mjs";
+import { YInterface } from "../YInterface/YInterface.mjs";
 
 //#endregion
 //#region YT
@@ -43,7 +47,7 @@ import { configYTerminal } from "../../../config.mjs";
 
 class SYTerminalTest extends YTerminal {
 
-    layout = new YString()
+    static layout = new YString()
 
         .setColor('cyan', 'blueDark')
         .paste(
@@ -59,7 +63,49 @@ class SYTerminalTest extends YTerminal {
 };
 class DYTerminalTest extends SYTerminalTest {
 
+    interface = new YInterface({
 
+        elements: [
+
+            new YHeader({
+
+                title: 'YTerminalTest',
+                coords: [1, 2],
+                transfer: true,
+
+            }),
+            new YHeader({
+
+                title: 'Debug',
+                coords: [1, 121],
+                transfer: true,
+
+            }),
+            new YLocation({
+
+                coords: [2, 20],
+                transfer: true,
+
+            }),
+
+            new YHeader({
+
+                title: 'Log',
+                coords: [30, 2],
+                transfer: true,
+
+            }),
+            new YList({
+
+                vis: 5,
+                label: 'DebugLog',
+                coords: [32, 2],
+
+            }),
+
+        ],
+
+    });
 
 };
 class IYTerminalTest extends DYTerminalTest {
@@ -165,8 +211,6 @@ class FYTerminalTest extends MYTerminalTest {
         } = t;
 
         this.adopt(t);
-
-
 
     };
 

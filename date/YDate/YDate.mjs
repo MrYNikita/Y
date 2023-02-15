@@ -64,7 +64,7 @@ class DDate extends SDate {
      * @type {Date?}
      * @public
     */
-    valueDrop;
+    valueDrop = null;
 
 };
 class IDate extends DDate {
@@ -202,7 +202,7 @@ class FDate extends MDate {
 /**
  * ### YDate
  * - Тип `SDIMFY`
- * - Версия `0.1.0`
+ * - Версия `0.1.1`
  * - Модуль `YDate`
  * - Цепочка `BDVHC`
  * ***

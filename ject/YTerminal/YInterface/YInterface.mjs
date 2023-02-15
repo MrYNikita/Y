@@ -130,6 +130,16 @@ class DInterface extends SInterface {
      * @public
     */
     handlersActive = [];
+    /**
+     * ### handlersDisable
+     *
+     * Обработчик отключения интерфейса.
+     *
+     * ***
+     * @type {(function(YInterface):void)[]}
+     * @public
+    */
+    handlersDisable = [];
 
 };
 class IInterface extends DInterface {
@@ -414,7 +424,7 @@ export class YInterface extends FInterface {
      * Метод добавления обработчика.
      *
      * ***
-     * @arg {'active'} type `Тип`
+     * @arg {'active'|'disable'} type `Тип`
      * @arg {function(YTerminal):void} handle `Обработчик`
      * @public
     */
@@ -433,14 +443,14 @@ export class YInterface extends FInterface {
     };
     /**
      * ### appendElements
-     * - Версия `0.0.1`
+     * - Версия `0.1.0`
      * - Модуль `YInterface`
      * ***
      *
      * Метод добавления элементов.
      *
      * ***
-     * @arg {...import("./YElement/YElement.mjs").YElementT|YElement} elements `Элементы`
+     * @arg {...YElement} elements `Элементы`
      * @public
     */
     appendElements(...elements) {
@@ -449,9 +459,12 @@ export class YInterface extends FInterface {
 
             this.elements.push(...elements.filter(e => e).map(e => {
 
-                if (e.constructor !== YElement) {
+                e.interface = this;
+                e.terminal = this.terminal;
 
-                    e = new YElement({ ...e, interface: this });
+                if (e.transfer) {
+
+                    this.terminal.transferElements.push(e);
 
                 };
 

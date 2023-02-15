@@ -1,7 +1,9 @@
-import { YJect } from "../../YJect/YJect.mjs";
-import { emitKeypressEvents } from "readline";
-import { YTerminal } from "../YTerminal.mjs";
+//#region YI
 
+import { YBasic } from "../../YBasic/YBasic.mjs";
+import { emitKeypressEvents } from "readline";
+
+//#endregion
 //#region YT
 
 /** ### YListenerT
@@ -38,7 +40,7 @@ import { YTerminal } from "../YTerminal.mjs";
 
 //#endregion
 
-class SListener extends YJect {
+class SListener extends YBasic {
 
     static {
 
@@ -50,16 +52,7 @@ class SListener extends YJect {
 };
 class DListener extends SListener {
 
-    /**
-     * ### terminal
-     *
-     * Терминал.
-     *
-     * ***
-     * @type {YTerminal?}
-     * @public
-    */
-    terminal = null;
+
 
 };
 class IListener extends DListener {
@@ -71,7 +64,7 @@ class IListener extends DListener {
      *
      * ***
      * @type {boolean}
-     * @protected
+     * @public
     */
     ctrl = false;
     /**
@@ -81,7 +74,7 @@ class IListener extends DListener {
      *
      * ***
      * @type {string}
-     * @protected
+     * @public
     */
     code = '';
     /**
@@ -101,7 +94,7 @@ class IListener extends DListener {
      *
      * ***
      * @type {boolean}
-     * @protected
+     * @public
     */
     shift = false;
     /**
@@ -121,10 +114,10 @@ class MListener extends IListener {
     /**
      * ### signal
      * - Версия `0.0.0`
-     * - Модуль `YListener`
+     * - Модуль `Listener`
      * ***
      *
-     * Метод сигнализирования о получении нового значения.
+     *
      *
      * ***
      *
@@ -132,9 +125,24 @@ class MListener extends IListener {
     */
     signal() {
 
-        if (this.terminal) this.terminal.receive();
 
-        return this;
+
+    };
+    /**
+     * ### receive
+     * - Версия `0.0.0`
+     * - Модуль `Listener`
+     * ***
+     *
+     *
+     *
+     * ***
+     *
+     * @protected
+    */
+    receive() {
+
+
 
     };
 
@@ -242,12 +250,11 @@ class FListener extends MListener {
 /**
  * ### YListener
  * - Тип `SDIMFY`
- * - Версия `0.2.1`
- * - Модуль `ject.terminal.YListener`
+ * - Версия `0.0.0`
+ * - Модуль `YListener`
  * - Цепочка `BDVHC`
  * ***
- * Класс прослушивателя, экземпляры которого предназначены для получения данных пользовательского ввода.
- * С его помощью разнообразные структуры, такие как `YMenu` и `YInput` могут получать данные, необходимые для реагирования на действия пользователя.
+ *
 */
 export class YListener extends FListener {
 
@@ -315,11 +322,11 @@ export class YListener extends FListener {
     };
     /**
      * ### off
-     * - Версия `0.0.1`
+     * - Версия `0.0.2`
      * - Модуль `YListener`
      * ***
      *
-     * Метод отключения просушивания.
+     * Метод отключения прослушивания.
      *
      * ***
      *

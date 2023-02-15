@@ -99,7 +99,7 @@ export const configYRept = {
     postfix: ``,
 
 };
-export const configYList = {
+export const configYMany = {
 
     /**
      * Общая размерность.

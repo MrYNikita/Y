@@ -1,8 +1,8 @@
 //#region YI
 
+import { YLog } from "./Log/Log.mjs";
 import { configYJect } from "../../config.mjs";
 import { YDate } from "../../date/YDate/YDate.mjs";
-import { YLog } from "../../log/YLog/YLog.mjs";
 import { stringCastToDate } from "../../string/string.mjs";
 import { YString } from "../../string/YString/YString.mjs";
 import { YBasic } from "../YBasic/YBasic.mjs";
@@ -102,17 +102,20 @@ class SJect extends YBasic {
 };
 class DJect extends SJect {
 
-
+    /**
+     * ### log
+     *
+     * Журнал.
+     *
+     * ***
+     * @type {YLog?}
+     * @public
+    */
+    log = configYJect.log ? new YLog() : null;
 
 };
 class IJect extends DJect {
 
-    /**
-     * Журнал.
-     * @protected
-     * @type {YLog?}
-    */
-    log = configYJect.log ? new YLog() : null;
     /**
      * Дата.
      * @protected
