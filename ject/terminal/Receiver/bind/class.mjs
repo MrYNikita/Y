@@ -1,7 +1,8 @@
 //#region YI
 
+import { YComb } from "./comb/class.mjs";
 import { YBasic } from "../../../YBasic/YBasic.mjs";
-import { YReceiver } from "../../Receiver/Receiver.mjs";
+import { YReceiver } from "../class.mjs";
 
 //#endregion
 //#region YT
@@ -9,7 +10,7 @@ import { YReceiver } from "../../Receiver/Receiver.mjs";
 /** ### YBindT
  * - Тип `T`
  * - Версия `0.0.0`
- * - Модуль `YBind`
+ * - Модуль `ject\terminal\bind`
  *
  * Основной параметр модуля `YBind`.
  *
@@ -19,7 +20,7 @@ import { YReceiver } from "../../Receiver/Receiver.mjs";
 /** ### YBindTE
  * - Тип `TE`
  * - Версия `0.0.0`
- * - Модуль `YBind`
+ * - Модуль `ject\terminal\bind`
  *
  * Параметр наследования `YBind`.
  *
@@ -29,7 +30,7 @@ import { YReceiver } from "../../Receiver/Receiver.mjs";
 /** ### YBindTU
  * - Тип `TU`
  * - Версия `0.0.0`
- * - Модуль `YBind`
+ * - Модуль `ject\terminal\bind`
  *
  * Уникальные параметры `YBind`.
  *
@@ -48,15 +49,15 @@ class SBind extends YBasic {
 class DBind extends SBind {
 
     /**
-     * ### code
+     * ### comb
      *
-     * Коды.
+     * Комбинация.
      *
      * ***
-     * @type {string[]}
+     * @type {YComb}
      * @public
     */
-    code = [];
+    comb;
     /**
      * ### func
      *
@@ -65,10 +66,24 @@ class DBind extends SBind {
      * Первым аргументом данной функции выступает приёмник.
      *
      * ***
-     * @type {(function(YReceiver?):void)?}
+     * @type {(function(YReceiver?):void)[]}
      * @public
     */
-    func = null;
+    funcs = [];
+    /**
+     * ### receiver
+     *
+     * Приёмник.
+     *
+     * Данный объект выступает обладателем привязки, который ожидает её вызова.
+     *
+     * После вызова, привязка выполняет назначенную ей функцию.
+     *
+     * ***
+     * @type {YReceiver?}
+     * @public
+    */
+    receiver = null;
     /**
      * ### modeUpdate
      *
@@ -85,20 +100,7 @@ class DBind extends SBind {
 };
 class IBind extends DBind {
 
-    /**
-     * ### receiver
-     *
-     * Приёмник.
-     *
-     * Данный объект выступает обладателем привязки, который ожидает её вызова.
-     *
-     * После вызова, привязка выполняет назначенную ей функцию.
-     *
-     * ***
-     * @type {YReceiver?}
-     * @protected
-    */
-    receiver = null;
+
 
 };
 class MBind extends IBind {
@@ -116,16 +118,15 @@ class FBind extends MBind {
      *
      *
      * ***
-     *  @arg {YBindT} t
+     *  @arg {...YBindT} t
     */
-    constructor(t = {}) {
+    constructor(...t) {
 
-        t = FBind.#before(Object.values(arguments));
+        t = FBind.#before(t);
 
-        FBind.#deceit(t);
+        super(Object.assign(t, {}));
 
-        super(t);
-
+        FBind.#handle.apply(this, [t]);
         FBind.#create.apply(this, [t]);
 
     };
@@ -142,13 +143,16 @@ class FBind extends MBind {
             /** @type {YBindT} */
             const r = {};
 
-            if (t[0]?._ytp) t = [...t[0]._ytp];
+            if (t[0]?._ytp) {
+
+                t = [...t[0]._ytp];
+
+            };
 
             switch (t.length) {
 
-                case 4: r.modeUpdate = t[3];
-                case 3: r.func = t[2];
-                case 2: r.code = t[1];
+                case 3:
+                case 2:
                 case 1: r.receiver = t[0];
 
             };
@@ -187,15 +191,22 @@ class FBind extends MBind {
     /** @arg {YBindT} t @this {YBind} */
     static #handle(t) {
 
-        if (t.receiver.constructor !== YReceiver) {
+        if (t.receiver?.constructor !== YReceiver) {
 
             t.receiver = null;
 
         };
 
-        if (t.code.constructor === String) {
+        if (t.funcs?.constructor === Function) {
 
-            t.code = [t.code];
+            t.funcs = [t.funcs];
+
+        };
+
+        switch (t.comb?.constructor) {
+
+            case Array: t.comb = new YComb(...t.comb); break;
+            case String, Object: t.comb = new YComb(t.comb); break;
 
         };
 
@@ -235,7 +246,7 @@ class FBind extends MBind {
  * ### YBind
  * - Тип `SDIMFY`
  * - Версия `0.0.0`
- * - Модуль `YBind`
+ * - Модуль `ject\terminal\bind`
  * - Цепочка `BDVHC`
  * ***
  *
@@ -256,9 +267,9 @@ export class YBind extends FBind {
     */
     exec() {
 
-        if (this.func) {
+        if (this.funcs instanceof Array) {
 
-            this.func(this.receiver);
+            this.funcs.filter(f => f instanceof Function).forEach(f => f());
 
         };
 

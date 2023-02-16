@@ -8,7 +8,7 @@ import { YBasic } from "../../YBasic/YBasic.mjs";
 /** ### YElementT
  * - Тип `T`
  * - Версия `0.0.0`
- * - Модуль `YElement`
+ * - Модуль `ject\terminal\element`
  *
  * Основной параметр модуля `YElement`.
  *
@@ -18,7 +18,7 @@ import { YBasic } from "../../YBasic/YBasic.mjs";
 /** ### YElementTE
  * - Тип `TE`
  * - Версия `0.0.0`
- * - Модуль `YElement`
+ * - Модуль `ject\terminal\element`
  *
  * Параметр наследования `YElement`.
  *
@@ -28,7 +28,7 @@ import { YBasic } from "../../YBasic/YBasic.mjs";
 /** ### YElementTU
  * - Тип `TU`
  * - Версия `0.0.0`
- * - Модуль `YElement`
+ * - Модуль `ject\terminal\element`
  *
  * Уникальные параметры `YElement`.
  *
@@ -69,16 +69,15 @@ class FElement extends MElement {
      *
      *
      * ***
-     *  @arg {YElementT} t
+     *  @arg {...YElementT} t
     */
-    constructor(t = {}) {
+    constructor(...t) {
 
-        t = FElement.#before(Object.values(arguments));
+        t = FElement.#before(t);
 
-        FElement.#deceit(t);
+        super(Object.assign(t, {}));
 
-        super(t);
-
+        FElement.#handle.apply(this, [t]);
         FElement.#create.apply(this, [t]);
 
     };
@@ -95,7 +94,11 @@ class FElement extends MElement {
             /** @type {YElementT} */
             const r = {};
 
-            if (t[0]?._ytp) t = [...t[0]._ytp];
+            if (t[0]?._ytp) {
+
+                t = [...t[0]._ytp];
+
+            };
 
             switch (t.length) {
 
@@ -163,7 +166,7 @@ class FElement extends MElement {
  * ### YElement
  * - Тип `SDIMFY`
  * - Версия `0.0.0`
- * - Модуль `YElement`
+ * - Модуль `ject\terminal\element`
  * - Цепочка `BDVHC`
  * ***
  *

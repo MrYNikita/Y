@@ -36,7 +36,7 @@ class FRegExpVariate extends DRegExpVariate {
 
         super(t);
 
-        FRegExpVariate.#deceit.apply(this, [t]);
+        FRegExpVariate.#handle.apply(this, [t]);
 
     };
 

@@ -32,7 +32,7 @@ class FRegExpBracket extends DRegExpBracket {
 
         super(t);
 
-        FRegExpBracket.#deceit.apply(this, [t]);
+        FRegExpBracket.#handle.apply(this, [t]);
 
     };
 

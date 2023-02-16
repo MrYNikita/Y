@@ -69,6 +69,27 @@ export const configYJect = {
 export const configYTerminal = {
 
     /**
+     * ### defaultSizes
+     *
+     * Дефолт размер терминала.
+     *
+     * ***
+     * @type {[number, number]}
+     * @public
+    */
+    defaultSizes: [30, 120],
+    /**
+     * ### defaultSymbolSpace
+     *
+     * Символ свободного пространства.
+     *
+     * ***
+     * @type {string}
+     * @public
+    */
+    defaultSymbolSpace: ' ',
+
+    /**
      * Размер терминала по умолчанию.
      * @type {[number,number]}
     */
@@ -78,6 +99,50 @@ export const configYTerminal = {
      * @type {string}
     */
     symbolSpace: ' ',
+
+};
+export const configYList = {
+
+    /**
+     * ### defaultLimit
+     *
+     * Дефолт лимит.
+     *
+     * ***
+     * @type {number}
+     * @public
+    */
+    defaultLimit: 100,
+    /**
+     * ### defaultLimitPage
+     *
+     * Дефолт лимит страницы.
+     *
+     * ***
+     * @type {number}
+     * @public
+    */
+    defaultSizePage: 10,
+    /**
+     * ### defaultModeWrite
+     *
+     * Дефолт режим записи.
+     *
+     * ***
+     * @type {boolean}
+     * @public
+    */
+    defaultModeWrite: true,
+    /**
+     * ### defaultModeOffset
+     *
+     * Дефолт режим смещения.
+     *
+     * ***
+     * @type {boolean}
+     * @public
+    */
+    defaultModeOffset: true,
 
 };
 export const configYRept = {

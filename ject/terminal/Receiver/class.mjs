@@ -1,7 +1,8 @@
 //#region YI
 
-import { YJect } from "../../YJect/YJect.mjs";
-import { YBind } from "../bind/Bind/Bind.mjs";
+import { YBind } from "./bind/class.mjs";
+import { YBasic } from "../../YBasic/YBasic.mjs";
+import { YComb } from "./bind/comb/class.mjs";
 
 //#endregion
 //#region YT
@@ -9,7 +10,7 @@ import { YBind } from "../bind/Bind/Bind.mjs";
 /** ### YReceiverT
  * - Тип `T`
  * - Версия `0.0.0`
- * - Модуль `YReceiver`
+ * - Модуль `ject\terminal\receiver`
  *
  * Основной параметр модуля `YReceiver`.
  *
@@ -19,7 +20,7 @@ import { YBind } from "../bind/Bind/Bind.mjs";
 /** ### YReceiverTE
  * - Тип `TE`
  * - Версия `0.0.0`
- * - Модуль `YReceiver`
+ * - Модуль `ject\terminal\receiver`
  *
  * Параметр наследования `YReceiver`.
  *
@@ -29,7 +30,7 @@ import { YBind } from "../bind/Bind/Bind.mjs";
 /** ### YReceiverTU
  * - Тип `TU`
  * - Версия `0.0.0`
- * - Модуль `YReceiver`
+ * - Модуль `ject\terminal\receiver`
  *
  * Уникальные параметры `YReceiver`.
  *
@@ -40,7 +41,7 @@ import { YBind } from "../bind/Bind/Bind.mjs";
 
 //#endregion
 
-class SReceiver extends YJect {
+class SReceiver extends YBasic {
 
     /**
      * ### binds
@@ -66,6 +67,21 @@ class DReceiver extends SReceiver {
      * @public
     */
     binds = [];
+    /**
+     * ### modeOptimal
+     *
+     * Оптимальный режим.
+     *
+     * Если активен, то будет способствовать оптимизации внутренних процессов приёмника:
+     * - Для привязок будут удаляться дубликаты функций. Как ссылочные, так и значимые.
+     *
+     * Данный режим повысит производительсность и экономию ресурсов, но может привести к поведению отличному от ожидаемого.
+     *
+     * ***
+     * @type {boolean}
+     * @public
+    */
+    modeOptimal = true;
 
 };
 class IReceiver extends DReceiver {
@@ -75,7 +91,25 @@ class IReceiver extends DReceiver {
 };
 class MReceiver extends IReceiver {
 
+    /**
+     * ### fundBind
+     * - Версия `0.0.0`
+     * - Модуль `ject\terminal\receiver`
+     * ***
+     *
+     * Метод для поиска привязки по её значениям.
+     *
+     * ***
+     * @arg {YComb} comb `Комбинация`
+     * @public
+    */
+    findBind(comb) {
 
+        const f = this.binds.find(b => b.comb.equal(comb));
+
+        return f ?? null;
+
+    };
 
 };
 class FReceiver extends MReceiver {
@@ -88,16 +122,15 @@ class FReceiver extends MReceiver {
      *
      *
      * ***
-     *  @arg {YReceiverT} t
+     *  @arg {...YReceiverT} t
     */
-    constructor(t = {}) {
+    constructor(...t) {
 
-        t = FReceiver.#before(Object.values(arguments));
+        t = FReceiver.#before(t);
 
-        FReceiver.#deceit(t);
+        super(Object.assign(t, {}));
 
-        super(t);
-
+        FReceiver.#handle.apply(this, [t]);
         FReceiver.#create.apply(this, [t]);
 
     };
@@ -114,7 +147,11 @@ class FReceiver extends MReceiver {
             /** @type {YReceiverT} */
             const r = {};
 
-            if (t[0]?._ytp) t = [...t[0]._ytp];
+            if (t[0]?._ytp) {
+
+                t = [...t[0]._ytp];
+
+            };
 
             switch (t.length) {
 
@@ -190,7 +227,7 @@ class FReceiver extends MReceiver {
  * ### YReceiver
  * - Тип `SDIMFY`
  * - Версия `0.0.0`
- * - Модуль `YReceiver`
+ * - Модуль `ject\terminal\receiver`
  * - Цепочка `BDVHC`
  * ***
  *
@@ -206,43 +243,71 @@ export class YReceiver extends FReceiver {
      * Метод сигнализации.
      *
      * ***
-     * @arg {...string} values `Значения`
+     * @arg {YComb} comb `Комбинация`
+     * @arg {YReceiver} recepient `Получатель`
      * @public
     */
-    signal(...values) {
+    signal(comb) {
 
-        return this;
+        return false;
+        // if (recepient instanceof YReceiver && recepient !== this) {
+
+        //     return recepient.receive(comb);
+
+        // } else {
+
+        //     return false;
+
+        // };
 
     };
     /**
      * ### receive
-     * - Версия `0.0.0`
+     * - Версия `0.1.0`
      * - Модуль `Receiver`
      * ***
      *
      * Метод принятия сигналов.
      *
      * ***
-     * @arg {...string} values `Значения`
+     * @arg {YComb} comb `Комбинация`
      * @public
     */
-    receive(...values) {
+    receive(comb) {
 
-        this.signal(...values);
+        if (comb.constructor !== YComb) {
 
-        values.filter(v => v.constructor === String).forEach(v => {
+            if (comb instanceof Array) {
 
-            const f = this.binds.find(b => b.code.includes(v));
+                comb = new YComb(...comb);
 
-            if (f) {
+            } else {
 
-                f.exec();
+                comb = new YComb(comb);
 
             };
 
-        });
+        };
 
-        return this;
+        if (!this.signal(comb)) {
+
+            let signal = false;
+
+            const f = this.findBind(comb);
+
+                if (f) {
+
+                    f.exec();
+
+                    signal = true;
+
+                };
+
+            return signal;
+
+        };
+
+        return false;
 
     };
 
@@ -260,7 +325,33 @@ export class YReceiver extends FReceiver {
     */
     appendBinds(...binds) {
 
-        this.binds.push(...binds.filter(b => b instanceof YBind));
+        binds.filter(b => b instanceof YBind).forEach(b => {
+
+            const find = this.findBind(b.comb);
+
+            if (find === b) {
+
+                return;
+
+            } else if (find && find !== b) {
+
+                if (this.modeOptimal) {
+
+                    b.funcs = b.funcs.filter(bf => !find.funcs.includes(bf) && find.funcs.every(ff => ff.toString() !== bf.toString()));
+
+                };
+
+                find.funcs.push(...b.funcs);
+
+            } else {
+
+                b.receiver = this;
+
+                this.binds.push(b);
+
+            };
+
+        });
 
         return this;
 

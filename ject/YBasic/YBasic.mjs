@@ -1,4 +1,5 @@
 import { jectClone, jectEqual, jectAdopt, jectGetProperty, jectGetPropertyByPath, jectGetPropertyByPathMany } from "../ject.mjs";
+import { jectAdoptByDefault, jectAdoptDefault } from "../module.mjs";
 
 //#region YT
 
@@ -38,7 +39,25 @@ import { jectClone, jectEqual, jectAdopt, jectGetProperty, jectGetPropertyByPath
 
 class SBasic {
 
+    /**
+     * ### adoptDefault
+     * - Версия `0.0.0`
+     * - Модуль `ject\YBasic`
+     * ***
+     *
+     * Метод установки дефолт значений.
+     *
+     * ***
+     * @arg {any} owner `Обладатель`
+     * @public
+    */
+    static adoptDefault(owner) {
 
+        jectAdoptDefault(this, owner);
+
+        return this;
+
+    };
 
 };
 class DBasic extends SBasic {
@@ -184,6 +203,31 @@ export class YBasic extends FBasic {
         jectAdopt(this, owner);
 
         return this;
+
+    };
+    /**
+     * ### adoptByDefault
+     * - Версия `0.0.0`
+     * - Модуль `ject\YBasic`
+     * ***
+     *
+     * Метод заполнения свойств получателя дефолт свойствами обладателя.
+     *
+     * ***
+     * @arg {{}} owner `Обладатель`
+     * @public
+    */
+    adoptByDefault(owner) {
+
+        if (owner instanceof Object) {
+
+            return jectAdoptByDefault(this, owner);
+
+        } else {
+
+            return this;
+
+        };
 
     };
 

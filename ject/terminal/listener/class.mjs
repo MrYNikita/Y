@@ -9,7 +9,7 @@ import { emitKeypressEvents } from "readline";
 /** ### YListenerT
  * - Тип `T`
  * - Версия `0.0.0`
- * - Модуль `YListener`
+ * - Модуль `ject\terminal\listener`
  *
  * Основной параметр модуля `YListener`.
  *
@@ -19,7 +19,7 @@ import { emitKeypressEvents } from "readline";
 /** ### YListenerTE
  * - Тип `TE`
  * - Версия `0.0.0`
- * - Модуль `YListener`
+ * - Модуль `ject\terminal\listener`
  *
  * Параметр наследования `YListener`.
  *
@@ -29,7 +29,7 @@ import { emitKeypressEvents } from "readline";
 /** ### YListenerTU
  * - Тип `TU`
  * - Версия `0.0.0`
- * - Модуль `YListener`
+ * - Модуль `ject\terminal\listener`
  *
  * Уникальные параметры `YListener`.
  *
@@ -52,7 +52,16 @@ class SListener extends YBasic {
 };
 class DListener extends SListener {
 
-
+    /**
+     * ### terminal
+     *
+     * Терминал.
+     *
+     * ***
+     * @type {YTerminal?}
+     * @public
+    */
+    terminal = null;
 
 };
 class IListener extends DListener {
@@ -128,23 +137,6 @@ class MListener extends IListener {
 
 
     };
-    /**
-     * ### receive
-     * - Версия `0.0.0`
-     * - Модуль `Listener`
-     * ***
-     *
-     *
-     *
-     * ***
-     *
-     * @protected
-    */
-    receive() {
-
-
-
-    };
 
 };
 class FListener extends MListener {
@@ -157,16 +149,15 @@ class FListener extends MListener {
      *
      *
      * ***
-     *  @arg {YListenerT} t
+     *  @arg {...YListenerT} t
     */
-    constructor(t = {}) {
+    constructor(...t) {
 
-        t = FListener.#before(Object.values(arguments));
+        t = FListener.#before(t);
 
-        FListener.#deceit(t);
+        super(Object.assign(t, {}));
 
-        super(t);
-
+        FListener.#handle.apply(this, [t]);
         FListener.#create.apply(this, [t]);
 
     };
@@ -183,7 +174,11 @@ class FListener extends MListener {
             /** @type {YListenerT} */
             const r = {};
 
-            if (t[0]?._ytp) t = [...t[0]._ytp];
+            if (t[0]?._ytp) {
+
+                t = [...t[0]._ytp];
+
+            };
 
             switch (t.length) {
 
@@ -251,7 +246,7 @@ class FListener extends MListener {
  * ### YListener
  * - Тип `SDIMFY`
  * - Версия `0.0.0`
- * - Модуль `YListener`
+ * - Модуль `ject\terminal\listener`
  * - Цепочка `BDVHC`
  * ***
  *
@@ -277,8 +272,8 @@ export class YListener extends FListener {
         process.stdin.on('keypress',
 
             /**
-             * @arg {string} c Символ.
-             * @arg {import("readline").Key} k Данные клавиши.
+             * @arg {string} c `Символ`
+             * @arg {import("readline").Key} k `Данные клавиши`
             */
             (c, k) => {
 

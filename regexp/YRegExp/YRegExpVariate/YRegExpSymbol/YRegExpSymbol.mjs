@@ -59,7 +59,7 @@ class FRegExpSymbol extends DRegExpSymbol {
 
         super(t);
 
-        FRegExpSymbol.#deceit.apply(this, [t]);
+        FRegExpSymbol.#handle.apply(this, [t]);
 
     };
 

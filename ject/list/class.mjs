@@ -1,6 +1,7 @@
 //#region YI
 
 import { YBasic } from "../YBasic/YBasic.mjs";
+import { configYList } from "../../config.mjs";
 
 //#endregion
 //#region YT
@@ -41,11 +42,104 @@ import { YBasic } from "../YBasic/YBasic.mjs";
 
 class SList extends YBasic {
 
+    /**
+     * ### defaultLimit
+     *
+     * Дефолт лимит.
+     *
+     * ***
+     * @type {number?}
+     * @public
+    */
+    static defaultLimit;
+    /**
+     * ### defaultSizePage
+     *
+     * Дефолт размер страницы.
+     *
+     * ***
+     * @type {number?}
+     * @public
+    */
+    static defaultSizePage;
+    /**
+     * ### defaultModeWrite
+     *
+     * Дефолт режим записи.
+     *
+     * ***
+     * @type {boolean}
+     * @public
+    */
+    static defaultModeWrite;
+    /**
+     * ### defaultModeOffset
+     *
+     * Дефолт режим смещения.
+     *
+     * ***
+     * @type {boolean}
+     * @public
+    */
+    static defaultModeOffset;
 
+    static {
+
+        this.adoptDefault(configYList);
+
+    };
 
 };
 class DList extends SList {
 
+    /**
+     * ### limit
+     *
+     * Лимит.
+     *
+     * Максимальное допустимое кол-во записей.
+     *
+     * ***
+     * @type {number?}
+     * @public
+    */
+    limit;
+    /**
+     * ### sizePage
+     *
+     * Размер страницы.
+     *
+     * Определяет кол-во записей, которые могут находиться в одной странице.
+     *
+     * ***
+     * @type {number?}
+     * @public
+    */
+    sizePage;
+    /**
+     * ### modeWrite
+     *
+     * Режим добавления записей.
+     *
+     * В активном состоянии позволяет заносить новые записи.
+     *
+     * ***
+     * @type {boolean}
+     * @public
+    */
+    modeWrite;
+    /**
+     * ### modeOffset
+     *
+     * Режим замещения.
+     *
+     * Если активен, то при добавлении новых записей, превышающих лимит, приводит к удалению самых старых записей в кол-во необходимом для размещении новых.
+     *
+     * ***
+     * @type {boolean}
+     * @public
+    */
+    modeOffset;
 
 
 };
@@ -71,14 +165,13 @@ class FList extends MList {
      * ***
      *  @arg {YListT} t
     */
-    constructor(t = {}) {
+    constructor(...t) {
 
-        t = FList.#before(Object.values(arguments));
+        t = FList.#before(t);
 
-        FList.#deceit(t);
+        super(Object.assign(t, {}));
 
-        super(t);
-
+        FList.#handle.apply(this, [t]);
         FList.#create.apply(this, [t]);
 
     };
@@ -95,7 +188,11 @@ class FList extends MList {
             /** @type {YListT} */
             const r = {};
 
-            if (t[0]?._ytp) t = [...t[0]._ytp];
+            if (t[0]?._ytp) {
+
+                t = [...t[0]._ytp];
+
+            };
 
             switch (t.length) {
 
