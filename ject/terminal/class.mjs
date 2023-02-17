@@ -5,6 +5,8 @@ import { YString } from "../../string/YString/YString.mjs";
 import { YListener } from "./listener/class.mjs";
 import { YReceiver } from "./receiver/class.mjs";
 import { YInterface } from "./interface/class.mjs";
+import { YElement } from "./interface/element/class.mjs";
+import { YComb } from "./receiver/bind/comb/class.mjs";
 
 /** @type {import('./config.mjs')['default']?} */
 let config = null;
@@ -62,7 +64,16 @@ class STerminal extends YReceiver {
      * @type {YString}
      * @public
     */
-    static layout = new YString();
+    static layout = new YString()
+
+        .setColor(config.defaultColorF, config.defaultColorB)
+        .paste(
+
+            '╔' + '═'.repeat(config.defaultSizes[1] - 2) + '╗\n',
+            ('║' + ' '.repeat(config.defaultSizes[1] - 2) + '║\n').repeat(config.defaultSizes[0] - 2),
+            '╚' + '═'.repeat(config.defaultSizes[1] - 2) + '╝',
+
+        );
 
 };
 class DTerminal extends STerminal {
@@ -108,6 +119,26 @@ class DTerminal extends STerminal {
     */
     layout = null;
     /**
+     * ### modeLoad
+     *
+     * Режим загрузки.
+     *
+     * ***
+     * @type {boolean}
+     * @public
+    */
+    modeLoad;
+    /**
+     * ### modeSave
+     *
+     * Режим сохранения.
+     *
+     * ***
+     * @type {boolean}
+     * @public
+    */
+    modeSave;
+    /**
      * ### interface
      *
      * Интерфейс.
@@ -151,6 +182,16 @@ class ITerminal extends DTerminal {
      * @public
     */
     listener = new YListener(this);
+    /**
+     * ### transferElements
+     *
+     * Передаваемые элементы.
+     *
+     * ***
+     * @type {YElement[]}
+     * @public
+    */
+    transferElements = [];
 
 };
 class MTerminal extends ITerminal {
@@ -176,8 +217,7 @@ class FTerminal extends MTerminal {
 
         super(Object.assign(t, {}));
 
-        FTerminal.#handle.apply(this, [t]);
-        FTerminal.#create.apply(this, [t]);
+        FTerminal.#deceit.apply(this, [t]);
 
     };
 
@@ -217,11 +257,15 @@ class FTerminal extends MTerminal {
 
         try {
 
-            FTerminal.#verify(t);
+            FTerminal.#verify.apply(this, [t]);
 
         } catch (e) {
 
             throw e;
+
+        } finally {
+
+
 
         };
 
@@ -235,7 +279,7 @@ class FTerminal extends MTerminal {
 
         } = t;
 
-        FTerminal.#handle(t);
+        FTerminal.#handle.apply(this, [t]);
 
     };
     /** @arg {YTerminalT} t @this {YTerminal} */
@@ -246,6 +290,8 @@ class FTerminal extends MTerminal {
             t.interface.setTerminal(this);
 
         };
+
+        FTerminal.#create.apply(this, [t]);
 
     };
     /** @arg {YTerminalT} t @this {YTerminal} */
@@ -265,6 +311,8 @@ class FTerminal extends MTerminal {
 
         };
 
+        this.setInterface(this.interface);
+
         this.listener.on();
 
     };
@@ -283,6 +331,26 @@ class FTerminal extends MTerminal {
 export class YTerminal extends FTerminal {
 
     /**
+     * ### receive
+     * - Версия `0.0.0`
+     * - Модуль `ject\terminal`
+     * ***
+     *
+     * Метод принятия комбинаций.
+     *
+     * ***
+     * @arg {YComb} comb `Комбинация`
+     * @public
+    */
+    receive(comb) {
+
+        YReceiver.prototype.receive.apply(this, [comb]);
+
+        this.display();
+
+    };
+
+    /**
      * ### display
      * - Версия `0.0.0`
      * - Модуль `ject\terminal`
@@ -297,7 +365,71 @@ export class YTerminal extends FTerminal {
     display() {
 
         console.clear();
-        console.log(this);
+
+        new YString(this.interfaceActive?.layout?.get?.(true) ?? this.layout?.get?.(true) ?? this.constructor.layout?.get?.(true))
+
+            .exec(y => {
+
+                if (this.colorF || this.colorB) {
+
+                    y.stylist.setColor(this.colorF, this.colorB, 0, 0);
+
+                };
+
+                if (this.interfaceActive) {
+
+                    if (this.interfaceActive.layout) {
+
+                        y
+                            .setCursorTo(0, 0)
+                            .pasteWrap(this.interfaceActive.layout.get(true));
+
+                    };
+
+                    [...this.transferElements, ...this.interfaceActive.elements, this.interfaceActive?.interactor].filter(e => e).forEach(e => {
+
+                        y.setCursorTo(...e.coords)
+                        y.pasteWrap(e.getLayout())
+
+                    });
+
+                };
+
+            })
+            .display();
+
+        return this;
+
+    };
+
+    /**
+     * ### setInterface
+     * - Версия `0.0.0`
+     * - Модуль `ject\terminal`
+     * ***
+     *
+     * Метод установки начального интерфейса.
+     *
+     * ***
+     * @arg {YInterface} intf `Интерфейс`
+     * @public
+    */
+    setInterface(intf) {
+
+        if (intf instanceof YInterface) {
+
+            this.interface = intf;
+
+            if (!this.interfaceActive) {
+
+                this.recepient = this.interface;
+                this.interfaceActive = this.interface;
+
+            };
+
+            this.interface.setTerminal(this);
+
+        };
 
         return this;
 

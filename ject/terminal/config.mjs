@@ -1,4 +1,21 @@
-export default {
+const config = {
+
+    /**
+     * ### borders
+     *
+     * Массив рамочных символов.
+     *
+     * ***
+     * @type {string[][]}
+     * @public
+    */
+    borders: [
+
+        ['│', '─', '┌', '┐', '└', '┘', '├', '┬', '┴', '┤', '┼'],
+        ['║', '═', '╔', '╗', '╚', '╝', '╠', '╦', '╩', '╣', '╬'],
+        ['┊', '┄'],
+
+    ],
 
     /**
      * ### defaultSizes
@@ -30,5 +47,29 @@ export default {
      * @public
     */
     defaultColorB: 'blueDark',
+    /**
+     * ### defaultModeLoad
+     *
+     * Дефолт режим загрузки.
+     *
+     * ***
+     * @type {boolean}
+     * @public
+    */
+    defaultModeLoad: true,
+    /**
+     * ### defaultModeSave
+     *
+     * Дефолт режим сохранения.
+     *
+     * ***
+     * @type {boolean}
+     * @public
+    */
+    defaultModeSave: true,
 
 };
+
+export default config;
+
+export const configTerminal = config;

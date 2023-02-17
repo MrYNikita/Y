@@ -1,7 +1,10 @@
 //#region YI
 
-import { YBasic } from '../../YBasic/YBasic.mjs';
+import { YString } from '../../../string/YString/YString.mjs';
+import { YElement } from './element/class.mjs';
 import { YTerminal } from '../class.mjs';
+import { YInteractor } from './element/interactor/class.mjs';
+import { YReceiver } from '../receiver/class.mjs';
 
 /** @type {import('./config.mjs')['default']?} */
 let config = null;
@@ -48,13 +51,33 @@ await import('./config.mjs')
 
 //#endregion
 
-class SInterface extends YBasic {
+class SInterface extends YReceiver {
 
 
 
 };
 class DInterface extends SInterface {
 
+    /**
+     * ### label
+     *
+     * Метка.
+     *
+     * ***
+     * @type {string}
+     * @public
+    */
+    label;
+    /**
+     * ### layout
+     *
+     * Разметка.
+     *
+     * ***
+     * @type {YString?}
+     * @public
+    */
+    layout = null;
     /**
      * ### terminal
      *
@@ -66,6 +89,26 @@ class DInterface extends SInterface {
     */
     terminal = null;
     /**
+     * ### elements
+     *
+     * Элементы.
+     *
+     * ***
+     * @type {YElement[]}
+     * @public
+    */
+    elements = [];
+    /**
+     * ### interactor
+     *
+     * Интерактивный элемент.
+     *
+     * ***
+     * @type {YInteractor?}
+     * @public
+    */
+    interactor = null;
+    /**
      * ### interfaces
      *
      * Интерфейсы.
@@ -75,6 +118,16 @@ class DInterface extends SInterface {
      * @public
     */
     interfaces = [];
+    /**
+     * ### interfaceOver
+     *
+     * Над интерфейс.
+     *
+     * ***
+     * @type {YInterface?}
+     * @public
+    */
+    interfaceOver = null;
 
 };
 class IInterface extends DInterface {
@@ -193,6 +246,17 @@ class FInterface extends MInterface {
 
         };
 
+        if (this.interactor) {
+
+            this.recepient = this.interactor;
+
+        };
+
+        this.interactor.interface = this;
+
+        this.appendElements(...this.elements.splice(0));
+        this.appendInterfaces(...this.interfaces.splice(0));
+
     };
 
 };
@@ -207,6 +271,37 @@ class FInterface extends MInterface {
  *
 */
 export class YInterface extends FInterface {
+
+    /**
+     * ### drop
+     * - Версия `0.0.0`
+     * - Модуль `ject\terminal\interface`
+     * ***
+     *
+     * Метод сброса интерфейса.
+     *
+     * Если интерфейс является активным для своего терминала, то отображение обновится.
+     *
+     * Данный метод:
+     * - удаляет все непостоянные элементы.
+     *
+     * ***
+     *
+     * @public
+    */
+    drop() {
+
+        this.elements = this.elements.filter(e => e.permanent);
+
+        if (this.terminal.interfaceActive === this) {
+
+            this.terminal.display();
+
+        };
+
+        return this;
+
+    };
 
     /**
      * ### setTerminal
@@ -249,9 +344,70 @@ export class YInterface extends FInterface {
 
         if (intf instanceof YInterface) {
 
-            this.interfaces = intf;
+            this.interfaceOver = intf;
+
+            this.setTerminal(intf);
 
         };
+
+        return this;
+
+    };
+
+    /**
+     * ### appendElements
+     * - Версия `0.2.0`
+     * - Модуль `ject\terminal\interface`
+     * ***
+     *
+     * Метод добавления элементов.
+     *
+     * ***
+     * @arg {...YElement} elements `Элементы`
+     * @public
+    */
+    appendElements(...elements) {
+
+        this.elements.push(...elements.filter(e => {
+
+            return e instanceof YElement;
+
+        }).map(e => {
+
+            e.setInterface(this);
+
+            return e;
+
+        }));
+
+        return this;
+
+    };
+    /**
+     * ### appendInterfaces
+     * - Версия `0.1.0`
+     * - Модуль `ject\terminal\interface`
+     * ***
+     *
+     * Метод добавления интерфейсов.
+     *
+     * ***
+     * @arg {...YInterface} interfaces `Интерфейсы`
+     * @public
+    */
+    appendInterfaces(...interfaces) {
+
+        this.interfaces.push(...interfaces.filter(i => {
+
+            return i instanceof YInterface;
+
+        }).map(i => {
+
+            i.setInterface(this);
+
+            return i;
+
+        }));
 
         return this;
 

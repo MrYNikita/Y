@@ -71,20 +71,6 @@ class DBind extends SBind {
     */
     funcs = [];
     /**
-     * ### receiver
-     *
-     * Приёмник.
-     *
-     * Данный объект выступает обладателем привязки, который ожидает её вызова.
-     *
-     * После вызова, привязка выполняет назначенную ей функцию.
-     *
-     * ***
-     * @type {YReceiver?}
-     * @public
-    */
-    receiver = null;
-    /**
      * ### modeUpdate
      *
      * Режим обновления.
@@ -95,7 +81,7 @@ class DBind extends SBind {
      * @type {boolean}
      * @public
     */
-    modeUpdate = false;
+    update = false;
 
 };
 class IBind extends DBind {
@@ -126,8 +112,7 @@ class FBind extends MBind {
 
         super(Object.assign(t, {}));
 
-        FBind.#handle.apply(this, [t]);
-        FBind.#create.apply(this, [t]);
+        FBind.#deceit.apply(this, [t]);
 
     };
 
@@ -153,7 +138,7 @@ class FBind extends MBind {
 
                 case 3:
                 case 2:
-                case 1: r.receiver = t[0];
+                case 1:
 
             };
 
@@ -167,11 +152,15 @@ class FBind extends MBind {
 
         try {
 
-            FBind.#verify(t);
+            FBind.#verify.apply(this, [t]);
 
         } catch (e) {
 
             throw e;
+
+        } finally {
+
+
 
         };
 
@@ -185,7 +174,7 @@ class FBind extends MBind {
 
         } = t;
 
-        FBind.#handle(t);
+        FBind.#handle.apply(this, [t]);
 
     };
     /** @arg {YBindT} t @this {YBind} */
@@ -219,6 +208,8 @@ class FBind extends MBind {
             t.modeUpdate = false;
 
         };
+
+        FBind.#create.apply(this, [t]);
 
     };
     /** @arg {YBindT} t @this {YBind} */

@@ -22,6 +22,110 @@ import { config } from "../config.mjs";
 
 //#endregion
 
+//#region fill 0.0.0
+
+/** ### jectTFFill
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `ject`
+ * ***
+ *
+ * Результирующие параметры функции `fill`.
+ *
+ * @typedef {jectTFUFill&jectT} jectTFFill
+ *
+*/
+/** ### jectTFUFill
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `ject`
+ *
+ * Уникальные параметры функции `fill`.
+ *
+ * @typedef jectTFUFill
+ * @prop {{}} filler
+*/
+
+/** @arg {jectTFFill} t */
+function fillDeceit(t) {
+
+    try {
+
+        return fillVerify(t);
+
+    } catch (e) {
+
+        if (config.strict) throw e;
+
+        return undefined;
+
+    };
+
+};
+/** @arg {jectTFFill} t */
+function fillVerify(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return fillHandle(t);
+
+};
+/** @arg {jectTFFill} t */
+function fillHandle(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return fillComply(t);
+
+};
+/** @arg {jectTFFill} t */
+function fillComply(t) {
+
+    const {
+
+        ject,
+        filler,
+
+    } = t;
+
+    Object.keys(filler).forEach(p => filler[p] !== undefined && (ject[p] = filler[p]));
+
+    return ject;
+
+};
+
+/**
+ * ### jectFill
+ * - Версия `0.3.0`
+ * - Цепочка `DVHCa`
+ * - Модуль `ject`
+ * ***
+ *
+ * Функция заполнения объекта свойствами указанного заполнителя.
+ *
+ * ***
+ * @arg {TJ1} ject
+ * @arg {TJ2} filler
+ * @returns {TJ1&TJ2}
+ * @template TJ1
+ * @template TJ2
+*/
+export function jectFill(ject, filler) {
+
+    return fillDeceit({ ject, filler, });
+
+};
+
+//#endregion
+
 //#region adoptDefault 0.0.0
 
 /** ### jectTFAdoptDefault
@@ -126,7 +230,7 @@ export function jectAdoptDefault(ject, owner) {
 };
 
 //#endregion
-//#region adoptByDefault 0.0.0
+//#region adoptByDefault 0.0.1
 
 /** ### jectTFAdoptByDefault
  * - Тип `TF`
@@ -205,7 +309,7 @@ function adoptByDefaultComply(t) {
 
         const pd = 'default' + p[0].toUpperCase() + p.slice(1);
 
-        if (!ject[p] && owner[pd]) {
+        if (!ject[p] && owner[pd] !== undefined) {
 
             ject[p] = owner[pd];
 
@@ -219,7 +323,7 @@ function adoptByDefaultComply(t) {
 
 /**
  * ### jectAdoptByDefault
- * - Версия `0.0.0`
+ * - Версия `0.0.1`
  * - Цепочка `DVHCa`
  * - Модуль `ject`
  * ***

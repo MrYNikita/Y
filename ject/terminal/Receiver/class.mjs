@@ -3,6 +3,7 @@
 import { YBind } from "./bind/class.mjs";
 import { YBasic } from "../../YBasic/YBasic.mjs";
 import { YComb } from "./bind/comb/class.mjs";
+import { YInteract } from "../../YTerminal/YInterface/YElement/YInteract/YInteract.mjs";
 
 //#endregion
 //#region YT
@@ -86,7 +87,16 @@ class DReceiver extends SReceiver {
 };
 class IReceiver extends DReceiver {
 
-
+    /**
+     * ### recepient
+     *
+     *
+     *
+     * ***
+     * @type {(YReceiver|YInteract)?}
+     * @public
+    */
+    recepient = null;
 
 };
 class MReceiver extends IReceiver {
@@ -249,16 +259,15 @@ export class YReceiver extends FReceiver {
     */
     signal(comb) {
 
-        return false;
-        // if (recepient instanceof YReceiver && recepient !== this) {
+        if (this.recepient !== this) {
 
-        //     return recepient.receive(comb);
+            return this.recepient?.receive?.(comb);
 
-        // } else {
+        } else {
 
-        //     return false;
+            return false;
 
-        // };
+        };
 
     };
     /**
@@ -271,6 +280,7 @@ export class YReceiver extends FReceiver {
      *
      * ***
      * @arg {YComb} comb `Комбинация`
+     * @arg {YReceiver?} recepient `Получатель`
      * @public
     */
     receive(comb) {
@@ -291,19 +301,15 @@ export class YReceiver extends FReceiver {
 
         if (!this.signal(comb)) {
 
-            let signal = false;
-
             const f = this.findBind(comb);
 
-                if (f) {
+            if (f) {
 
-                    f.exec();
+                f.exec();
 
-                    signal = true;
+                return true;
 
-                };
-
-            return signal;
+            };
 
         };
 

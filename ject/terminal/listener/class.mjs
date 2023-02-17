@@ -1,6 +1,8 @@
 //#region YI
 
+import { YComb } from "../receiver/bind/comb/class.mjs";
 import { YBasic } from "../../YBasic/YBasic.mjs";
+import { YTerminal } from "../class.mjs";
 import { emitKeypressEvents } from "readline";
 
 //#endregion
@@ -134,7 +136,9 @@ class MListener extends IListener {
     */
     signal() {
 
+        const ycomb = new YComb(this.name, this.shift, this.ctrl);
 
+        this.terminal.receive(ycomb, this.terminal.interfaceActive);
 
     };
 
@@ -157,8 +161,7 @@ class FListener extends MListener {
 
         super(Object.assign(t, {}));
 
-        FListener.#handle.apply(this, [t]);
-        FListener.#create.apply(this, [t]);
+        FListener.#deceit.apply(this, [t]);
 
     };
 
@@ -198,11 +201,15 @@ class FListener extends MListener {
 
         try {
 
-            FListener.#verify(t);
+            FListener.#verify.apply(this, [t]);
 
         } catch (e) {
 
             throw e;
+
+        } finally {
+
+
 
         };
 
@@ -216,13 +223,13 @@ class FListener extends MListener {
 
         } = t;
 
-        FListener.#handle(t);
+        FListener.#handle.apply(this, [t]);
 
     };
     /** @arg {YListenerT} t @this {YListener} */
     static #handle(t) {
 
-
+        FListener.#create.apply(this, [t]);
 
     };
     /** @arg {YListenerT} t @this {YListener} */
@@ -235,8 +242,6 @@ class FListener extends MListener {
         } = t;
 
         this.adopt(t);
-
-
 
     };
 
@@ -255,7 +260,7 @@ export class YListener extends FListener {
 
     /**
      * ### on
-     * - Версия `0.0.1`
+     * - Версия `0.0.2`
      * - Модуль `YListener`
      * ***
      *
@@ -271,14 +276,11 @@ export class YListener extends FListener {
 
         process.stdin.on('keypress',
 
-            /**
-             * @arg {string} c `Символ`
-             * @arg {import("readline").Key} k `Данные клавиши`
-            */
-            (c, k) => {
+            /** @arg {import("readline").Key} k `Данные клавиши` */
+            (_, k) => {
 
-                this.code = k.sequence;
                 this.name = k.name;
+                this.code = k.sequence;
 
                 if (k.ctrl) {
 
