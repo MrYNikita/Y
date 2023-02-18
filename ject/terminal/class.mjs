@@ -7,6 +7,7 @@ import { YReceiver } from "./receiver/class.mjs";
 import { YInterface } from "./interface/class.mjs";
 import { YElement } from "./interface/element/class.mjs";
 import { YComb } from "./receiver/bind/comb/class.mjs";
+import { YResponse } from "./receiver/response/class.mjs";
 
 /** @type {import('./config.mjs')['default']?} */
 let config = null;
@@ -344,9 +345,18 @@ export class YTerminal extends FTerminal {
     */
     receive(comb) {
 
-        YReceiver.prototype.receive.apply(this, [comb]);
+        /** @type {YResponse?} */
+        const response = YReceiver.prototype.receive.apply(this, [comb]);
 
-        this.display();
+        if (response) {
+
+            if (response.update) {
+
+                this.display();
+
+            };
+
+        };
 
     };
 

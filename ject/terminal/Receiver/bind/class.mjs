@@ -46,6 +46,12 @@ class SBind extends YBasic {
 
 
 };
+/**
+ *  ### DBind
+ * - Модуль `ject\terminal\bind`
+ * ***
+ * @template T
+*/
 class DBind extends SBind {
 
     /**
@@ -66,7 +72,7 @@ class DBind extends SBind {
      * Первым аргументом данной функции выступает приёмник.
      *
      * ***
-     * @type {(function(YReceiver?):void)[]}
+     * @type {(function(T?):void)[]}
      * @public
     */
     funcs = [];
@@ -81,7 +87,7 @@ class DBind extends SBind {
      * @type {boolean}
      * @public
     */
-    update = false;
+    update;
 
 };
 class IBind extends DBind {
@@ -241,6 +247,11 @@ class FBind extends MBind {
  * - Цепочка `BDVHC`
  * ***
  *
+ *
+ *
+ * ***
+ * @extends {DBind<U>}
+ * @template U
 */
 export class YBind extends FBind {
 
@@ -253,14 +264,14 @@ export class YBind extends FBind {
      * Метод выполнения привязки.
      *
      * ***
-     *
+     * @arg {YReceiver} receiver `Приёмник`
      * @public
     */
-    exec() {
+    exec(receiver) {
 
         if (this.funcs instanceof Array) {
 
-            this.funcs.filter(f => f instanceof Function).forEach(f => f());
+            this.funcs.filter(f => f instanceof Function).forEach(f => f(receiver));
 
         };
 

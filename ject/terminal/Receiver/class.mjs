@@ -4,6 +4,7 @@ import { YBind } from "./bind/class.mjs";
 import { YBasic } from "../../YBasic/YBasic.mjs";
 import { YComb } from "./bind/comb/class.mjs";
 import { YInteract } from "../../YTerminal/YInterface/YElement/YInteract/YInteract.mjs";
+import { receiverExecBind } from "./module.mjs";
 
 //#endregion
 //#region YT
@@ -299,21 +300,17 @@ export class YReceiver extends FReceiver {
 
         };
 
-        if (!this.signal(comb)) {
+        const response = this.signal(comb);
 
-            const f = this.findBind(comb);
+        if (!response) {
 
-            if (f) {
+            return receiverExecBind(this, comb);
 
-                f.exec();
+        } else {
 
-                return true;
-
-            };
+            return response;
 
         };
-
-        return false;
 
     };
 

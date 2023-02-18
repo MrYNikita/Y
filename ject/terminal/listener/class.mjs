@@ -136,7 +136,7 @@ class MListener extends IListener {
     */
     signal() {
 
-        const ycomb = new YComb(this.name, this.shift, this.ctrl);
+        const ycomb = new YComb(this.code, this.shift, this.ctrl);
 
         this.terminal.receive(ycomb, this.terminal.interfaceActive);
 

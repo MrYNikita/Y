@@ -13,6 +13,7 @@ await import('./config.mjs')
     .then(c => config = c.default)
     .catch(e => e);
 
+
 //#endregion
 //#region YT
 
@@ -23,7 +24,7 @@ await import('./config.mjs')
  *
  * Основной параметр модуля `YInteractor`.
  *
- * @typedef {YInteractorTE&YInteractorTU} YInteractorT
+ * @typedef {YInteractorTE&YInteractorTU&import('../class.mjs').YElementT} YInteractorT
  *
 */
 /** ### YInteractorTE

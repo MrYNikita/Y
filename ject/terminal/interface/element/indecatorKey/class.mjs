@@ -3,6 +3,7 @@
 import { YString } from '../../../../../string/YString/YString.mjs';
 import { YElement } from '../class.mjs';
 import { configTerminal } from '../../../config.mjs';
+import { stringShield } from '../../../../../string/string.mjs';
 
 /** @type {import('./config.mjs')['default']?} */
 let config = null;
@@ -195,14 +196,31 @@ export class YIndecatorKey extends FIndecatorKey {
     getLayout() {
 
         const border = configTerminal.borders[0];
-        const keyName = this.interface.terminal.listener.name;
+
+        let {
+
+            code,
+            name,
+            ctrl,
+            shift,
+
+        } = this.interface.terminal.listener;
+
+        code = stringShield(code);
+
+        if (!name) {
+
+            name = code;
+
+        };
 
         return new YString()
 
             .paste(
 
-                border[2] + border[1] + 'Indicator Keyboard' + border[1].repeat(5) + border[3] + '\n',
-                border[0] + keyName
+                border[2] + border[1] + ' Indicator Keyboard ' + border[1].repeat(9) + border[7] + border[1].repeat(6) + border[7] + border[1].repeat(6) + border[3] + '\n',
+                border[0] + ' ' + name + ' '.repeat(10 - name.length) + border[0] + ' ' + code + ' '.repeat(16 - code.length) + ' ' + border[0] + ` S: ${shift ? '+' : '-'} ` + border[0] + ` C: ${ctrl ? '+' : '-'} ` + border[0] + '\n',
+                border[4] + border[1].repeat(11) + border[8] + border[1].repeat(18) + border[8] + border[1].repeat(6) + border[8] + border[1].repeat(6) + border[5]
 
             )
             .get(true);

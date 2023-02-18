@@ -1,7 +1,9 @@
 //#region YI
 
+import { YBind } from './bind/class.mjs';
 import { YComb } from './bind/comb/class.mjs';
 import { YReceiver } from './class.mjs';
+import { YResponse } from './response/class.mjs';
 
 /** @type {import('./config.mjs')['default']?} */
 let config = null;
@@ -98,7 +100,7 @@ function findBindDeceit(t) {
 
     } catch (e) {
 
-        if (config.strict) throw e;
+        if (config?.strict) throw e;
 
         return undefined;
 
@@ -139,9 +141,38 @@ function findBindComply(t) {
 
     } = t;
 
-    const f = receiver.binds.find(b => b.comb.equal(comb)) ?? receiver.constructor.binds.find(b => b.comb.equal(comb));
+    /** @type {YBind[]} */
+    const a = [...receiver.binds, ...receiver.constructor.binds].map(b => {
 
-    return f ?? null;
+        switch (b.constructor) {
+
+            case YBind: return b;
+            case Array: return new YBind(...b);
+            case Object: return new YBind(b);
+
+        };
+
+    });
+
+    let f = a.find(b => b.comb.equal(comb));
+
+    if (f) {
+
+        return f;
+
+    } else {
+
+        f = a.find(b => b.comb.code === 'text');
+
+        if (f && !comb.code.match(/\x1b|\n|\r|\t/)) {
+
+            return f;
+
+        };
+
+        return null;
+
+    };
 
 };
 
@@ -198,7 +229,7 @@ function execBindDeceit(t) {
 
     } catch (e) {
 
-        if (config.strict) throw e;
+        if (config?.strict) throw e;
 
         return undefined;
 
@@ -239,17 +270,19 @@ function execBindComply(t) {
 
     } = t;
 
-    const f = receiverFindBind(receiver, comb);
+    const bind = receiverFindBind(receiver, comb);
 
-    if (f) {
+    if (bind) {
 
-        f.exec(receiver);
+        bind.exec(receiver);
 
-        return true;
+        const response = new YResponse({ ...bind });
+
+        return response;
 
     };
 
-    return false;
+    return null;
 
 };
 

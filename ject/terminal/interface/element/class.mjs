@@ -67,6 +67,16 @@ class DElement extends SElement {
     */
     label;
     /**
+     * ### header
+     *
+     * Заголовок.
+     *
+     * ***
+     * @type {string?}
+     * @public
+    */
+    header;
+    /**
      * ### coords
      *
      * Координаты.

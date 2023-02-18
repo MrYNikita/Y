@@ -52,9 +52,21 @@ await import('./config.mjs')
 
 class SInput extends YInteractor {
 
+    /** @type {YBind<YInput>[]} */
     static binds = [
 
-        new YBind({ comb: ['w'], funcs: [ _ => console.log('WW') ], })
+        {
+            comb: ['\b'],
+            funcs: [y => y.value.remove()],
+        },
+        {
+            comb: ['\x7F'],
+            funcs: [y => y.value.set('')]
+        },
+        {
+            comb: ['text'],
+            funcs: [y => y.value.paste(y.interface.terminal.listener.code)]
+        }
 
     ];
 
@@ -111,10 +123,10 @@ class IInput extends DInput {
      * Значение.
      *
      * ***
-     * @type {string?}
+     * @type {YString?}
      * @protected
     */
-    value = '';
+    value = new YString();
 
 };
 class MInput extends IInput {
@@ -263,7 +275,7 @@ export class YInput extends FInput {
             .paste(
 
                 border[2] + border[1] + (header ? ' ' + header + ' ' + border[1].repeat(size - header.length) : border[1].repeat(size)) + border[3] + '\n',
-                border[0] + ' ' + value + ' '.repeat(size - value.length + (header ? 2 : 0)) + border[0] + '\n',
+                border[0] + ' ' + value.get() + ' '.repeat(size - value.get().length + (header ? 2 : 0)) + border[0] + '\n',
                 border[4] + border[1].repeat(size + 1 + (header ? 2 : 0)) + border[5]
 
             )

@@ -47,15 +47,15 @@ class SComb extends YBasic {
 class DComb extends SComb {
 
     /**
-     * ### name
+     * ### code
      *
-     * Наименование клавиши.
+     * Код клавиши.
      *
      * ***
      * @type {string}
      * @public
     */
-    name;
+    code;
     /**
      * ### ctrl
      *
@@ -133,7 +133,7 @@ class FComb extends MComb {
 
                 case 3: r.ctrl = t[2];
                 case 2: r.shift = t[1];
-                case 1: r.name = t[0];
+                case 1: r.code = t[0];
 
             };
 
