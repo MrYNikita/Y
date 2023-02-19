@@ -22,7 +22,7 @@ await import('./config.mjs')
  *
  * Основной параметр модуля `YHeader`.
  *
- * @typedef {YHeaderTE&YHeaderTU} YHeaderT
+ * @typedef {YHeaderTE&YHeaderTU&import('../class.mjs').YTextT} YHeaderT
  *
 */
 /** ### YHeaderTE

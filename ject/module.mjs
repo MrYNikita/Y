@@ -22,7 +22,7 @@ import { config } from "../config.mjs";
 
 //#endregion
 
-//#region fill 0.0.0
+//#region fill 0.3.0
 
 /** ### jectTFFill
  * - Тип `TF`
@@ -121,6 +121,117 @@ function fillComply(t) {
 export function jectFill(ject, filler) {
 
     return fillDeceit({ ject, filler, });
+
+};
+
+//#endregion
+//#region supplement 0.1.0
+
+/** ### jectTFSupplement
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `ject`
+ * ***
+ *
+ * Результирующие параметры функции `supplement`.
+ *
+ * @typedef {jectTFUSupplement&jectT} jectTFSupplement
+ *
+*/
+/** ### jectTFUSupplement
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `ject`
+ *
+ * Уникальные параметры функции `supplement`.
+ *
+ * @typedef jectTFUSupplement
+ * @prop {jectT} supplement
+*/
+
+/** @arg {jectTFSupplement} t */
+function supplementDeceit(t) {
+
+    try {
+
+        return supplementVerify(t);
+
+    } catch (e) {
+
+        if (config?.strict) {
+
+            throw e;
+
+        };
+
+        return undefined;
+
+    } finally {
+
+
+
+    };
+
+};
+/** @arg {jectTFSupplement} t */
+function supplementVerify(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return supplementHandle(t);
+
+};
+/** @arg {jectTFSupplement} t */
+function supplementHandle(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return supplementComply(t);
+
+};
+/** @arg {jectTFSupplement} t */
+function supplementComply(t) {
+
+    const {
+
+        ject,
+        supplement,
+
+    } = t;
+
+    Object.keys(supplement).forEach(p => ject[p] === undefined ?? (ject[p] === supplement[p]));
+
+    return ject;
+
+};
+
+/**
+ * ### jectSupplement
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * - Модуль `ject`
+ * ***
+ *
+ * Функция дополнения указанного объекта свойствами дополнителя.
+ *
+ * ***
+ * @arg {TJ} ject `Объект`
+ * @arg {TS} supplement `Дополнитель`
+ * @returns {TJ&TS}
+ * @template TJ
+ * @template TS
+*/
+export function jectSupplement(ject, supplement) {
+
+    return supplementDeceit({ ject, supplement, });
 
 };
 

@@ -8,6 +8,8 @@ import { YInterface } from "./interface/class.mjs";
 import { YElement } from "./interface/element/class.mjs";
 import { YComb } from "./receiver/bind/comb/class.mjs";
 import { YResponse } from "./receiver/response/class.mjs";
+import { YProcedure } from "./receiver/handler/procedure/class.mjs";
+import { YHandler } from "./receiver/handler/class.mjs";
 
 /** @type {import('./config.mjs')['default']?} */
 let config = null;
@@ -79,6 +81,16 @@ class STerminal extends YReceiver {
 };
 class DTerminal extends STerminal {
 
+    /**
+     * ### binds
+     *
+     * Привязки.
+     *
+     * ***
+     * @type {YBind<YTerminal>[]}
+     * @public
+    */
+    binds = [];
     /**
      * ### sizes
      *
@@ -174,6 +186,21 @@ class ITerminal extends DTerminal {
     */
     date = new YDate();
     /**
+     * ### handlers
+     *
+     * Обработчики.
+     *
+     * ***
+     * @type {YHandler<YTerminal>[]}
+     * @protected
+    */
+    handlers = [
+
+        { label: 'go', },
+        { label: 'back', },
+
+    ].map(h => new YHandler(h));
+    /**
      * ### listener
      *
      * Прослушиватель.
@@ -214,9 +241,7 @@ class FTerminal extends MTerminal {
     */
     constructor(...t) {
 
-        t = FTerminal.#before(t);
-
-        super(Object.assign(t, {}));
+        super(Object.assign(t = FTerminal.#before(t), {}));
 
         FTerminal.#deceit.apply(this, [t]);
 
@@ -225,14 +250,14 @@ class FTerminal extends MTerminal {
     /** @arg {any[]} t */
     static #before(t) {
 
+        /** @type {YTerminalT} */
+        let r = {};
+
         if (t?.length === 1 && [Object, YTerminal].includes(t[0]?.constructor) && !Object.getOwnPropertyNames(t[0]).includes('_ytp')) {
 
-            return t[0];
+            r = t[0];
 
         } else if (t?.length) {
-
-            /** @type {YTerminalT} */
-            const r = {};
 
             if (t[0]?._ytp) {
 
@@ -248,9 +273,15 @@ class FTerminal extends MTerminal {
 
             };
 
-            return Object.values(r).length ? r : { _ytp: t };
+            if (!Object.values(r).length) {
 
-        } else return {};
+                r = { _ytp: t };
+
+            };
+
+        };
+
+        return r;
 
     };
     /** @arg {YTerminalT} t @this {YTerminal} */
@@ -330,6 +361,46 @@ class FTerminal extends MTerminal {
  *
 */
 export class YTerminal extends FTerminal {
+
+    /**
+     * ### goByLabel
+     * - Версия `0.2.0`
+     * - Модуль `ject\terminal`
+     * ***
+     *
+     * Метод перехода по меткам.
+     *
+     * ***
+     * @arg {...string} labels `Метки`
+     * @public
+    */
+    goByLabel(...labels) {
+
+        if (this.interfaceActive) {
+
+            for (const label of labels.filter(l => l.constructor === String)) {
+
+                const intf = this.interfaceActive.interfaces.find(i => i.label === label);
+
+                if (intf) {
+
+                    this.transferElements.push(...this.interfaceActive.elements.filter(e => e.transfer));
+
+                    this.interfaceActive = intf;
+
+                    this.handlers.find(h => h.label === 'go').exec(YTerminal);
+
+                    this.display();
+
+                };
+
+            };
+
+        };
+
+        return this;
+
+    };
 
     /**
      * ### receive
@@ -440,6 +511,19 @@ export class YTerminal extends FTerminal {
             this.interface.setTerminal(this);
 
         };
+
+        return this;
+
+    };
+
+    /**
+     * @arg {string} label `Метка`
+     * @arg {...YProcedure<YTerminal>} procedures `Про`
+     * @public
+    */
+    appendHandler(label, ...procedures) {
+
+        YReceiver.prototype.appendHandler.apply(this, [label, ...procedures]);
 
         return this;
 

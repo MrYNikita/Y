@@ -249,10 +249,9 @@ class FInterface extends MInterface {
         if (this.interactor) {
 
             this.recepient = this.interactor;
+            this.interactor.interface = this;
 
         };
-
-        this.interactor.interface = this;
 
         this.appendElements(...this.elements.splice(0));
         this.appendInterfaces(...this.interfaces.splice(0));

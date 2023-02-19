@@ -5,6 +5,8 @@ import { YBasic } from "../../YBasic/YBasic.mjs";
 import { YComb } from "./bind/comb/class.mjs";
 import { YInteract } from "../../YTerminal/YInterface/YElement/YInteract/YInteract.mjs";
 import { receiverExecBind } from "./module.mjs";
+import { YHandler } from "./handler/class.mjs";
+import { YProcedure } from "./handler/procedure/class.mjs";
 
 //#endregion
 //#region YT
@@ -37,7 +39,7 @@ import { receiverExecBind } from "./module.mjs";
  * Уникальные параметры `YReceiver`.
  *
  * @typedef YReceiverTU
- * @prop {any} _
+ * @prop {[string, (function(YReceiver):void)[]]} handlers
  *
 */
 
@@ -88,6 +90,16 @@ class DReceiver extends SReceiver {
 };
 class IReceiver extends DReceiver {
 
+    /**
+     * ### handlers
+     *
+     * Обработчики.
+     *
+     * ***
+     * @type {YHandler<YReceiver>[]}
+     * @protected
+    */
+    handlers = [];
     /**
      * ### recepient
      *
@@ -228,7 +240,7 @@ class FReceiver extends MReceiver {
 
         this.adopt(t);
 
-
+        this.handlers = this.handlers.map(h => h instanceof YHandler ? h : new YHandler(h));
 
     };
 
@@ -355,6 +367,47 @@ export class YReceiver extends FReceiver {
             };
 
         });
+
+        return this;
+
+    };
+    /**
+     * ### appendHandler
+     * - Версия `0.0.0`
+     * - Модуль `ject\terminal\receiver`
+     * ***
+     *
+     * Метод добавления обработчиков.
+     *
+     * ***
+     * @arg {string} label `Метка`
+     * @arg {...YProcedure<YReceiver>} procedures `Процедуры`
+     * @public
+    */
+    appendHandler(label, ...procedures) {
+
+        if (label.constructor === String) {
+
+            procedures = procedures.map(p => p instanceof YProcedure ? p : new YProcedure(p));
+
+            const handler = this.handlers.find(h => h.label === label);
+
+            if (handler) {
+
+                handler.procedures.push(...procedures.filter(p => p));
+
+            } else {
+
+                this.handlers.push(new YHandler({
+
+                    label,
+                    procedures: procedures.filter(p => p),
+
+                }));
+
+            };
+
+        };
 
         return this;
 
