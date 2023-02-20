@@ -301,7 +301,7 @@ export class YElement extends FElement {
     */
     setInterface(intf) {
 
-        if (intf) {
+        if (intf instanceof YInterface) {
 
             this.terminal = intf.terminal;
             this.interface = intf;

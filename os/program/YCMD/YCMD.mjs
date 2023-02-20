@@ -3,7 +3,6 @@ import { config } from "process";
 import { configOSPath } from "../../../config.mjs";
 import { jectAdopt } from "../../../ject/ject.mjs";
 import { YBasic } from "../../../ject/YBasic/YBasic.mjs";
-import { YLog } from "../../../log/YLog/YLog.mjs";
 import { YString } from "../../../string/YString/YString.mjs";
 import { YTemplate } from "../../../string/YString/YTemplate/YTemplate.mjs";
 import { pathGetProject } from "../../path/path.mjs";
@@ -21,11 +20,6 @@ class SCMD extends YBasic {
 };
 class DCMD extends SCMD {
 
-    /**
-     * Журнал уведомлений.
-     * @type {YLog}
-    */
-    log = new YLog();
     /**
      * Данные.
      * Данные, полученные при выполнении команд в терминале сохраняются в данное свойство.
@@ -152,8 +146,6 @@ class FCMD extends DCMD {
         this.connect.stdout.on('data', (data) => {
 
             this.data.push(data.toString());
-
-            this.log.write('*', `Добавлены новые данные`);
 
         });
 

@@ -1,5 +1,6 @@
 //#region YI
 
+import { YString } from '../../../../../string/YString/YString.mjs';
 import { YElement } from '../class.mjs';
 
 /** @type {import('./config.mjs')['default']?} */
@@ -266,10 +267,15 @@ export class YLocation extends FLocation {
 
         SLocation.prototype.setInterface.apply(this, [intf]);
 
-        this.interface.terminal
+        if (this.interface.terminal) {
 
-            .appendHandler('go', { func: y => this.append(y.interfaceActive.label) })
-            .appendHandler('back', { func: y => this.remove() });
+            this.interface.terminal
+
+                .appendHandler('go', { func: y => this.append(y.interfaceActive.label) })
+                .appendHandler('back', { func: y => this.remove() });
+
+
+        };
 
         return this;
 

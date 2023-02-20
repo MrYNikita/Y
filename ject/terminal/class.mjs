@@ -11,6 +11,8 @@ import { YResponse } from "./receiver/response/class.mjs";
 import { YProcedure } from "./receiver/handler/procedure/class.mjs";
 import { YHandler } from "./receiver/handler/class.mjs";
 import { YBind } from "./receiver/bind/class.mjs";
+import { fileReadJson, fileWriteJson } from "../../os/file/file.mjs";
+import { YPath } from "../../os/path/YPath/YPath.mjs";
 
 /** @type {import('./config.mjs')['default']?} */
 let config = null;
@@ -66,6 +68,10 @@ class STerminal extends YReceiver {
             comb: ['\b'],
             funcs: [y => y.back()],
         },
+        {
+            comb: ['\x1b'],
+            funcs: [y => y.save()]
+        }
 
     ];
     /**
@@ -162,6 +168,16 @@ class DTerminal extends STerminal {
     */
     modeSave;
     /**
+     * ### pathCache
+     *
+     * Путь до файла кэша.
+     *
+     * ***
+     * @type {YPath?}
+     * @public
+    */
+    pathCache = null;
+    /**
      * ### interface
      *
      * Интерфейс.
@@ -234,7 +250,65 @@ class ITerminal extends DTerminal {
 };
 class MTerminal extends ITerminal {
 
+    /**
+     * ### load
+     * - Версия `0.0.0`
+     * - Модуль `YTerminal`
+     * ***
+     *
+     * Метод загрузки данных.
+     *
+     * ***
+     *
+     * @protected
+    */
+    load() {
 
+        if (this.modeLoad && this.pathCache.check()) {
+
+            const data = fileReadJson(this.pathCache.get());
+
+            this.goByLabel(...data.location);
+
+        };
+
+        return this;
+
+    };
+    /**
+     * ### save
+     * - Версия `0.0.0`
+     * - Модуль `YTerminal`
+     * ***
+     *
+     * Метод сохранения данных терминала.
+     *
+     * ***
+     *
+     * @protected
+    */
+    save() {
+
+        if (this.modeSave) {
+
+            const data = fileReadJson(this.pathCache.get());
+            const location = [this.interfaceActive];
+
+            while (location.at(-1).interfaceOver && location.at(-1).interfaceOver.label) {
+
+                location.push(location.at(-1).interfaceOver);
+
+            };
+
+            data.location = location.reverse().map(i => i.label).filter(s => s);
+
+            fileWriteJson(this.pathCache.get(), data);
+
+        };
+
+        return this;
+
+    };
 
 };
 class FTerminal extends MTerminal {
@@ -327,6 +401,16 @@ class FTerminal extends MTerminal {
     /** @arg {YTerminalT} t @this {YTerminal} */
     static #handle(t) {
 
+        if (t.pathCache) {
+
+            if (t.pathCache.constructor === String) {
+
+                t.pathCache = new YPath(t.pathCache);
+
+            };
+
+        };
+
         FTerminal.#create.apply(this, [t]);
 
     };
@@ -347,13 +431,13 @@ class FTerminal extends MTerminal {
 
         };
 
-        if (t.interface) {
+        this.setInterface(this.interface);
 
-            t.interface.setTerminal(this);
+        if (this.modeLoad) {
+
+            this.load();
 
         };
-
-        this.setInterface(this.interface);
 
         this.listener.on();
 
@@ -392,6 +476,7 @@ export class YTerminal extends FTerminal {
 
             this.execHandle('back');
 
+            this.recepient = this.interfaceActive.interfaceOver;
             this.interfaceActive = this.interfaceActive.interfaceOver;
 
             this.display();
@@ -427,15 +512,16 @@ export class YTerminal extends FTerminal {
 
                     this.transferElements.push(...this.interfaceActive.elements.filter(e => e.transfer));
 
+                    this.recepient = intf;
                     this.interfaceActive = intf;
 
                     this.execHandle('go');
 
-                    this.display();
-
                 };
 
             };
+
+            this.display();
 
         };
 

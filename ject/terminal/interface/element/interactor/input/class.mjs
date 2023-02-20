@@ -74,15 +74,15 @@ class SInput extends YInteractor {
 class DInput extends SInput {
 
     /**
-     * ### size
+     * ### sizes
      *
-     * Размер.
+     * Размеры.
      *
      * ***
-     * @type {number?}
+     * @type {[number?, number?]}
      * @public
     */
-    size = null;
+    sizes = null;
     /**
      * ### limit
      *
@@ -261,7 +261,7 @@ export class YInput extends FInput {
 
         const {
 
-            size,
+            sizes: size,
             value,
             header,
             placeholder,

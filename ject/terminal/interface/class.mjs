@@ -320,6 +320,13 @@ export class YInterface extends FInterface {
 
             this.terminal = terminal;
 
+            if (this.interactor) {
+
+                this.interactor.terminal = terminal;
+
+            };
+
+            this.elements.forEach(e => e.setInterface(this));
             this.interfaces.forEach(i => i.setTerminal(terminal));
 
         };
