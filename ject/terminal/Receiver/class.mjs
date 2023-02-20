@@ -133,6 +133,44 @@ class MReceiver extends IReceiver {
         return f ?? null;
 
     };
+    /**
+     * ### findHandle
+     * - Версия `0.0.0`
+     * - Модуль `ject\terminal\receiver`
+     * ***
+     *
+     * Метод получения обработчика по его метке.
+     *
+     * ***
+     * @arg {'go'|'back'} label `Метка`
+     * @public
+    */
+    findHandle(label) {
+
+        const handle = this.handlers.find(h => h.label === label);
+
+        return handle ?? null;
+
+    };
+    /**
+     * ### execHandle
+     * - Версия `0.0.0`
+     * - Модуль `ject\terminal\receiver`
+     * ***
+     *
+     * Метод выполнения обработчика.
+     *
+     * ***
+     * @arg {'go'|'back'} label `Метка`
+     * @public
+    */
+    execHandle(label) {
+
+        this.findHandle(label).exec(this);
+
+        return this;
+
+    };
 
 };
 class FReceiver extends MReceiver {

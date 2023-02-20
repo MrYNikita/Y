@@ -10,6 +10,7 @@ import { YComb } from "./receiver/bind/comb/class.mjs";
 import { YResponse } from "./receiver/response/class.mjs";
 import { YProcedure } from "./receiver/handler/procedure/class.mjs";
 import { YHandler } from "./receiver/handler/class.mjs";
+import { YBind } from "./receiver/bind/class.mjs";
 
 /** @type {import('./config.mjs')['default']?} */
 let config = null;
@@ -58,6 +59,15 @@ await import('./config.mjs')
 
 class STerminal extends YReceiver {
 
+    /** @type {YBind<YTerminal>[]} */
+    static binds = [
+
+        {
+            comb: ['\b'],
+            funcs: [y => y.back()],
+        },
+
+    ];
     /**
      * ### layout
      *
@@ -167,7 +177,7 @@ class DTerminal extends STerminal {
      * Активный интерфейс.
      *
      * ***
-     * @type {YInterface}
+     * @type {YInterface?}
      * @public
     */
     interfaceActive = this.interface;
@@ -317,12 +327,6 @@ class FTerminal extends MTerminal {
     /** @arg {YTerminalT} t @this {YTerminal} */
     static #handle(t) {
 
-        if (t.interface) {
-
-            t.interface.setTerminal(this);
-
-        };
-
         FTerminal.#create.apply(this, [t]);
 
     };
@@ -340,6 +344,12 @@ class FTerminal extends MTerminal {
         if (config) {
 
             this.adoptByDefault(config);
+
+        };
+
+        if (t.interface) {
+
+            t.interface.setTerminal(this);
 
         };
 
@@ -363,6 +373,36 @@ class FTerminal extends MTerminal {
 export class YTerminal extends FTerminal {
 
     /**
+     * ### back
+     * - Версия `0.0.0`
+     * - Модуль `ject\terminal`
+     * ***
+     *
+     * Метод перехода на предыдущий интерфейс.
+     *
+     * ***
+     *
+     * @public
+    */
+    back() {
+
+        if (this.interfaceActive.interfaceOver) {
+
+            this.transferElements = this.transferElements.filter(e => !this.interfaceActive.elements.includes(e));
+
+            this.execHandle('back');
+
+            this.interfaceActive = this.interfaceActive.interfaceOver;
+
+            this.display();
+
+        };
+
+        return this;
+
+    };
+
+    /**
      * ### goByLabel
      * - Версия `0.2.0`
      * - Модуль `ject\terminal`
@@ -380,6 +420,7 @@ export class YTerminal extends FTerminal {
 
             for (const label of labels.filter(l => l.constructor === String)) {
 
+                /** @type {YInterface} */
                 const intf = this.interfaceActive.interfaces.find(i => i.label === label);
 
                 if (intf) {
@@ -388,7 +429,7 @@ export class YTerminal extends FTerminal {
 
                     this.interfaceActive = intf;
 
-                    this.handlers.find(h => h.label === 'go').exec(YTerminal);
+                    this.execHandle('go');
 
                     this.display();
 
