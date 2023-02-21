@@ -102,6 +102,16 @@ class DCMD extends SCMD {
     */
     path;
     /**
+     * ### delay
+     *
+     * Задержка.
+     *
+     * ***
+     * @type {number}
+     * @public
+    */
+    delay;
+    /**
      * ### detached
      *
      * Фоновый режим.
@@ -137,6 +147,16 @@ class ICMD extends DCMD {
      * @protected
     */
     connect;
+    /**
+     * ### streamRead
+     *
+     *
+     *
+     * ***
+     * @type {}
+     * @public
+    */
+    streamRead = new ReadableStream();
 
 };
 class MCMD extends ICMD {
@@ -320,6 +340,8 @@ export class YCMD extends FCMD {
 
         this.connect.stdout.on('data', (data) => {
 
+            console.log(this.connect.stdout.read());
+
             this.data.push(...data.toString().match(/[^\n\r]*/gms).filter(s => s));
 
         });
@@ -367,7 +389,6 @@ export class YCMD extends FCMD {
     */
     async exec(...commands) {
 
-
         await new Promise(async (resulve) => {
 
             this.on();
@@ -388,9 +409,10 @@ export class YCMD extends FCMD {
 
                     const callback = _ => {
 
+
                         this.connect.stdout.removeListener('data', callback);
 
-                        resulve();
+                        setTimeout(resulve, this.delay);
 
                     };
 

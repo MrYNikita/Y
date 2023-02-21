@@ -67,7 +67,7 @@ class SMenu extends YInteractor {
         },
         {
             comb: ['\r'],
-            funcs: [y => y.points[y.index].func(y)]
+            funcs: [y => !y.modeBlock && (y.points[y.index].func(y))]
         }
 
     ];
@@ -100,6 +100,18 @@ class IMenu extends DMenu {
      * @public
     */
     points = [];
+    /**
+     * ### modeBlock
+     *
+     * Режим блокировки.
+     *
+     * В заблокированном состоянии YMenu не позволяет выполнять выбранные пунткы до тех пор, пока меню не будет разблокированно.
+     *
+     * ***
+     * @type {boolean}
+     * @public
+    */
+    modeBlock;
 
 };
 class MMenu extends IMenu {
