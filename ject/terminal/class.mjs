@@ -224,6 +224,7 @@ class ITerminal extends DTerminal {
 
         { label: 'go', },
         { label: 'back', },
+        { label: 'update', },
 
     ].map(h => new YHandler(h));
     /**
@@ -305,6 +306,25 @@ class MTerminal extends ITerminal {
             fileWriteJson(this.pathCache.get(), data);
 
         };
+
+        return this;
+
+    };
+    /**
+     * ### execHandle
+     * - Версия `0.0.0`
+     * - Модуль `ject\terminal`
+     * ***
+     *
+     * Метод выполнения указанного обработчика.
+     *
+     * ***
+     * @arg {'go'|'back'|'update'} label `Метка`
+     * @public
+    */
+    execHandle(label) {
+
+        STerminal.prototype.execHandle.apply(this, [label]);
 
         return this;
 
@@ -482,6 +502,28 @@ export class YTerminal extends FTerminal {
             this.display();
 
         };
+
+        return this;
+
+    };
+
+    /**
+     * ### update
+     * - Версия `0.0.0`
+     * - Модуль `ject\terminal`
+     * ***
+     *
+     * Метод обновления текущего активного интерфейса.
+     *
+     * ***
+     *
+     * @public
+    */
+    update() {
+
+        this.execHandle('update');
+
+        this.display();
 
         return this;
 

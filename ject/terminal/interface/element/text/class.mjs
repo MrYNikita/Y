@@ -61,7 +61,7 @@ class DText extends SText {
      * Текст.
      *
      * ***
-     * @type {string?}
+     * @type {(string|function():string)?}
      * @public
     */
     text = null;
@@ -204,7 +204,7 @@ export class YText extends FText {
 
         return new YString()
 
-            .paste(this.text)
+            .paste(this.text instanceof Function ? this.text() : this.text)
             .get(true);
 
     };

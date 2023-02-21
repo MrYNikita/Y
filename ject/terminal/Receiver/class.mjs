@@ -147,26 +147,34 @@ class MReceiver extends IReceiver {
     */
     findHandle(label) {
 
-        const handle = this.handlers.find(h => h.label === label);
+        const handler = this.handlers.find(h => h.label === label);
 
-        return handle ?? null;
+        return handler ?? null;
 
     };
     /**
      * ### execHandle
-     * - Версия `0.0.0`
+     * - Версия `0.1.0`
      * - Модуль `ject\terminal\receiver`
      * ***
      *
      * Метод выполнения обработчика.
      *
      * ***
-     * @arg {'go'|'back'} label `Метка`
-     * @public
+     * @arg {string} label `Метка`
+     * @protected
     */
     execHandle(label) {
 
-        this.findHandle(label).exec(this);
+        const handler = this.findHandle(label);
+
+        if (handler) {
+
+            handler.exec(this);
+
+            handler.procedures = handler.procedures.filter(p => !p.disposable);
+
+        };
 
         return this;
 
