@@ -3,7 +3,7 @@ import { jectAdopt } from "../../../ject/ject.mjs";
 import { YBasic } from "../../../ject/YBasic/YBasic.mjs";
 import { stringUnifyBySymbol } from "../../../string/string.mjs";
 import { existsSync } from "fs";
-import { pathConcat, pathDecompose, pathGet, pathGetIn, pathNormilize as pathNormalize } from "../path.mjs";
+import { pathConcat, pathDecompose, pathGet, pathGetIn, pathGetProject, pathNormilize as pathNormalize } from "../path.mjs";
 import { YFile } from "../../file/YFile/YFile.mjs";
 
 //#region YT
@@ -44,7 +44,30 @@ import { YFile } from "../../file/YFile/YFile.mjs";
 
 class SPath extends YBasic {
 
+    /**
+     * ### getProject
+     * - Версия `0.0.0`
+     * - Модуль `os\path\YPath`
+     * ***
+     *
+     * Метод получения объекта пути от проекта.
+     *
+     * ***
+     * @arg {...string} concats `Фрагменты`
+     *
+     * Соединяются с путем проекта.
+     *
+     * @public
+    */
+    static getProject(...concats) {
 
+        const path = new YPath(pathGetProject());
+
+        concats.filter(c => c.constructor === String).forEach(c => path.concat(c));
+
+        return path;
+
+    };
 
 };
 class DPath extends SPath {
@@ -176,7 +199,7 @@ class FPath extends MPath {
 /**
  * ### YPath
  * - Тип `SDIMFY`
- * - Версия `0.0.0`
+ * - Версия `0.1.0`
  * - Модуль `YPath`
  * - Цепочка `BDVHC`
  * ***
