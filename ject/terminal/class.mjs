@@ -523,7 +523,7 @@ export class YTerminal extends FTerminal {
 
         this.execHandle('update');
 
-        this.display();
+        this.interfaceActive.update();
 
         return this;
 
@@ -686,13 +686,13 @@ export class YTerminal extends FTerminal {
     };
 
     /**
-     * @arg {string} label `Метка`
-     * @arg {...YProcedure<YTerminal>} procedures `Про`
+     * @arg {string} type `Тип`
+     * @arg {...YProcedure<YTerminal>} procedures `Процедуры`
      * @public
     */
-    appendHandler(label, ...procedures) {
+    appendHandler(type, ...procedures) {
 
-        YReceiver.prototype.appendHandler.apply(this, [label, ...procedures]);
+        YReceiver.prototype.appendHandler.apply(this, [type, ...procedures]);
 
         return this;
 

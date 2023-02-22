@@ -6,10 +6,10 @@ export default {
      * Дефолт задержка.
      *
      * ***
-     * @type {number}
+     * @type {number?}
      * @public
     */
-    defaultDelay: 3000,
+    defaultDelay: null,
     /**
      * ### defaultDetached
      *

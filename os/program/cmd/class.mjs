@@ -1,9 +1,9 @@
 //#region YI
 
-import { spawn } from 'child_process';
+import { exec, spawn } from 'child_process';
 import { YPath } from '../../path/YPath/YPath.mjs';
 import { YBasic } from '../../../ject/YBasic/YBasic.mjs';
-import { pipeline } from 'stream/promises';
+import { Readable } from 'stream';
 
 /** @type {import('./config.mjs')['default']?} */
 let config = null;
@@ -107,7 +107,7 @@ class DCMD extends SCMD {
      * Задержка.
      *
      * ***
-     * @type {number}
+     * @type {number?}
      * @public
     */
     delay;
@@ -134,7 +134,7 @@ class ICMD extends DCMD {
      *
      * ***
      * @type {string[]}
-     * @protected
+     * @public
     */
     data = [];
     /**
@@ -147,16 +147,6 @@ class ICMD extends DCMD {
      * @protected
     */
     connect;
-    /**
-     * ### streamRead
-     *
-     *
-     *
-     * ***
-     * @type {}
-     * @public
-    */
-    streamRead = new ReadableStream();
 
 };
 class MCMD extends ICMD {
@@ -331,18 +321,19 @@ export class YCMD extends FCMD {
     */
     on() {
 
-        this.connect = spawn('cmd.exe', {
-
-            cwd: this.path.get(),
-            detached: this.detached,
-
-        });
+        this.connect = exec('cmd.exe');
 
         this.connect.stdout.on('data', (data) => {
 
-            console.log(this.connect.stdout.read());
+            this.data.push(...data.toString().match(/[^\n\r]*/gms).filter(s => {
 
-            this.data.push(...data.toString().match(/[^\n\r]*/gms).filter(s => s));
+                if (s && !s.includes('Microsoft')) {
+
+                    return true;
+
+                };
+
+            }));
 
         });
 
@@ -367,9 +358,7 @@ export class YCMD extends FCMD {
      *
      * @public
     */
-    off() {
-
-        this.connect.kill();
+    async off() {
 
         return this;
 
@@ -389,38 +378,15 @@ export class YCMD extends FCMD {
     */
     async exec(...commands) {
 
-        await new Promise(async (resulve) => {
+        await new Promise(async (resolve) => {
 
             this.on();
 
-            const cb1 = _ => {
-
-                this.connect.stdin.removeListener('finish', cb1);
-
-                resulve();
-
-            };
-
-            this.connect.stdin.on('finish', cb1);
+            this.connect.stdin.on('close', resolve);
 
             for (const command of commands) {
 
-                await new Promise((resulve) => {
-
-                    const callback = _ => {
-
-
-                        this.connect.stdout.removeListener('data', callback);
-
-                        setTimeout(resulve, this.delay);
-
-                    };
-
-                    this.connect.stdout.on('data', callback);
-
-                    this.connect.stdin.write(`${command}\n`);
-
-                });
+                this.connect.stdin.write(`${command}\n`);
 
             };
 
@@ -432,7 +398,7 @@ export class YCMD extends FCMD {
 
     /**
      * ### getPointerFinish
-     * - Версия `0.0.0`
+     * - Версия `0.0.1`
      * - Модуль `os\program\cmd`
      * ***
      *
@@ -446,7 +412,7 @@ export class YCMD extends FCMD {
 
         if (this.path.check()) {
 
-            return this.path.get().replaceAll('/', '\\\\') + '>';
+            return this.path.get().replaceAll('/', '\\') + '>';
 
         } else {
 

@@ -44,7 +44,7 @@ await import('./config.mjs')
  * Уникальные параметры `YInput`.
  *
  * @typedef YInputTU
- * @prop {any} _
+ * @prop {string|YString|function():YString} value
  *
 */
 
@@ -56,12 +56,39 @@ class SInput extends YInteractor {
     static binds = [
 
         {
+            comb: ['\r'],
+            funcs: [y => {
+
+                const str = y.value.get();
+
+                if (str) {
+
+                    y.func(str);
+                    y.terminal.back();
+
+                };
+
+            }]
+        },
+        {
             comb: ['\b'],
             funcs: [y => y.value.remove()],
         },
         {
             comb: ['\x7F'],
-            funcs: [y => y.value.set('')]
+            funcs: [y => {
+
+                if (y.value.get() === '') {
+
+                    y.terminal.back();
+
+                } else {
+
+                    y.value.set('')
+
+                };
+
+            }]
         },
         {
             comb: ['text'],
@@ -73,6 +100,16 @@ class SInput extends YInteractor {
 };
 class DInput extends SInput {
 
+    /**
+     * ### func
+     *
+     * Функция.
+     *
+     * ***
+     * @type {function(string):void}
+     * @public
+    */
+    func;
     /**
      * ### sizes
      *
@@ -93,16 +130,6 @@ class DInput extends SInput {
      * @public
     */
     limit = null;
-    /**
-     * ### header
-     *
-     * Заголовок.
-     *
-     * ***
-     * @type {string?}
-     * @public
-    */
-    header = '';
     /**
      * ### placeholder
      *
@@ -220,7 +247,11 @@ class FInput extends MInput {
     /** @arg {YInputT} t @this {YInput} */
     static #handle(t) {
 
+        switch (t.value?.constructor) {
 
+            case String: t.value = new YString(t.value); break;
+
+        };
 
         FInput.#create.apply(this, [t]);
 
@@ -261,7 +292,7 @@ export class YInput extends FInput {
 
         const {
 
-            sizes: size,
+            sizes,
             value,
             header,
             placeholder,
@@ -274,9 +305,9 @@ export class YInput extends FInput {
 
             .paste(
 
-                border[2] + border[1] + (header ? ' ' + header + ' ' + border[1].repeat(size - header.length) : border[1].repeat(size)) + border[3] + '\n',
-                border[0] + ' ' + value.get() + ' '.repeat(size - value.get().length + (header ? 2 : 0)) + border[0] + '\n',
-                border[4] + border[1].repeat(size + 1 + (header ? 2 : 0)) + border[5]
+                border[2] + border[1] + (header ? ' ' + header + ' ' + border[1].repeat(sizes[1] - header.length) : border[1].repeat(sizes[1])) + border[3] + '\n',
+                border[0] + ' ' + value.get() + ' '.repeat(sizes[1] - value.get().length + (header ? 2 : 0)) + border[0] + '\n',
+                border[4] + border[1].repeat(sizes[1] + 1 + (header ? 2 : 0)) + border[5]
 
             )
             .get(true);

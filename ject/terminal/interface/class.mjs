@@ -5,6 +5,8 @@ import { YElement } from './element/class.mjs';
 import { YTerminal } from '../class.mjs';
 import { YInteractor } from './element/interactor/class.mjs';
 import { YReceiver } from '../receiver/class.mjs';
+import { YHandler } from '../receiver/handler/class.mjs';
+import { YProcedure } from '../receiver/handler/procedure/class.mjs';
 
 /** @type {import('./config.mjs')['default']?} */
 let config = null;
@@ -132,12 +134,35 @@ class DInterface extends SInterface {
 };
 class IInterface extends DInterface {
 
+    /**
+     * ### handlers
+     *
+     * Обработчики.
+     *
+     * ***
+     * @type {YHandler<YInterface>[]}
+     * @protected
+    */
+    handlers = [
 
+        { label: 'update', },
+
+    ].map(h => new YHandler(h));
 
 };
 class MInterface extends IInterface {
 
+    /**
+     * @arg {'update'} type `Тип`
+     * @public
+    */
+    execHandle(type) {
 
+        SInterface.prototype.execHandle.apply(this, [type]);
+
+        return this;
+
+    };
 
 };
 class FInterface extends MInterface {
@@ -303,6 +328,26 @@ export class YInterface extends FInterface {
     };
 
     /**
+     * ### update
+     * - Версия `0.0.0`
+     * - Модуль `ject\terminal\interface`
+     * ***
+     *
+     * Метод обновления интерфейса.
+     *
+     * ***
+     *
+     * @public
+    */
+    update() {
+
+        this.execHandle('update');
+
+        return this;
+
+    };
+
+    /**
      * ### setTerminal
      * - Версия `0.0.0`
      * - Модуль `ject\terminal\interface`
@@ -360,6 +405,18 @@ export class YInterface extends FInterface {
 
     };
 
+    /**
+     * @arg {'handle'} label `Тип`
+     * @arg {...YProcedure<YInterface>} procedures `Процедуры`
+     * @public
+    */
+    appendHandler(label, ...procedures) {
+
+        SInterface.prototype.appendHandler.apply(this, [label, ...procedures]);
+
+        return this;
+
+    };
     /**
      * ### appendElements
      * - Версия `0.2.0`
