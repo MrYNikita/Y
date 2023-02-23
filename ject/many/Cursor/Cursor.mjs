@@ -1,4 +1,4 @@
-import { YMany } from "../Many/Many.mjs";
+import { YMany } from "../Many.mjs";
 import { YBasic } from "../../YBasic/YBasic.mjs";
 
 //#region YT

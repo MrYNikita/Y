@@ -5,7 +5,7 @@ import { colorClear, colorGetReset } from "../ansi/color/color.mjs";
 import { YStylist } from "../style/YStylist/YStylist.mjs";
 import { underlineGetReset } from "../ansi/underline/underline.mjs";
 import { funcBypass } from "../../func/func.mjs";
-import { YMany } from "../../ject/many/Many/Many.mjs";
+import { YMany } from "../../ject/many/Many.mjs";
 
 //#region YT
 

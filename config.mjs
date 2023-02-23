@@ -28,6 +28,20 @@ export const config = {
     */
     strict: true,
 
+    /**
+     * ### modeStrict
+     *
+     * Режим строгости.
+     *
+     * Строгий режим уведомляет программу, что она не должна игнорировать ошибки.
+     * В данном режиме любая ошибка приводит к остановке работы программы.
+     *
+     * ***
+     * @type {boolean}
+     * @public
+    */
+    modeStrict: true,
+
 };
 
 export const configJect = {
