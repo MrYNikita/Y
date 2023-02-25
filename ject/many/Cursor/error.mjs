@@ -1,4 +1,16 @@
 import { YError } from "../../../error/class.mjs";
+import { YCursor } from "./class.mjs";
+
+/** ### cursorTError
+ * - Тип `TT`
+ * - Версия `0.0.0`
+ * - Модуль `ject\many\cursor`
+ *
+ * Тип ошибок с фокусом на курсор.
+ *
+ * @typedef {YError<YCursor>} cursorTError
+ *
+*/
 
 const adviceCoord = 'проверьте координату на корректность';
 
@@ -12,7 +24,7 @@ export default {
      * Ошибка недействительной коориднаты.
      *
      * ***
-     * @type {YError}
+     * @type {cursorTError}
      * @public
     */
     coordNan: new YError({
@@ -20,7 +32,7 @@ export default {
         id: count++,
         advice: adviceCoord,
         description: 'указанная координата недействительна',
-        clarification: coord => `координата ${coord}`
+        clarification: coord => `координата = ${coord}`
 
     }),
     /**
@@ -29,7 +41,7 @@ export default {
      * Ошибка малого значения коориднаты.
      *
      * ***
-     * @type {YError}
+     * @type {cursorTError}
      * @public
     */
     coordLessZero: new YError({
@@ -46,7 +58,7 @@ export default {
      * Ошибка выхода координаты за пределы измерения множества.
      *
      * ***
-     * @type {YError}
+     * @type {cursorTError}
      * @public
     */
     coordRangeOut: new YError({
@@ -63,7 +75,7 @@ export default {
      * Ошибка некорректного значения координаты.
      *
      * ***
-     * @type {YError}
+     * @type {cursorTError}
      * @public
     */
     coordNotNumber: new YError({
@@ -80,7 +92,7 @@ export default {
      * Ошибка бесконечной координаты.
      *
      * ***
-     * @type {YError}
+     * @type {cursorTError}
      * @public
     */
     coordNumberInfinity: new YError({

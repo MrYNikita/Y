@@ -302,23 +302,23 @@ export class YCursor extends FCursor {
 
             if (!c && c !== 0) {
 
-                error.coordNan.throw(c);
+                error.coordNan.throw(this, c);
 
             } else if (c.constructor !== Number) {
 
-                error.coordNotNumber.throw(c);
+                error.coordNotNumber.throw(this, c);
 
             } else if (c < 0) {
 
-                error.coordLessZero.throw(c);
+                error.coordLessZero.throw(this, c);
 
             } else if (c === Infinity) {
 
-                error.coordNumberInfinity.throw(c);
+                error.coordNumberInfinity.throw(this, c);
 
             } else if (c >= dimension.length) {
 
-                error.coordRangeOut.throw(c)
+                error.coordRangeOut.throw(this, c)
 
             };
 

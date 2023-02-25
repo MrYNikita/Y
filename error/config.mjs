@@ -11,6 +11,16 @@ export default {
     */
     defaultId: null,
     /**
+     * ### defaultBreak
+     *
+     * Дефолт прерывание.
+     *
+     * ***
+     * @type {boolean}
+     * @public
+    */
+    defaultBreak: false,
+    /**
      * ### defaultCause
      *
      * Дефолт причина.

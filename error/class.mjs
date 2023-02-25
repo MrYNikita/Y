@@ -28,7 +28,8 @@ await import('./error.mjs')
  *
  * Основной параметр модуля `YError`.
  *
- * @typedef {YErrorTE&YErrorTU} YErrorT
+ * @typedef {YErrorTE&YErrorTU<T>} YErrorT
+ * @template T
  *
 */
 /** ### YErrorTE
@@ -49,7 +50,8 @@ await import('./error.mjs')
  * Уникальные параметры `YError`.
  *
  * @typedef YErrorTU
- * @prop {any} _
+ * @prop {function(T):void} correct
+ * @template T
  *
 */
 
@@ -60,6 +62,9 @@ class SError extends YBasic {
 
 
 };
+/**
+ * @template T
+*/
 class DError extends SError {
 
     /**
@@ -74,6 +79,16 @@ class DError extends SError {
      * @public
     */
     id;
+    /**
+     * ### break
+     *
+     * Прерывание.
+     *
+     * ***
+     * @type {boolean}
+     * @protected
+    */
+    break;
     /**
      * ### cause
      *
@@ -98,6 +113,16 @@ class DError extends SError {
      * @public
     */
     advice;
+    /**
+     * ### initor
+     *
+     * Инициатор.
+     *
+     * ***
+     * @type {T?}
+     * @public
+    */
+    initor;
     /**
      * ### transmits
      *
@@ -130,6 +155,10 @@ class DError extends SError {
     clarification;
 
 };
+/**
+ * @extends {DError<T>}
+ * @template T
+*/
 class IError extends DError {
 
     /**
@@ -152,13 +181,31 @@ class IError extends DError {
      * @public
     */
     stack;
+    /**
+     * ### correct
+     *
+     * Функция корректировки.
+     *
+     * ***
+     * @type {function(T):void}
+     * @public
+    */
+    correct;
 
 };
+/**
+ * @extends {IError<T>}
+ * @template T
+*/
 class MError extends IError {
 
 
 
 };
+/**
+ * @extends {MError<T>}
+ * @template T
+*/
 class FError extends MError {
 
     /**
@@ -167,7 +214,7 @@ class FError extends MError {
      *
      *
      * ***
-     *  @arg {...YErrorT} t
+     * @arg {...YErrorT<T>} t
     */
     constructor(...t) {
 
@@ -277,7 +324,7 @@ class FError extends MError {
 /**
  * ### YError
  * - Тип `SDIMFY`
- * - Версия `0.0.0`
+ * - Версия `0.1.0`
  * - Модуль `error`
  * - Цепочка `BDVHC`
  * ***
@@ -285,7 +332,8 @@ class FError extends MError {
  *
  *
  * ***
- *
+ * @extends {FError<T>}
+ * @template T
 */
 export class YError extends FError {
 
@@ -298,12 +346,19 @@ export class YError extends FError {
      * Метод перехватат ошибки.
      *
      * ***
+     * @arg {any} initor `Инициатор`
      * @arg {...any} transmits `Аргументы`
      * @public
     */
-    throw(...tranmsits) {
+    throw(initor, ...tranmsits) {
 
-        throw this.setTransmits(...tranmsits);
+        if (this.break || this.correct?.constructor !== Function || this.correct?.(this.target)) {
+
+            throw this.clone().setInitor(initor).setTransmits(...tranmsits);
+
+        };
+
+        return this;
 
     };
 
@@ -336,6 +391,29 @@ export class YError extends FError {
 
     };
 
+    /**
+     * ### setInitor
+     * - Версия `0.0.0`
+     * - Модуль `error`
+     * ***
+     *
+     * Метод установки инициатора.
+     *
+     * ***
+     * @arg {any} initor `Инициатор`
+     * @public
+    */
+    setInitor(initor) {
+
+        if (initor instanceof Object) {
+
+            this.initor = initor;
+
+        };
+
+        return this;
+
+    };
     /**
      * ### setTransmits
      * - Версия `0.0.0`
