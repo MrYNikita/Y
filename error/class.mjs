@@ -1,5 +1,6 @@
 //#region YI
 
+import configurator from '../configurator.mjs';
 import { YBasic } from '../ject/YBasic/YBasic.mjs';
 
 /** @type {import('./config.mjs')['default']?} */
@@ -339,7 +340,7 @@ export class YError extends FError {
 
     /**
      * ### throw
-     * - Версия `0.0.0`
+     * - Версия `0.1.0`
      * - Модуль `error`
      * ***
      *
@@ -350,11 +351,19 @@ export class YError extends FError {
      * @arg {...any} transmits `Аргументы`
      * @public
     */
-    throw(initor, ...tranmsits) {
+    throw(initor, ...transmits) {
 
-        if (this.break || this.correct?.constructor !== Function || this.correct?.(this.target)) {
+        if (configurator.modeStrict || this.break || this.correct?.constructor !== Function) {
 
-            throw this.clone().setInitor(initor).setTransmits(...tranmsits);
+            const error = this.clone().setInitor(initor).setTransmits(...transmits);
+
+            console.log(error.castString());
+
+            throw error;
+
+        } else {
+
+            this.correct?.(initor);
 
         };
 
@@ -384,7 +393,7 @@ export class YError extends FError {
             `------`,
             (`Описание: ${format(this.description)}`),
             (`Подсказка: ${format(this.advice)}`),
-            (`Уточнение: ${format(this.clarification && this.clarification(...this.transmits))}`),
+            (`Уточнение: ${format(this.clarification instanceof Function ? this.clarification(this.transmits) : undefined)}`),
             `------`,
 
         ].join('\n');

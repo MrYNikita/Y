@@ -1033,7 +1033,14 @@ function cloneComply(t) {
 
             } else if (v instanceof Object) {
 
-                n[p] = new v.constructor();
+                switch (v.constructor) {
+
+                    case Function: n[p] = v; break;
+                    default: n[p] = new v.constructor();
+
+                };
+
+                // n[p] = new v.constructor();
 
                 mirror.push([n[p], v]);
                 subjects.push([v, n[p]]);
@@ -1063,7 +1070,7 @@ function cloneComply(t) {
 
 /**
  * ### jectClone
- * - Версия `0.0.0`
+ * - Версия `0.0.1`
  * - Цепочка `DVHCa`
  * - Модуль `ject`
  * ***

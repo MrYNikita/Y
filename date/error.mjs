@@ -25,13 +25,25 @@ import { YError } from '../error/class.mjs';
 
 //#endregion
 
-/** @type {Object<string, dateTError>} */
 export default {
 
-    testError: new YError({
+    /**
+     * ### notDate
+     *
+     * Ошибка типа.
+     *
+     * ***
+     * @type {dateTError}
+     * @public
+    */
+    notDate: new YError({
 
-        correct: y => y,
+        id: 1,
+        advice: `проверьте переданное значение в конструктор и убедитесь, что оно является датой или строкой её содержащей`,
+        correct: t => t.value = new Date(),
+        description: 'указанное значение value не является Date',
+        clarification: t => `аргумент = ${t}`,
 
-    })
+    }),
 
 };

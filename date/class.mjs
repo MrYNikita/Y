@@ -49,7 +49,15 @@ await import('./error.mjs')
  * Уникальные параметры `YDate`.
  *
  * @typedef YDateTU
- * @prop {any} _
+ * @prop {Date} date
+ * @prop {number} day
+ * @prop {number} year
+ * @prop {number} hour
+ * @prop {number} month
+ * @prop {number} second
+ * @prop {number} minute
+ * @prop {number} setYear
+ * @prop {number} milisecond
  *
 */
 
@@ -62,7 +70,26 @@ class SDate extends YBasic {
 };
 class DDate extends SDate {
 
-
+    /**
+     * ### value
+     *
+     * Значение.
+     *
+     * ***
+     * @type {Date}
+     * @protected
+    */
+    value = new Date();
+    /**
+     * ### valueDrop
+     *
+     * Значение сброса.
+     *
+     * ***
+     * @type {Date?}
+     * @protected
+    */
+    valueDrop = null;
 
 };
 class IDate extends DDate {
@@ -115,7 +142,7 @@ class FDate extends MDate {
 
                 case 3:
                 case 2:
-                case 1:
+                case 1: r.value = r.valueDrop = t[0];
 
             };
 
@@ -157,6 +184,12 @@ class FDate extends MDate {
 
         } = t;
 
+        if (t.value && t.value.constructor !== Date) {
+
+            error.notDate.throw(t, t.value);
+
+        };
+
         FDate.#handle.apply(this, [t]);
 
     };
@@ -192,12 +225,12 @@ class FDate extends MDate {
 /**
  * ### YDate
  * - Тип `SDIMFY`
- * - Версия `0.0.0`
+ * - Версия `0.2.0`
  * - Модуль `date`
  * - Цепочка `BDVHC`
  * ***
  *
- *
+ * Класс дат.
  *
  * ***
  *
@@ -207,3 +240,9 @@ export class YDate extends FDate {
 
 
 };
+
+/**
+ * @file class.mjs
+ * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
+ * @copyright Yakhin Nikita Artemovich 2023
+*/
