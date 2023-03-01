@@ -4,6 +4,11 @@
         "url": "https://github.com/MrYNikita/YModules/issues"
     },
     "icon": "logo.png",
+    "exports": {
+        ".": {
+            "test": "./test.mjs"
+        }
+    },
     "files": [
         "os/",
         "log/",
@@ -26,7 +31,7 @@
     ],
     "author": "Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>",
     "license": "Apache-2.0",
-    "version": "0.49.3",
+    "version": "0.49.4",
     "scripts": {
         "y": "cd y && cd ypanel && node ypanel.mjs"
     },
