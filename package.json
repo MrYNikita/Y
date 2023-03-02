@@ -1,33 +1,27 @@
 {
-    "name": "ymodules",
+    "name": "y",
     "bugs": {
         "url": "https://github.com/MrYNikita/YModules/issues"
     },
     "icon": "logo.png",
-    "exports": {
-        ".": {
-            "test": "./test.mjs"
-        }
-    },
     "files": [
-        "os/",
-        "log/",
-        "web/",
-        "test/",
-        "func/",
-        "ject/",
-        "error/",
-        "array/",
-        "number/",
-        "string/",
-        "regexp/",
-        ".source/",
-        "README.md",
-        "config.mjs",
-        "LICENSE.md",
-        "cahce.json",
-        "YExtansion/",
-        "manifest.json"
+        "./bool",
+        "./class",
+        "./date",
+        "./func",
+        "./ject",
+        "./number",
+        "./array",
+        "./error",
+        "./class.mjs",
+        "./config.mjs",
+        "./favicon.ico",
+        "./LICENSE.md",
+        "./manifest.json",
+        "./module.mjs",
+        "./package.json",
+        "./README.md",
+        "./type.d.mts"
     ],
     "author": "Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>",
     "license": "Apache-2.0",

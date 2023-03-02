@@ -1,34 +1,16 @@
-export default {
+export const configCursor = {
 
     /**
-     * ### defaultMany
+     * ### defaultIndexs
      *
-     * Дефолт множество.
-     *
-     * ***
-     * @type {null}
-     * @public
-    */
-    defaultMany: null,
-    /**
-     * ### defaultSize
-     *
-     * Дефолт размер.
-     *
-     * ***
-     * @type {number}
-     * @public
-    */
-    defaultSize: 1,
-    /**
-     * ### defaultCoords
-     *
-     * Дефолт координаты.
+     * Дефолт индексы.
      *
      * ***
      * @type {number[]}
      * @public
     */
-    defaultCoords: [0],
+    defaultIndexs: [],
 
 };
+
+export default configCursor;

@@ -1,6 +1,6 @@
 //#region YI
 
-import { YBasic } from '../ject/YBasic/YBasic.mjs';
+import { YJect } from '../ject/class.mjs';
 
 /** @type {import('./config.mjs')['default']?} */
 let config = null;
@@ -63,12 +63,26 @@ await import('./error.mjs')
 
 //#endregion
 
-class SDate extends YBasic {
+class SDate extends YJect {
 
 
 
 };
 class DDate extends SDate {
+
+    /**
+     * ### valueDrop
+     *
+     * Значение сброса.
+     *
+     * ***
+     * @type {Date?}
+     * @public
+    */
+    valueDrop = null;
+
+};
+class IDate extends DDate {
 
     /**
      * ### value
@@ -79,22 +93,7 @@ class DDate extends SDate {
      * @type {Date}
      * @protected
     */
-    value = new Date();
-    /**
-     * ### valueDrop
-     *
-     * Значение сброса.
-     *
-     * ***
-     * @type {Date?}
-     * @protected
-    */
-    valueDrop = null;
-
-};
-class IDate extends DDate {
-
-
+    value;
 
 };
 class MDate extends IDate {
@@ -142,7 +141,7 @@ class FDate extends MDate {
 
                 case 3:
                 case 2:
-                case 1: r.value = r.valueDrop = t[0];
+                case 1: r.value = t[0];
 
             };
 
@@ -184,19 +183,26 @@ class FDate extends MDate {
 
         } = t;
 
-        if (t.value && t.value.constructor !== Date) {
-
-            error.notDate.throw(t, t.value);
-
-        };
-
         FDate.#handle.apply(this, [t]);
 
     };
     /** @arg {YDateT} t @this {YDate} */
     static #handle(t) {
 
+        if (!t.date) {
 
+            if (t.setYear) {
+
+                t.date = new Date(t.setYear + 1, 0, 0);
+                t.date = new Date(t.date.getFullYear(), 0, 1);
+
+            } else {
+
+                t.date = new Date();
+
+            };
+
+        };
 
         FDate.#create.apply(this, [t]);
 
@@ -214,7 +220,7 @@ class FDate extends MDate {
 
         if (config) {
 
-            this.adoptByDefault(config);
+            this.adoptDefault(config);
 
         };
 
@@ -225,19 +231,130 @@ class FDate extends MDate {
 /**
  * ### YDate
  * - Тип `SDIMFY`
- * - Версия `0.2.0`
+ * - Версия `0.0.0`
  * - Модуль `date`
  * - Цепочка `BDVHC`
  * ***
  *
- * Класс дат.
+ *
  *
  * ***
  *
 */
 export class YDate extends FDate {
 
+    /**
+     * ### drop
+     * - Версия `0.0.0`
+     * - Модуль `YDate`
+     * ***
+     *
+     * Метод сброса мер времени.
+     *
+     * ***
+     * @arg {boolean} day `Сброс дней`
+     * @arg {boolean} year `Сброс лет`
+     * @arg {boolean} hour `Сброс часов`
+     * @arg {boolean} month `Сброс месяцев`
+     * @arg {boolean} second `Сброс секунд`
+     * @arg {boolean} minute `Сброс минут`
+     * @arg {boolean} milisecond `Сброс милисекунд`
+     * @public
+    */
+    drop(year, month, day, hour, minute, second, milisecond) {
 
+        if (this.valueDrop) {
+
+            this.value = this.valueDrop;
+
+        } else {
+
+            this.value = dateDrop(this.value, year, month, day, hour, minute, second, milisecond);
+
+        };
+
+        return this;
+
+    };
+
+    /**
+     * ### change
+     * - Версия `0.0.0`
+     * - Модуль `YDate`
+     * ***
+     *
+     * Метод {@link dateChange|изменения} даты.
+     *
+     * ***
+     * @arg {number} day `Дни`
+     * @arg {number} hour `Часы`
+     * @arg {number} year `Года`
+     * @arg {number} month `Месяца`
+     * @arg {number} second `Секунды`
+     * @arg {number} minute `Минуты`
+     * @arg {number} milisecond `Милисекунды`
+     * @public
+    */
+    change(year, month, day, hour, minute, second, milisecond) {
+
+        this.value = dateChange(this.value, year, month, day, hour, minute, second, milisecond);
+
+        return this;
+
+    };
+
+    /**
+     * ### toDate
+     * - Версия `0.0.1`
+     * - Модуль `YDate`
+     * ***
+     *
+     * Метод получения даты.
+     *
+     * ***
+     * @public
+     * @return {Date}
+    */
+    getDate() {
+
+        return this.value;
+
+    };
+    /**
+     * ### getString
+     * - Версия `0.0.0`
+     * - Модуль `YDate`
+     * ***
+     *
+     * Метод получения строки.
+     *
+     * ***
+     * @arg {string?} local `Локаль`
+     * - Дефолт: `ru`
+     * @public
+    */
+    getString(local = 'ru') {
+
+        return stringCastToDate(this.getDate(), local);
+
+    };
+    /**
+     * ### getMesuares
+     * - Версия `0.0.0`
+     * - Модуль `YDate`
+     * ***
+     *
+     * Метод получения всех единиц измерения в порядке убывания.
+     *
+     * ***
+     *
+     * @public
+    */
+    getMesuares() {
+
+        return dateGetMesuares(this.getDate());
+
+    };
 
 };
 

@@ -1,19 +1,39 @@
-export default {
+export const configMany = {
 
+    /**
+     * ### defaultValues
+     *
+     * Дефолт значения.
+     *
+     * ***
+     * @type {any[]}
+     * @public
+    */
+    defaultValues: [],
+    /**
+     * ### defaultCursor
+     *
+     * Дефолт курсор.
+     *
+     * ***
+     * @type {YCursor?}
+     * @public
+    */
+    defaultCursor: null,
     /**
      * ### defaultCursors
      *
      * Дефолт курсоры.
      *
      * ***
-     * @type {[]}
+     * @type {YCursor[]}
      * @public
     */
     defaultCursors: [],
     /**
-     * ### dimension
+     * ### defaultDimension
      *
-     * Дефолт измерения.
+     * Дефолт измерений.
      *
      * ***
      * @type {number}
@@ -22,3 +42,5 @@ export default {
     defaultDimension: 1,
 
 };
+
+export default configMany;

@@ -1,7 +1,7 @@
 //#region YI
 
-import { arrayBring, arrayEqual } from '../../array/module.mjs';
-import { YBasic } from '../YBasic/YBasic.mjs';
+import { numberGetSequence } from '../../number/module.mjs';
+import { YJect } from '../class.mjs';
 import { YCursor } from './cursor/class.mjs';
 
 /** @type {import('./config.mjs')['default']?} */
@@ -9,7 +9,15 @@ let config = null;
 
 await import('./config.mjs')
 
-    .then(c => config = c.default)
+    .then(i => config = i.default)
+    .catch(e => e);
+
+/** @type {import('./error.mjs')['default']?} */
+let error = null;
+
+await import('./error.mjs')
+
+    .then(i => error = i.default)
     .catch(e => e);
 
 //#endregion
@@ -22,7 +30,10 @@ await import('./config.mjs')
  *
  * Основной параметр модуля `YMany`.
  *
+ * ***
+ *
  * @typedef {YManyTE&YManyTU} YManyT
+ * @template T
  *
 */
 /** ### YManyTE
@@ -49,12 +60,16 @@ await import('./config.mjs')
 
 //#endregion
 
-class SMany extends YBasic {
+/**
+ * @template T
+*/
+class SMany extends YJect {
 
 
 
 };
 /**
+ * @extends {SMany<T>}
  * @template T
 */
 class DMany extends SMany {
@@ -66,9 +81,9 @@ class DMany extends SMany {
      *
      * ***
      * @type {T}
-     * @protected
+     * @public
     */
-    values = [];
+    values;
     /**
      * ### cursors
      *
@@ -84,11 +99,9 @@ class DMany extends SMany {
      *
      * Измерения.
      *
-     * Определяет количество измерений.
-     *
      * ***
      * @type {number}
-     * @public
+     * @protected
     */
     dimension;
 
@@ -102,11 +115,11 @@ class IMany extends DMany {
     /**
      * ### cursor
      *
-     * Курсор.
+     * Основной курсор.
      *
      * ***
      * @type {YCursor}
-     * @public
+     * @protected
     */
     cursor;
 
@@ -132,7 +145,7 @@ class FMany extends MMany {
      *
      *
      * ***
-     *  @arg {...YManyT} t
+     * @arg {...YManyT<T>} t
     */
     constructor(...t) {
 
@@ -212,7 +225,12 @@ class FMany extends MMany {
     /** @arg {YManyT} t @this {YMany} */
     static #handle(t) {
 
+        if (!t.cursors) {
 
+            t.cursors = [new YCursor(...numberGetSequence(t.dimension ?? config.defaultDimension, 0, 0))];
+            t.cursor = t.cursors[0];
+
+        };
 
         FMany.#create.apply(this, [t]);
 
@@ -230,13 +248,9 @@ class FMany extends MMany {
 
         if (config) {
 
-            this.adoptByDefault(config);
+            this.adoptDefault(config);
 
         };
-
-        this.appendCursors(new YCursor(this));
-
-        this.cursor = this.cursors[0];
 
     };
 
@@ -250,97 +264,15 @@ class FMany extends MMany {
  * - Цепочка `BDVHC`
  * ***
  *
- * Класс множеств.
+ * Класс для работы с множествами.
+ *
+ * Включает в себя курсоры и методы, необходимые для работы с ними.
  *
  * ***
  * @extends {FMany<T>}
  * @template T
 */
 export class YMany extends FMany {
-
-    /**
-     * ### get
-     * - Версия `0.0.0`
-     * - Модуль `ject\many`
-     * ***
-     *
-     * Метод получения множества.
-     *
-     * ***
-     * @public
-    */
-    get() {
-
-        return this.values;
-
-    };
-    /**
-     * ### getSelect
-     * - Версия `0.0.0`
-     * - Модуль `ject\many`
-     * ***
-     *
-     * Метод получения элементов находящихся в областях курсоров.
-     *
-     * ***
-     * @public
-    */
-    getSelect() {
-
-        return this.cursors.map(c => {
-
-            let result = this.values;
-
-            for (const cord of c.coords) {
-
-                result = result[cord];
-
-            };
-
-            return result;
-
-        });
-
-    };
-
-    /**
-     * ### clear
-     * - Версия `0.0.0`
-     * - Модуль `ject\many`
-     * ***
-     *
-     * Метод очистки значений.
-     *
-     * ***
-     * @public
-    */
-    clear() {
-
-        this.values = [];
-
-        return this;
-
-    };
-
-    /**
-     * ### setCursorTo
-     * - Версия `0.0.0`
-     * - Модуль `ject\many`
-     * ***
-     *
-     * Метод установки курсора на указанную позицию.
-     *
-     * ***
-     * @arg {...number} coords `Коориднаты`
-     * @public
-    */
-    setCursorTo(...coords) {
-
-        this.removeCursors().cursor.setCoords(...coords);
-
-        return this;
-
-    };
 
     /**
      * ### moveCursors
@@ -356,64 +288,32 @@ export class YMany extends FMany {
     */
     moveCursors(...bias) {
 
+        this.cursors.forEach(c => {
+
+            c.move(...bias).indexs.forEach((index, i) => {
+
+                if (index < 0) {
+
+                    if (c.indexs[i - 1]) {
 
 
-        return this;
 
-    };
-    /**
-     * ### appendCursors
-     * - Версия `0.1.0`
-     * - Модуль `ject\many`
-     * ***
-     *
-     * Метод добавления курсоров.
-     *
-     * Метод не допускает дублирования курсоров.
-     *
-     * ***
-     * @arg {...import('./cursor/class.mjs').YCursorT} cursors `Курсоры`
-     * @public
-    */
-    appendCursors(...cursors) {
+                    } else {
 
-        for (const cursor of cursors) {
 
-            if (this.cursors.every(c => !arrayEqual(c.coords, cursor.coords))) {
 
-                this.cursors.push(new YCursor({ many: this, ...cursor }));
+                    };
 
-            };
+                    c.indexs[i] = 0;
 
-        };
+                };
 
-        return this;
+            });
 
-    };
-
-    /**
-     * ### removeCursors
-     * - Версия `0.0.0`
-     * - Модуль `ject\many`
-     * ***
-     *
-     * Метод удаления всех курсоров кроме основного.
-     *
-     * ***
-     * @public
-    */
-    removeCursors() {
-
-        this.cursors = [this.cursors[0]];
+        });
 
         return this;
 
     };
 
 };
-
-/**
- * @file class.mjs
- * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
- * @copyright Yakhin Nikita Artemovich 2023
-*/

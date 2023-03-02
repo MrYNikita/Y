@@ -1,9 +1,7 @@
 //#region YI
 
-import { arrayBring } from '../../../array/module.mjs';
-import { YError } from '../../../error/class.mjs';
-import { YBasic } from '../../YBasic/YBasic.mjs';
-import { YMany } from '../class.mjs';
+import { condIsNumber } from '../../../bool/cond/module.mjs';
+import { YJect } from '../../class.mjs';
 
 /** @type {import('./config.mjs')['default']?} */
 let config = null;
@@ -52,13 +50,13 @@ await import('./error.mjs')
  * Уникальные параметры `YCursor`.
  *
  * @typedef YCursorTU
- * @prop {any} _
+ * @prop {} _
  *
 */
 
 //#endregion
 
-class SCursor extends YBasic {
+class SCursor extends YJect {
 
 
 
@@ -66,59 +64,27 @@ class SCursor extends YBasic {
 class DCursor extends SCursor {
 
     /**
-     * ### size
+     * ### indexs
      *
-     * Размер.
-     *
-     * ***
-     * @type {number}
-     * @public
-    */
-    size;
-    /**
-     * ### coords
-     *
-     * Координаты.
-     *
-     * Представлены массивом, размерность которого совпадает с количеством измерений привязанного множества.
+     * Индексы.
      *
      * ***
      * @type {number[]}
      * @public
     */
-    coords = [];
+    indexs;
 
 };
-/**
- * @template T
-*/
 class ICursor extends DCursor {
 
-    /**
-     * ### many
-     *
-     * Привязанное множество.
-     *
-     * ***
-     * @type {YMany<T>?}
-     * @protected
-    */
-    many;
+
 
 };
-/**
- * @extends {ICursor<T>}
- * @template T
-*/
 class MCursor extends ICursor {
 
 
 
 };
-/**
- * @extends {MCursor<T>}
- * @template T
-*/
 class FCursor extends MCursor {
 
     /**
@@ -127,7 +93,7 @@ class FCursor extends MCursor {
      *
      *
      * ***
-     *  @arg {...YCursorT} t
+     * @arg {...YCursorT} t
     */
     constructor(...t) {
 
@@ -158,8 +124,8 @@ class FCursor extends MCursor {
             switch (t.length) {
 
                 case 3:
-                case 2: r.coords = t[1];
-                case 1: r.many = t[0];
+                case 2:
+                case 1: r.indexs = t;
 
             };
 
@@ -207,15 +173,7 @@ class FCursor extends MCursor {
     /** @arg {YCursorT} t @this {YCursor} */
     static #handle(t) {
 
-        if (!t.coords?.length) {
 
-            t.coords = new Array(t.many.dimension).fill(0);
-
-        } else if (t.coords.length !== t.many.dimension) {
-
-            t.coords = arrayBring(t.coords, t.many.dimension, 0);
-
-        };
 
         FCursor.#create.apply(this, [t]);
 
@@ -233,7 +191,7 @@ class FCursor extends MCursor {
 
         if (config) {
 
-            this.adoptByDefault(config);
+            this.adoptDefault(config);
 
         };
 
@@ -252,8 +210,7 @@ class FCursor extends MCursor {
  *
  *
  * ***
- * @extends {FCursor<T>}
- * @template T
+ *
 */
 export class YCursor extends FCursor {
 
@@ -263,83 +220,18 @@ export class YCursor extends FCursor {
      * - Модуль `ject\many\cursor`
      * ***
      *
-     * Метод смещения курсора.
+     * Метод смещения курсоров.
      *
      * ***
-     * @arg {...number} bias `Смещения`
+     * @arg {...number} bias `Смещение`
      * @public
     */
     move(...bias) {
 
-        for (const i in bias) {
-
-            this.coords[i] += bias[i];
-
-        };
-
-        return this;
-
-    };
-    /**
-     * ### setCoords
-     * - Версия `0.0.0`
-     * - Модуль `ject\many\cursor`
-     * ***
-     *
-     * Метод установки координат.
-     *
-     * ***
-     * @arg {...number} coords `Координаты`
-     * @public
-    */
-    setCoords(...coords) {
-
-        coords = coords.slice(0, this.many.dimension);
-
-        let dimension = this.many.values;
-
-        if (coords.every(c => {
-
-            if (!c && c !== 0) {
-
-                error.coordNan.throw(this, c);
-
-            } else if (c.constructor !== Number) {
-
-                error.coordNotNumber.throw(this, c);
-
-            } else if (c < 0) {
-
-                error.coordLessZero.throw(this, c);
-
-            } else if (c === Infinity) {
-
-                error.coordNumberInfinity.throw(this, c);
-
-            } else if (c >= dimension.length) {
-
-                error.coordRangeOut.throw(this, c)
-
-            };
-
-            dimension = dimension[c];
-
-            return true;
-
-        })) {
-
-            this.coords = arrayBring(coords, this.many.dimension, 0);
-
-        };
+        bias.filter(bias => condIsNumber(bias)).map((bias, i) => this.indexs[i] += bias);
 
         return this;
 
     };
 
 };
-
-/**
- * @file class.mjs
- * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
- * @copyright Yakhin Nikita Artemovich 2023
-*/

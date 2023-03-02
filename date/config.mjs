@@ -1,14 +1,16 @@
-export default {
+export const configDate = {
 
     /**
-     * ### defaultValueDrop
+     * ### defaultYear
      *
-     * Дефолт дата сброса.
+     * Дефолт год.
      *
      * ***
-     * @type {Date?}
+     * @type {number}
      * @public
     */
-    defaultValueDrop: null,
+    defaultYear: 2001,
 
 };
+
+export default configDate;

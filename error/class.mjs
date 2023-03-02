@@ -1,7 +1,6 @@
 //#region YI
 
-import configurator from '../configurator.mjs';
-import { YBasic } from '../ject/YBasic/YBasic.mjs';
+import { YJect } from '../ject/class.mjs';
 
 /** @type {import('./config.mjs')['default']?} */
 let config = null;
@@ -29,7 +28,9 @@ await import('./error.mjs')
  *
  * Основной параметр модуля `YError`.
  *
- * @typedef {YErrorTE&YErrorTU<T>} YErrorT
+ * ***
+ *
+ * @typedef {YErrorTE&YErrorTU} YErrorT
  * @template T
  *
 */
@@ -51,19 +52,48 @@ await import('./error.mjs')
  * Уникальные параметры `YError`.
  *
  * @typedef YErrorTU
- * @prop {function(T):void} correct
- * @template T
+ * @prop {any} _
  *
 */
 
 //#endregion
 
-class SError extends YBasic {
+/**
+ * @template T
+*/
+class SError extends YJect {
 
+    /**
+     * ### throw
+     * - Версия `0.0.0`
+     * - Модуль `error`
+     * ***
+     *
+     * Метод обработки исключительных ситуаций.
+     *
+     * ***
+     * @arg {Error} error `Ошибка`
+     * @public
+    */
+    static throw(error) {
 
+        if (error instanceof Error) {
+
+            throw error;
+
+        } else if (error instanceof YError) {
+
+            error.throw();
+
+        };
+
+        return this;
+
+    };
 
 };
 /**
+ * @extends {SError<T>}
  * @template T
 */
 class DError extends SError {
@@ -120,10 +150,20 @@ class DError extends SError {
      * Инициатор.
      *
      * ***
-     * @type {T?}
+     * @type {T}
      * @public
     */
     initor;
+    /**
+     * ### specify
+     *
+     * Уточнение.
+     *
+     * ***
+     * @type {(function(...):string)?}
+     * @public
+    */
+    specify;
     /**
      * ### transmits
      *
@@ -137,23 +177,13 @@ class DError extends SError {
     /**
      * ### description
      *
-     * Фактическая причина ошибки.
+     * Описание.
      *
      * ***
      * @type {string}
      * @public
     */
     description;
-    /**
-     * ### clarification
-     *
-     * Уточнение.
-     *
-     * ***
-     * @type {(function(...):string)?}
-     * @public
-    */
-    clarification;
 
 };
 /**
@@ -245,10 +275,9 @@ class FError extends MError {
 
             switch (t.length) {
 
-                case 4: r.cause = t[3];
-                case 3: r.advice = t[2];
-                case 2: r.description = t[1];
-                case 1: r.id = t[0];
+                case 3:
+                case 2:
+                case 1:
 
             };
 
@@ -296,7 +325,7 @@ class FError extends MError {
     /** @arg {YErrorT} t @this {YError} */
     static #handle(t) {
 
-        t.stack = new Error().stack;
+
 
         FError.#create.apply(this, [t]);
 
@@ -314,7 +343,7 @@ class FError extends MError {
 
         if (config) {
 
-            this.adoptByDefault(config);
+            this.adoptDefault(config);
 
         };
 
@@ -325,7 +354,7 @@ class FError extends MError {
 /**
  * ### YError
  * - Тип `SDIMFY`
- * - Версия `0.1.0`
+ * - Версия `0.0.0`
  * - Модуль `error`
  * - Цепочка `BDVHC`
  * ***
@@ -337,6 +366,23 @@ class FError extends MError {
  * @template T
 */
 export class YError extends FError {
+
+    /**
+     * ### toString
+     * - Версия `0.0.0`
+     * - Модуль `error`
+     * ***
+     *
+     * Метод приведения к строке.
+     *
+     * ***
+     * @public
+    */
+    toString() {
+
+        return '';
+
+    };
 
     /**
      * ### throw
@@ -357,7 +403,7 @@ export class YError extends FError {
 
             const error = this.clone().setInitor(initor).setTransmits(...transmits);
 
-            console.log(error.castString());
+            console.log(error.toString());
 
             throw error;
 
@@ -370,36 +416,6 @@ export class YError extends FError {
         return this;
 
     };
-
-    /**
-     * ### castString
-     * - Версия `0.0.0`
-     * - Модуль `error`
-     * ***
-     *
-     * Метод получения строкового представления.
-     *
-     * ***
-     *
-     * @public
-    */
-    castString() {
-
-        const format = (str) => str ? str[0].toUpperCase() + str.slice(1) + '.' : 'Отсутствует.';
-
-        return [
-
-            `Ошибка #${(this.id + '').padStart(4, 0)}`,
-            `------`,
-            (`Описание: ${format(this.description)}`),
-            (`Подсказка: ${format(this.advice)}`),
-            (`Уточнение: ${format(this.clarification instanceof Function ? this.clarification(this.transmits) : undefined)}`),
-            `------`,
-
-        ].join('\n');
-
-    };
-
     /**
      * ### setInitor
      * - Версия `0.0.0`
@@ -444,9 +460,3 @@ export class YError extends FError {
     };
 
 };
-
-/**
- * @file class.mjs
- * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
- * @copyright Yakhin Nikita Artemovich 2023
-*/

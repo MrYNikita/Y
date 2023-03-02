@@ -1,11 +1,22 @@
 //#region YI
 
+import { condIsNumber } from '../bool/cond/module.mjs';
+import { YError } from '../error/class.mjs';
+
 /** @type {import('./config.mjs')['default']?} */
 let config = null;
 
 await import('./config.mjs')
 
     .then(c => config = c.default)
+    .catch(e => e);
+
+/** @type {import('./error.mjs')['default']?} */
+let error = null;
+
+await import('./error.mjs')
+
+    .then(i => error = i.default)
     .catch(e => e);
 
 //#endregion
@@ -30,36 +41,36 @@ await import('./config.mjs')
 
 //#endregion
 
-//#region equal 0.0.0
+//#region getSlice 0.0.0
 
-/** ### arrayTFEqual
+/** ### arrayTFGetSlice
  * - Тип `TF`
  * - Версия `0.0.0`
  * - Модуль `array`
  * ***
  *
- * Результирующие параметры функции `equal`.
+ * Результирующие параметры функции `getSlice`.
  *
- * @typedef {arrayTFUEqual&arrayT} arrayTFEqual
+ * @typedef {arrayTFUGetSlice&arrayT} arrayTFGetSlice
  *
 */
-/** ### arrayTFUEqual
+/** ### arrayTFUGetSlice
  * - Тип `TFU`
  * - Версия `0.0.0`
  * - Модуль `array`
  *
- * Уникальные параметры функции `equal`.
+ * Уникальные параметры функции `getSlice`.
  *
- * @typedef arrayTFUEqual
- * @prop {any[]} equal
+ * @typedef arrayTFUGetSlice
+ * @prop {number[]} indexs
 */
 
-/** @arg {arrayTFEqual} t */
-function equalDeceit(t) {
+/** @arg {arrayTFGetSlice} t */
+function getSliceDeceit(t) {
 
     try {
 
-        return equalVerify(t);
+        return getSliceVerify(t);
 
     } catch (e) {
 
@@ -78,8 +89,8 @@ function equalDeceit(t) {
     };
 
 };
-/** @arg {arrayTFEqual} t */
-function equalVerify(t) {
+/** @arg {arrayTFGetSlice} t */
+function getSliceVerify(t) {
 
     const {
 
@@ -87,11 +98,11 @@ function equalVerify(t) {
 
     } = t;
 
-    return equalHandle(t);
+    return getSliceHandle(t);
 
 };
-/** @arg {arrayTFEqual} t */
-function equalHandle(t) {
+/** @arg {arrayTFGetSlice} t */
+function getSliceHandle(t) {
 
     const {
 
@@ -99,64 +110,188 @@ function equalHandle(t) {
 
     } = t;
 
-    return equalComply(t);
+    return getSliceComply(t);
 
 };
-/** @arg {arrayTFEqual} t */
-function equalComply(t) {
+/** @arg {arrayTFGetSlice} t */
+function getSliceComply(t) {
 
     const {
 
         array,
-        equal,
+        indexs,
 
     } = t;
 
-    if (array.length === equal.length) {
+    let slice = [];
 
-        for (const index in array) {
+    for (const i of indexs) {
 
-            if (array[index] !== equal[index]) {
-
-                return false;
-
-            };
-
-        };
-
-        return true;
-
-    } else {
-
-        return false;
+        slice = array[i];
 
     };
+
+    return slice;
 
 };
 
 /**
- * ### arrayEqual
+ * ### arrayGetSlice
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
  * - Модуль `array`
  * ***
  *
- * Функция для сравнения массивов.
- *
- * Функия проверяет элементы массивов и если они одного типа или ссылаются на один экземпляр, то функция вернет true, иначе false.
+ * Функция получения среза с размерного массива.
  *
  * ***
- * @arg {T} array `Массив`
- * @arg {T} equal `Эквивалент`
- * @template {any[]} T
+ * @arg {any[]} array `Массив`
+ * @arg {...number} indexs `Индексы`
 */
-export function arrayEqual(array, equal) {
+export function arrayGetSlice(array, ...indexs) {
 
-    return equalDeceit({ array, equal, });
+    return getSliceDeceit({ array, indexs });
 
 };
 
 //#endregion
+//#region getDimension 0.0.0
+
+/** ### arrayTFGetDimension
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `array`
+ * ***
+ *
+ * Результирующие параметры функции `getDimension`.
+ *
+ * @typedef {arrayTFUGetDimension&arrayT} arrayTFGetDimension
+ *
+*/
+/** ### arrayTFUGetDimension
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `array`
+ *
+ * Уникальные параметры функции `getDimension`.
+ *
+ * @typedef arrayTFUGetDimension
+ * @prop {any} _
+*/
+
+/** @arg {arrayTFGetDimension} t */
+function getDimensionDeceit(t) {
+
+    try {
+
+        return getDimensionVerify(t);
+
+    } catch (e) {
+
+        if (config?.strict) {
+
+            throw e;
+
+        };
+
+        return undefined;
+
+    } finally {
+
+
+
+    };
+
+};
+/** @arg {arrayTFGetDimension} t */
+function getDimensionVerify(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return getDimensionHandle(t);
+
+};
+/** @arg {arrayTFGetDimension} t */
+function getDimensionHandle(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return getDimensionComply(t);
+
+};
+/** @arg {arrayTFGetDimension} t */
+function getDimensionComply(t) {
+
+    const {
+
+        array,
+
+    } = t;
+
+    let result = [array.length];
+
+    const levelC = [...array];
+
+    do {
+
+        if (levelC.length && levelC.every(slice => slice.length && slice.every(elem => elem instanceof Array))) {
+
+            result.push(levelC[0].length);
+
+            levelC.splice(0, levelC.length, ...levelC.flat());
+
+        } else {
+
+            result.push(levelC.map(slice => slice.length));
+
+            if (result.at(-1).every(n => n === result.at(-1)[0])) {
+
+                result.splice(-1, 1, result.at(-1)[0]);
+
+                result = result.filter(n => n !== undefined);
+
+            };
+
+            break;
+
+        };
+
+    } while (levelC.length);
+
+    return result;
+
+};
+
+/**
+ * ### arrayGetDimension
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * - Модуль `array`
+ * ***
+ *
+ * Функция возвращающая кол-во измерений указанного массива.
+ *
+ * Под измерениями функция понимает те уровни указанного массива, где все элементы представлены массивами без исключения.
+ *
+ * ***
+ * @arg {any[]} array `Массив`
+*/
+export function arrayGetDimension(array) {
+
+    return getDimensionDeceit({ array });
+
+};
+
+//#endregion
+
 //#region bring 0.0.0
 
 /** ### arrayTFBring
@@ -275,6 +410,173 @@ function bringComply(t) {
 export function arrayBring(array, length, append) {
 
     return bringDeceit({ array, length, append });
+
+};
+
+//#endregion
+
+//#region calculatePosition 0.0.0
+
+/** ### arrayTFCalculatePosition
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `array`
+ * ***
+ *
+ * Результирующие параметры функции `calculatePosition`.
+ *
+ * @typedef {arrayTFUCalculatePosition&arrayT} arrayTFCalculatePosition
+ *
+*/
+/** ### arrayTFUCalculatePosition
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `array`
+ *
+ * Уникальные параметры функции `calculatePosition`.
+ *
+ * @typedef arrayTFUCalculatePosition
+ * @prop {number[]} indexs
+*/
+
+/** @arg {arrayTFCalculatePosition} t */
+function calculatePositionDeceit(t) {
+
+    try {
+
+        return calculatePositionVerify(t);
+
+    } catch (e) {
+
+        if (config?.strict) {
+
+            throw e;
+
+        };
+
+        return undefined;
+
+    } finally {
+
+
+
+    };
+
+};
+/** @arg {arrayTFCalculatePosition} t */
+function calculatePositionVerify(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return calculatePositionHandle(t);
+
+};
+/** @arg {arrayTFCalculatePosition} t */
+function calculatePositionHandle(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return calculatePositionComply(t);
+
+};
+/** @arg {arrayTFCalculatePosition} t */
+function calculatePositionComply(t) {
+
+    const {
+
+        array,
+        indexs,
+
+    } = t;
+
+    const dimensions = arrayGetDimension(array);
+
+    indexs.splice(dimensions.length);
+
+    arrayBring(indexs, dimensions.length, 0);
+
+    const slice = arrayGetSlice(dimensions, indexs.length - 1);
+
+    for (let i = dimensions.length - 1; i >= 0; i--) {
+
+        let index = indexs[i];
+
+        while (index < 0) {
+
+            if (condIsNumber(indexs[i - 1])) {
+
+                indexs[i - 1]--;
+
+                index += slice[indexs[i - 1]];
+
+            } else {
+
+                index = 0;
+
+                break;
+
+            };
+
+        };
+
+        if (condIsNumber(indexs[i - 1])) {
+
+            while (index > slice[indexs[i - 1]]) {
+
+                if (slice[indexs[i - 1]] === slice.at(-1)) {
+
+                    index = slice[indexs[i - 1]] - 1;
+
+                    break;
+
+                } else {
+
+                    index -= slice[indexs[i - 1]];
+
+                    indexs[i - 1]++;
+
+                };
+
+            };
+
+        };
+
+        indexs[i] = index;
+
+    };
+
+    return indexs;
+
+};
+
+/**
+ * ### arrayCalculatePosition
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * - Модуль `array`
+ * ***
+ *
+ * Функция для вычисления позиции в указанном массиве по указанным данным.
+ *
+ * Позиция берет своё начало в указанных индексах, после чего модифицирует их таким образом, чтобы они:
+ * - Попадали в диапазон массива.
+ * - Сдвигались при переполнении.
+ *
+ * ***
+ * @arg {any[]} array `Массив`
+ * @arg {...number} indexs `Индексы`
+*/
+export function arrayCalculatePosition(array, ...indexs) {
+
+    return calculatePositionDeceit({ array, indexs, });
 
 };
 

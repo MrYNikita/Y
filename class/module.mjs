@@ -1,7 +1,22 @@
 //#region YI
 
-import { config } from "../config.mjs";
-import { jectFill } from "../ject/module.mjs";
+import { jectAdopt } from '../ject/module.mjs';
+
+/** @type {import('./config.mjs')['default']?} */
+let config = null;
+
+await import('./config.mjs')
+
+    .then(c => config = c.default)
+    .catch(e => e);
+
+/** @type {import('./error.mjs')['default']?} */
+let error = null;
+
+await import('./error.mjs')
+
+    .then(i => error = i.default)
+    .catch(e => e);
 
 //#endregion
 //#region YT
@@ -14,7 +29,7 @@ import { jectFill } from "../ject/module.mjs";
  * Основной параметр модуля `class`.
  *
  * @typedef classT
- * @prop {typeof Object} cl
+ * @prop {any} _
  *
 */
 
@@ -25,7 +40,7 @@ import { jectFill } from "../ject/module.mjs";
 
 //#endregion
 
-//#region union 0.0.0
+//#region union 0.1.0
 
 /** ### classTFUnion
  * - Тип `TF`
@@ -109,7 +124,7 @@ function unionComply(t) {
 
         constructor(...t) {
 
-            [cl, clUnion].forEach(cl => jectFill(this, new cl(...t)));
+            [cl, clUnion].forEach(cl => jectAdopt(this, new cl(...t)));
 
         };
 
@@ -126,7 +141,7 @@ function unionComply(t) {
 
 /**
  * ### classUnion
- * - Версия `0.0.0`
+ * - Версия `0.1.0`
  * - Цепочка `DVHCa`
  * - Модуль `class`
  * ***
