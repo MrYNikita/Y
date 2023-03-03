@@ -11,6 +11,16 @@ export const configNumber = {
     */
     defaultValue: NaN,
     /**
+     * ### defaultHistory
+     *
+     * Дефолт история.
+     *
+     * ***
+     * @type {number[]}
+     * @public
+    */
+    defaultHistory: [],
+    /**
      * ### defaultModeConstant
      *
      * Дефолт режим коснтанты.

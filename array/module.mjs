@@ -1,7 +1,6 @@
 //#region YI
 
-import { condIsNumber } from '../bool/cond/module.mjs';
-import { YError } from '../error/class.mjs';
+import { condIsNumberLimit } from '../bool/cond/module.mjs';
 
 /** @type {import('./config.mjs')['default']?} */
 let config = null;
@@ -123,11 +122,11 @@ function getSliceComply(t) {
 
     } = t;
 
-    let slice = [];
+    let slice = array;
 
     for (const i of indexs) {
 
-        slice = array[i];
+        slice = slice[i];
 
     };
 
@@ -287,6 +286,120 @@ function getDimensionComply(t) {
 export function arrayGetDimension(array) {
 
     return getDimensionDeceit({ array });
+
+};
+
+//#endregion
+//#region getDevideByCount 0.0.0
+
+/** ### arrayTFGetDevideByCount
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `array`
+ * ***
+ *
+ * Результирующие параметры функции `getDevideByCount`.
+ *
+ * @typedef {arrayTFUGetDevideByCount&arrayT} arrayTFGetDevideByCount
+ *
+*/
+/** ### arrayTFUGetDevideByCount
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `array`
+ *
+ * Уникальные параметры функции `getDevideByCount`.
+ *
+ * @typedef arrayTFUGetDevideByCount
+ * @prop {number} count
+*/
+
+/** @arg {arrayTFGetDevideByCount} t */
+function getDevideByCountDeceit(t) {
+
+    try {
+
+        return getDevideByCountVerify(t);
+
+    } catch (e) {
+
+        if (config?.strict) {
+
+            throw e;
+
+        };
+
+        return undefined;
+
+    } finally {
+
+
+
+    };
+
+};
+/** @arg {arrayTFGetDevideByCount} t */
+function getDevideByCountVerify(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return getDevideByCountHandle(t);
+
+};
+/** @arg {arrayTFGetDevideByCount} t */
+function getDevideByCountHandle(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return getDevideByCountComply(t);
+
+};
+/** @arg {arrayTFGetDevideByCount} t */
+function getDevideByCountComply(t) {
+
+    const {
+
+        array,
+        count,
+
+    } = t;
+
+    const result = [];
+
+    for (let i = 0; i < array.length; i += count) {
+
+        result.push(array.slice(i, i + count));
+
+    };
+
+    return result;
+
+};
+
+/**
+ * ### arrayGetDevideByCount
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * - Модуль `array`
+ * ***
+ *
+ * Функция для деления указанного массива на массив подмассивов, где каждый подмассив содержит указанное количество элементов исходного массива.
+ *
+ * ***
+ * @arg {any[]} array `Массив`
+ * @arg {number} count `Количество`
+*/
+export function arrayGetDevideByCount(array, count) {
+
+    return getDevideByCountDeceit({ array, count, });
 
 };
 
@@ -501,55 +614,21 @@ function calculatePositionComply(t) {
 
     indexs.splice(dimensions.length);
 
-    arrayBring(indexs, dimensions.length, 0);
+    console.log(dimensions);
 
-    const slice = arrayGetSlice(dimensions, indexs.length - 1);
+    if (indexs[0] >= dimensions[0]) {
 
-    for (let i = dimensions.length - 1; i >= 0; i--) {
+        indexs[0] = dimensions[0] - 1;
 
-        let index = indexs[i];
+    };
 
-        while (index < 0) {
+    console.log(indexs);
 
-            if (condIsNumber(indexs[i - 1])) {
+    for (const i in indexs) {
 
-                indexs[i - 1]--;
-
-                index += slice[indexs[i - 1]];
-
-            } else {
-
-                index = 0;
-
-                break;
-
-            };
-
-        };
-
-        if (condIsNumber(indexs[i - 1])) {
-
-            while (index > slice[indexs[i - 1]]) {
-
-                if (slice[indexs[i - 1]] === slice.at(-1)) {
-
-                    index = slice[indexs[i - 1]] - 1;
-
-                    break;
-
-                } else {
-
-                    index -= slice[indexs[i - 1]];
-
-                    indexs[i - 1]++;
-
-                };
-
-            };
-
-        };
-
-        indexs[i] = index;
+        const indexC = indexs[i];
+        const indexN = indexs[+i - 1];
+        const slice = arrayGetSlice(dimensions, dimensions.length - 1, indexN);
 
     };
 

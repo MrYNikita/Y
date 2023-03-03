@@ -1,5 +1,6 @@
 //#region YI
 
+import { condIsNumberLimit } from '../bool/cond/module.mjs';
 import { YJect } from '../ject/class.mjs';
 import { numberGetRandomFrac, numberGetRandomReal } from './module.mjs';
 
@@ -105,6 +106,16 @@ class INumber extends DNumber {
      * @protected
     */
     value;
+    /**
+     * ### history
+     *
+     * История.
+     *
+     * ***
+     * @type {number[]}
+     * @protected
+    */
+    history;
 
 };
 class MNumber extends INumber {
@@ -124,6 +135,8 @@ class MNumber extends INumber {
     change(value) {
 
         if (!this.modeConstant && ((value && value.constructor === Number) || value === 0)) {
+
+            this.history.push(this.value);
 
             this.value = value;
 
@@ -529,6 +542,42 @@ export class YNumber extends FNumber {
     log(number) {
 
         return this.change(Math.log(number));
+
+    };
+    /**
+     * ### back
+     * - Версия `0.0.0`
+     * - Модуль `number`
+     * ***
+     *
+     * Метод отката значения на указанное количество операций.
+     *
+     * ***
+     * @arg {number} count `Счет`
+     * - Дефолт `1`
+     * @public
+    */
+    back(count = 1) {
+
+        if (!this.modeConstant && this.history.length && condIsNumberLimit(count)) {
+
+            if (count > this.history.length) {
+
+                count = this.history.length;
+
+            } else if (count <= 0) {
+
+                return this;
+
+            } else {
+
+                this.value = this.history.splice(this.history.length - count)[0];
+
+            };
+
+        };
+
+        return this;
 
     };
     /**
