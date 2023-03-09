@@ -80,10 +80,20 @@ class Y {
      * Класс YCond.
      *
      * ***
-     * @type {import('./bool/class.mjs').YCond?}
+     * @type {import('./bool/cond/class.mjs').YCond?}
      * @public
     */
     static YCond;
+    /**
+     * ### YCorr
+     *
+     * Класс YCorr.
+     *
+     * ***
+     * @type {import('./bool/cond/corr/class.mjs').YCorr?}
+     * @public
+    */
+    static YCorr;
     /**
      * ### YDate
      *
@@ -164,6 +174,26 @@ class Y {
      * @public
     */
     static YNumber;
+    /**
+     * ### YRegExp
+     *
+     * Класс YRegExp.
+     *
+     * ***
+     * @type {import('./RegExp/class.mjs').YRegExp?}
+     * @public
+    */
+    static YRegExp;
+    /**
+     * ### YRegExp
+     *
+     * Класс YRegExp.
+     *
+     * ***
+     * @type {import('./RegExp/class.mjs').YRegExp?}
+     * @public
+    */
+    static YRegExp;
 
     /**
      * ### moduleJect
@@ -225,6 +255,16 @@ class Y {
      * @public
     */
     static moduleCond;
+    /**
+     * ### moduleCorr
+     *
+     * Модуль corr.
+     *
+     * ***
+     * @type {import('./bool/cond/corr/module.mjs')?}
+     * @public
+    */
+    static moduleCorr;
     /**
      * ### moduleTest
      *
@@ -305,6 +345,26 @@ class Y {
      * @public
     */
     static moduleNumber;
+    /**
+     * ### moduleRegExp
+     *
+     * Модуль RegExp.
+     *
+     * ***
+     * @type {import('./regexp/module.mjs')?}
+     * @public
+    */
+    static moduleRegExp;
+    /**
+     * ### moduleRegExp
+     *
+     * Модуль RegExp.
+     *
+     * ***
+     * @type {import('./regexp/module.mjs')?}
+     * @public
+    */
+    static moduleRegExp;
 
     /**
      * ### load

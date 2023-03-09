@@ -224,6 +224,38 @@ export const configY = {
 
         },
         /**
+         * ### corr
+         *
+         * Данные модуля corr.
+         *
+         * ***
+         * @public
+        */
+        corr: {
+
+            /**
+             * ### load
+             *
+             * Подключение.
+             *
+             * ***
+             * @type {boolean}
+             * @public
+            */
+            load: true,
+            /**
+             * ### path
+             *
+             * Путь до модуля.
+             *
+             * ***
+             * @type {string}
+             * @public
+            */
+            path: './bool/cond/corr/',
+
+        },
+        /**
          * ### test
          *
          * Данные модуля test.
@@ -541,6 +573,70 @@ export const configY = {
              * @public
             */
             path: './number/',
+
+        },
+        /**
+         * ### string
+         *
+         * Данные модуля string.
+         *
+         * ***
+         * @public
+        */
+        string: {
+
+            /**
+             * ### load
+             *
+             * Подключение.
+             *
+             * ***
+             * @type {boolean}
+             * @public
+            */
+            load: true,
+            /**
+             * ### path
+             *
+             * Путь до модуля.
+             *
+             * ***
+             * @type {string}
+             * @public
+            */
+            path: './string/',
+
+        },
+        /**
+         * ### regexp
+         *
+         * Данные модуля regexp.
+         *
+         * ***
+         * @public
+        */
+        regexp: {
+
+            /**
+             * ### load
+             *
+             * Подключение.
+             *
+             * ***
+             * @type {boolean}
+             * @public
+            */
+            load: true,
+            /**
+             * ### path
+             *
+             * Путь до модуля.
+             *
+             * ***
+             * @type {regexp}
+             * @public
+            */
+            path: './regexp/',
 
         },
 

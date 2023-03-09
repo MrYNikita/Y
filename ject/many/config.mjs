@@ -9,7 +9,7 @@ export const configMany = {
      * @type {any[]}
      * @public
     */
-    defaultValues: [],
+    defaultValues: undefined,
     /**
      * ### defaultCursor
      *
@@ -30,16 +30,6 @@ export const configMany = {
      * @public
     */
     defaultCursors: [],
-    /**
-     * ### defaultDimension
-     *
-     * Дефолт измерений.
-     *
-     * ***
-     * @type {number}
-     * @public
-    */
-    defaultDimension: 1,
 
 };
 

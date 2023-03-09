@@ -1,6 +1,7 @@
 //#region YI
 
-import { condIsNumberLimit } from '../bool/cond/module.mjs';
+import { condIsMany, condIsNumberLimit } from '../bool/cond/module.mjs';
+import { YMany } from '../ject/many/class.mjs';
 
 /** @type {import('./config.mjs')['default']?} */
 let config = null;
@@ -40,6 +41,129 @@ await import('./error.mjs')
 
 //#endregion
 
+//#region get 0.0.0
+
+/** ### arrayTFGet
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `array`
+ * ***
+ *
+ * Результирующие параметры функции `get`.
+ *
+ * @typedef {arrayTFUGet&arrayT} arrayTFGet
+ *
+*/
+/** ### arrayTFUGet
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `array`
+ *
+ * Уникальные параметры функции `get`.
+ *
+ * @typedef arrayTFUGet
+ * @prop {number[]} indexs
+*/
+
+/** @arg {arrayTFGet} t */
+function getDeceit(t) {
+
+    try {
+
+        return getVerify(t);
+
+    } catch (e) {
+
+        if (config?.strict) {
+
+            throw e;
+
+        };
+
+        return undefined;
+
+    } finally {
+
+
+
+    };
+
+};
+/** @arg {arrayTFGet} t */
+function getVerify(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return getHandle(t);
+
+};
+/** @arg {arrayTFGet} t */
+function getHandle(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return getComply(t);
+
+};
+/** @arg {arrayTFGet} t */
+function getComply(t) {
+
+    const {
+
+        array,
+        indexs,
+
+    } = t;
+
+    if (indexs.length) {
+
+        let result = array;
+
+        for (const index of indexs) {
+
+
+            result = result[index];
+
+        };
+
+        return result;
+
+    } else {
+
+        return undefined;
+
+    };
+
+};
+
+/**
+ * ### arrayGet
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * - Модуль `array`
+ * ***
+ *
+ * Функция получения значения массива в указанной позиции.
+ *
+ * ***
+ * @arg {any[]} array `Массив`
+ * @arg {...number} indexs `Индексы`
+*/
+export function arrayGet(array, ...indexs) {
+
+    return getDeceit({ array, indexs, });
+
+};
+
+//#endregion
 //#region getSlice 0.0.0
 
 /** ### arrayTFGetSlice
@@ -290,7 +414,7 @@ export function arrayGetDimension(array) {
 };
 
 //#endregion
-//#region getDevideByCount 0.0.0
+//#region getDevideByCount 0.1.0
 
 /** ### arrayTFGetDevideByCount
  * - Тип `TF`
@@ -359,6 +483,12 @@ function getDevideByCountHandle(t) {
 
     } = t;
 
+    if (!condIsMany(t.array)) {
+
+        t.array = [t.array];
+
+    };
+
     return getDevideByCountComply(t);
 
 };
@@ -373,6 +503,12 @@ function getDevideByCountComply(t) {
     } = t;
 
     const result = [];
+
+    if (t.array.length === 1) {
+
+        return t.array;
+
+    };
 
     for (let i = 0; i < array.length; i += count) {
 
@@ -527,8 +663,128 @@ export function arrayBring(array, length, append) {
 };
 
 //#endregion
+//#region equal 0.0.0
 
-//#region calculatePosition 0.0.0
+/** ### arrayTFEqual
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `array`
+ * ***
+ *
+ * Результирующие параметры функции `equal`.
+ *
+ * @typedef {arrayTFUEqual&arrayT} arrayTFEqual
+ *
+*/
+/** ### arrayTFUEqual
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `array`
+ *
+ * Уникальные параметры функции `equal`.
+ *
+ * @typedef arrayTFUEqual
+ * @prop {any[][]} arrays
+*/
+
+/** @arg {arrayTFEqual} t */
+function equalDeceit(t) {
+
+    try {
+
+        return equalVerify(t);
+
+    } catch (e) {
+
+        if (config?.strict) {
+
+            throw e;
+
+        };
+
+        return undefined;
+
+    } finally {
+
+
+
+    };
+
+};
+/** @arg {arrayTFEqual} t */
+function equalVerify(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return equalHandle(t);
+
+};
+/** @arg {arrayTFEqual} t */
+function equalHandle(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return equalComply(t);
+
+};
+/** @arg {arrayTFEqual} t */
+function equalComply(t) {
+
+    const {
+
+        array,
+        arrays,
+
+    } = t;
+
+    for (const a of arrays) {
+
+        for (const i in a) {
+
+            if (array[i] !== a[i]) {
+
+                return false;
+
+            };
+
+        };
+
+    };
+
+    return true;
+
+};
+
+/**
+ * ### arrayEqual
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * - Модуль `array`
+ * ***
+ *
+ * Функция проверки значений указанных массивов на эквивалентность с первым указанным массивом.
+ *
+ * ***
+ * @arg {any[]} array `Массив`
+ * @arg {...any[]} arrays `Массивы`
+*/
+export function arrayEqual(array, ...arrays) {
+
+    return equalDeceit({ array, arrays, });
+
+};
+
+//#endregion
+
+//#region calculatePosition 0.1.0
 
 /** ### arrayTFCalculatePosition
  * - Тип `TF`
@@ -611,26 +867,88 @@ function calculatePositionComply(t) {
     } = t;
 
     const dimensions = arrayGetDimension(array);
+    const dimensionsPart = arrayGetDevideByCount(dimensions.at(-1), dimensions.at(-2));
 
     indexs.splice(dimensions.length);
 
-    console.log(dimensions);
+    for (let i = dimensions.length - 3; i > 0; i--) {
 
-    if (indexs[0] >= dimensions[0]) {
-
-        indexs[0] = dimensions[0] - 1;
+        dimensionsPart.splice(0, dimensionsPart.length, ...arrayGetDevideByCount(dimensionsPart, dimensions[i]));
 
     };
 
-    console.log(indexs);
+    const f1 = () => arrayGetSlice(dimensionsPart, ...(dimensionsPart.length === 1 && dimensionsPart[0].constructor !== Array ? [0] : indexs.length === 2 ? [0, indexs[0]] : indexs.slice(0, -1)));
 
-    for (const i in indexs) {
+    do {
 
-        const indexC = indexs[i];
-        const indexN = indexs[+i - 1];
-        const slice = arrayGetSlice(dimensions, dimensions.length - 1, indexN);
+        let index = NaN;
 
-    };
+        if (indexs[0] >= dimensions[0]) {
+
+            indexs[0] = dimensions[0] - 1;
+
+        } else if (indexs[0] < 0) {
+
+            indexs[0] = 0;
+
+        };
+
+        if ((index = indexs.slice(1, -1).findIndex((index, i) => index >= dimensions[i + 1])) !== -1) {
+
+            indexs[index + 1] -= dimensions[index + 1];
+
+            if (indexs.slice(0, index + 1).every((index, i) => index !== dimensions[i])) {
+
+                indexs[index] += 1;
+
+            };
+
+        } else if ((index = indexs.slice(1, -1).findIndex((index, i) => index < 0)) !== -1) {
+
+            indexs[index + 1] += dimensions[index + 1];
+
+            if (indexs.slice(0, index + 1).every((index, i) => index !== 0)) {
+
+                indexs[index] -= 1;
+
+            };
+
+        } else if (indexs.at(-1) >= f1()) {
+
+            indexs[indexs.length - 1] -= f1();
+
+            if (indexs.slice(0, indexs.length - 1).every((index, i) => index !== dimensions[i] - 1)) {
+
+                indexs[indexs.length - 2] += 1;
+
+            } else {
+
+                indexs[indexs.length - 1] = f1() - 1;
+
+            };
+
+
+        } else if (indexs.at(-1) < 0) {
+
+            indexs[indexs.length - 1] += f1();
+
+            if (indexs.slice(0, indexs.length - 1).every((index, i) => index !== 0)) {
+
+                indexs[indexs.length - 2] -= 1;
+
+            } else {
+
+                indexs[indexs.length - 1] = 0;
+
+            };
+
+        } else {
+
+            break;
+
+        };
+
+    } while (true);
 
     return indexs;
 

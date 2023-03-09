@@ -233,5 +233,24 @@ export class YCursor extends FCursor {
         return this;
 
     };
+    /**
+     * ### setIndexs
+     * - Версия `0.0.0`
+     * - Модуль `ject\many\cursor`
+     * ***
+     *
+     * Метод установки координат для курсора.
+     *
+     * ***
+     * @arg {...number} coords `Коориднаты`
+     * @public
+    */
+    setIndexs(...coords) {
+
+        this.indexs = coords;
+
+        return this;
+
+    };
 
 };

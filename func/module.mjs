@@ -73,7 +73,11 @@ function bypassDeceit(t) {
 
     } catch (e) {
 
-        if (config.strict) throw e;
+        if (config?.strict) {
+
+            throw e;
+
+        };
 
         return undefined;
 
@@ -106,15 +110,11 @@ function bypassComply(t) {
 
     } = t;
 
-    let result = functions.splice(0, 1)[0];
+    let result = value;
 
-    result = result[0](value, result.slice(1));
+    for (const func of functions) {
 
-    while (functions.reverse().length) {
-
-        const f = functions.pop();
-
-        result = f[0](result, ...f.splice(1));
+        result = func[0](result, ...func.slice(1));
 
     };
 

@@ -1,6 +1,7 @@
 //#region YI
 
 import { YError } from '../../error/class.mjs';
+import { YMany } from '../../ject/many/class.mjs';
 import { YCond } from './class.mjs';
 
 /** @type {import('./config.mjs')['default']?} */
@@ -275,6 +276,126 @@ function isBoolComply(t) {
 export function condIsBool(value) {
 
     return isBoolDeceit({ value });
+
+};
+
+//#endregion
+//#region isMany 0.0.0
+
+/** ### condTFIsMany
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `bool\cond`
+ * ***
+ *
+ * Результирующие параметры функции `isMany`.
+ *
+ * @typedef {condTFUIsMany&condT&condTValue} condTFIsMany
+ *
+*/
+/** ### condTFUIsMany
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `bool\cond`
+ *
+ * Уникальные параметры функции `isMany`.
+ *
+ * @typedef condTFUIsMany
+ * @prop {any} _
+*/
+
+/** @arg {condTFIsMany} t */
+function isManyDeceit(t) {
+
+    try {
+
+        return isManyVerify(t);
+
+    } catch (e) {
+
+        if (config?.strict) {
+
+            throw e;
+
+        };
+
+        return undefined;
+
+    } finally {
+
+
+
+    };
+
+};
+/** @arg {condTFIsMany} t */
+function isManyVerify(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return isManyHandle(t);
+
+};
+/** @arg {condTFIsMany} t */
+function isManyHandle(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return isManyComply(t);
+
+};
+/** @arg {condTFIsMany} t */
+function isManyComply(t) {
+
+    const {
+
+        value,
+
+    } = t;
+
+    return [
+
+        Set,
+        Map,
+        YMany,
+        Array,
+        String,
+
+    ].some(type => value?.constructor === type || value instanceof type);
+
+};
+
+/**
+ * ### condIsMany
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * - Модуль `bool\cond`
+ * ***
+ *
+ * Функция проверки значения на принадлежность ко множествам.
+ *
+ * Ко множествам относятся:
+ * - Set;
+ * - Map;
+ * - YMany;
+ * - Array;
+ * - String;
+ * - Наследуемые от них элементы;
+ *
+ * ***
+ * @arg value `Значение`
+*/
+export function condIsMany(value) {
+
+    return isManyDeceit({ value });
 
 };
 

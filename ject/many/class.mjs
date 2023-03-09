@@ -1,5 +1,6 @@
 //#region YI
 
+import { arrayCalculatePosition, arrayGet } from '../../array/module.mjs';
 import { numberGetSequence } from '../../number/module.mjs';
 import { YJect } from '../class.mjs';
 import { YCursor } from './cursor/class.mjs';
@@ -94,16 +95,6 @@ class DMany extends SMany {
      * @protected
     */
     cursors;
-    /**
-     * ### dimension
-     *
-     * Измерения.
-     *
-     * ***
-     * @type {number}
-     * @protected
-    */
-    dimension;
 
 };
 /**
@@ -225,13 +216,6 @@ class FMany extends MMany {
     /** @arg {YManyT} t @this {YMany} */
     static #handle(t) {
 
-        if (!t.cursors) {
-
-            t.cursors = [new YCursor(...numberGetSequence(t.dimension ?? config.defaultDimension, 0, 0))];
-            t.cursor = t.cursors[0];
-
-        };
-
         FMany.#create.apply(this, [t]);
 
     };
@@ -276,7 +260,7 @@ export class YMany extends FMany {
 
     /**
      * ### moveCursors
-     * - Версия `0.0.0`
+     * - Версия `0.1.0`
      * - Модуль `ject\many`
      * ***
      *
@@ -290,27 +274,74 @@ export class YMany extends FMany {
 
         this.cursors.forEach(c => {
 
-            c.move(...bias).indexs.forEach((index, i) => {
+            c.move(...bias);
 
-                if (index < 0) {
-
-                    if (c.indexs[i - 1]) {
-
-
-
-                    } else {
-
-
-
-                    };
-
-                    c.indexs[i] = 0;
-
-                };
-
-            });
+            c.indexs = arrayCalculatePosition(this.values, ...c.indexs);
 
         });
+
+        return this;
+
+    };
+    /**
+     * ### setCursorTo
+     * - Версия `0.0.0`
+     * - Модуль `ject\many`
+     * ***
+     *
+     * Метод установки координат для основного курсора.
+     *
+     * Данный метод также удаляет все второстепенные курсоры.
+     *
+     * ***
+     * @arg {...number} coords `Координаты`
+     * @public
+    */
+    setCursorTo(...coords) {
+
+        this.cursors.splice(1);
+        this.cursor.setIndexs(...coords);
+
+        return this;
+
+    };
+    /**
+     * ### getByCursors
+     * - Версия `0.0.0`
+     * - Модуль `ject\many`
+     * ***
+     *
+     * Метод получения всех значений в областях курсоров.
+     *
+     * ***
+     * @public
+    */
+    getByCursors() {
+
+        return this.cursors.map(c => arrayGet(this.values, ...c.indexs));
+
+    };
+    /**
+     * ### appendCursors
+     * - Версия `0.0.0`
+     * - Модуль `ject\many`
+     * ***
+     *
+     * Метод добавления курсоров.
+     *
+     * ***
+     * @arg {...(number[])} indexs `Индексы`
+     * @public
+    */
+    appendCursors(...indexs) {
+
+        this.cursors.push(...indexs.map(indexs => new YCursor(...indexs)));
+
+        if (!this.cursor) {
+
+            this.cursor = this.cursors[0];
+
+        };
 
         return this;
 

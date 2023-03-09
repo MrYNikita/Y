@@ -36,7 +36,28 @@ await import('./error.mjs')
 //#endregion
 //#region YV
 
-
+/**
+ * ### testVStringRuler
+ * - Версия `0.0.0`
+ * - Модуль `test`
+ *
+ * Значение представленное строкой с числами от 0 до 9 идущими подряд.
+ *
+ * ***
+ * @type {string}
+*/
+export const testVStringRuler = '0123456789';
+/**
+ * ### testVStringSquare
+ * - Версия `0.0.0`
+ * - Модуль `test`
+ *
+ * Значение представленное многолинейной строкой с различными значениями.
+ *
+ * ***
+ *
+*/
+export const testVStringSquare = `xxxxxxxxxx\nyyyyyyyyyy\nzzzzzzzzzz\niiiiiiiiii\nwwwwwwwwww`;
 
 //#endregion
 
