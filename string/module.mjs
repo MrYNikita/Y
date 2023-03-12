@@ -44,7 +44,7 @@ await import('./error.mjs')
  *
  *
  * @typedef stringTRow
- * @prop {number} row
+ * @prop {number} y
  *
 */
 /** ### stringTIndex
@@ -85,7 +85,7 @@ await import('./error.mjs')
  *
  *
  * @typedef stringTColumn
- * @prop {number} column
+ * @prop {number} x
  *
 */
 /** ### stringTInsert
@@ -126,6 +126,124 @@ await import('./error.mjs')
 //#region YV
 
 
+
+//#endregion
+
+//#region setRow 0.0.0
+
+/** ### stringTFSetRow
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `string`
+ * ***
+ *
+ * Результирующие параметры функции `setRow`.
+ *
+ * @typedef {stringTFUSetRow&stringT} stringTFSetRow
+ *
+*/
+/** ### stringTFUSetRow
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `string`
+ *
+ * Уникальные параметры функции `setRow`.
+ *
+ * @typedef stringTFUSetRow
+ * @prop {string} row
+ * @prop {number} index
+*/
+
+/** @arg {stringTFSetRow} t */
+function setRowDeceit(t) {
+
+    try {
+
+        return setRowVerify(t);
+
+    } catch (e) {
+
+        if (config?.strict) {
+
+            throw e;
+
+        };
+
+        return undefined;
+
+    } finally {
+
+
+
+    };
+
+};
+/** @arg {stringTFSetRow} t */
+function setRowVerify(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return setRowHandle(t);
+
+};
+/** @arg {stringTFSetRow} t */
+function setRowHandle(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return setRowComply(t);
+
+};
+/** @arg {stringTFSetRow} t */
+function setRowComply(t) {
+
+    const {
+
+        row,
+        index,
+        string,
+
+    } = t;
+
+    const result = string.split('\n');
+
+    if (result[index] || result[index] === '') {
+
+        result[index] = row;
+
+    };
+
+    return result.join('\n');
+
+};
+
+/**
+ * ### stringSetRow
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * - Модуль `string`
+ * ***
+ *
+ * Функция замены линии в указанной строке.
+ *
+ * ***
+ * @arg {string} row `Линия`
+ * @arg {string} string `Строка`
+ * @arg {number} index `Индекс`
+*/
+export function stringSetRow(string, row, index = 0) {
+
+    return setRowDeceit({ string, index, row, });
+
+};
 
 //#endregion
 
@@ -198,9 +316,9 @@ function getHandle(t) {
 
     } = t;
 
-    if (!t.column) {
+    if (!t.x) {
 
-        [t.column, t.row] = [t.row, null];
+        [t.x, t.y] = [t.y, null];
 
     };
 
@@ -212,21 +330,21 @@ function getComply(t) {
 
     const {
 
-        row,
-        column,
+        y,
+        x,
         string,
 
     } = t;
 
     const rows = string.split('\n');
 
-    if (condIsNumberLimit(row)) {
+    if (condIsNumberLimit(y)) {
 
-        return rows[row][column];
+        return rows[y][x];
 
     } else {
 
-        return rows[0][column];
+        return rows[0][x];
 
     };
 
@@ -243,14 +361,14 @@ function getComply(t) {
  *
  * ***
  * @arg {string} string `Строка`
- * @arg {number} row `Линия`
+ * @arg {number} y `Линия`
  *
  * Если указывается без `столбца`, то будет предена как столбец.
- * @arg {number} column `Столбец`
+ * @arg {number} x `Столбец`
 */
-export function stringGet(string, row, column) {
+export function stringGet(string, y, x) {
 
-    return getDeceit({ string, row, column });
+    return getDeceit({ string, y, x });
 
 };
 
@@ -332,14 +450,14 @@ function getRowComply(t) {
 
     const {
 
-        row,
+        y,
         string,
 
     } = t;
 
-    const result = string.split('\n')[row];
+    const result = string.split('\n')[y];
 
-    if (result) {
+    if (result || result === '') {
 
         return result;
 
@@ -361,12 +479,12 @@ function getRowComply(t) {
  * Функция получения указанной линии из указанной строки.
  *
  * ***
- * @arg {number} row `Линия`
+ * @arg {number} y `Линия`
  * @arg {string} string `Строка`
 */
-export function stringGetRow(string, row) {
+export function stringGetRow(string, y) {
 
-    return getRowDeceit({ string, row });
+    return getRowDeceit({ string, y });
 
 };
 
@@ -556,7 +674,7 @@ function getMatrixComply(t) {
 
     } = t;
 
-    return string.split('\n').map(row => row.split(''));
+    return string.split('\n').map(y => y.split(''));
 
 };
 
@@ -703,7 +821,7 @@ function padComply(t) {
  *
  * - Дефолт `true`
 */
-export function stringPad(string, pad, limit, index = string.length, modeCut = true) {
+export function stringPad(string, pad, limit, index = string?.length ?? 0, modeCut = true) {
 
     return padDeceit({ string, limit, index, pad, modeCut });
 
@@ -763,9 +881,16 @@ function padRowVerify(t) {
 
     const {
 
-
+        limit,
+        string,
 
     } = t;
+
+    if (!limit || limit <= stringGetRows(string).length) {
+
+        return t.string;
+
+    };
 
     return padRowHandle(t);
 
@@ -903,9 +1028,9 @@ function padColumnComply(t) {
 
     } = t;
 
-    return string.split('\n').map(row => {
+    return string.split('\n').map(y => {
 
-        const r = stringPad(row, pad, limit);
+        const r = stringPad(y, pad, limit);
 
         return r;
 
@@ -932,6 +1057,257 @@ function padColumnComply(t) {
 export function stringPadColumn(string, limit, pad = ' ') {
 
     return padColumnDeceit({ string, limit, pad, });
+
+};
+
+//#endregion
+//#region padToPosition 0.0.0
+
+/** ### stringTFPadToPosition
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `string`
+ * ***
+ *
+ * Результирующие параметры функции `padToPosition`.
+ *
+ * @typedef {stringTFUPadToPosition&stringT&stringTPosition} stringTFPadToPosition
+ *
+*/
+/** ### stringTFUPadToPosition
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `string`
+ *
+ * Уникальные параметры функции `padToPosition`.
+ *
+ * @typedef stringTFUPadToPosition
+ * @prop {string} space
+ * @prop {string} rowEnd
+*/
+
+/** @arg {stringTFPadToPosition} t */
+function padToPositionDeceit(t) {
+
+    try {
+
+        return padToPositionVerify(t);
+
+    } catch (e) {
+
+        if (config?.strict) {
+
+            throw e;
+
+        };
+
+        return undefined;
+
+    } finally {
+
+
+
+    };
+
+};
+/** @arg {stringTFPadToPosition} t */
+function padToPositionVerify(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return padToPositionHandle(t);
+
+};
+/** @arg {stringTFPadToPosition} t */
+function padToPositionHandle(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return padToPositionComply(t);
+
+};
+/** @arg {stringTFPadToPosition} t */
+function padToPositionComply(t) {
+
+    let {
+
+        y,
+
+    } = t;
+
+    const {
+
+        space,
+        string,
+        x,
+        rowEnd,
+
+    } = t;
+
+    let result = string;
+
+    result = funcBypass(result,
+
+        [stringPadRow, y + 1, rowEnd],
+        [stringSplit, rowEnd],
+
+    );
+
+    result[y] = stringPad(result[y], space, x);
+
+    return result.join(rowEnd);
+
+};
+
+/**
+ * ### stringPadToPosition
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * - Модуль `string`
+ * ***
+ *
+ * Функция приведения указанной строки до указанной позиции.
+ *
+ * ***
+ * @arg {string} string `Строка`
+ * @arg {number} y `Линия`
+ * @arg {number} x `Столбец`
+ * @arg {string?} space `Заполнитель`
+ * @arg {string?} rowEnd `Конец линии`
+*/
+export function stringPadToPosition(string, y, x, space = config.space, rowEnd = config.rowEnd) {
+
+    return padToPositionDeceit({ string, y, x, space, rowEnd, });
+
+};
+
+//#endregion
+
+//#region skip 0.0.0
+
+/** ### stringTFSkip
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `string`
+ * ***
+ *
+ * Результирующие параметры функции `skip`.
+ *
+ * @typedef {stringTFUSkip&stringT} stringTFSkip
+ *
+*/
+/** ### stringTFUSkip
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `string`
+ *
+ * Уникальные параметры функции `skip`.
+ *
+ * @typedef stringTFUSkip
+ * @prop {string} layer
+ * @prop {string} symbol
+*/
+
+/** @arg {stringTFSkip} t */
+function skipDeceit(t) {
+
+    try {
+
+        return skipVerify(t);
+
+    } catch (e) {
+
+        if (config?.strict) {
+
+            throw e;
+
+        };
+
+        return undefined;
+
+    } finally {
+
+
+
+    };
+
+};
+/** @arg {stringTFSkip} t */
+function skipVerify(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return skipHandle(t);
+
+};
+/** @arg {stringTFSkip} t */
+function skipHandle(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return skipComply(t);
+
+};
+/** @arg {stringTFSkip} t */
+function skipComply(t) {
+
+    const {
+
+        layer,
+        string,
+        symbol,
+
+    } = t;
+
+    let result = stringPaste(string, layer, 0, layer.length);
+
+    Array.from(layer.matchAll(symbol)).forEach(match => result = stringPaste(result, string[match.index] ?? symbol, match.index, true));
+
+    return result;
+
+};
+
+/**
+ * ### stringSkip
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * - Модуль `string`
+ * ***
+ *
+ * Функция пропускания слоя через строку.
+ *
+ * Возвращает в качестве результата исходную строку, в которой:
+ * - Часть заменена на слой.
+ * - Слой оставляет символы исходной строки, которые он не покрыл или те, которые были указаны в нём как пропускные.
+ *
+ * Пропускной символ - указатель слоя, который говорит функции, что она должна оставить на данном месте символ исходной строки.
+ *
+ * ***
+ * @arg {string} string `Строка`
+ * @arg {string} layer `Слой`
+ *
+ * Слой, эта строка, которая встанет на ту часть исходной строки, которую сможет покрыть от начала и до конца своей длины.
+ * @arg {string} symbol `Символ`
+*/
+export function stringSkip(string, layer, symbol) {
+
+    return skipDeceit({ string, layer, symbol, });
 
 };
 
@@ -1025,15 +1401,15 @@ function trimComply(t) {
 
     if (end && start) {
 
-        result = result.trim().split('\n').map(row => row.trim()).join('\n');
+        result = result.trim();
 
     } else if (end) {
 
-        result = result.trimEnd().split('\n').map(row => row.trimEnd()).join('\n');
+        result = result.trimEnd();
 
     } else if (start) {
 
-        result = result.trimStart().split('\n').map(row => row.trimStart()).join('\n');
+        result = result.trimStart();
 
     };
 
@@ -1072,7 +1448,7 @@ export function stringTrim(string, end = true, start = false) {
  *
  * Результирующие параметры функции `trimRow`.
  *
- * @typedef {stringTFUTrimRow&stringT} stringTFTrimRow
+ * @typedef {stringTFUTrimRow&stringT&stringTFTrim} stringTFTrimRow
  *
 */
 /** ### stringTFUTrimRow
@@ -1139,11 +1515,28 @@ function trimRowComply(t) {
 
     const {
 
-
+        end,
+        start,
+        string,
 
     } = t;
 
+    return string.split('\n').map(y => {
 
+        if (end) {
+
+            y = y.trimEnd();
+
+        };
+        if (start) {
+
+            y = y.trimStart();
+
+        };
+
+        return y;
+
+    }).join('\n');
 
 };
 
@@ -1154,14 +1547,16 @@ function trimRowComply(t) {
  * - Модуль `string`
  * ***
  *
- *
+ * Функция построчного усечения.
  *
  * ***
- *
+ * @arg {string} string `Строка`
+ * @arg {boolean} end `Конец`
+ * @arg {boolean} start `Начало`
 */
-export function stringTrimRow() {
+export function stringTrimRow(string, start, end = true) {
 
-    return trimRowDeceit({});
+    return trimRowDeceit({ string, start, end, });
 
 };
 
@@ -1288,6 +1683,113 @@ export function stringSplit(string, separator, count) {
 };
 
 //#endregion
+//#region splitByCount 0.0.0
+
+/** ### stringTFSplitByCount
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `string`
+ * ***
+ *
+ * Результирующие параметры функции `splitByCount`.
+ *
+ * @typedef {stringTFUSplitByCount&stringT} stringTFSplitByCount
+ *
+*/
+/** ### stringTFUSplitByCount
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `string`
+ *
+ * Уникальные параметры функции `splitByCount`.
+ *
+ * @typedef stringTFUSplitByCount
+ * @prop {number} count
+*/
+
+/** @arg {stringTFSplitByCount} t */
+function splitByCountDeceit(t) {
+
+    try {
+
+        return splitByCountVerify(t);
+
+    } catch (e) {
+
+        if (config?.strict) {
+
+            throw e;
+
+        };
+
+        return undefined;
+
+    } finally {
+
+
+
+    };
+
+};
+/** @arg {stringTFSplitByCount} t */
+function splitByCountVerify(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return splitByCountHandle(t);
+
+};
+/** @arg {stringTFSplitByCount} t */
+function splitByCountHandle(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return splitByCountComply(t);
+
+};
+/** @arg {stringTFSplitByCount} t */
+function splitByCountComply(t) {
+
+    const {
+
+        count,
+        string,
+
+    } = t;
+
+    return arrayGetDevideByCount(string, count);
+
+};
+
+/**
+ * ### stringSplitByCount
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * - Модуль `string`
+ * ***
+ *
+ * Функция разбиения указанной строки на подстроки указанной длины.
+ *
+ * ***
+ * @arg {string} string `Строка`
+ * @arg {number} count `Счётчик`
+*/
+export function stringSplitByCount(string, count) {
+
+    return splitByCountDeceit({ string, count, });
+
+};
+
+//#endregion
+
 //#region unify 0.0.1
 
 /** ### stringTFUnify
@@ -1441,7 +1943,7 @@ export function stringUnifyBySymbol(string, symbols) {
  *
  * Результирующие параметры функции `paste`.
  *
- * @typedef {stringTFUPaste&stringTIndex&stringTLength} stringTFPaste
+ * @typedef {stringTFUPaste&stringTIndex&stringTLength&stringT} stringTFPaste
  *
 */
 /** ### stringTFUPaste
@@ -1453,6 +1955,7 @@ export function stringUnifyBySymbol(string, symbols) {
  *
  * @typedef stringTFUPaste
  * @prop {string} paste
+ * @prop {boolean} modeSkip
 */
 
 /** @arg {stringTFPaste} t */
@@ -1491,6 +1994,18 @@ function pasteHandle(t) {
 
 
     } = t;
+
+    if (!t.length) {
+
+        t.length = t.paste.length;
+
+    };
+
+    if (t.modeSkip) {
+
+        t.paste = stringSkip(t.string.slice(t.index, (t.length + t.index) ?? undefined), t.paste, config.skipValue).slice(0, t.length ?? t.paste.length);
+
+    };
 
     return pasteComply(t);
 
@@ -1551,9 +2066,240 @@ function pasteComply(t) {
  * @arg {string} paste `Вставка`
  * @arg {string} string `Строка`
 */
-export function stringPaste(string, paste, index = string.length ?? 0, length = 0) {
+export function stringPaste(string, paste, index = string.length ?? 0, length = 0, modeSkip = config.modeSkip) {
 
-    return pasteDeceit({ string, paste, index, length, });
+    return pasteDeceit({ string, paste, index, length, modeSkip, });
+
+};
+
+//#endregion
+//#region pasteWrap 0.0.0
+
+/** ### stringTFPasteWrap
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `string`
+ * ***
+ *
+ * Результирующие параметры функции `pasteWrap`.
+ *
+ * @typedef {stringTFUPasteWrap&stringT&stringTPosition} stringTFPasteWrap
+ *
+*/
+/** ### stringTFUPasteWrap
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `string`
+ *
+ * Уникальные параметры функции `pasteWrap`.
+ *
+ * @typedef stringTFUPasteWrap
+ * @prop {string} wrap
+ * @prop {boolean} modeSkip
+*/
+
+/** @arg {stringTFPasteWrap} t */
+function pasteWrapDeceit(t) {
+
+    try {
+
+        return pasteWrapVerify(t);
+
+    } catch (e) {
+
+        if (config?.strict) {
+
+            throw e;
+
+        };
+
+        return undefined;
+
+    } finally {
+
+
+
+    };
+
+};
+/** @arg {stringTFPasteWrap} t */
+function pasteWrapVerify(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return pasteWrapHandle(t);
+
+};
+/** @arg {stringTFPasteWrap} t */
+function pasteWrapHandle(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return pasteWrapComply(t);
+
+};
+/** @arg {stringTFPasteWrap} t */
+function pasteWrapComply(t) {
+
+    const {
+
+        y,
+        wrap,
+        x,
+        string,
+        modeSkip,
+
+    } = t;
+
+    let result = string;
+
+    wrap.split('\n').forEach((rowWrap, i) => {
+
+        result = stringPadToPosition(result, y + i, x);
+
+        let row = stringGetRow(result, y + i);
+
+        row = stringPaste(row, rowWrap, x, rowWrap.length, modeSkip);
+
+        result = stringSetRow(result, row, y + i);
+
+    });
+
+    return result;
+
+};
+
+/**
+ * ### stringPasteWrap
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * - Модуль `string`
+ * ***
+ *
+ * Функция вставки в указанную строку указанную вставку с переносом.
+ *
+ * ***
+ * @arg {string} string `Строка`
+ * @arg {string} wrap `Вставка`
+ * @arg {number} y `Строка`
+ * @arg {number} x `Столбец`
+ * @arg {boolean} modeSkip `Режим пропуска`
+*/
+export function stringPasteWrap(string, wrap = '', y, x, modeSkip) {
+
+    return pasteWrapDeceit({ string, wrap, y, x, modeSkip, });
+
+};
+
+//#endregion
+//#region pasteByPosition 0.0.0
+
+/** ### stringTFPasteByPosition
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `string`
+ * ***
+ *
+ * Результирующие параметры функции `pasteByPosition`.
+ *
+ * @typedef {stringTFUPasteByPosition&stringT} stringTFPasteByPosition
+ *
+*/
+/** ### stringTFUPasteByPosition
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `string`
+ *
+ * Уникальные параметры функции `pasteByPosition`.
+ *
+ * @typedef stringTFUPasteByPosition
+ * @prop {any} _
+*/
+
+/** @arg {stringTFPasteByPosition} t */
+function pasteByPositionDeceit(t) {
+
+    try {
+
+        return pasteByPositionVerify(t);
+
+    } catch (e) {
+
+        if (config?.strict) {
+
+            throw e;
+
+        };
+
+        return undefined;
+
+    } finally {
+
+
+
+    };
+
+};
+/** @arg {stringTFPasteByPosition} t */
+function pasteByPositionVerify(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return pasteByPositionHandle(t);
+
+};
+/** @arg {stringTFPasteByPosition} t */
+function pasteByPositionHandle(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return pasteByPositionComply(t);
+
+};
+/** @arg {stringTFPasteByPosition} t */
+function pasteByPositionComply(t) {
+
+    const {
+
+
+
+    } = t;
+
+
+
+};
+
+/**
+ * ### stringPasteByPosition
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * - Модуль `string`
+ * ***
+ *
+ *
+ *
+ * ***
+ *
+*/
+export function stringPasteByPosition() {
+
+    return pasteByPositionDeceit({});
 
 };
 
@@ -2388,113 +3134,6 @@ function insertBypassComply(t) {
 export function stringInsertBypass(string, find, ...values) {
 
     return insertBypassDeceit({ string, values, find, });
-
-};
-
-//#endregion
-
-//#region devideByCount 0.0.0
-
-/** ### stringTFDevideByCount
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `string`
- * ***
- *
- * Результирующие параметры функции `devideByCount`.
- *
- * @typedef {stringTFUDevideByCount&stringT} stringTFDevideByCount
- *
-*/
-/** ### stringTFUDevideByCount
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `string`
- *
- * Уникальные параметры функции `devideByCount`.
- *
- * @typedef stringTFUDevideByCount
- * @prop {number} count
-*/
-
-/** @arg {stringTFDevideByCount} t */
-function devideByCountDeceit(t) {
-
-    try {
-
-        return devideByCountVerify(t);
-
-    } catch (e) {
-
-        if (config?.strict) {
-
-            throw e;
-
-        };
-
-        return undefined;
-
-    } finally {
-
-
-
-    };
-
-};
-/** @arg {stringTFDevideByCount} t */
-function devideByCountVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return devideByCountHandle(t);
-
-};
-/** @arg {stringTFDevideByCount} t */
-function devideByCountHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return devideByCountComply(t);
-
-};
-/** @arg {stringTFDevideByCount} t */
-function devideByCountComply(t) {
-
-    const {
-
-        count,
-        string,
-
-    } = t;
-
-    return arrayGetDevideByCount(string, count);
-
-};
-
-/**
- * ### stringDevideByCount
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `string`
- * ***
- *
- * Функция разбиения указанной строки на подстроки указанной длины.
- *
- * ***
- * @arg {string} string `Строка`
- * @arg {number} count `Счётчик`
-*/
-export function stringDevideByCount(string, count) {
-
-    return devideByCountDeceit({ string, count, });
 
 };
 

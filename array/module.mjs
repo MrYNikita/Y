@@ -784,6 +784,365 @@ export function arrayEqual(array, ...arrays) {
 
 //#endregion
 
+//#region position 0.0.0
+
+/** ### arrayTFPosition
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `array`
+ * ***
+ *
+ * Результирующие параметры функции `position`.
+ *
+ * @typedef {arrayTFUPosition&arrayT} arrayTFPosition
+ *
+*/
+/** ### arrayTFUPosition
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `array`
+ *
+ * Уникальные параметры функции `position`.
+ *
+ * @typedef arrayTFUPosition
+ * @prop {number[]} indexs
+*/
+
+/** @arg {arrayTFPosition} t */
+function positionDeceit(t) {
+
+    try {
+
+        return positionVerify(t);
+
+    } catch (e) {
+
+        console.log(e);
+
+        if (config?.strict) {
+
+            throw e;
+
+        };
+
+        return undefined;
+
+    } finally {
+
+
+
+    };
+
+};
+/** @arg {arrayTFPosition} t */
+function positionVerify(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return positionHandle(t);
+
+};
+/** @arg {arrayTFPosition} t */
+function positionHandle(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return positionComply(t);
+
+};
+/** @arg {arrayTFPosition} t */
+function positionComply(t) {
+
+    const {
+
+        array,
+        indexs,
+
+    } = t;
+
+    console.log('--- Массив');
+    console.log(array);
+    console.log('--- Решение');
+
+    while (!arrayGet(array, ...indexs)) {
+
+        if (indexs[0] >= array.length) {
+
+            return arrayPositionMax(array);
+
+        } else if (indexs[0] < 0) {
+
+            return arrayPositionMin(array);
+
+        };
+
+
+    };
+
+    return indexs;
+
+};
+
+/**
+ * ### arrayPosition
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * - Модуль `array`
+ * ***
+ *
+ * Функция корректировки указанной позиции для указанного массива.
+ *
+ * ***
+ * @arg {any[]} array `Массив`
+ * @arg {...number} indexs `Индексы`
+*/
+export function arrayPosition(array, ...indexs) {
+
+    return positionDeceit({ array, indexs, });
+
+};
+
+//#endregion
+//#region positionMax 0.0.0
+
+/** ### arrayTFPositionMax
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `array`
+ * ***
+ *
+ * Результирующие параметры функции `positionMax`.
+ *
+ * @typedef {arrayTFUPositionMax&arrayT} arrayTFPositionMax
+ *
+*/
+/** ### arrayTFUPositionMax
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `array`
+ *
+ * Уникальные параметры функции `positionMax`.
+ *
+ * @typedef arrayTFUPositionMax
+ * @prop {any} _
+*/
+
+/** @arg {arrayTFPositionMax} t */
+function positionMaxDeceit(t) {
+
+    try {
+
+        return positionMaxVerify(t);
+
+    } catch (e) {
+
+        if (config?.strict) {
+
+            throw e;
+
+        };
+
+        return undefined;
+
+    } finally {
+
+
+
+    };
+
+};
+/** @arg {arrayTFPositionMax} t */
+function positionMaxVerify(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return positionMaxHandle(t);
+
+};
+/** @arg {arrayTFPositionMax} t */
+function positionMaxHandle(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return positionMaxComply(t);
+
+};
+/** @arg {arrayTFPositionMax} t */
+function positionMaxComply(t) {
+
+    const {
+
+        array,
+
+    } = t;
+
+    let next = array;
+    let index = 0;
+
+    const result = [];
+
+    while (next?.length) {
+
+        result[index] = next.length - 1;
+        next = next[result[index++]];
+
+    };
+
+    return result;
+
+};
+
+/**
+ * ### arrayPositionMax
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * - Модуль `array`
+ * ***
+ *
+ * Функция получения конечной позиции массива.
+ *
+ * ***
+ * @arg {any[]} array `Массив`
+*/
+export function arrayPositionMax(array) {
+
+    return positionMaxDeceit({ array });
+
+};
+
+//#endregion
+//#region positionMin 0.0.0
+
+/** ### arrayTFPositionMin
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `array`
+ * ***
+ *
+ * Результирующие параметры функции `positionMin`.
+ *
+ * @typedef {arrayTFUPositionMin&arrayT} arrayTFPositionMin
+ *
+*/
+/** ### arrayTFUPositionMin
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `array`
+ *
+ * Уникальные параметры функции `positionMin`.
+ *
+ * @typedef arrayTFUPositionMin
+ * @prop {any} _
+*/
+
+/** @arg {arrayTFPositionMin} t */
+function positionMinDeceit(t) {
+
+    try {
+
+        return positionMinVerify(t);
+
+    } catch (e) {
+
+        if (config?.strict) {
+
+            throw e;
+
+        };
+
+        return undefined;
+
+    } finally {
+
+
+
+    };
+
+};
+/** @arg {arrayTFPositionMin} t */
+function positionMinVerify(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return positionMinHandle(t);
+
+};
+/** @arg {arrayTFPositionMin} t */
+function positionMinHandle(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return positionMinComply(t);
+
+};
+/** @arg {arrayTFPositionMin} t */
+function positionMinComply(t) {
+
+    const {
+
+        array,
+
+    } = t;
+
+    let next = array;
+
+    const result = [];
+
+    do {
+
+        result.push(0);
+        next = next[0];
+
+    } while (next?.length)
+
+    return result;
+
+};
+
+/**
+ * ### arrayPositionMin
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * - Модуль `array`
+ * ***
+ *
+ * Функция получения начальной позиции в указанном массиве.
+ *
+ * ***
+ * @arg {any[]} array `Массив`
+*/
+export function arrayPositionMin(array) {
+
+    return positionMinDeceit({ array });
+
+};
+
+//#endregion
+
 //#region calculatePosition 0.1.0
 
 /** ### arrayTFCalculatePosition

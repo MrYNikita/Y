@@ -1,9 +1,9 @@
 //#region YI
 
 import { arrayCalculatePosition } from '../array/module.mjs';
-import { condIsNumberLimit } from '../bool/cond/module.mjs';
+import { condIsNumberLimit, condIsString, condIsStringValid } from '../bool/cond/module.mjs';
 import { YMany } from '../ject/many/class.mjs';
-import { stringGetMatrix, stringGetRows, stringPad, stringPadColumn, stringPadRow, stringTrim } from './module.mjs';
+import { stringGetMatrix, stringGetRow, stringGetRows, stringPad, stringPadColumn, stringPadRow, stringPadToPosition, stringPaste, stringPasteWrap, stringSetRow, stringTrim } from './module.mjs';
 
 /** @type {import('./config.mjs')['default']?} */
 let config = null;
@@ -92,7 +92,7 @@ class DString extends SString {
      * Префикс.
      *
      * ***
-     * @type {(string|function():string)?}
+     * @type {(function():string)?}
      * @protected
     */
     prefix;
@@ -102,7 +102,7 @@ class DString extends SString {
      * Постфикс.
      *
      * ***
-     * @type {(string|function():string)?}
+     * @type {(function():string)?}
      * @protected
     */
     postfix;
@@ -136,6 +136,16 @@ class DString extends SString {
      * @protected
     */
     rowVisLimit;
+    /**
+     * ### rowIndexLast
+     *
+     * Последняя строка.
+     *
+     * ***
+     * @type {number}
+     * @public
+    */
+    rowIndexLast = 0;
 
 };
 class IString extends DString {
@@ -190,7 +200,7 @@ class FString extends MString {
 
                 case 3:
                 case 2:
-                case 1: r.values = t[0];
+                case 1: r.values = t[0] + '';
 
             };
 
@@ -260,7 +270,7 @@ class FString extends MString {
 
         };
 
-        this.appendCursors([0, 0]);
+        this.appendCursors([0, this.values.length]);
 
     };
 
@@ -312,6 +322,88 @@ export class YString extends FString {
         return this;
 
     };
+    /**
+     * ### setRow
+     * - Версия `0.0.0`
+     * - Модуль `string`
+     * ***
+     *
+     * Метод установления линии.
+     *
+     * ***
+     * @arg {string} row `Линия`
+     * @arg {number} index `Индекс`
+     * @public
+    */
+    setRow(row, index) {
+
+        this.values = stringSetRow(this.values, row, index);
+
+        return this;
+
+    };
+    /**
+     * ### setPrefix
+     * - Версия `0.0.0`
+     * - Модуль `string`
+     * ***
+     *
+     * Метод установки префикса.
+     *
+     * ***
+     * @arg {string|function():string} prefix `Префикс`
+     * @public
+    */
+    setPrefix(prefix) {
+
+        if (condIsStringValid(prefix)) {
+
+            this.prefix = () => prefix;
+
+        } else if (prefix?.constructor === Function) {
+
+            this.prefix = prefix;
+
+        } else {
+
+            this.prefix = () => '';
+
+        };
+
+        return this;
+
+    };
+    /**
+     * ### setPostfix
+     * - Версия `0.0.0`
+     * - Модуль `string`
+     * ***
+     *
+     * Метод установки постфикса.
+     *
+     * ***
+     * @arg {(string|function():string)} postfix `Постфикс`
+     * @public
+    */
+    setPostfix(postfix) {
+
+        if (condIsStringValid(postfix)) {
+
+            this.postfix = () => postfix;
+
+        } else if (postfix?.constructor === Function) {
+
+            this.postfix = postfix;
+
+        } else {
+
+            this.prefix = () => '';
+
+        };
+
+        return this;
+
+    };
 
     /**
      * ### get
@@ -349,6 +441,23 @@ export class YString extends FString {
         const limit = this.rowVisLimit ?? config.rowVisLimit;
 
         return this.getRows().slice(index, index + limit).join('\n');
+
+    };
+    /**
+     * ### getRow
+     * - Версия `0.0.0`
+     * - Модуль `string`
+     * ***
+     *
+     * Метод получения указанной линии.
+     *
+     * ***
+     * @arg {number} index `Индекс`
+     * @public
+    */
+    getRow(index) {
+
+        return this.getRows()[index];
 
     };
     /**
@@ -423,6 +532,12 @@ export class YString extends FString {
 
         if (condIsNumberLimit(limit)) {
 
+            if (limit > this.rowIndexLast) {
+
+                this.rowIndexLast = limit - 1;
+
+            };
+
             this.values = stringPadRow(this.values, limit, pad);
 
         };
@@ -471,6 +586,71 @@ export class YString extends FString {
     trim(end, start) {
 
         this.values = stringTrim(this.values, end, start);
+
+        return this;
+
+    };
+
+    /**
+     * ### paste
+     * - Версия `0.0.0`
+     * - Модуль `string`
+     * ***
+     *
+     * Метод вставки значения.
+     *
+     * ***
+     * @arg {...string} strings `Вставки`
+     * @public
+    */
+    paste(...strings) {
+
+        strings.forEach(string => {
+
+            let row = this.getRow(this.cursor.indexs[0]);
+
+            const length = this.values.length;
+
+            if (this.prefix) {
+
+                string = this.prefix() + string;
+
+            };
+            if (this.postfix) {
+
+                string += this.postfix();
+
+            };
+
+            row = stringPaste(row, string, this.cursor.indexs[1] + string.length);
+
+            this.setRow(row, this.cursor.indexs[0]);
+
+            this.moveCursors(string.match(/\n/g).length, this.values.length - length);
+
+        });
+
+        return this;
+
+    };
+    /**
+     * ### pasteWrap
+     * - Версия `0.0.0`
+     * - Модуль `string`
+     * ***
+     *
+     * Метод вставки значения с переносом в указанную позицию.
+     *
+     * ***
+     * @arg {number} y `Линия`
+     * @arg {number} x `Столбец`
+     * @arg {string} wrap `Вставка`
+     * @arg {boolean} modeSkip `Режим пропуска`
+     * @public
+    */
+    pasteWrap(wrap, modeSkip) {
+
+        this.values = stringPasteWrap(this.values, wrap, ...this.cursor.indexs, modeSkip);
 
         return this;
 
@@ -538,7 +718,7 @@ export class YString extends FString {
 
         SString.prototype.setCursorTo.apply(this, indexs);
 
-        this.padRow(this.cursor.indexs[0]).padColumn(this.cursor.indexs[1], this.space ?? config.space).trim();
+        this.values = stringPadToPosition(this.values, ...indexs)
 
         return this;
 

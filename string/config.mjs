@@ -31,6 +31,26 @@ export const configString = {
     */
     rowEnd: '\n',
     /**
+     * ### modeSkip
+     *
+     * Общее значение режима пропуска.
+     *
+     * ***
+     * @type {boolean}
+     * @public
+    */
+    modeSkip: false,
+    /**
+     * ### skipValue
+     *
+     * Общее значение пропуска.
+     *
+     * ***
+     * @type {string}
+     * @public
+    */
+    skipValue: ' ',
+    /**
      * ### rowVisIndex
      *
      * Общий индекс строки видимости.
