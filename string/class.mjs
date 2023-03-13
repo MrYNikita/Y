@@ -3,6 +3,7 @@
 import { arrayCalculatePosition } from '../array/module.mjs';
 import { condIsNumberLimit, condIsString, condIsStringValid } from '../bool/cond/module.mjs';
 import { YMany } from '../ject/many/class.mjs';
+import { positionCorrect } from '../ject/many/position/module.mjs';
 import { stringGetMatrix, stringGetRow, stringGetRows, stringPad, stringPadColumn, stringPadRow, stringPadToPosition, stringPaste, stringPasteWrap, stringSetRow, stringTrim } from './module.mjs';
 
 /** @type {import('./config.mjs')['default']?} */
@@ -609,8 +610,6 @@ export class YString extends FString {
 
             let row = this.getRow(this.cursor.indexs[0]);
 
-            const length = this.values.length;
-
             if (this.prefix) {
 
                 string = this.prefix() + string;
@@ -626,7 +625,7 @@ export class YString extends FString {
 
             this.setRow(row, this.cursor.indexs[0]);
 
-            this.moveCursors(string.match(/\n/g).length, this.values.length - length);
+            this.moveCursors(string.match(/\n/g)?.length, string.length);
 
         });
 
@@ -695,7 +694,7 @@ export class YString extends FString {
 
             cursor.move(...bias);
 
-            cursor.indexs = arrayCalculatePosition(this.getMatrix(), ...cursor.indexs);
+            cursor.indexs = positionCorrect(this.getMatrix(), ...cursor.indexs);
 
         });
 

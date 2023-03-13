@@ -4,6 +4,7 @@ import { arrayCalculatePosition, arrayGet } from '../../array/module.mjs';
 import { numberGetSequence } from '../../number/module.mjs';
 import { YJect } from '../class.mjs';
 import { YCursor } from './cursor/class.mjs';
+import { positionCorrect } from './position/module.mjs';
 
 /** @type {import('./config.mjs')['default']?} */
 let config = null;
@@ -276,7 +277,8 @@ export class YMany extends FMany {
 
             c.move(...bias);
 
-            c.indexs = arrayCalculatePosition(this.values, ...c.indexs);
+            c.indexs = positionCorrect(this.values, ...c.indexs);
+            // c.indexs = arrayCalculatePosition(this.values, ...c.indexs);
 
         });
 

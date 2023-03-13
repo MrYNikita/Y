@@ -1,5 +1,6 @@
 //#region YI
 
+import { arrayGet } from '../../../array/module.mjs';
 import { YError } from '../../../error/class.mjs';
 
 /** @type {import('./config.mjs')['default']?} */
@@ -118,11 +119,11 @@ function minComply(t) {
 
     const {
 
-        min,
+        many,
 
     } = t;
 
-    let next = min;
+    let next = many;
 
     const result = [];
 
@@ -189,6 +190,8 @@ function maxDeceit(t) {
 
     } catch (e) {
 
+        console.log(e);
+
         if (config?.strict) {
 
             throw e;
@@ -237,15 +240,18 @@ function maxComply(t) {
 
     } = t;
 
+
     let next = many;
-    let index = 0;
 
     const result = [];
 
-    while (next?.length) {
+    while (next?.length || next?.length === 0) {
 
-        result[index] = next.length - 1;
-        next = next[result[index++]];
+        const index = next?.length ? next.length - 1 : 0;
+
+        next = next[index];
+
+        result.push(index);
 
     };
 
@@ -354,10 +360,6 @@ function correctComply(t) {
 
     } = t;
 
-    console.log('--- Массив');
-    console.log(many);
-    console.log('--- Решение');
-
     while (!arrayGet(many, ...indexs)) {
 
         if (indexs[0] >= many.length) {
@@ -370,6 +372,39 @@ function correctComply(t) {
 
         };
 
+        for (let i = 1; i < indexs.length; i++) {
+
+            const level = i === 1 ? many : arrayGet(many, ...indexs.slice(0, i));
+            const value = arrayGet(many, ...indexs.slice(0, i + 1));
+
+            if (!value && value !== 0) {
+
+                if (indexs[i] >= 0) {
+
+                    const length = level[indexs[i - 1]]?.length;
+
+                    indexs[i - 1]++;
+
+                    if (indexs[i] >= length) {
+
+                        indexs[i - 1]++;
+                        indexs[i] -= length;
+
+                    };
+
+                } else if (indexs[i] < 0) {
+
+                    indexs[i - 1]--;
+
+                    const length = level[indexs[i - 1]]?.length;
+
+                    indexs[i] = length ? indexs[i] + length : indexs[i];
+
+                };
+
+            };
+
+        };
 
     };
 

@@ -123,24 +123,19 @@ function getComply(t) {
 
     } = t;
 
+    let result = array;
+
     if (indexs.length) {
 
-        let result = array;
-
         for (const index of indexs) {
-
 
             result = result[index];
 
         };
 
-        return result;
-
-    } else {
-
-        return undefined;
-
     };
+
+    return result;
 
 };
 
