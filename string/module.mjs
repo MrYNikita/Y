@@ -1,10 +1,11 @@
 //#region YI
 
-import { arrayGetDevideByCount } from '../array/module.mjs';
+import { dateGetMesuares } from '../date/module.mjs';
+import { arrayGetDevideByCount, arrayJoin } from '../array/module.mjs';
 import { condIsNumberLimit, condIsString } from '../bool/cond/module.mjs';
 import { YError } from '../error/class.mjs';
 import { funcBypass } from '../func/module.mjs';
-import configInsert from './insert/config.mjs';
+import { ansiGetColor, ansiGetColorCode, ansiGetColorReset, ansiResetColor } from './ansi/module.mjs';
 
 /** @type {import('./config.mjs')['default']?} */
 let config = null;
@@ -46,6 +47,17 @@ await import('./error.mjs')
  * @typedef stringTRow
  * @prop {number} y
  *
+*/
+/** ### stringTLocal
+ * - Тип `T`
+ * - Версия `0.0.0`
+ * - Модуль `string`
+ * 
+ * 
+ * 
+ * @typedef stringTLocal
+ * @prop {string} local
+ * 
 */
 /** ### stringTIndex
  * - Тип `T`
@@ -2794,6 +2806,10 @@ function shieldComply(t) {
 
     const replaces = [
 
+        '\r',
+        '\n',
+        '\b',
+        '\x1b',
         '\\',
         '/',
         '?',
@@ -2826,11 +2842,21 @@ function shieldComply(t) {
         '<',
         ':',
         ';',
-        '\n',
-        '\r',
-        '\x1b'
 
-    ].map(replace => [replace, '\\' + replace]).forEach(replace => {
+    ].map(replace => {
+
+        switch (replace) {
+
+            case '\n': return [replace, '\\n'];
+            case '\r': return [replace, '\\r'];
+            case '\b': return [replace, '\\b'];
+            case '\x1b': return [replace, '\\x1b'];
+
+        };
+
+        return [replace, '\\' + replace];
+
+    }).forEach(replace => {
 
         result = result.replaceAll(...replace);
 
@@ -2933,7 +2959,7 @@ function insertHandle(t) {
 
         if (condIsString(e)) {
 
-            a[i] = stringSplit(e, configInsert.delimiter, 1);
+            a[i] = stringSplit(e, config.spliterInsert, 1);
 
         };
 
@@ -3134,6 +3160,592 @@ function insertBypassComply(t) {
 export function stringInsertBypass(string, find, ...values) {
 
     return insertBypassDeceit({ string, values, find, });
+
+};
+
+//#endregion
+
+//#region formatDate 0.0.0
+
+/** ### stringTFFormatDate
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `string`
+ * ***
+ * 
+ * Результирующие параметры функции `formatDate`.
+ * 
+ * @typedef {stringTFUFormatDate&stringT&stringTLocal} stringTFFormatDate
+ * 
+*/
+/** ### stringTFUFormatDate
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `string`
+ * 
+ * Уникальные параметры функции `formatDate`.
+ * 
+ * @typedef stringTFUFormatDate
+ * @prop {Date} date
+*/
+
+/** @arg {stringTFFormatDate} t */
+function formatDateDeceit(t) {
+
+    try {
+
+        return formatDateVerify(t);
+
+    } catch (e) {
+
+        if (config?.strict) {
+
+            throw e;
+
+        };
+
+        return undefined;
+
+    } finally {
+
+
+
+    };
+
+};
+/** @arg {stringTFFormatDate} t */
+function formatDateVerify(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return formatDateHandle(t);
+
+};
+/** @arg {stringTFFormatDate} t */
+function formatDateHandle(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return formatDateComply(t);
+
+};
+/** @arg {stringTFFormatDate} t */
+function formatDateComply(t) {
+
+    const {
+
+        date,
+        local,
+
+    } = t;
+
+    const mesuares = dateGetMesuares(date).map(mesuare => mesuare.toString().padStart(2, '0'));
+
+    let result = funcBypass(config.templatesDate[local ?? 'ru'],
+
+        [stringInsert, 'ss', mesuares[5]],
+        [stringInsert, 'mm', mesuares[4]],
+        [stringInsert, 'hh', mesuares[3]],
+        [stringInsert, 'd', mesuares[2]],
+        [stringInsert, 'm', mesuares[1]],
+        [stringInsert, 'y', mesuares[0]],
+
+    );
+
+    return result;
+
+};
+
+/**
+ * ### stringFormatDate
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * - Модуль `string`
+ * ***
+ * 
+ * Функция форматирования даты в строку.
+ * 
+ * ***
+ * @arg {Date} date `Дата`
+*/
+export function stringFormatDate(date = new Date(), local = 'ru') {
+
+    return formatDateDeceit({ date, local, });
+
+};
+
+//#endregion
+//#region formatPhone 0.0.0
+
+/** ### stringTFFormatPhone
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `string`
+ * ***
+ * 
+ * Результирующие параметры функции `formatPhone`.
+ * 
+ * @typedef {stringTFUFormatPhone&stringT&stringTLocal} stringTFFormatPhone
+ * 
+*/
+/** ### stringTFUFormatPhone
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `string`
+ * 
+ * Уникальные параметры функции `formatPhone`.
+ * 
+ * @typedef stringTFUFormatPhone
+ * @prop {any} _
+*/
+
+/** @arg {stringTFFormatPhone} t */
+function formatPhoneDeceit(t) {
+
+    try {
+
+        return formatPhoneVerify(t);
+
+    } catch (e) {
+
+        if (config?.strict) {
+
+            throw e;
+
+        };
+
+        return undefined;
+
+    } finally {
+
+
+
+    };
+
+};
+/** @arg {stringTFFormatPhone} t */
+function formatPhoneVerify(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return formatPhoneHandle(t);
+
+};
+/** @arg {stringTFFormatPhone} t */
+function formatPhoneHandle(t) {
+
+    const {
+
+
+
+    } = t;
+
+    t.string = stringPad(t.string, '0', config.templatesPhone[t.local ?? 'ru'].length);
+
+    return formatPhoneComply(t);
+
+};
+/** @arg {stringTFFormatPhone} t */
+function formatPhoneComply(t) {
+
+    const {
+
+        local,
+        string,
+
+    } = t;
+
+    let result = stringInsertBypass(config.templatesPhone[local ?? 'ru'], '.', ...string.split('').filter(symbol => symbol.match(/\d/)));
+
+    return result;
+
+};
+
+/**
+ * ### stringFormatPhone
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * - Модуль `string`
+ * ***
+ * 
+ * Функция форматирования строки в номер телефона.
+ * 
+ * ***
+ * @arg {string} local `Локаль`
+ * @arg {string} string `Строка`
+*/
+export function stringFormatPhone(string, local) {
+
+    return formatPhoneDeceit({ string, local, });
+
+};
+
+//#endregion
+//#region formatNumber 0.0.0
+
+/** ### stringTFFormatNumber
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `string`
+ * ***
+ * 
+ * Результирующие параметры функции `formatNumber`.
+ * 
+ * @typedef {stringTFUFormatNumber&stringT} stringTFFormatNumber
+ * 
+*/
+/** ### stringTFUFormatNumber
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `string`
+ * 
+ * Уникальные параметры функции `formatNumber`.
+ * 
+ * @typedef stringTFUFormatNumber
+ * @prop {string} spliterPart
+ * @prop {string} spliterDischarge
+ * @prop {number|string} number
+*/
+
+/** @arg {stringTFFormatNumber} t */
+function formatNumberDeceit(t) {
+
+    try {
+
+        return formatNumberVerify(t);
+
+    } catch (e) {
+
+        if (config?.strict) {
+
+            throw e;
+
+        };
+
+        return undefined;
+
+    } finally {
+
+
+
+    };
+
+};
+/** @arg {stringTFFormatNumber} t */
+function formatNumberVerify(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return formatNumberHandle(t);
+
+};
+/** @arg {stringTFFormatNumber} t */
+function formatNumberHandle(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return formatNumberComply(t);
+
+};
+/** @arg {stringTFFormatNumber} t */
+function formatNumberComply(t) {
+
+    const {
+
+        number,
+        spliterPart,
+        spliterDischarge,
+
+    } = t;
+
+    let parts = number.toString().split('.');
+
+    if (spliterDischarge) {
+
+        parts = parts.map(part => funcBypass(part,
+
+            [stringReverse],
+            [stringSplitByCount, 3],
+            [arrayJoin, spliterDischarge === true ? config.spliterDischarge : spliterDischarge],
+            [stringReverse]
+
+        ));
+
+    };
+    if (spliterPart) {
+
+        parts = parts.join(spliterPart === true ? config.spliterPart : spliterPart);
+
+    };
+
+    return parts;
+
+};
+
+/**
+ * ### stringFormatNumber
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * - Модуль `string`
+ * ***
+ * 
+ * Функция форматирования числа в строку.
+ * В итоговой строке числа будут размещены знаки разделения разрядов и частей.
+ * 
+ * Если разделители не определены, то они не будут использоваться.
+ * В противном случае, если разделитель `true` то он будет применен со значением конфигуратора.
+ * При необходимости, можно указать свой разделитель - достаточно лишь указать его в качестве значения.
+ * 
+ * ***
+ * @arg {number|string} number `Число`
+ * @arg {boolean|string} spliterPart `Разделитель частей`
+ * @arg {boolean|string} spliterDischarge `Разделитель велечин`
+*/
+export function stringFormatNumber(number, spliterPart = config.spliterPart, spliterDischarge = config.spliterDischarge) {
+
+    return formatNumberDeceit({ number, spliterPart, spliterDischarge, });
+
+};
+
+//#endregion
+//#region formatSample 0.0.0
+
+/** ### stringTFFormatSample
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `string`
+ * ***
+ * 
+ * Результирующие параметры функции `formatSample`.
+ * 
+ * @typedef {stringTFUFormatSample&stringT} stringTFFormatSample
+ * 
+*/
+/** ### stringTFUFormatSample
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `string`
+ * 
+ * Уникальные параметры функции `formatSample`.
+ * 
+ * @typedef stringTFUFormatSample
+ * @prop {any} _
+*/
+
+/** @arg {stringTFFormatSample} t */
+function formatSampleDeceit(t) {
+    
+    try {
+        
+        return formatSampleVerify(t);
+        
+    } catch (e) {
+        
+        if (config?.strict) {
+            
+            throw e;
+            
+        };
+        
+        return undefined;
+        
+    } finally {
+        
+        
+        
+    };
+    
+};
+/** @arg {stringTFFormatSample} t */
+function formatSampleVerify(t) {
+    
+    const {
+    
+    
+    
+    } = t;
+    
+    return formatSampleHandle(t);
+   
+};
+/** @arg {stringTFFormatSample} t */
+function formatSampleHandle(t) {
+   
+    const {
+    
+    
+    
+    } = t;
+   
+    return formatSampleComply(t);
+   
+};
+/** @arg {stringTFFormatSample} t */
+function formatSampleComply(t) {
+   
+    const {
+    
+        string,
+    
+    } = t;
+    
+    let result = stringShield(string);
+
+    return result;
+    
+};
+
+/**
+ * ### stringFormatSample
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * - Модуль `string`
+ * ***
+ * 
+ * Функция форматирования строки в простую форму.
+ * 
+ * Простая форма позволяет экранировать все специальные симолы и вставки ansi команд.
+ * 
+ * ***
+ * @arg {string} string `Строка`
+*/
+export function stringFormatSample(string) {
+
+    return formatSampleDeceit({ string, });
+
+};
+
+//#endregion
+//#region formatReport 0.0.0
+
+/** ### stringTFFormatReport
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `string`
+ * ***
+ * 
+ * Результирующие параметры функции `formatReport`.
+ * 
+ * @typedef {stringTFUFormatReport&stringT} stringTFFormatReport
+ * 
+*/
+/** ### stringTFUFormatReport
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `string`
+ * 
+ * Уникальные параметры функции `formatReport`.
+ * 
+ * @typedef stringTFUFormatReport
+ * @prop {any} _
+*/
+
+/** @arg {stringTFFormatReport} t */
+function formatReportDeceit(t) {
+    
+    try {
+        
+        return formatReportVerify(t);
+        
+    } catch (e) {
+        
+        if (config?.strict) {
+            
+            throw e;
+            
+        };
+        
+        return undefined;
+        
+    } finally {
+        
+        
+        
+    };
+    
+};
+/** @arg {stringTFFormatReport} t */
+function formatReportVerify(t) {
+    
+    const {
+    
+    
+    
+    } = t;
+    
+    return formatReportHandle(t);
+   
+};
+/** @arg {stringTFFormatReport} t */
+function formatReportHandle(t) {
+   
+    const {
+    
+    
+    
+    } = t;
+   
+    return formatReportComply(t);
+   
+};
+/** @arg {stringTFFormatReport} t */
+function formatReportComply(t) {
+   
+    const {
+    
+        string,
+    
+    } = t;
+
+    let result = funcBypass(string,
+        
+        [stringInsertMany, 'Infinity/∞', 'true/+', 'false/-']
+
+    );
+
+    return result;
+    
+};
+
+/**
+ * ### stringFormatReport
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * - Модуль `string`
+ * ***
+ * 
+ * Функция форматирования строки в строку отчета.
+ * 
+ * Функция:
+ * - Заменяет некоторые значения при отображении отчетов на более ёмкие и понятные символы
+ * - Выделяет информацию цветом
+ * 
+ * ***
+ * @arg {string} string `Строка`
+*/
+export function stringFormatReport(string) {
+
+    return formatReportDeceit({ string });
 
 };
 
@@ -3674,6 +4286,110 @@ export function stringSubstring(string, index, length, back) {
 export function stringSubstringByPosition(string, length, y, x, back) {
 
     return substringDeceit({ string, length, y, x, back, });
+
+};
+
+//#endregion
+//#region capitalize 0.0.0
+
+/** ### stringTFCapitalize
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `string`
+ * ***
+ * 
+ * Результирующие параметры функции `capitalize`.
+ * 
+ * @typedef {stringTFUCapitalize&stringT} stringTFCapitalize
+ * 
+*/
+/** ### stringTFUCapitalize
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `string`
+ * 
+ * Уникальные параметры функции `capitalize`.
+ * 
+ * @typedef stringTFUCapitalize
+ * @prop {any} _
+*/
+
+/** @arg {stringTFCapitalize} t */
+function capitalizeDeceit(t) {
+    
+    try {
+        
+        return capitalizeVerify(t);
+        
+    } catch (e) {
+        
+        if (config?.strict) {
+            
+            throw e;
+            
+        };
+        
+        return undefined;
+        
+    } finally {
+        
+        
+        
+    };
+    
+};
+/** @arg {stringTFCapitalize} t */
+function capitalizeVerify(t) {
+    
+    const {
+    
+    
+    
+    } = t;
+    
+    return capitalizeHandle(t);
+   
+};
+/** @arg {stringTFCapitalize} t */
+function capitalizeHandle(t) {
+   
+    const {
+    
+    
+    
+    } = t;
+   
+    return capitalizeComply(t);
+   
+};
+/** @arg {stringTFCapitalize} t */
+function capitalizeComply(t) {
+   
+    const {
+    
+        string,
+    
+    } = t;
+    
+    return string[0].toUpperCase() + string.slice(1);
+    
+};
+
+/**
+ * ### stringCapitalize
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * - Модуль `string`
+ * ***
+ * 
+ * Функция для изменения первой буквы в слове на заглавную.
+ * 
+ * ***
+ * @arg {string} string `Строка`
+*/
+export function stringCapitalize(string) {
+
+    return capitalizeDeceit({ string, });
 
 };
 

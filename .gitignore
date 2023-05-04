@@ -1,3 +1,7 @@
 test.mjs
+test.cmd
 .gitignore
-ys
+
+ylc/
+.arch/
+.sandbox/

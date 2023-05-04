@@ -29,7 +29,7 @@ await import('./error.mjs')
  * Основной параметр модуля `class`.
  *
  * @typedef classT
- * @prop {any} _
+ * @prop {typeof Object} cls
  *
 */
 
@@ -37,6 +37,125 @@ await import('./error.mjs')
 //#region YV
 
 
+
+//#endregion
+
+//#region getChain 0.0.0
+
+/** ### classTFGetChain
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `class`
+ * ***
+ * 
+ * Результирующие параметры функции `getChain`.
+ * 
+ * @typedef {classTFUGetChain&classT} classTFGetChain
+ * 
+*/
+/** ### classTFUGetChain
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `class`
+ * 
+ * Уникальные параметры функции `getChain`.
+ * 
+ * @typedef classTFUGetChain
+ * @prop {any} _
+*/
+
+/** @arg {classTFGetChain} t */
+function getChainDeceit(t) {
+    
+    try {
+        
+        return getChainVerify(t);
+        
+    } catch (e) {
+        
+        if (config?.strict) {
+            
+            throw e;
+            
+        };
+        
+        return undefined;
+        
+    } finally {
+        
+        
+        
+    };
+    
+};
+/** @arg {classTFGetChain} t */
+function getChainVerify(t) {
+    
+    const {
+    
+    
+    
+    } = t;
+    
+    return getChainHandle(t);
+   
+};
+/** @arg {classTFGetChain} t */
+function getChainHandle(t) {
+   
+    const {
+    
+    
+    
+    } = t;
+   
+    return getChainComply(t);
+   
+};
+/** @arg {classTFGetChain} t */
+function getChainComply(t) {
+   
+    const {
+    
+        cls,
+    
+    } = t;
+    
+    const result = [];
+
+    let value = cls;
+
+    while (value && value !== Object.getPrototypeOf(Object)) {
+
+        result.push(value);
+
+        value = Object?.getPrototypeOf?.(value);
+
+    };
+
+    return result;
+    
+};
+
+/**
+ * ### classGetChain
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * - Модуль `class`
+ * ***
+ * 
+ * Функция получения цепочки наследования указанного класса.
+ * 
+ * ***
+ * @arg {T} cls `Класс`
+ * @returns {T[]}
+ * @template T
+*/
+export function classGetChain(cls) {
+
+    return getChainDeceit({ cls });
+
+};
 
 //#endregion
 

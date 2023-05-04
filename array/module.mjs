@@ -499,9 +499,17 @@ function getDevideByCountComply(t) {
 
     const result = [];
 
-    if (t.array.length === 1) {
+    if (array.length === 1) {
 
-        return t.array;
+        if (array instanceof Array) {
+
+            return array;
+
+        } else {
+
+            return [array];
+
+        };
 
     };
 
@@ -536,6 +544,220 @@ export function arrayGetDevideByCount(array, count) {
 
 //#endregion
 
+//#region join 0.0.0
+
+/** ### arrayTFJoin
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `array`
+ * ***
+ * 
+ * Результирующие параметры функции `join`.
+ * 
+ * @typedef {arrayTFUJoin&arrayT} arrayTFJoin
+ * 
+*/
+/** ### arrayTFUJoin
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `array`
+ * 
+ * Уникальные параметры функции `join`.
+ * 
+ * @typedef arrayTFUJoin
+ * @prop {string} joiner
+*/
+
+/** @arg {arrayTFJoin} t */
+function joinDeceit(t) {
+    
+    try {
+        
+        return joinVerify(t);
+        
+    } catch (e) {
+        
+        if (config?.strict) {
+            
+            throw e;
+            
+        };
+        
+        return undefined;
+        
+    } finally {
+        
+        
+        
+    };
+    
+};
+/** @arg {arrayTFJoin} t */
+function joinVerify(t) {
+    
+    const {
+    
+    
+    
+    } = t;
+    
+    return joinHandle(t);
+   
+};
+/** @arg {arrayTFJoin} t */
+function joinHandle(t) {
+   
+    const {
+    
+    
+    
+    } = t;
+   
+    return joinComply(t);
+   
+};
+/** @arg {arrayTFJoin} t */
+function joinComply(t) {
+   
+    const {
+    
+        array,
+        joiner,
+    
+    } = t;
+    
+    return array instanceof Array ? array.join(joiner) : array;
+    
+};
+
+/**
+ * ### arrayJoin
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * - Модуль `array`
+ * ***
+ * 
+ * Функция соединения элементов массива в строку. 
+ * 
+ * ***
+ * @arg {G}
+ * @arg {string} joiner `Соединитель`
+ * @returns {G}
+ * @template {any[]} G
+*/
+export function arrayJoin(array, joiner) {
+
+    return joinDeceit({ array, joiner });
+
+};
+
+//#endregion
+//#region unite 0.0.0
+
+/** ### arrayTFUnite
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `array`
+ * ***
+ * 
+ * Результирующие параметры функции `unite`.
+ * 
+ * @typedef {arrayTFUUnite&arrayT} arrayTFUnite
+ * 
+*/
+/** ### arrayTFUUnite
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `array`
+ * 
+ * Уникальные параметры функции `unite`.
+ * 
+ * @typedef arrayTFUUnite
+ * @prop {any[][]} arrays
+*/
+
+/** @arg {arrayTFUnite} t */
+function uniteDeceit(t) {
+    
+    try {
+        
+        return uniteVerify(t);
+        
+    } catch (e) {
+        
+        if (config?.strict) {
+            
+            throw e;
+            
+        };
+        
+        return undefined;
+        
+    } finally {
+        
+        
+        
+    };
+    
+};
+/** @arg {arrayTFUnite} t */
+function uniteVerify(t) {
+    
+    const {
+    
+    
+    
+    } = t;
+    
+    return uniteHandle(t);
+   
+};
+/** @arg {arrayTFUnite} t */
+function uniteHandle(t) {
+   
+    const {
+    
+    
+    
+    } = t;
+   
+    return uniteComply(t);
+   
+};
+/** @arg {arrayTFUnite} t */
+function uniteComply(t) {
+   
+    const {
+    
+        arrays
+    
+    } = t;
+    
+    return arrays.flat().filter(element => element);
+    
+};
+
+/**
+ * ### arrayUnite
+ * - Версия `0.0.0`
+ * - Цепочка `DVHCa`
+ * - Модуль `array`
+ * ***
+ * 
+ * Функция объединения элементов указанных массивов в единый массив.
+ * 
+ * ***
+ * @arg {...G[]} arrays `Массивы`
+ * @returns {G[]}
+ * @template G
+*/
+export function arrayUnite(...arrays) {
+
+    return uniteDeceit({ arrays, });
+
+};
+
+//#endregion
 //#region bring 0.0.0
 
 /** ### arrayTFBring
@@ -642,14 +864,15 @@ function bringComply(t) {
  * В качестве новых элементов выступают указанные значения.
  *
  * ***
- * @arg {T} array `Массив`
+ * @arg {G} array `Массив`
  * @arg {any} append `Дополнитель`
  * Может выступать значением или функцией.
  *
  * В первом случае функция будет доводить длинну массива до указанного значения, добавляя постоянный указанный дополнитель.
  * В случае дополнителя являющегося функцией, будет добавляться результат данной функции.
  * @arg {number} length `Длина`
- * @template {any[]} T
+ * @returns {G}
+ * @template {any[]} G
 */
 export function arrayBring(array, length, append) {
 
@@ -778,558 +1001,298 @@ export function arrayEqual(array, ...arrays) {
 };
 
 //#endregion
+//#region unique 0.0.0
 
-//#region position 0.0.0
-
-/** ### arrayTFPosition
+/** ### arrayTFUnique
  * - Тип `TF`
  * - Версия `0.0.0`
  * - Модуль `array`
  * ***
- *
- * Результирующие параметры функции `position`.
- *
- * @typedef {arrayTFUPosition&arrayT} arrayTFPosition
- *
+ * 
+ * Результирующие параметры функции `unique`.
+ * 
+ * @typedef {arrayTFUUnique&arrayT} arrayTFUnique
+ * 
 */
-/** ### arrayTFUPosition
+/** ### arrayTFUUnique
  * - Тип `TFU`
  * - Версия `0.0.0`
  * - Модуль `array`
- *
- * Уникальные параметры функции `position`.
- *
- * @typedef arrayTFUPosition
- * @prop {number[]} indexs
+ * 
+ * Уникальные параметры функции `unique`.
+ * 
+ * @typedef arrayTFUUnique
+ * @prop {any[][]} arrays
 */
 
-/** @arg {arrayTFPosition} t */
-function positionDeceit(t) {
-
+/** @arg {arrayTFUnique} t */
+function uniqueDeceit(t) {
+    
     try {
-
-        return positionVerify(t);
-
+        
+        return uniqueVerify(t);
+        
     } catch (e) {
-
-        console.log(e);
-
+        
         if (config?.strict) {
-
+            
             throw e;
-
+            
         };
-
+        
         return undefined;
-
+        
     } finally {
+        
+        
+        
+    };
+    
+};
+/** @arg {arrayTFUnique} t */
+function uniqueVerify(t) {
+    
+    const {
+    
+    
+    
+    } = t;
+    
+    return uniqueHandle(t);
+   
+};
+/** @arg {arrayTFUnique} t */
+function uniqueHandle(t) {
+   
+    const {
+    
+        
+    
+    } = t;
 
+    if (t.arrays.length > 1) {
 
+        t.array = [];
+
+        t.arrays.forEach(array => t.array.push(...array));
+
+    } else if (t.arrays.length === 1) {
+
+        t.array = t.arrays[0];
 
     };
-
+   
+    return uniqueComply(t);
+   
 };
-/** @arg {arrayTFPosition} t */
-function positionVerify(t) {
-
+/** @arg {arrayTFUnique} t */
+function uniqueComply(t) {
+   
     const {
-
-
-
-    } = t;
-
-    return positionHandle(t);
-
-};
-/** @arg {arrayTFPosition} t */
-function positionHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return positionComply(t);
-
-};
-/** @arg {arrayTFPosition} t */
-function positionComply(t) {
-
-    const {
-
+    
         array,
-        indexs,
-
+    
     } = t;
-
-    console.log('--- Массив');
-    console.log(array);
-    console.log('--- Решение');
-
-    while (!arrayGet(array, ...indexs)) {
-
-        if (indexs[0] >= array.length) {
-
-            return arrayPositionMax(array);
-
-        } else if (indexs[0] < 0) {
-
-            return arrayPositionMin(array);
-
-        };
-
-
-    };
-
-    return indexs;
-
+    
+    return Array.from(new Set(array));
+    
 };
 
 /**
- * ### arrayPosition
+ * ### arrayUnique
  * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `array`
+ * - Цепочка `DVHC`
  * ***
- *
- * Функция корректировки указанной позиции для указанного массива.
- *
+ * 
+ * Функция получения подмассива уникальных элементов указанных массивов.
+ * 
  * ***
- * @arg {any[]} array `Массив`
- * @arg {...number} indexs `Индексы`
+ * @arg {...G} arrays `Массивы`
+ * @returns {G}
+ * @template G
 */
-export function arrayPosition(array, ...indexs) {
+export function arrayUnique(...arrays) {
 
-    return positionDeceit({ array, indexs, });
+    return uniqueDeceit({ arrays });
 
 };
 
 //#endregion
-//#region positionMax 0.0.0
 
-/** ### arrayTFPositionMax
+//#region rearrangeByIndex 0.0.0
+
+/** ### arrayTFRearrangeByIndex
  * - Тип `TF`
  * - Версия `0.0.0`
  * - Модуль `array`
  * ***
- *
- * Результирующие параметры функции `positionMax`.
- *
- * @typedef {arrayTFUPositionMax&arrayT} arrayTFPositionMax
- *
+ * 
+ * Результирующие параметры функции `rearrangeByIndex`.
+ * 
+ * @typedef {arrayTFURearrangeByIndex&arrayT} arrayTFRearrangeByIndex
+ * 
 */
-/** ### arrayTFUPositionMax
+/** ### arrayTFURearrangeByIndex
  * - Тип `TFU`
  * - Версия `0.0.0`
  * - Модуль `array`
- *
- * Уникальные параметры функции `positionMax`.
- *
- * @typedef arrayTFUPositionMax
+ * 
+ * Уникальные параметры функции `rearrangeByIndex`.
+ * 
+ * @typedef arrayTFURearrangeByIndex
  * @prop {any} _
 */
 
-/** @arg {arrayTFPositionMax} t */
-function positionMaxDeceit(t) {
-
+/** @arg {arrayTFRearrangeByIndex} t */
+function rearrangeByIndexDeceit(t) {
+    
     try {
-
-        return positionMaxVerify(t);
-
+        
+        return rearrangeByIndexVerify(t);
+        
     } catch (e) {
-
+        
         if (config?.strict) {
-
+            
             throw e;
-
+            
         };
-
+        
         return undefined;
-
+        
     } finally {
-
-
-
+        
+        
+        
     };
-
+    
 };
-/** @arg {arrayTFPositionMax} t */
-function positionMaxVerify(t) {
-
+/** @arg {arrayTFRearrangeByIndex} t */
+function rearrangeByIndexVerify(t) {
+    
     const {
-
-
-
+    
+    
+    
     } = t;
-
-    return positionMaxHandle(t);
-
+    
+    return rearrangeByIndexHandle(t);
+   
 };
-/** @arg {arrayTFPositionMax} t */
-function positionMaxHandle(t) {
-
+/** @arg {arrayTFRearrangeByIndex} t */
+function rearrangeByIndexHandle(t) {
+   
     const {
-
-
-
+    
+    
+    
     } = t;
-
-    return positionMaxComply(t);
-
+   
+    return rearrangeByIndexComply(t);
+   
 };
-/** @arg {arrayTFPositionMax} t */
-function positionMaxComply(t) {
-
+/** @arg {arrayTFRearrangeByIndex} t */
+function rearrangeByIndexComply(t) {
+   
     const {
-
-        array,
-
+    
+    
+    
     } = t;
-
-    let next = array;
-    let index = 0;
-
-    const result = [];
-
-    while (next?.length) {
-
-        result[index] = next.length - 1;
-        next = next[result[index++]];
-
-    };
-
-    return result;
-
+    
+    
+    
 };
 
-/**
- * ### arrayPositionMax
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `array`
- * ***
- *
- * Функция получения конечной позиции массива.
- *
- * ***
- * @arg {any[]} array `Массив`
-*/
-export function arrayPositionMax(array) {
 
-    return positionMaxDeceit({ array });
-
-};
 
 //#endregion
-//#region positionMin 0.0.0
+//#region rearrangeByElement 0.0.0
 
-/** ### arrayTFPositionMin
+/** ### arrayTFRearrangeByElement
  * - Тип `TF`
  * - Версия `0.0.0`
  * - Модуль `array`
  * ***
- *
- * Результирующие параметры функции `positionMin`.
- *
- * @typedef {arrayTFUPositionMin&arrayT} arrayTFPositionMin
- *
+ * 
+ * Результирующие параметры функции `rearrangeByElement`.
+ * 
+ * @typedef {arrayTFURearrangeByElement&arrayT} arrayTFRearrangeByElement
+ * 
 */
-/** ### arrayTFUPositionMin
+/** ### arrayTFURearrangeByElement
  * - Тип `TFU`
  * - Версия `0.0.0`
  * - Модуль `array`
- *
- * Уникальные параметры функции `positionMin`.
- *
- * @typedef arrayTFUPositionMin
+ * 
+ * Уникальные параметры функции `rearrangeByElement`.
+ * 
+ * @typedef arrayTFURearrangeByElement
  * @prop {any} _
 */
 
-/** @arg {arrayTFPositionMin} t */
-function positionMinDeceit(t) {
-
+/** @arg {arrayTFRearrangeByElement} t */
+function rearrangeByElementDeceit(t) {
+    
     try {
-
-        return positionMinVerify(t);
-
+        
+        return rearrangeByElementVerify(t);
+        
     } catch (e) {
-
+        
         if (config?.strict) {
-
+            
             throw e;
-
+            
         };
-
+        
         return undefined;
-
+        
     } finally {
-
-
-
+        
+        
+        
     };
-
+    
 };
-/** @arg {arrayTFPositionMin} t */
-function positionMinVerify(t) {
-
+/** @arg {arrayTFRearrangeByElement} t */
+function rearrangeByElementVerify(t) {
+    
     const {
-
-
-
+    
+    
+    
     } = t;
-
-    return positionMinHandle(t);
-
+    
+    return rearrangeByElementHandle(t);
+   
 };
-/** @arg {arrayTFPositionMin} t */
-function positionMinHandle(t) {
-
+/** @arg {arrayTFRearrangeByElement} t */
+function rearrangeByElementHandle(t) {
+   
     const {
-
-
-
+    
+    
+    
     } = t;
-
-    return positionMinComply(t);
-
+   
+    return rearrangeByElementComply(t);
+   
 };
-/** @arg {arrayTFPositionMin} t */
-function positionMinComply(t) {
-
+/** @arg {arrayTFRearrangeByElement} t */
+function rearrangeByElementComply(t) {
+   
     const {
-
-        array,
-
+    
+    
+    
     } = t;
-
-    let next = array;
-
-    const result = [];
-
-    do {
-
-        result.push(0);
-        next = next[0];
-
-    } while (next?.length)
-
-    return result;
-
+    
+    
+    
 };
 
-/**
- * ### arrayPositionMin
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `array`
- * ***
- *
- * Функция получения начальной позиции в указанном массиве.
- *
- * ***
- * @arg {any[]} array `Массив`
-*/
-export function arrayPositionMin(array) {
 
-    return positionMinDeceit({ array });
-
-};
-
-//#endregion
-
-//#region calculatePosition 0.1.0
-
-/** ### arrayTFCalculatePosition
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `array`
- * ***
- *
- * Результирующие параметры функции `calculatePosition`.
- *
- * @typedef {arrayTFUCalculatePosition&arrayT} arrayTFCalculatePosition
- *
-*/
-/** ### arrayTFUCalculatePosition
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `array`
- *
- * Уникальные параметры функции `calculatePosition`.
- *
- * @typedef arrayTFUCalculatePosition
- * @prop {number[]} indexs
-*/
-
-/** @arg {arrayTFCalculatePosition} t */
-function calculatePositionDeceit(t) {
-
-    try {
-
-        return calculatePositionVerify(t);
-
-    } catch (e) {
-
-        if (config?.strict) {
-
-            throw e;
-
-        };
-
-        return undefined;
-
-    } finally {
-
-
-
-    };
-
-};
-/** @arg {arrayTFCalculatePosition} t */
-function calculatePositionVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return calculatePositionHandle(t);
-
-};
-/** @arg {arrayTFCalculatePosition} t */
-function calculatePositionHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return calculatePositionComply(t);
-
-};
-/** @arg {arrayTFCalculatePosition} t */
-function calculatePositionComply(t) {
-
-    const {
-
-        array,
-        indexs,
-
-    } = t;
-
-    const dimensions = arrayGetDimension(array);
-    const dimensionsPart = arrayGetDevideByCount(dimensions.at(-1), dimensions.at(-2));
-
-    indexs.splice(dimensions.length);
-
-    for (let i = dimensions.length - 3; i > 0; i--) {
-
-        dimensionsPart.splice(0, dimensionsPart.length, ...arrayGetDevideByCount(dimensionsPart, dimensions[i]));
-
-    };
-
-    const f1 = () => arrayGetSlice(dimensionsPart, ...(dimensionsPart.length === 1 && dimensionsPart[0].constructor !== Array ? [0] : indexs.length === 2 ? [0, indexs[0]] : indexs.slice(0, -1)));
-
-    do {
-
-        let index = NaN;
-
-        if (indexs[0] >= dimensions[0]) {
-
-            indexs[0] = dimensions[0] - 1;
-
-        } else if (indexs[0] < 0) {
-
-            indexs[0] = 0;
-
-        };
-
-        if ((index = indexs.slice(1, -1).findIndex((index, i) => index >= dimensions[i + 1])) !== -1) {
-
-            indexs[index + 1] -= dimensions[index + 1];
-
-            if (indexs.slice(0, index + 1).every((index, i) => index !== dimensions[i])) {
-
-                indexs[index] += 1;
-
-            };
-
-        } else if ((index = indexs.slice(1, -1).findIndex((index, i) => index < 0)) !== -1) {
-
-            indexs[index + 1] += dimensions[index + 1];
-
-            if (indexs.slice(0, index + 1).every((index, i) => index !== 0)) {
-
-                indexs[index] -= 1;
-
-            };
-
-        } else if (indexs.at(-1) >= f1()) {
-
-            indexs[indexs.length - 1] -= f1();
-
-            if (indexs.slice(0, indexs.length - 1).every((index, i) => index !== dimensions[i] - 1)) {
-
-                indexs[indexs.length - 2] += 1;
-
-            } else {
-
-                indexs[indexs.length - 1] = f1() - 1;
-
-            };
-
-
-        } else if (indexs.at(-1) < 0) {
-
-            indexs[indexs.length - 1] += f1();
-
-            if (indexs.slice(0, indexs.length - 1).every((index, i) => index !== 0)) {
-
-                indexs[indexs.length - 2] -= 1;
-
-            } else {
-
-                indexs[indexs.length - 1] = 0;
-
-            };
-
-        } else {
-
-            break;
-
-        };
-
-    } while (true);
-
-    return indexs;
-
-};
-
-/**
- * ### arrayCalculatePosition
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `array`
- * ***
- *
- * Функция для вычисления позиции в указанном массиве по указанным данным.
- *
- * Позиция берет своё начало в указанных индексах, после чего модифицирует их таким образом, чтобы они:
- * - Попадали в диапазон массива.
- * - Сдвигались при переполнении.
- *
- * ***
- * @arg {any[]} array `Массив`
- * @arg {...number} indexs `Индексы`
-*/
-export function arrayCalculatePosition(array, ...indexs) {
-
-    return calculatePositionDeceit({ array, indexs, });
-
-};
 
 //#endregion
 

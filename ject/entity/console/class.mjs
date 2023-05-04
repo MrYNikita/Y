@@ -1,6 +1,9 @@
 //#region YI
 
 import { YEntity } from '../class.mjs';
+import { ansiBackspace, ansiClear, ansiResetColor, ansiSetColor, ansiSetCursorTo } from '../../../string/ansi/module.mjs';
+import { condIsNumber, condIsString } from '../../../bool/cond/module.mjs';
+import { stringGetRow, stringGetRows } from '../../../string/module.mjs';
 
 /** @type {import('./config.mjs')['default']?} */
 let config = null;
@@ -53,31 +56,229 @@ await import('./error.mjs')
  *
 */
 
+/** ### consoleTTColor
+ * - Тип `TT`
+ * - Версия `0.0.0`
+ * - Модуль `ject\entity\console`
+ * 
+ * 
+ * 
+ * @typedef {import('../../../string/ansi/module.mjs').ansiColorTMColors} consoleTTColor
+ * 
+*/
+
 //#endregion
 
 class SConsole extends YEntity {
 
-    /**
-     * ### get
-     * - Версия `0.0.0`
-     * - Модуль `ject\entity\console`
-     * ***
-     *
-     * Метод получения содержимого консоли.
-     *
-     * ***
-     * @public
-    */
-    static get() {
+    static {
 
-        return process;
+        process.on('exit', () => {
+        
+            YConsole
+
+                .setCursorTo(process.stdout.rows - 3, 0)
+                .resetColor(-3);
+        
+        });
 
     };
 
+    /**
+     * ### y
+     * 
+     * Координата по y.
+     * 
+     * *** 
+     * @type {number} 
+     * @public
+    */
+    static y = 0;
+    /**
+     * ### x
+     * 
+     * Координата по x.
+     * 
+     * *** 
+     * @type {number} 
+     * @public
+    */
+    static x = 0;
+    /**
+     * ### width
+     * 
+     * Ширина консоли.
+     * 
+     * *** 
+     * @type {number} 
+     * @public
+    */
+    static width = process.stdout.columns;
+    /**
+     * ### height
+     * 
+     * Длина текущей консоли.
+     * 
+     * *** 
+     * @type {number} 
+     * @public
+    */
+    static height = process.stdout.rows;
+
+    /**
+     * ### clear
+     * - Версия `0.0.0`
+     * - Модуль `ject\entity\console`
+     * ***
+     * 
+     * Метод очистки экрана.
+     * 
+     * ***
+     * @public
+    */
+    static clear() {
+
+        this.resetColor();
+
+        ansiClear();
+
+        return this;
+        
+    };
+    /**
+     * ### write
+     * - Версия `0.0.0`
+     * - Модуль `ject\entity\console`
+     * ***
+     * 
+     * Метод записи в консоль.
+     * 
+     * ***
+     * @arg {...string} strings `Строки`
+     * @public
+    */
+    static write(...strings) {
+
+        for (const string of strings) {
+
+            process.stdout.write(string + '');
+
+            this.x += (string + '')?.length;
+
+        };
+
+        return this;
+        
+    };
+    /**
+     * ### setColor
+     * - Версия `0.0.0`
+     * - Модуль `ject\entity\console`
+     * ***
+     * 
+     * Метод назначения цветов символов и фона.
+     * 
+     * ***
+     * @arg {import('../../../string/ansi/module.mjs').ansiTVColor} foreground
+     * @arg {import('../../../string/ansi/module.mjs').ansiTVColor} background
+     * @public
+    */
+    static setColor(foreground, background) {
+        
+        ansiSetColor(foreground, background);
+
+        return this; 
+        
+    };
+    /**
+     * ### writeLine
+     * - Версия `0.0.0`
+     * - Модуль `ject\entity\console`
+     * ***
+     * 
+     * Метод записи в консоль с переносом на следующую строку.
+     * 
+     * ***
+     * @arg {...string} strings `Строка`
+     * @public
+    */
+    static writeLine(...strings) {
+
+        const x = this.x;
+
+        if (!strings.length) {
+
+            strings[0] = '';
+
+        };
+
+        strings = strings.map(string => stringGetRows(string)).flat();
+
+        strings.forEach(string => {
+
+            this.setCursorTo().write(string);
+
+            this.y++;
+            this.x = x;
+
+        });
+
+        this.setCursorTo();
+
+        return this;  
+        
+    };
+    /**
+     * ### resetColor
+     * - Версия `0.0.0`
+     * - Модуль `ject\entity\console`
+     * ***
+     * 
+     * Метод сброса цвета.
+     * 
+     * ***
+     * @arg {boolean} foreground `Символы`
+     * @arg {boolean} background `Фон`
+     * @public
+    */
+    static resetColor(foreground = config.foreground, background = config.background) {
+
+        ansiSetColor(foreground, background);
+
+        return this;
+        
+    };
+    /**
+     * ### setCursorTo
+     * - Версия `0.0.0`
+     * - Модуль `ject\entity\console`
+     * ***
+     * 
+     * Метод установки позиции курсора в консоли.
+     * 
+     * ***
+     * @arg {number} x `Линия`
+     * @arg {number} y `Колонна`
+     * @public
+    */
+    static setCursorTo(y, x) {
+
+        if (x > -1 && y > -1) {
+
+            [this.y, this.x] = [y, x];
+
+        };
+
+        ansiSetCursorTo(this.y, this.x);
+
+        return this;
+        
+    };
+    
 };
 class DConsole extends SConsole {
 
-
+    
 
 };
 class IConsole extends DConsole {
@@ -224,3 +425,9 @@ export class YConsole extends FConsole {
 
 
 };
+
+/**
+ * @file class.mjs
+ * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
+ * @copyright Yakhin Nikita Artemovich 2023
+*/

@@ -32,6 +32,17 @@ await import('./error.mjs')
  * @prop {any} _
  *
 */
+/** ### funcTFuncs
+ * - Тип `T`
+ * - Версия `0.0.0`
+ * - Модуль `func`
+ * 
+ * 
+ * 
+ * @typedef funcTFuncs
+ * @prop {(function(...):void)[]} funcs
+ * 
+*/
 
 //#endregion
 //#region YV

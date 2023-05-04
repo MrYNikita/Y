@@ -1,7 +1,11 @@
 {
+    "bin": {
+        "y": "./launch.mjs",
+        "test": "./test.mjs"
+    },
     "name": "y",
     "bugs": {
-        "url": "https://github.com/MrYNikita/YModules/issues"
+        "url": "https://github.com/MrYNikita/Y/issues"
     },
     "icon": "logo.png",
     "files": [

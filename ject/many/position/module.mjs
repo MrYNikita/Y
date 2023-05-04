@@ -245,7 +245,7 @@ function maxComply(t) {
 
     const result = [];
 
-    while (next?.length || next?.length === 0) {
+    while (next instanceof Array) {
 
         const index = next?.length ? next.length - 1 : 0;
 

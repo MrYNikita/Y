@@ -1,6 +1,8 @@
 //#region YI
 
 import { YJect } from '../ject/class.mjs';
+import { stringFormatDate } from '../string/module.mjs';
+import { dateGetMesuares } from './module.mjs';
 
 /** @type {import('./config.mjs')['default']?} */
 let config = null;
@@ -204,6 +206,8 @@ class FDate extends MDate {
 
         };
 
+        t.value = t.date;
+
         FDate.#create.apply(this, [t]);
 
     };
@@ -304,6 +308,25 @@ export class YDate extends FDate {
     };
 
     /**
+     * ### toString
+     * - Версия `0.0.0`
+     * - Модуль `YDate`
+     * ***
+     *
+     * Метод получения строки.
+     *
+     * ***
+     * @arg {string?} local `Локаль`
+     * - Дефолт: `ru`
+     * @public
+    */
+    toString(local = 'ru') {
+
+        return stringFormatDate(this.getDate(), local);
+
+    };
+
+    /**
      * ### toDate
      * - Версия `0.0.1`
      * - Модуль `YDate`
@@ -318,24 +341,6 @@ export class YDate extends FDate {
     getDate() {
 
         return this.value;
-
-    };
-    /**
-     * ### getString
-     * - Версия `0.0.0`
-     * - Модуль `YDate`
-     * ***
-     *
-     * Метод получения строки.
-     *
-     * ***
-     * @arg {string?} local `Локаль`
-     * - Дефолт: `ru`
-     * @public
-    */
-    getString(local = 'ru') {
-
-        return stringCastToDate(this.getDate(), local);
 
     };
     /**

@@ -1,6 +1,6 @@
 //#region YI
 
-import { arrayCalculatePosition, arrayGet } from '../../array/module.mjs';
+import { arrayGet } from '../../array/module.mjs';
 import { numberGetSequence } from '../../number/module.mjs';
 import { YJect } from '../class.mjs';
 import { YCursor } from './cursor/class.mjs';
@@ -95,7 +95,7 @@ class DMany extends SMany {
      * @type {YCursor[]}
      * @protected
     */
-    cursors;
+    cursors = [];
 
 };
 /**
@@ -113,7 +113,7 @@ class IMany extends DMany {
      * @type {YCursor}
      * @protected
     */
-    cursor;
+    cursor = null;
 
 };
 /**
@@ -278,7 +278,6 @@ export class YMany extends FMany {
             c.move(...bias);
 
             c.indexs = positionCorrect(this.values, ...c.indexs);
-            // c.indexs = arrayCalculatePosition(this.values, ...c.indexs);
 
         });
 

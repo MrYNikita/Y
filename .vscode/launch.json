@@ -5,7 +5,7 @@
             "type": "node",
             "name": "Запустить программу",
             "request": "launch",
-            "console": "integratedTerminal",
+            "console": "internalConsole",
             "skipFiles": [
                 "<node_internals>/**"
             ],

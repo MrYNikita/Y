@@ -1,10 +1,12 @@
 //#region YI
 
-import { arrayCalculatePosition } from '../array/module.mjs';
+import { arrayUnite } from '../array/module.mjs';
 import { condIsNumberLimit, condIsString, condIsStringValid } from '../bool/cond/module.mjs';
 import { YMany } from '../ject/many/class.mjs';
 import { positionCorrect } from '../ject/many/position/module.mjs';
-import { stringGetMatrix, stringGetRow, stringGetRows, stringPad, stringPadColumn, stringPadRow, stringPadToPosition, stringPaste, stringPasteWrap, stringSetRow, stringTrim } from './module.mjs';
+import { YLayout } from './layout/class.mjs';
+import { stringFilter, stringFormatReport, stringGetMatrix, stringGetRow, stringGetRows, stringPad, stringPadColumn, stringPadRow, stringPadToPosition, stringPaste, stringPasteWrap, stringRemove, stringRemoveEnd, stringRemoveStart, stringSetRow, stringSubstringByPosition, stringTrim } from './module.mjs';
+import { YTemplate } from './template/class.mjs';
 
 /** @type {import('./config.mjs')['default']?} */
 let config = null;
@@ -62,7 +64,11 @@ await import('./error.mjs')
 /** @extends {YMany<string>} */
 class SString extends YMany {
 
+    static {
 
+        config.templates = config.templates.map(template => new YTemplate(...template));
+
+    };
 
 };
 class DString extends SString {
@@ -151,7 +157,26 @@ class DString extends SString {
 };
 class IString extends DString {
 
-
+    /**
+     * ### layout
+     * 
+     * Разметка.
+     * 
+     * *** 
+     * @type {YLayout} 
+     * @protected
+    */
+    layout = new YLayout();
+    /**
+     * ### templates
+     * 
+     * Шаблоны.
+     * 
+     * *** 
+     * @type {YTemplate[]} 
+     * @protected
+    */
+    templates = [];
 
 };
 class MString extends IString {
@@ -355,7 +380,7 @@ export class YString extends FString {
      * @arg {string|function():string} prefix `Префикс`
      * @public
     */
-    setPrefix(prefix) {
+    setPrefix(prefix = '') {
 
         if (condIsStringValid(prefix)) {
 
@@ -386,7 +411,7 @@ export class YString extends FString {
      * @arg {(string|function():string)} postfix `Постфикс`
      * @public
     */
-    setPostfix(postfix) {
+    setPostfix(postfix = '') {
 
         if (condIsStringValid(postfix)) {
 
@@ -405,6 +430,27 @@ export class YString extends FString {
         return this;
 
     };
+    /**
+     * ### setPrePostfix
+     * - Версия `0.0.0`
+     * - Модуль `string`
+     * ***
+     * 
+     * Метод утсановки префикса и постфикса.
+     * 
+     * ***
+     * @arg {(string|function():string)} prefix `Префикс`
+     * @arg {(string|function():string)} postfix `Постфикс`
+     * @public
+    */
+    setPrePostfix(prefix, postfix) {
+        
+        this.setPrefix(prefix);
+        this.setPostfix(postfix);
+
+        return this;
+        
+    };
 
     /**
      * ### get
@@ -422,7 +468,15 @@ export class YString extends FString {
     */
     get(style = true) {
 
-        return this.values;
+        let result = this.values;
+
+        if (style) {
+
+            result = this.layout.apply(result);
+
+        };
+
+        return result;
 
     };
     /**
@@ -572,6 +626,44 @@ export class YString extends FString {
     };
 
     /**
+     * ### exec
+     * - Версия `0.1.0`
+     * - Модуль `string`
+     * ***
+     * 
+     * Метод выполнения кода, переданного стрелочной функцией с первым аргументом, выступающим исходным объектом.
+     * 
+     * Позволяет выполнять какую-то логику связанную с экземпляром в его методе.
+     * 
+     * В случае ошибок, метод откатит изменения, вернув в качестве результата копию экземпляра.
+     * 
+     * ***
+     * @arg {(arg0:this)=>void} func
+     * @public
+    */
+    exec(func) {
+        
+        if (func instanceof Function) {
+
+            const clone = this.clone();
+
+            try {
+
+                func(this);
+
+            } catch (e) {
+
+                return clone;
+
+            };
+
+        };
+
+        return this;
+        
+    };
+
+    /**
      * ### trim
      * - Версия `0.0.0`
      * - Модуль `string`
@@ -606,7 +698,7 @@ export class YString extends FString {
     */
     paste(...strings) {
 
-        strings.forEach(string => {
+        strings.map(string => string + '').forEach(string => {
 
             let row = this.getRow(this.cursor.indexs[0]);
 
@@ -620,7 +712,7 @@ export class YString extends FString {
                 string += this.postfix();
 
             };
-
+            
             row = stringPaste(row, string, this.cursor.indexs[1] + string.length);
 
             this.setRow(row, this.cursor.indexs[0]);
@@ -654,6 +746,80 @@ export class YString extends FString {
         return this;
 
     };
+    /**
+     * ### pasteTemplate
+     * - Версия `0.0.0`
+     * - Модуль `string`
+     * ***
+     * 
+     * Метод применения шаблонов.
+     * 
+     * ***
+     * @arg {string} label `Метка`
+     * @arg {...[...string]} inserts `Вставки` 
+     * @public
+    */
+    pasteTemplate(label, ...inserts) {
+
+        const template = arrayUnite(this.templates, config.templates).find(template => template.label === label);
+
+        if (template) {
+
+            this.paste(template.apply(...inserts));
+
+        };
+
+        return this;
+        
+    };
+
+    /**
+     * ### remove
+     * - Версия `0.2.0`
+     * ***
+     * 
+     * Метод обрезания строки.
+     * 
+     * ***
+     * @arg {number} length `Длина`
+     * @arg {boolean} left `Сторона`
+     * @public
+    */
+    remove(length = -1, left) {
+
+        if (left) {
+
+            this.values = stringRemoveStart(this.values, this.cursors[0].indexs[1], length);
+
+        } else {
+
+            this.values = stringRemove(this.values, this.values.length - 1, length);
+
+        };
+
+        return this;
+        
+    };
+
+    /**
+     * ### filter
+     * - Версия `0.0.0`
+     * - Модуль `string`
+     * ***
+     * 
+     * Метод фильтрации.
+     * 
+     * ***
+     * @arg {...(string|RegExp)} filters `Фильтры`
+     * @public
+    */
+    filter(...filters) {
+        
+        this.values = stringFilter(this.values, ...filters);
+
+        return this;
+        
+    };
 
     /**
      * ### display
@@ -674,6 +840,25 @@ export class YString extends FString {
 
         return this;
 
+    };
+
+    /**
+     * ### formatReport
+     * - Версия `0.0.0`
+     * - Модуль `string`
+     * ***
+     * 
+     * Метод форматирования строки в строку отчета.
+     * 
+     * ***
+     * @public
+    */
+    formatReport() {
+
+        this.values = stringFormatReport(this.values);
+
+        return this;
+        
     };
 
     /**
@@ -701,6 +886,7 @@ export class YString extends FString {
         return this;
 
     };
+
     /**
      * ### setCursorTo
      * - Версия `0.0.0`
@@ -721,6 +907,129 @@ export class YString extends FString {
 
         return this;
 
+    };
+    /**
+     * ### setCursorToEnd
+     * - Версия `0.0.0`
+     * - Модуль `string`
+     * ***
+     * 
+     * Метод установки курсора в последнюю позицию текста.
+     * 
+     * ***
+     * @public
+    */
+    setCursorToEnd() {
+        
+        const rows = this.getRows();
+
+        this.setCursorTo(rows.length - 1, rows.at(-1).length - 1);
+
+        return this;
+        
+    };
+
+    /**
+     * ### clearColors
+     * - Версия `0.0.0`
+     * - Модуль `string`
+     * ***
+     * 
+     * Метод очистки цветов.
+     * 
+     * ***
+     * @public
+    */
+    clearColors() {
+
+        this.layout.clearColors();
+
+        return this;
+        
+    };
+    /**
+     * ### clearTemplates
+     * - Версия `0.0.0`
+     * - Модуль `string`
+     * ***
+     * 
+     * Метод очистки шаблонов.
+     * 
+     * ***
+     * @public
+    */
+    clearTemplates() {
+        
+        this.templates = [];
+
+        return this;
+        
+    };
+
+    /**
+     * ### appendColors
+     * - Версия `0.0.0`
+     * - Модуль `string`
+     * ***
+     * 
+     * Метод добавления цветов.
+     * 
+     * ***
+     * @arg {[import('./ansi/module.mjs').ansiColorTMColors, import('./ansi/module.mjs').ansiColorTMColors, number, number][]} colors `Цвета`
+     * @public
+    */
+    appendColors(...colors) {
+
+        colors = colors.map(color => {
+
+            if (!color[2]) {
+
+                color[2] = this.cursor.indexs[0];
+
+            };
+            if (!color[3]) {
+                
+                color[3] = this.cursor.indexs[1];
+
+            };
+
+            return color;
+
+        });
+
+        this.layout.appendColors(...colors);
+
+        return this;
+        
+    };
+    /**
+     * ### appendTemplates
+     * - Версия `0.0.0`
+     * - Модуль `string`
+     * ***
+     * 
+     * Метод добавления шаблонов.
+     * 
+     * ***
+     * @arg {...[string, string]} templates `Шаблоны`
+     * @public
+    */
+    appendTemplates(...templates) {
+        
+        templates.forEach(template => {
+
+            if (template.constructor === Array) {
+
+                template = new YTemplate(...template);
+
+            };  
+
+            this.templates.push(template);
+
+        });
+
+        return this;
+        
     };
 
 };

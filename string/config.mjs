@@ -70,6 +70,134 @@ export const configString = {
      * @public
     */
     rowVisLimit: 40,
+    /**
+     * ### spliterPart
+     * 
+     * Разделитель частей.
+     * 
+     * *** 
+     * @type {string} 
+     * @public
+    */
+    spliterPart: '.',
+    /**
+     * ### spliterInsert
+     * 
+     * Разделитель частей вставок.
+     * 
+     * *** 
+     * @type {string} 
+     * @public
+    */
+    spliterInsert: '/',
+    /**
+     * ### insertSymbolPosition
+     * 
+     * Символ места вставки.
+     * 
+     * *** 
+     * @type {string} 
+     * @public
+    */
+    insertSymbolPosition: '.',
+    /**
+     * ### 
+     * 
+     * Разделитель множеств.
+     * 
+     * *** 
+     * @type {string} 
+     * @public
+    */
+    spliterDischarge: '_',
+
+    /**
+     * ### symbols
+     * 
+     * Символы.
+     * 
+     * ***  
+     * @public
+    */
+    symbols: {
+
+        math: {
+            nu: 'µ',
+            le: '≥',
+            ld: '≤',
+            pi: 'π',
+            ne: '≠',
+            inf: '∞',
+            plusmin: '±',
+        },
+        table: {
+
+            thin: ['│', '─', '┌', '┐', '└', '┘', '├', '┬', '┴', '┤', '┼'],
+            double: ['║', '═', '╔', '╗', '╚', '╝', '╠', '╦', '╩', '╣', '╬'],
+            dotted: ['┊', '┄'],
+            
+        },
+        valute: {
+            ru: '₽',
+            li: '₺',
+            br: 'Br',
+            eu: '€',
+            gr: '₴',
+            dol: '$',
+            uan: '¥',
+            ten: '₸',
+            fun: '£',
+            rupi: 'Rs',
+        },
+    },
+
+    /**
+     * ### templates
+     * 
+     * Общие шаблоны.
+     * 
+     * *** 
+     * @type {import('./template/class.mjs').YTemplate} 
+     * @public
+    */
+    templates: [
+
+        ['point', ' * >p: >v;\n'],
+
+    ],
+    /**
+     * ### templatesDate
+     * 
+     * Шаблоны дат.
+     * 
+     * ***  
+     * @public
+    */
+    templatesDate: {
+
+        ru: 'd.m.y hh:mm:ss',
+        jp: 'y.m.d hh:mm:ss',
+
+    },
+    /**
+     * ### templatePhones
+     * 
+     * Шаблоны телефонных номеров.
+     * 
+     * *** 
+     * @type {} 
+     * @public
+    */
+    templatesPhone: {
+
+        ru: '+7 (...) ...-..-..',
+        kz: '+7 (...) ...-..-..',
+        ua: '+380 (..) ...-..-..',
+        us: '+1 ...-...-....',
+        cn: '+86 (..) ....-....',
+        blr: '+375 (..) ...-..-..',
+
+    },
 
     /**
      * ### defaultTab
@@ -131,6 +259,26 @@ export const configString = {
      * @public
     */
     defaultPostfix: null,
+    /**
+     * ### foregroundDefault
+     * 
+     * Дефолт символьный цвет.
+     * 
+     * *** 
+     * @type {import("./ansi/module.mjs").ansiColorTMColors}
+     * @public
+    */
+    foregroundDefault: 'white',
+    /**
+     * ### backgroundDefault
+     * 
+     * Дефолт фоновый цвет.
+     * 
+     * *** 
+     * @type {import("./ansi/module.mjs").ansiColorTMColors}
+     * @public
+    */
+    backgroundDefault: 'black',
     /**
      * ### defaultRowLength
      *

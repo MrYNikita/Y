@@ -1,5 +1,6 @@
 //#region YI
 
+import { numberGetRandomFrac, numberGetRandomReal } from '../../number/module.mjs';
 import { YJect } from '../class.mjs';
 
 /** @type {import('./config.mjs')['default']?} */
@@ -57,7 +58,57 @@ await import('./error.mjs')
 
 class SGen extends YJect {
 
-
+    /**
+     * ### getString
+     * - Версия `0.0.0`
+     * - Модуль `ject\gen`
+     * ***
+     * 
+     * Получение произвольной строки.
+     * 
+     * ***
+     * @arg {number} length `Длина`
+     * @public
+    */
+    static getString(length) {
+        
+        return '';
+        
+    };
+    /**
+     * ### getNumberReal
+     * - Версия `0.0.0`
+     * - Модуль `ject\gen`
+     * ***
+     * 
+     * Метод получения случайного целого числа в заданном диапазоне.
+     * 
+     * ***
+     * 
+     * @public
+    */
+    static getNumberReal(min, max) {
+        
+        return numberGetRandomReal(min, max);
+        
+    };
+    /**
+     * ### getNumberFrac
+     * - Версия `0.0.0`
+     * - Модуль `ject\gen`
+     * ***
+     * 
+     * Метод получения случайного дробного числа в заданном диапазоне.
+     * 
+     * ***
+     * 
+     * @public
+    */
+    static getNumberFrac(min, max) {
+        
+        return numberGetRandomFrac(min, max);
+        
+    };
 
 };
 class DGen extends SGen {
@@ -204,8 +255,8 @@ class FGen extends MGen {
  * ***
  *
 */
-class YGen extends FGen {
+export class YGen extends FGen {
 
-
+    
 
 };

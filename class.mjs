@@ -1,4 +1,5 @@
 import { YLoad } from './module.mjs';
+import { spawn } from 'child_process';
 
 /**
  * ### Y
@@ -380,6 +381,22 @@ class Y {
     static async load() {
 
         return await YLoad(this);
+
+    };
+    /**
+     * ### restart
+     * - Версия `0.0.0`
+     * - Модуль `class.mjs`
+     * ***
+     * 
+     * Метод перезапуска программы.
+     * 
+     * ***
+     * @public
+    */
+    static restart() {
+
+        
 
     };
 

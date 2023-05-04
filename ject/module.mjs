@@ -109,6 +109,13 @@ function equalHandle(t) {
 
     } = t;
 
+    if (t.ject instanceof Array && t.equal instanceof Array) {
+
+        t.ject = t.ject.slice().sort((p, c) => p - c);
+        t.equal = t.equal.slice().sort((p, c) => p - c);
+
+    };
+
     return equalComply(t);
 
 };
@@ -142,33 +149,37 @@ function equalComply(t) {
 
         };
 
-        for (const p of jks) {
+        for (const jk of jks) {
 
-            if (j[p] instanceof Object) {
+            if (j[jk].constructor !== e[jk].constructor) {
 
-                if (j[p].constructor === e[p].constructor) {
+                return false;
 
-                    if (u.every(u => u[0] !== j[p] && u[1] !== e[p])) {
+            };
 
-                        const a = [j[p], e[p]];
+            if (j[jk] instanceof Array) {
 
-                        [s, u].forEach(e => e.push(a));
+                if (u.every(u => u[0] !== j[jk] && u[1] !== e[jk])) {
 
-                    };
+                    const a = [j[jk].slice().sort((p, c) => p - c), e[jk].slice().sort((p, c) => p - c)];
 
-                } else {
-
-                    return false;
+                    [s, u].forEach(e => e.push(a));
 
                 };
 
-            } else {
+            } else if (j[jk] instanceof Object) {
 
-                if (j[p] !== e[p]) {
+                if (u.every(u => u[0] !== j[jk] && u[1] !== e[jk])) {
 
-                    return false;
+                    const a = [j[jk], e[jk]];
+
+                    [s, u].forEach(e => e.push(a));
 
                 };
+
+            } else if (j[jk] !== e[jk]) {
+
+                return false;
 
             };
 
@@ -550,11 +561,16 @@ function adoptDefaultComply(t) {
 
     Object.keys(ject).forEach(p => {
 
-        const pd = 'default' + p[0].toUpperCase() + p.slice(1);
+        const defaultProperty = 'default' + p[0].toUpperCase() + p.slice(1);
+        const propertyDefault = p + 'Default';
 
-        if (!ject[p] && owner[pd] !== undefined) {
+        if (!ject[p] && owner[defaultProperty] !== undefined) {
 
-            ject[p] = owner[pd];
+            ject[p] = owner[defaultProperty];
+
+        } else if (!ject[p] && owner[propertyDefault] !== undefined) {
+
+            ject[p] = owner[propertyDefault];
 
         };
 
