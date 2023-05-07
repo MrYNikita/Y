@@ -284,7 +284,11 @@ export class YDispatcher extends FDispatcher {
 
         this.processes.push(...processes.map(process => {
 
-            process = new YProcess(...process);
+            if (!(process instanceof YProcess)) {
+
+                process = new YProcess(...process);
+
+            };
 
             return process;
 

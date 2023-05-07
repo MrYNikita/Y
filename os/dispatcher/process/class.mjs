@@ -100,7 +100,7 @@ class DProcess extends SProcess {
 class IProcess extends DProcess {
     
     /**
-     * ### link
+     * ### process
      * 
      * Ссылка на процесс.
      * 
@@ -108,7 +108,7 @@ class IProcess extends DProcess {
      * @type {ChildProcess?} 
      * @public
     */
-    link;
+    process;
     /**
      * ### status
      * 
@@ -280,12 +280,11 @@ export class YProcess extends FProcess {
      * 
      * 
      * ***
-     * 
      * @public
     */
     on() {
         
-        this.link = fork(this.path.get(), {
+        this.process = fork(this.path.get(), {
 
             stdio: 'inherit',
             
@@ -325,7 +324,7 @@ export class YProcess extends FProcess {
     */
     off() {
         
-        this.link.kill();
+        this.process.kill();
 
         this.status = 3;
 

@@ -603,6 +603,166 @@ export function jectAdoptDefault(ject, owner) {
 
 //#endregion
 
+//#region correlate 0.0.0
+
+/** ### jectTFCorrelate
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * ***
+ * 
+ * Результирующие параметры функции `correlate`.
+ * 
+ * @typedef {jectTFUCorrelate&jectT} jectTFCorrelate
+ * 
+*/
+/** ### jectTFUCorrelate
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * 
+ * Уникальные параметры функции `correlate`.
+ * 
+ * @typedef jectTFUCorrelate
+ * @prop {string[][]} options
+*/
+
+/** @arg {jectTFCorrelate} t */
+function correlateDeceit(t) {
+    
+    try {
+        
+        return correlateVerify(t);
+        
+    } catch (e) {
+        
+        if (config?.strict) {
+            
+            throw e;
+            
+        };
+        
+        return undefined;
+        
+    } finally {
+        
+        
+        
+    };
+    
+};
+/** @arg {jectTFCorrelate} t */
+function correlateVerify(t) {
+    
+    const {
+    
+    
+    
+    } = t;
+    
+    return correlateHandle(t);
+   
+};
+/** @arg {jectTFCorrelate} t */
+function correlateHandle(t) {
+   
+    const {
+    
+    
+    
+    } = t;
+   
+    return correlateComply(t);
+   
+};
+/** @arg {jectTFCorrelate} t */
+function correlateComply(t) {
+   
+    const {
+    
+        ject,
+        options,
+    
+    } = t;
+
+    const aliases = options.map(option => {
+
+        return {
+
+            name: option[0],
+            options: option.slice(1),
+
+        };
+
+    });
+
+    return new Proxy(ject, {
+
+        get(t, p) {
+
+            if (t[p] === undefined) {
+
+                for (const alias of aliases) {
+
+                    if (p === alias.name || alias.options.includes(p)) {
+
+                        return t[alias.name];
+
+                    };
+
+                };
+
+            };
+
+            return t[p];
+
+        },
+        set(t, p, v) {
+
+            if (t[p] === undefined) {
+
+                for (const alias of aliases) {
+
+                    if (p === alias.name || alias.options.includes(p)) {
+
+                        t[alias.name] = v;
+
+                        return true;
+
+                    };
+
+                };
+
+            };
+
+            t[p] = v;
+
+            return true;
+
+        },
+
+    });
+    
+    
+};
+
+/**
+ * ### jectCorrelate
+ * - Версия `0.0.0`
+ * ***
+ * 
+ * Функция для соотнесения свойства с его псевдонимом.
+ * 
+ * ***
+ * @arg {G} ject `Объект`
+ * @arg {...string[]} options `Варианты`
+ * @template G
+*/
+export function jectCorrelate(ject, ...options) {
+
+    return correlateDeceit({ ject, options });
+
+};
+
+//#endregion
 //#region supplement 0.0.0
 
 /** ### jectTFSupplement

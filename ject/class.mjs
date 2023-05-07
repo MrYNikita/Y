@@ -1,6 +1,6 @@
 //#region YI
 
-import { jectAdopt, jectAdoptDefault, jectClone, jectEqual, jectGetProperty, jectGetPropertyByPath, jectSupplement } from './module.mjs';
+import { jectAdopt, jectAdoptDefault, jectClone, jectCorrelate, jectEqual, jectGetProperty, jectGetPropertyByPath, jectSupplement } from './module.mjs';
 
 /** @type {import('./config.mjs')['default']?} */
 let config = null;
@@ -84,12 +84,15 @@ class FJect extends MJect {
      *
      * ***
      * @arg {...YJectT} t
+     * @this {YJect}
     */
     constructor(...t) {
 
         super(Object.assign(t = FJect.#before(t), {}));
 
         FJect.#deceit.apply(this, [t]);
+
+        return this.correlate();
 
     };
 
@@ -184,7 +187,7 @@ class FJect extends MJect {
 /**
  * ### YJect
  * - Тип `SDIMFY`
- * - Версия `0.0.0`
+ * - Версия `0.3.0`
  * - Модуль `ject`
  * - Цепочка `BDVHC`
  * ***
@@ -266,6 +269,31 @@ export class YJect extends FJect {
 
     };
 
+    /**
+     * ### correlate
+     * - Версия `0.0.0`
+     * ***
+     * 
+     * Метод корреляции обращений к свойствам.
+     * 
+     * ***
+     * @public
+    */
+    correlate() {
+        
+        const aliases = this.constructor?.config?.aliases;
+
+        if (aliases) {
+
+            return jectCorrelate(this, ...aliases);
+
+        } else {
+
+            return this;
+
+        };
+        
+    };
     /**
      * ### supplement
      * - Версия `0.0.0`

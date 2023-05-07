@@ -209,7 +209,7 @@ class FIndicatorKey extends MIndicatorKey {
 /**
  * ### YIndicatorKey
  * - Тип `SDIMFY`
- * - Версия `0.0.0`
+ * - Версия `0.1.0`
  * - Модуль `ject\entity\terminal\element\indicatorKey`
  * - Цепочка `BDVHC`
  * ***
@@ -227,6 +227,7 @@ export class YIndicatorKey extends FIndicatorKey {
 
         let {
 
+            alt,
             code,
             name,
             ctrl,
@@ -254,9 +255,9 @@ export class YIndicatorKey extends FIndicatorKey {
 
                 .paste(
 
-                    border[2] + border[1] + ' Indicator Keyboard ' + border[1].repeat(9) + border[7] + border[1].repeat(6) + border[7] + border[1].repeat(6) + border[3] + '\n',
-                    border[0] + ' ' + name + ' '.repeat(10 - name?.length ?? 0) + border[0] + ' ' + code + ' '.repeat(16 - code?.length ?? 0) + ' ' + border[0] + ` S: ${shift ? '+' : '-'} ` + border[0] + ` C: ${ctrl ? '+' : '-'} ` + border[0] + '\n',
-                    border[4] + border[1].repeat(11) + border[8] + border[1].repeat(18) + border[8] + border[1].repeat(6) + border[8] + border[1].repeat(6) + border[5]
+                    border[2] + border[1] + ' Indicator Keyboard ' + border[1].repeat(9) + border[7] + border[1].repeat(6) + border[7] + border[1].repeat(6) + border[7] + border[1].repeat(6) + border[3] + '\n',
+                    border[0] + ' ' + name + ' '.repeat(10 - name?.length ?? 0) + border[0] + ' ' + code + ' '.repeat(16 - code?.length ?? 0) + ' ' + border[0] + ` S: ${shift ? '+' : '-'} ` + border[0] + ` C: ${ctrl ? '+' : '-'} ` + border[0] + ` A: ${alt ? '+' : '-'} ` + border[0] + '\n',
+                    border[4] + border[1].repeat(11) + border[8] + border[1].repeat(18) + border[8] + border[1].repeat(6) + border[8] + border[1].repeat(6) + border[8] + border[1].repeat(6) + border[5]
 
                 )
                 .get(true)

@@ -103,6 +103,16 @@ class DElement extends SElement {
     */
     redraw;
     /**
+     * ### sizes
+     * 
+     * Размеры.
+     * 
+     * *** 
+     * @type {[number, number]?} 
+     * @public
+    */
+    sizes = null;
+    /**
      * ### terminal
      *
      * Терминал.
@@ -325,9 +335,10 @@ export class YElement extends FElement {
     */
     setInterface(intf) {
 
+        this.terminal = intf?.terminal ?? null;
+        
         if (!this.interface && intf instanceof YInterface) {
 
-            this.terminal = intf.terminal;
             this.interface = intf;
 
         };

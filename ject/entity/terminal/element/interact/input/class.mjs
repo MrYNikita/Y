@@ -84,6 +84,24 @@ class SInput extends YInteract {
 
             keys: [
 
+                new YKey('enter'),
+
+            ],
+            funcs: [
+
+                y => {
+
+                    y.func(y.value.get());
+
+                },
+
+            ],
+
+        }),
+        new YComb({
+
+            keys: [
+
                 new YKey('backspace'),
 
             ],
@@ -338,7 +356,7 @@ export class YInput extends FInput {
             .setCursorTo(...this.coords)
             .writeLine(new YString()
 
-                .paste(structureFrame(1, 30, title ?? 'YInput', 'thin', value.get()))
+                .paste(structureFrame(...(this.sizes ?? [3, 30]), title ?? 'YInput', 'thin', value.get()))
                 .get(true)
 
             )

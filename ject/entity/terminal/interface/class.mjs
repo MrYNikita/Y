@@ -398,26 +398,10 @@ export class YInterface extends FInterface {
 
             /** @type {YTerminal} */
             this.terminal = terminal;
-
-            if (!this.style) {
-
-                this.style = terminal.style;
-
-            };
-            if (this.recepient) {
-
-                const t = this.recepient.interacts[0];
-
-                this.recepient.interacts.forEach(interact => {
-
-                    interact.setInterface(this);
-
-                });
-
-            };
-
+                        
             this.elements.forEach(e => e.setInterface(this));
             this.interfaces.forEach(i => i.setTerminal(terminal));
+            this.recepient.interacts.forEach(interact => interact.setInterface(this));
 
         };
 

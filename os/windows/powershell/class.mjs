@@ -2,6 +2,7 @@
 
 import { YJect } from '../../../ject/class.mjs';
 import { spawn } from 'child_process';
+import { YProcess } from '../../dispatcher/process/class.mjs';
 
 /** @type {import('./config.mjs')['default']?} */
 let config = null;
@@ -53,7 +54,7 @@ await import('./error.mjs')
 
 //#endregion
 
-class SPowerShell extends YJect {
+class SPowerShell extends YProcess {
 
     /**
      * ### config
@@ -315,6 +316,41 @@ export class YPowerShell extends FPowerShell {
 
     };
     /**
+     * ### moveMusic
+     * - Версия `0.0.0`
+     * ***
+     * 
+     * Метод перемтоки музыкального произведения на указанное кол-во часов, минут и секунд.
+     * 
+     * Особенности:
+     * - Если в качестве параметра было передано одно число, то это будет секунды.
+     * - Если чисел передано 2, то это будут минуты и секунды.
+     * 
+     * ***
+     * @arg {...number} time `Тайминги`
+     * @public
+    */
+    moveMusic(...time) {
+
+        if (this.audio) {
+
+            const hour = time.at(-3) ?? 0;
+            const minute = time.at(-2) ?? 0;
+            const second = time.at(-1) ?? 0;
+
+            this.exec(
+
+                `$timeSpan = New-Object System.TimeSpan ${hour},${minute},${second}`,
+                `$${this.audio}.Position = $${this.audio}.Position.Add($timeSpan)`,
+
+            );
+
+        };
+
+        return this;
+        
+    };
+    /**
      * ### stopMusic
      * - Версия `0.0.0`
      * ***
@@ -399,3 +435,9 @@ export class YPowerShell extends FPowerShell {
     };
 
 };
+
+/**
+ * @file class.mjs
+ * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
+ * @copyright Yakhin Nikita Artemovich 2023
+*/

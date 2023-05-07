@@ -70,6 +70,16 @@ class SString extends YMany {
 
     };
 
+    /**
+     * ### config
+     * 
+     * Конфигуратор.
+     * 
+     * *** 
+     * @public
+    */
+    static config = config;
+
 };
 class DString extends SString {
 
@@ -412,10 +422,11 @@ export class YString extends FString {
      * @public
     */
     setPostfix(postfix = '') {
-
+        
         if (condIsStringValid(postfix)) {
 
             this.postfix = () => postfix;
+
 
         } else if (postfix?.constructor === Function) {
 
@@ -423,7 +434,7 @@ export class YString extends FString {
 
         } else {
 
-            this.prefix = () => '';
+            this.postfix = () => '';
 
         };
 
@@ -698,7 +709,7 @@ export class YString extends FString {
     */
     paste(...strings) {
 
-        strings.map(string => string + '').forEach(string => {
+        strings.map(string => string.toString()).forEach(string => {
 
             let row = this.getRow(this.cursor.indexs[0]);
 
@@ -708,7 +719,7 @@ export class YString extends FString {
 
             };
             if (this.postfix) {
-
+                
                 string += this.postfix();
 
             };
@@ -718,6 +729,8 @@ export class YString extends FString {
             this.setRow(row, this.cursor.indexs[0]);
 
             this.moveCursors(string.match(/\n/g)?.length, string.length);
+
+            this.cursor.indexs[1]++;
 
         });
 

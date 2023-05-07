@@ -150,6 +150,20 @@ export const configString = {
             rupi: 'Rs',
         },
     },
+    /**
+     * ### aliases
+     * 
+     * Псевдонимы.
+     * 
+     * *** 
+     * @type {string[][]} 
+     * @public
+    */
+    aliases: [
+
+        ['values', 'value', 'str', 'string'],
+
+    ],
 
     /**
      * ### templates

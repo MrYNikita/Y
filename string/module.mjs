@@ -4113,6 +4113,159 @@ export function stringMesuare(string, step, ...mesuares) {
 
 //#endregion
 
+//#region truncate 0.0.0
+
+/** ### stringTFTruncate
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * ***
+ * 
+ * Результирующие параметры функции `truncate`.
+ * 
+ * @typedef {stringTFUTruncate&stringT} stringTFTruncate
+ * 
+*/
+/** ### stringTFUTruncate
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * 
+ * Уникальные параметры функции `truncate`.
+ * 
+ * @typedef stringTFUTruncate
+ * @prop {number} cutoffTop 
+ * @prop {number} cutoffLeft
+ * @prop {number} cutoffRight
+ * @prop {number} cutoffBottom
+ * @prop {[number, number]} position
+ * @prop {[number, number]} positionEnd
+ * @prop {[number, number]} positionStart
+*/
+
+/** @arg {stringTFTruncate} t */
+function truncateDeceit(t) {
+    
+    try {
+        
+        return truncateVerify(t);
+        
+    } catch (e) {
+        
+        if (config?.strict) {
+            
+            throw e;
+            
+        };
+        
+        return undefined;
+        
+    } finally {
+        
+        
+        
+    };
+    
+};
+/** @arg {stringTFTruncate} t */
+function truncateVerify(t) {
+    
+    const {
+    
+    
+    
+    } = t;
+    
+    return truncateHandle(t);
+   
+};
+/** @arg {stringTFTruncate} t */
+function truncateHandle(t) {
+   
+    const {
+    
+        
+    
+    } = t;
+    
+    if (t.cutoffTop) {
+
+        t.cutoffBottom += t.cutoffTop;
+
+    };
+    if (t.cutoffLeft) {
+
+        t.cutoffRight += t.cutoffLeft;
+
+    };
+
+    return truncateComply(t);
+   
+};
+/** @arg {stringTFTruncate} t */
+function truncateComply(t) {
+   
+    const {
+    
+        string,
+        cutoffTop,
+        cutoffLeft,
+        cutoffRight,
+        cutoffBottom,
+    
+    } = t;
+    
+    let result = string;
+
+    result = stringGetRows(result).slice(cutoffTop, cutoffBottom).map(row => {
+
+        return row.slice(cutoffLeft, cutoffRight);
+
+    }).join('\n');
+
+    result = stringTrim(result);
+
+    return result;
+    
+};
+
+/**
+ * ### stringTruncate
+ * - Версия `0.0.0`
+ * ***
+ * 
+ * Функция усечения указанного текста по указанным длине и ширине.
+ * 
+ * ***
+ * @arg {string} string `Текст`
+ * @arg {number} cutoffTop `Отсечка сверху`
+ * @arg {number} cutoffLeft `Отсечка слева`
+ * @arg {number} cutoffRight `Отсечка справа`
+ * @arg {number} cutoffBottom `Отсечка снизу`
+*/
+export function stringTruncate(string, cutoffRight, cutoffBottom, cutoffLeft = 0, cutoffTop = 0) {
+
+    return truncateDeceit({ string, cutoffRight, cutoffBottom, cutoffTop, cutoffLeft, });
+
+};
+/**
+ * ### stringTruncateByArea
+ * - Версия `0.0.0`
+ * ***
+ * 
+ * Функция усечения указанного текста по его позиции в указанной области.
+ * 
+ * ***
+ * @arg {string} string `Текст`
+ * @arg {[number, number]} position `Позиция текста в пространстве`
+ * @arg {[number, number]} positionEnd `Конечная точка области`
+ * @arg {[number, number]} positionStart `Начальная точка области`
+*/
+export function stringTruncateByArea(string, position = [0, 0], positionStart = [0, 0], positionEnd) {
+
+    return truncateDeceit({ string, position, positionStart, positionEnd });
+
+};
+
+//#endregion
 //#region substring 0.0.0
 
 /** ### stringTFSubstring

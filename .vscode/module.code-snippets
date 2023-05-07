@@ -108,6 +108,8 @@
 			"        ",
 			"        F$1.#deceit.apply(this, [t]);",
 			"        ",
+			"        return this.correlate();",
+			"        ",
 			"    };",
 			"    ",
 			"    /** @arg {any[]} t */",
@@ -895,4 +897,33 @@
         "prefix": "#be"
 
     },
+
+    "changelog": {
+        "body": [
+            "# ${1:Y${TM_DIRECTORY/(.*?[\\\\])+(.*)/${2:/capitalize}/}}",
+            "",
+            "$0",
+        ],
+        "isFileTemplate": true,
+        "prefix": "#changelog",
+    },
+    "changelogNew": {
+        "body": [
+            "## **${1:0.0.0} - ${2:01.01.0001}**",
+            "### **Изменения**",
+            " - #### **_**",
+            "### **Исправления**",
+            " - #### **_**",
+            "***",
+        ],
+        "prefix": "#changelogNew"
+    },
+    "changelogPoint": {
+        "body": [
+            " - #### **$1**",
+            "   $0",
+        ],
+        "prefix": "#changelogPoint",
+    },
+
 }

@@ -1,5 +1,6 @@
 //#region YI
 
+import { listChangeIndex } from '../../../many/list/module.mjs';
 import { YInteract } from '../element/interact/class.mjs';
 import { YInterface } from '../interface/class.mjs';
 import { YComb } from '../listener/comb/class.mjs';

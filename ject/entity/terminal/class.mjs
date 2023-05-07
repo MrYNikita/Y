@@ -502,7 +502,12 @@ export class YTerminal extends FTerminal {
 
         try {
 
-            
+            const data = this.file.read();
+
+            data.location = this.getLocation();
+            data.switch.index = this.recepient.recepient.index;
+
+            this.file.write(data);
 
         } catch (e) {
 
@@ -676,7 +681,7 @@ export class YTerminal extends FTerminal {
             labels = labels.filter(label => condIsString(label));
 
             labels.forEach((label) => {
-                
+
                 const intf = this.recepient.interfaces.find(i => i.label === label);
                 
                 if (intf) {
@@ -867,7 +872,11 @@ export class YTerminal extends FTerminal {
 
             this.recepient.setTerminal(this);
 
-            Object.setPrototypeOf(intf.style, this.style);
+            if (!intf.interfaceOver) {
+
+                Object.setPrototypeOf(intf.style, this.style);
+
+            };
 
         };
 
