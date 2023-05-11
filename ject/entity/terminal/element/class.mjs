@@ -321,6 +321,29 @@ export class YElement extends FElement {
         return this;
         
     };
+
+    /**
+     * ### checkVisiable
+     * - Версия `0.0.0`
+     * ***
+     * 
+     * Метод проверки видимости элемента.
+     * 
+     * ***
+     * @public
+    */
+    checkVisiable() {
+        
+        if (!this.terminal || this.terminal.displayY + this.terminal.sizeY < this.coords[0] || this.terminal.displayX + this.terminal.sizeX < this.coords[1]) {
+
+            return false;
+
+        };
+
+        return true;
+        
+    };
+
     /**
      * ### setInterface
      * - Версия `0.0.0`

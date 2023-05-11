@@ -332,6 +332,137 @@ export class YGroup extends FGroup {
     };
 
     /**
+     * ### getNearestLeft
+     * - Версия `0.0.0`
+     * ***
+     * 
+     * Метод получения ближайшего к указанной позиции элемента слева.
+     * 
+     * ***
+     * @arg {number} y `Строка`
+     * @arg {number} x `Столбец`
+     * @arg {boolean?} levelMode `Многоуровневый поиск`
+     * 
+     * Если указан многоуровневый поиск, то ближайший элемент будет искаться не только на указанной линии, но и на других линиях.
+     * 
+     * @public
+    */
+    getNearestLeft(y, x, levelMode) {
+        
+        const lines = levelMode ? this.lines.slice(0, y) : [this.lines[y]];
+
+        console.log(lines, 'WW');
+
+        if (lines.length) {
+
+            const lineStart = this.lines[y] ? lines.pop() : null;
+            
+            let itemLast = null;
+
+            if (lineStart) {
+
+                for (const item of lineStart) {
+
+                    if (itemLast && item.position[1] > x) {
+    
+                        break;
+    
+                    };
+    
+                    itemLast = item;
+    
+                };
+    
+                if (itemLast.position[1] <= x) {
+    
+                    return itemLast;
+    
+                };
+
+            };
+
+            for (let index = lines.length - 1; index <= 0; index--) {
+
+                const line = lines[index];
+
+                if (line.length) {
+
+                    return line.at(-1);
+
+                };
+
+            };
+
+        };
+
+        return null;
+        
+    };
+    /**
+     * ### getNearestRight
+     * - Версия `0.0.0`
+     * ***
+     * 
+     * Метод получения ближайшего к указанной позиции элемента справа.
+     * 
+     * ***
+     * @arg {number} y `Строка`
+     * @arg {number} x `Столбец`
+     * @arg {boolean?} levelMode `Многоуровневый поиск`
+     * 
+     * Если указан многоуровневый поиск, то ближайший элемент будет искаться не только на указанной линии, но и на других линия.
+     * 
+     * @public
+    */
+    getNearestRight(y, x, levelMode) {
+        
+        const lines = levelMode ? this.lines.slice(y) : [this.lines[y]];
+
+        if (lines.length) {
+
+            const lineStart = this.lines[y] ? lines.shift() : null;
+
+            let itemLast = null;
+
+            if (lineStart) {
+
+                for (const item of lineStart) {
+
+                    if (itemLast && item.position[1] > x) {
+    
+                        break;
+    
+                    };
+    
+                    itemLast = item;
+    
+                };
+    
+                if (itemLast.position[1] <= x) {
+    
+                    return itemLast;
+    
+                };
+
+            };
+
+            for (const line of lines) {
+
+                if (line.length) {
+
+                    return line[0];
+
+                };
+
+            };
+
+        };
+
+        return null;
+        
+    };
+
+    /**
      * ### appendItems
      * - Версия `0.0.0`
      * - Модуль `string\layout\group`

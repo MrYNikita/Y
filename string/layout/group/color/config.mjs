@@ -6,7 +6,26 @@
 */
 export const configColor = {
     
-    
+    /**
+     * ### foregroundDefault
+     * 
+     * Дефолт цвет символов.
+     * 
+     * *** 
+     * @type {(string|number)?} 
+     * @public
+    */
+    foregroundDefault: 'white',
+    /**
+     * ### backgroundDefault
+     * 
+     * Дефолт цвет фона.
+     * 
+     * *** 
+     * @type {(string|number)?} 
+     * @public
+    */
+    backgroundDefault: 'black',
     
 };
 

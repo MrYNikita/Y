@@ -124,27 +124,17 @@ class SConsole extends YEntity {
      * @public
     */
     static height = process.stdout.rows;
-
     /**
-     * ### clear
-     * - Версия `0.0.0`
-     * - Модуль `ject\entity\console`
-     * ***
+     * ### duration
      * 
-     * Метод очистки экрана.
+     * Задержка.
      * 
-     * ***
+     * *** 
+     * @type {number} 
      * @public
     */
-    static clear() {
+    static duration = 0;
 
-        this.resetColor();
-
-        ansiClear();
-
-        return this;
-        
-    };
     /**
      * ### write
      * - Версия `0.0.0`
@@ -161,11 +151,75 @@ class SConsole extends YEntity {
 
         for (const string of strings) {
 
-            process.stdout.write(string + '');
+            process.stdout.write(string.toString());
 
-            this.x += (string + '')?.length;
+            this.x += (string?.toString?.())?.length;
 
         };
+
+        return this;
+        
+    };
+    /**
+     * ### writeDuration
+     * - Версия `0.0.0`
+     * ***
+     * 
+     * Метод отрисовки строк с задержкой.
+     * 
+     * ***
+     * @arg {string} string `Строка` 
+     * @arg {number} duration `Задержка`
+     * @public
+    */
+    static async writeDuration(duration = 0, string) {
+        
+        if (duration) {
+
+            this.duration = duration;
+
+        };
+
+        for (const char of string) {
+
+            await new Promise((resolve) => {
+
+                if (this.duration) {
+    
+                    this.write(char);
+
+                    setTimeout(resolve, this.duration);
+    
+                } else {
+    
+                    resolve();
+    
+                };
+    
+            });
+
+        };
+
+        return this;
+        
+    };
+
+    /**
+     * ### clear
+     * - Версия `0.0.0`
+     * - Модуль `ject\entity\console`
+     * ***
+     * 
+     * Метод очистки экрана.
+     * 
+     * ***
+     * @public
+    */
+    static clear() {
+
+        this
+            .setCursorTo(0, 0)
+            .write(' '.repeat(this.width * this.height))
 
         return this;
         
@@ -274,11 +328,58 @@ class SConsole extends YEntity {
         return this;
         
     };
+    /**
+     * ### setDuration
+     * - Версия `0.0.0`
+     * ***
+     * 
+     * Метод установки задержки.
+     * 
+     * ***
+     * @arg {number} duration `Задержка`
+     * @public
+    */
+    static setDuration(duration = 0) {
+        
+        this.duration = duration;
+
+        return this;
+        
+    };
     
 };
 class DConsole extends SConsole {
 
-    
+    /**
+     * ### y
+     * 
+     * Координата по Y.
+     * 
+     * *** 
+     * @type {number} 
+     * @public
+    */
+    y = 0;
+    /**
+     * ### x
+     * 
+     * Координата по X.
+     * 
+     * *** 
+     * @type {number} 
+     * @public
+    */
+    x = 0;
+    /**
+     * ### delay
+     * 
+     * Задержка.
+     * 
+     * *** 
+     * @type {number} 
+     * @public
+    */
+    delay = 0;
 
 };
 class IConsole extends DConsole {
@@ -422,7 +523,136 @@ class FConsole extends MConsole {
 */
 export class YConsole extends FConsole {
 
+    /**
+     * ### clear
+     * - Версия `0.0.0`
+     * ***
+     * 
+     * 
+     * 
+     * ***
+     * 
+     * @public
+    */
+    clear() {
+        
+        return this;
+        
+    };
 
+    /**
+     * ### write
+     * - Версия `0.0.0`
+     * ***
+     * 
+     * 
+     * 
+     * ***
+     * 
+     * @public
+    */
+    write() {
+        
+        return this;
+        
+    };
+    /**
+     * ### writeLine
+     * - Версия `0.0.0`
+     * ***
+     * 
+     * 
+     * 
+     * ***
+     * 
+     * @public
+    */
+    writeLine() {
+        
+        return this;
+        
+    };
+    /**
+     * ### writeDelay
+     * - Версия `0.0.0`
+     * ***
+     * 
+     * 
+     * 
+     * ***
+     * 
+     * @public
+    */
+    async writeDelay() {
+        
+        return this;
+        
+    };
+    /**
+     * ### writeLineDelay
+     * - Версия `0.0.0`
+     * ***
+     * 
+     * 
+     * 
+     * ***
+     * 
+     * @public
+    */
+    async writeLineDelay() {
+        
+        return this;
+        
+    };
+
+    /**
+     * ### setColor
+     * - Версия `0.0.0`
+     * ***
+     * 
+     * 
+     * 
+     * ***
+     * 
+     * @public
+    */
+    setColor() {
+        
+        
+        
+    };
+    /**
+     * ### setDelay
+     * - Версия `0.0.0`
+     * ***
+     * 
+     * 
+     * 
+     * ***
+     * 
+     * @public
+    */
+    setDelay() {
+        
+        return this;
+        
+    };
+    /**
+     * ### setCursorTo
+     * - Версия `0.0.0`
+     * ***
+     * 
+     * 
+     * 
+     * ***
+     * 
+     * @public
+    */
+    setCursorTo() {
+        
+        
+        
+    };
 
 };
 

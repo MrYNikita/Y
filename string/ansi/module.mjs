@@ -1,6 +1,6 @@
 //#region YI
 
-import { condIsStringValid } from '../../bool/cond/module.mjs';
+import { condIsNumber, condIsStringValid } from '../../bool/cond/module.mjs';
 import { YError } from '../../error/class.mjs';
 import configConsole from '../../ject/entity/console/config.mjs';
 import configString from '../config.mjs';
@@ -311,8 +311,16 @@ function getColorCodeComply(t) {
         color,
     
     } = t;
-    
-    return Object.entries(config.colors).find(c => c[0].match(new RegExp(color) || c[1] === color))[1];
+
+    if (condIsNumber(color) && color >= 0 && color <= 255) {
+
+        return color;
+
+    } else {
+
+        return Object.entries(config.colors).find(c => c[0].match(new RegExp(color) || c[1] === color))[1];
+
+    };
     
 };
 

@@ -246,6 +246,26 @@ class DTerminal extends STerminal {
      * @public
     */
     loadMode;
+    /**
+     * ### displayY
+     * 
+     * Координата области видимости по Y.
+     * 
+     * *** 
+     * @type {number} 
+     * @public
+    */
+    displayY;
+    /**
+     * ### displayX
+     * 
+     * Координата области видимости по X.
+     * 
+     * *** 
+     * @type {number} 
+     * @public
+    */
+    displayX;
 
 };
 class ITerminal extends DTerminal {

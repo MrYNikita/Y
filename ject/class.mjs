@@ -280,7 +280,7 @@ export class YJect extends FJect {
      * @public
     */
     correlate() {
-        
+
         const aliases = this.constructor?.config?.aliases;
 
         if (aliases) {
@@ -292,7 +292,7 @@ export class YJect extends FJect {
             return this;
 
         };
-        
+
     };
     /**
      * ### supplement
@@ -312,6 +312,41 @@ export class YJect extends FJect {
 
     };
 
+    /**
+     * ### getShell
+     * - Версия `0.0.0`
+     * ***
+     * 
+     * Метод возвращающий оболочку.
+     * 
+     * Оболочка - это объект, прототипом которого является указанный в рагменте объект и иммет метод getOver для вовзрата к контексту родителя.
+     * 
+     * ***
+     * @arg {G} ject `Объект`
+     * @return {G&{getPrev()=>T}}
+     * @public
+     * @template G
+     * @template {this} T
+    */
+    getShell(ject) {
+
+        const prev = this;
+
+        const result = {
+
+            getPrev() {
+
+                return prev;
+
+            },
+
+        };
+
+        Object.setPrototypeOf(result, ject);
+
+        return result;
+
+    };
     /**
      * ### getProperty
      * - Версия `0.0.0`

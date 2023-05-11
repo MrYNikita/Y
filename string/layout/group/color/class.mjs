@@ -55,6 +55,16 @@ await import('./error.mjs')
  * 
 */
 
+/** ### colorTTColor
+ * - Тип `TT`
+ * - Версия `0.0.0`
+ * 
+ * 
+ * 
+ * @typedef {import('../../../ansi/module.mjs').ansiColorTMColors} colorTTColor
+ * 
+*/
+
 //#endregion
 
 class SGroupColor extends YGroup {
@@ -71,7 +81,26 @@ class SGroupColor extends YGroup {
 };
 class DGroupColor extends SGroupColor {
     
-    
+    /**
+     * ### foreground
+     * 
+     * Цвет переднего плана.
+     * 
+     * *** 
+     * @type {colorTTColor?} 
+     * @public
+    */
+    foreground;
+    /**
+     * ### background
+     * 
+     * Цвет заднего плана.
+     * 
+     * *** 
+     * @type {colorTTColor} 
+     * @public
+    */
+    background;
     
 };
 class IGroupColor extends DGroupColor {
@@ -216,6 +245,60 @@ class FGroupColor extends MGroupColor {
 export class YGroupColor extends FGroupColor {
     
     /**
+     * ### paint
+     * - Версия `0.0.0`
+     * ***
+     * 
+     * Метод перекраски фрагмента строки.
+     * 
+     * ***
+     * @arg {...[colorTTColor, colorTTColor, number, number, number]} colors `Параметры`
+     * @public
+    */
+    paint(...colors) {
+        
+        for (const color of colors) {
+
+            if (!color[0] && color[0] !== 0) {
+
+                color[0] = this.foreground;
+
+            };
+            if (!color[1] && color[1] !== 0) {
+
+                color[1] = this.background;
+
+            };
+
+        };
+
+        return this;
+        
+    };
+
+    /**
+     * ### setColor
+     * - Версия `0.0.0`
+     * ***
+     * 
+     * Метод установки цветов строки.
+     * 
+     * ***
+     * @arg {colorTTColor?} foreground `Цвет символов`
+     * @arg {colorTTColor?} background `Цвет Фона`
+     * @public
+    */
+    setColor(foreground, background) {
+        
+        this.foreground = foreground;
+        this.background = background;
+
+        return this;
+        
+    };
+
+
+    /**
      * ### appendItems
      * - Версия `0.0.0`
      * - Модуль `string\layout\group\color`
@@ -224,7 +307,7 @@ export class YGroupColor extends FGroupColor {
      * Метод добавления новых цветов.
      * 
      * ***
-     * @arg {[import('./module.mjs').colorTTColor, import('./module.mjs').colorTTColor, number, number][]} colors
+     * @arg {[colorTTColor, colorTTColor, number, number][]} colors
      * @public
     */
     appendItems(...colors) {

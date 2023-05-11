@@ -84,7 +84,7 @@ class ILayout extends DLayout {
      * @type {YGroupColor} 
      * @public
     */
-    groupColor = new YGroupColor();
+    color = new YGroupColor();
     
 };
 class MLayout extends ILayout {
@@ -242,7 +242,7 @@ export class YLayout extends FLayout {
     */
     apply(string) {
 
-        return this.groupColor.apply(string);
+        return this.color.apply(string);
         
     };
 
@@ -259,7 +259,7 @@ export class YLayout extends FLayout {
     */
     clearColors() {
 
-        this.groupColor.clear();
+        this.color.clear();
 
         return this;
         
@@ -278,7 +278,7 @@ export class YLayout extends FLayout {
     */
     appendColors(...colors) {
 
-        this.groupColor.appendItems(...colors);
+        this.color.appendItems(...colors);
 
         return this;
         

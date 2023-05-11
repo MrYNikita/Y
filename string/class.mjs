@@ -543,6 +543,22 @@ export class YString extends FString {
 
     };
     /**
+     * ### getColor
+     * - Версия `0.0.0`
+     * ***
+     * 
+     * 
+     * 
+     * ***
+     * 
+     * @public
+    */
+    getColor() {
+        
+        return this.getShell(this.layout.color);
+        
+    };
+    /**
      * ### getMatrix
      * - Версия `0.0.0`
      * - Модуль `string`

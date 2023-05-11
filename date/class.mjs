@@ -2,7 +2,7 @@
 
 import { YJect } from '../ject/class.mjs';
 import { stringFormatDate } from '../string/module.mjs';
-import { dateGetMesuares } from './module.mjs';
+import { dateChange, dateGetMesuares } from './module.mjs';
 
 /** @type {import('./config.mjs')['default']?} */
 let config = null;
@@ -282,32 +282,6 @@ export class YDate extends FDate {
     };
 
     /**
-     * ### change
-     * - Версия `0.0.0`
-     * - Модуль `YDate`
-     * ***
-     *
-     * Метод {@link dateChange|изменения} даты.
-     *
-     * ***
-     * @arg {number} day `Дни`
-     * @arg {number} hour `Часы`
-     * @arg {number} year `Года`
-     * @arg {number} month `Месяца`
-     * @arg {number} second `Секунды`
-     * @arg {number} minute `Минуты`
-     * @arg {number} milisecond `Милисекунды`
-     * @public
-    */
-    change(year, month, day, hour, minute, second, milisecond) {
-
-        this.value = dateChange(this.value, year, month, day, hour, minute, second, milisecond);
-
-        return this;
-
-    };
-
-    /**
      * ### toString
      * - Версия `0.0.0`
      * - Модуль `YDate`
@@ -324,6 +298,282 @@ export class YDate extends FDate {
 
         return stringFormatDate(this.getDate(), local);
 
+    };
+
+    /**
+     * ### flow
+     * - Версия `0.0.0`
+     * ***
+     * 
+     * Метод течения времени.
+     * 
+     * ***
+     * @arg {import('./module.mjs').dateTMesuare} date `Изменения`
+     * @public
+    */
+    flowByJect(date) {
+
+        this.flow(date.year, date.month, date.day, date.hour, date.minute, date.second, date.milisecond);
+
+        return this;
+        
+    };
+    /**
+     * ### flow
+     * - Версия `0.0.0`
+     * - Модуль `YDate`
+     * ***
+     *
+     * Метод {@link dateChange|изменения} даты.
+     *
+     * ***
+     * @arg {number} day `Дни`
+     * @arg {number} hour `Часы`
+     * @arg {number} year `Года`
+     * @arg {number} month `Месяца`
+     * @arg {number} second `Секунды`
+     * @arg {number} minute `Минуты`
+     * @arg {number} milisecond `Милисекунды`
+     * @public
+    */
+    flow(year = 0, month = 0, day = 0, hour = 0, minute = 0, second = 0, milisecond = 0) {
+
+        this.value = dateChange(this.value, year, month, day, hour, minute, second, milisecond);
+
+        return this;
+
+    };
+    /**
+     * ### flowDay
+     * - Версия `0.0.0`
+     * ***
+     * 
+     * Метод течения дней.
+     * 
+     * ***
+     * @arg {number} day `Дни`
+     * @public
+    */
+    flowDay(day = 1) {
+        
+        this.flowByJect({ day });
+
+        return this;
+        
+    };
+    /**
+     * ### flowHour
+     * - Версия `0.0.0`
+     * ***
+     * 
+     * Метод течения часов.
+     * 
+     * ***
+     * @arg {number} hour `Часы`
+     * @public
+    */
+    flowHour(hour = 1) {
+        
+        this.flowByJect({ hour });
+
+        return this;
+        
+    };
+    /**
+     * ### flowYear
+     * - Версия `0.0.0`
+     * ***
+     * 
+     * Метод течения лет.
+     * 
+     * ***
+     * @arg {number} year `Год`
+     * @public
+    */
+    flowYear(year = 1) {
+        
+        this.flowByJect({ year });
+
+        return this;
+        
+    };
+    /**
+     * ### flowMonth
+     * - Версия `0.0.0`
+     * ***
+     * 
+     * Метод течения месяцев.
+     * 
+     * ***
+     * @arg {number} month `Месяца`
+     * @public
+    */
+    flowMonth(month = 1) {
+
+        this.flowByJect({ month });
+
+        return this;
+        
+    };
+    /**
+     * ### flowMinute
+     * - Версия `0.0.0`
+     * ***
+     * 
+     * Метод течения минут.
+     * 
+     * ***
+     * @arg {number} minute `Минута`
+     * @public
+    */
+    flowMinute(minute = 1) {
+        
+        this.flowByJect({ minute });
+
+        return this;
+        
+    };
+    /**
+     * ### flowSecond
+     * - Версия `0.0.0`
+     * ***
+     * 
+     * Метод течения секунд.
+     * 
+     * ***
+     * @arg {number} second `Секунда`
+     * @public
+    */
+    flowSecond(second = 1) {
+        
+        this.flowByJect({ second });
+
+        return this;
+        
+    };
+    /**
+     * ### flowMilisecond
+     * - Версия `0.0.0`
+     * ***
+     * 
+     * Метод течения милисекунд.
+     * 
+     * ***
+     * @arg {number} milisecond `Милисекунды`
+     * @public
+    */
+    flowMilisecond(milisecond = 1) {
+        
+        this.flowByJect({ milisecond });
+
+        return this;
+        
+    };
+
+    /**
+     * ### getDay
+     * - Версия `0.0.0`
+     * ***
+     * 
+     * Метод получения дней.
+     * 
+     * ***
+     * @public
+    */
+    getDay() {
+        
+        return this.value.getDate();
+        
+    };
+    /**
+     * ### getYear
+     * - Версия `0.0.0`
+     * ***
+     * 
+     * Метод получения года.
+     * 
+     * ***
+     * @public
+    */
+    getYear() {
+        
+        return this.value.getFullYear();
+        
+    };
+    /**
+     * ### getHour
+     * - Версия `0.0.0`
+     * ***
+     * 
+     * Метод получения часов.
+     * 
+     * ***
+     * @public
+    */
+    getHour() {
+        
+        return this.value.getHours();
+        
+    };
+    /**
+     * ### getMonth
+     * - Версия `0.0.0`
+     * ***
+     * 
+     * Метод получения месяцев.
+     * 
+     * ***
+     * @public
+    */
+    getMonth() {
+        
+        return this.value.getMonth() + 1;
+        
+    };
+    /**
+     * ### getMinute
+     * - Версия `0.0.0`
+     * ***
+     * 
+     * Метод получения минут.
+     * 
+     * ***
+     * @public
+    */
+    getMinute() {
+        
+        return this.value.getMinutes();
+        
+    };
+    /**
+     * ### getSecond
+     * - Версия `0.0.0`
+     * ***
+     * 
+     * Метод получения секунд.
+     * 
+     * ***
+     * @public
+    */
+    getSecond() {
+        
+        return this.value.getSeconds();
+        
+    };
+    /**
+     * ### getMilisecond
+     * - Версия `0.0.0`
+     * ***
+     * 
+     * Метод получения милисекунд.
+     * 
+     * ***
+     * @public
+    */
+    getMilisecond() {
+        
+        return this.value.getMilisecond();
+        
     };
 
     /**

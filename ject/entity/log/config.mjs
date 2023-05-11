@@ -37,7 +37,7 @@ export const configLog = {
      * @type {number} 
      * @public
     */
-    limit: Infinity,
+    limit: 3,
     /**
      * ### defaultLimit
      * 

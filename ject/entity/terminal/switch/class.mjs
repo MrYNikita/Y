@@ -330,8 +330,6 @@ export class YSwitch extends FSwitch {
     */
     appendInteracts(...interacts) {
 
-        const flag = this.interacts.length ? false : true;
-
         this.interacts.push(...interacts.filter(interact => interact instanceof YInteract && !this.interacts.includes(interact)).map(interact => {
 
             interact.setInterface(this.interface);
@@ -340,7 +338,7 @@ export class YSwitch extends FSwitch {
             
         }));
 
-        if (flag) {
+        if (this.interacts.length) {
 
             this.interacts[this.index].focus = true;
 

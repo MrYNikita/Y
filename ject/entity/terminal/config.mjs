@@ -56,6 +56,26 @@ export const configTerminal = {
     ],
 
     /**
+     * ### displayYDefault
+     * 
+     * Дефолт координата области видимости по Y.
+     * 
+     * *** 
+     * @type {number} 
+     * @public
+    */
+    displayYDefault: 0,
+    /**
+     * ### displayXDefault
+     * 
+     * Дефолт кооридната области видимости по X.
+     * 
+     * *** 
+     * @type {number} 
+     * @public
+    */
+    displayXDefault: 0,
+    /**
      * ### sizeXDefault
      * 
      * Ширина терминала.
